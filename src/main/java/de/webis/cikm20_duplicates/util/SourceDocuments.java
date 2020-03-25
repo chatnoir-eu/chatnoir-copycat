@@ -28,7 +28,10 @@ public final class SourceDocuments {
 			TrecSharedTask.SESSION_2010, TrecSharedTask.SESSION_2011,
 			TrecSharedTask.SESSION_2012,
 
-			TrecSharedTask.SESSION_2013, TrecSharedTask.SESSION_2014
+			TrecSharedTask.SESSION_2013, TrecSharedTask.SESSION_2014,
+			
+			TrecSharedTask.ENTITY_2009, TrecSharedTask.ENTITY_2010,
+			TrecSharedTask.ENTITY_2011
 	);
 	
 	public static final List<SourceDocument> ALL_DOCS_FOR_WHICH_DUPLICATES_SHOULD_BE_SEARCHED = getAllDocumentsForWhichDuplicatesShouldBeSearched();
@@ -108,6 +111,9 @@ public final class SourceDocuments {
 			return TrecCollections.CLUEWEB09;
 		} else if(Arrays.asList(TrecSharedTask.SESSION_2013, TrecSharedTask.SESSION_2014).contains(task)) {
 			return TrecCollections.CLUEWEB12;
+		} else if (Arrays.asList(TrecSharedTask.ENTITY_2009, TrecSharedTask.ENTITY_2010,
+			TrecSharedTask.ENTITY_2011).contains(task)) {
+			return TrecCollections.CLUEWEB09;
 		}
 		
 		throw new RuntimeException("fixme");

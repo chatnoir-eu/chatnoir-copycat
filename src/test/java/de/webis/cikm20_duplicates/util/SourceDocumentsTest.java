@@ -27,7 +27,7 @@ public class SourceDocumentsTest {
 	
 	@Test
 	public void approveCountOfDocsToTransfer() {
-		int expected = 203265;
+		int expected = 247032;
 		int actual = SourceDocuments.ALL_DOCS_FOR_WHICH_DUPLICATES_SHOULD_BE_SEARCHED.size();
 		
 		Assert.assertEquals(expected, actual);
@@ -35,7 +35,7 @@ public class SourceDocumentsTest {
 	
 	@Test
 	public void approveTaskCount() {
-		int expected = 11;
+		int expected = 14;
 		int actual = SourceDocuments.taskToDocuments().keySet().size();
 
 		Assert.assertEquals(expected, actual);
@@ -43,7 +43,7 @@ public class SourceDocumentsTest {
 	
 	@Test
 	public void approveTopicCount() {
-		int expected = 644;
+		int expected = 761;
 		int actual = SourceDocuments.topicsToDocumentIds().keySet().size();
 		
 		Assert.assertEquals(expected, actual);
@@ -65,5 +65,10 @@ public class SourceDocumentsTest {
 		
 
 		Approvals.verifyAsJson(toApprove);
+	}
+	
+	@Test
+	public void addEntityUrlsFromEntityTopics() {
+		Assert.fail("FIXME: Add all entity-urls from the entity 2009-2011 topics (assume around 120 new doc-ids to transfer)");
 	}
 }
