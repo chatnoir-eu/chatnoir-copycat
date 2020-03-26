@@ -23,6 +23,11 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.experimental.Wither;
 
+/**
+ * 
+ * @author Maik Fröbe
+ *
+ */
 @UtilityClass
 public final class SourceDocuments {
 	private static final List<TrecSharedTask> TRACKS = Arrays.asList(

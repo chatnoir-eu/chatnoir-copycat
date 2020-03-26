@@ -17,6 +17,11 @@ import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.trec_collections.CollectionConfiguration.TrecCollections;
 
+/**
+ * 
+ * @author Maik Fröbe
+ *
+ */
 public class SparkCreateSourceDocuments {
 	
 	private static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();

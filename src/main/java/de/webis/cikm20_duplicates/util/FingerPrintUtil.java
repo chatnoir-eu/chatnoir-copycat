@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.util;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,14 +11,21 @@ import de.webis.trec_ndd.util.NGramms;
 import info.debatty.java.lsh.MinHash;
 import lombok.experimental.UtilityClass;
 
+/**
+ * 
+ * @author Maik Fröbe
+ *
+ */
 @UtilityClass
 public class FingerPrintUtil {
-	public static interface Fingerprinter<T extends Comparable<T>> {
+	public static interface Fingerprinter<T extends Comparable<T>> extends Serializable {
 		public List<T> fingerprint(CollectionDocument doc);
 		
 		public double similarity(List<T> a, List<T> b);
 	}
 
+
+	@SuppressWarnings("serial")
 	public static Fingerprinter<Integer> minHashFingerPrinting(long seed) {
 		int dict_size = 1;
 		int size = 12;
