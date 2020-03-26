@@ -13,6 +13,11 @@ import org.junit.Test;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 
+/**
+ * 
+ * @author Maik Fröbe
+ *
+ */
 public class MinHashFingerprintingTest {
 	private static final CollectionDocument
 		DOC1 = doc("doc-1", "a b c d e f g h i j k"),

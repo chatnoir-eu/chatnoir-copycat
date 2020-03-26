@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.util;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -9,11 +10,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
+
 import de.webis.trec_ndd.trec_collections.SharedTask;
 import de.webis.trec_ndd.trec_collections.CollectionConfiguration.TrecCollections;
+import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.trec_collections.SharedTask.TrecSharedTask;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.experimental.Wither;
 
@@ -35,6 +41,27 @@ public final class SourceDocuments {
 	);
 	
 	public static final List<SourceDocument> ALL_DOCS_FOR_WHICH_DUPLICATES_SHOULD_BE_SEARCHED = getAllDocumentsForWhichDuplicatesShouldBeSearched();
+	
+	@Data
+	@Wither
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@SuppressWarnings("serial")
+	public static class CollectionDocumentWithTopics implements Serializable {
+		private CollectionDocument doc;
+		private List<String> topics;
+		
+		@Override
+		@SneakyThrows
+		public String toString() {
+			return new ObjectMapper().writeValueAsString(this);
+		}
+		
+		@SneakyThrows
+		public static CollectionDocumentWithTopics fromString(String source) {
+			return new ObjectMapper().readValue(source, CollectionDocumentWithTopics.class);
+		}
+	}
 	
 	@Data
 	@Wither

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,10 +12,10 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
 import de.webis.cikm20_duplicates.util.SourceDocuments;
+import de.webis.cikm20_duplicates.util.SourceDocuments.CollectionDocumentWithTopics;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.trec_collections.CollectionConfiguration.TrecCollections;
-import scala.Tuple2;
 
 public class SparkCreateSourceDocuments {
 	
@@ -39,8 +38,8 @@ public class SparkCreateSourceDocuments {
 		return new JavaSparkContext(conf);
 	}
 	
-	public static JavaRDD<Object> transformAllImportantDocuments(JavaSparkContext context, AnseriniCollectionReader<?>...acrs) {
-		JavaRDD<Object> ret = context.parallelize(Arrays.asList());
+	public static JavaRDD<CollectionDocumentWithTopics> transformAllImportantDocuments(JavaSparkContext context, AnseriniCollectionReader<?>...acrs) {
+		JavaRDD<CollectionDocumentWithTopics> ret = context.parallelize(Arrays.asList());
 		
 		for(AnseriniCollectionReader<?> acr: acrs) {
 			ret = ret.union(transform(context, acr));
@@ -49,20 +48,19 @@ public class SparkCreateSourceDocuments {
 		return ret;
 	}
 	
-	private static JavaRDD<Object> transform(JavaSparkContext context, AnseriniCollectionReader<?> acr) {
+	private static JavaRDD<CollectionDocumentWithTopics> transform(JavaSparkContext context, AnseriniCollectionReader<?> acr) {
 		return context.parallelize(acr.segmentPaths())
 				.flatMap(s -> acr.collectionDocumentsInPath(s))
 				.map(doc -> transformDocIfImportantOrNull(doc))
-				.filter(i -> i != null)
-				.map(i -> (Object) i);
+				.filter(i -> i != null);
 	}
 	
-	private static Tuple2<CollectionDocument, List<String>> transformDocIfImportantOrNull(CollectionDocument doc) {
+	private static CollectionDocumentWithTopics transformDocIfImportantOrNull(CollectionDocument doc) {
 		if(!DOCS_TO_TOPIC.containsKey(doc.getId())) {
 			return null;
 		}
 		
-		return new Tuple2<>(doc, new ArrayList<>(DOCS_TO_TOPIC.get(doc.getId())));
+		return new CollectionDocumentWithTopics(doc, new ArrayList<>(DOCS_TO_TOPIC.get(doc.getId())));
 	}
 	
 	private static Map<String, Set<String>> docsToTopic() {

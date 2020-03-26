@@ -13,17 +13,23 @@ import org.junit.Test;
 
 import com.holdenkarau.spark.testing.SharedJavaSparkContext;
 
+import de.webis.cikm20_duplicates.util.SourceDocuments.CollectionDocumentWithTopics;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import io.anserini.collection.ClueWeb09Collection.Document;
 
+/**
+ * 
+ * @author Maik Fröbe
+ *
+ */
 public class SparkCreateSourceDocumentsIntegrationTest extends SharedJavaSparkContext {
 	@Test
 	public void testWithEmptyDocuments() {
 		AnseriniCollectionReader<Document> acr = new DummyAnseriniCollectionReader();
 		long expected = 0;
 		
-		JavaRDD<Object> rdd = SparkCreateSourceDocuments.transformAllImportantDocuments(jsc(), acr);
+		JavaRDD<CollectionDocumentWithTopics> rdd = SparkCreateSourceDocuments.transformAllImportantDocuments(jsc(), acr);
 		
 		Assert.assertEquals(expected, rdd.count());
 	}
@@ -35,7 +41,7 @@ public class SparkCreateSourceDocumentsIntegrationTest extends SharedJavaSparkCo
 		);
 		long expected = 0;
 		
-		JavaRDD<Object> rdd = SparkCreateSourceDocuments.transformAllImportantDocuments(jsc(), acr);
+		JavaRDD<CollectionDocumentWithTopics> rdd = SparkCreateSourceDocuments.transformAllImportantDocuments(jsc(), acr);
 		
 		Assert.assertEquals(expected, rdd.count());
 	}
@@ -47,7 +53,7 @@ public class SparkCreateSourceDocumentsIntegrationTest extends SharedJavaSparkCo
 				doc("clueweb09-en0008-02-29970"), // judged for topic 50 of the web track
 				doc("c")
 		);
-		JavaRDD<Object> rdd = SparkCreateSourceDocuments.transformAllImportantDocuments(jsc(), acr);
+		JavaRDD<CollectionDocumentWithTopics> rdd = SparkCreateSourceDocuments.transformAllImportantDocuments(jsc(), acr);
 		List<String> actual = sorted(rdd);
 
 		Approvals.verifyAsJson(actual);
@@ -68,7 +74,7 @@ public class SparkCreateSourceDocumentsIntegrationTest extends SharedJavaSparkCo
 				doc("clueweb12-1800tw-04-16339") // judged for topic 60 of the session track 
 		);
 		
-		JavaRDD<Object> rdd = SparkCreateSourceDocuments.transformAllImportantDocuments(jsc(), acr1, acr2, acr3);
+		JavaRDD<CollectionDocumentWithTopics> rdd = SparkCreateSourceDocuments.transformAllImportantDocuments(jsc(), acr1, acr2, acr3);
 		List<String> actual = sorted(rdd);
 		
 		Approvals.verifyAsJson(actual);
@@ -99,7 +105,7 @@ public class SparkCreateSourceDocumentsIntegrationTest extends SharedJavaSparkCo
 		return new CollectionDocument(id, "content of " + id, "fullyCanonicalizedContent of " + id);
 	}
 	
-	private static List<String> sorted(JavaRDD<Object> rdd) {
+	private static List<String> sorted(JavaRDD<CollectionDocumentWithTopics> rdd) {
 		List<String> ret = rdd.map(i -> i.toString()).collect();
 		ret = new ArrayList<>(ret);
 		Collections.sort(ret);
