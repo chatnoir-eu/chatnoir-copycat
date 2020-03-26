@@ -20,7 +20,11 @@
 	</properties>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>info.debatty</groupId>
+			<artifactId>java-lsh</artifactId>
+			<version>RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>client.netspeak</groupId>
 			<artifactId>netspeak-client</artifactId>
