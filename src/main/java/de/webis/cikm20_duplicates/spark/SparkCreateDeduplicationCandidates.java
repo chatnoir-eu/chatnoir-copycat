@@ -1,16 +1,27 @@
 package de.webis.cikm20_duplicates.spark;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.curator.shaded.com.google.common.collect.Iterators;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnels;
 
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.cikm20_duplicates.util.SourceDocuments.CollectionDocumentWithTopics;
+import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import io.anserini.collection.ClueWeb09Collection.Document;
 import scala.Tuple2;
 
 /**
@@ -45,5 +56,51 @@ public class SparkCreateDeduplicationCandidates {
 		docIterator.forEachRemaining(doc -> ret.addAll(fingerprinter.fingerprint(doc)));
 
 		return ret;
+	}
+
+	public static JavaRDD<Tuple2<String, CollectionDocument>> candidatesForAllSourceDocuments(JavaSparkContext context, JavaRDD<String> sourceDocuments, Fingerprinter<Integer> fingerprinter, AnseriniCollectionReader<Document> acr) {
+		Map<String, BloomFilter<Integer>> topicBloomFilters = new HashMap<>();
+		
+		Map<String, Set<Integer>> topicToFingerPrintUnits = topicsToFingerPrintsOfImportantDocsPerTopic(sourceDocuments, fingerprinter)
+				.collect().stream()
+				.collect(Collectors.toMap(i -> i._1(), i -> i._2()));
+		int overallElements = topicToFingerPrintUnits.values().stream().mapToInt(i -> i.size()).sum();
+		
+		BloomFilter<Integer> bf = BloomFilter.create(Funnels.integerFunnel(), overallElements + 100000, 1.0e-8);
+
+		for(Entry<String, Set<Integer>> topicToFingerpintUnit : topicToFingerPrintUnits.entrySet()) {
+			BloomFilter<Integer> topicBf = BloomFilter.create(Funnels.integerFunnel(), topicToFingerpintUnit.getValue().size() + 10000, 1.0e-8);
+			
+			for(Integer fingerprintUnit: topicToFingerpintUnit.getValue()) {
+				topicBf.put(fingerprintUnit);
+				bf.put(fingerprintUnit);
+			}
+			
+			topicBloomFilters.put(topicToFingerpintUnit.getKey(), topicBf);
+		}
+		
+		JavaRDD<CollectionDocument> allDocs = context.parallelize(acr.segmentPaths())
+			.flatMap(s -> acr.collectionDocumentsInPath(s));
+		
+		return allDocs.flatMap(doc -> docToCandidateTopics(fingerprinter, doc, bf, topicBloomFilters));
+	}
+	
+	private static <T extends Comparable<T>> Iterator<Tuple2<String, CollectionDocument>> docToCandidateTopics(Fingerprinter<T> fingerprinter, CollectionDocument doc, BloomFilter<T> bf, Map<String, BloomFilter<T>> topicBloomFilters) {
+		List<T> fingerPrint = fingerprinter.fingerprint(doc);
+		Set<String> candidateTopics = new HashSet<>();
+		
+		for(T fingerPrintUnit: fingerPrint) {
+			if(bf.mightContain(fingerPrintUnit)) {
+				for(Entry<String, BloomFilter<T>> e : topicBloomFilters.entrySet()) {
+					if(e.getValue().mightContain(fingerPrintUnit)) {
+						candidateTopics.add(e.getKey());
+					}
+				}
+			}
+		}
+		
+		return candidateTopics.stream()
+				.map(i -> new Tuple2<>(i, doc))
+				.iterator();
 	}
 }

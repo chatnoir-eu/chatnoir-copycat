@@ -83,6 +83,12 @@ public class MinHashFingerprintingTest {
 		//As playground: here are some false positives that are known. As both share "b c d e f g h j k" 
 		Assert.assertFalse(candidates(DOC2, DOC4));
 		Assert.assertEquals(0.0, sim(DOC2, DOC4), delta);
+		
+		Assert.assertFalse(candidates(doc("doc-5", "a a a a a a a a a a a"), doc("doc-5", "a a a a a a a a a a b")));
+		Assert.assertEquals(0.0, sim(doc("doc-5", "a a a a a a a a a a a"), doc("doc-5", "a a a a a a a a a a b")), delta);
+		
+		Assert.assertFalse(candidates(doc("doc-5", "a a a a a a a a a a a"), doc("doc-5", "b a a a a a a a a a b")));
+		Assert.assertEquals(0.0, sim(doc("doc-5", "a a a a a a a a a a a"), doc("doc-5", "b a a a a a a a a a b")), delta);
 	}
 	
 	@Test
