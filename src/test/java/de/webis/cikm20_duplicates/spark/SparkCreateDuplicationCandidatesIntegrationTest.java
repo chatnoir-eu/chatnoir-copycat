@@ -103,7 +103,7 @@ public class SparkCreateDuplicationCandidatesIntegrationTest extends SharedJavaS
 		return new CollectionDocument("id-" + fullyCanonicalizedContent, "content of " + fullyCanonicalizedContent, fullyCanonicalizedContent);
 	}
 	
-	private static List<String> sorted(JavaRDD<?> rdd) {
+	public static List<String> sorted(JavaRDD<?> rdd) {
 		List<String> ret = rdd.map(i -> i.toString()).collect();
 		ret = new ArrayList<>(ret);
 		Collections.sort(ret);

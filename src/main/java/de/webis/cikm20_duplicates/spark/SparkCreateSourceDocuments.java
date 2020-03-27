@@ -1,9 +1,9 @@
 package de.webis.cikm20_duplicates.spark;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,10 +11,14 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
+import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
+import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.SourceDocuments;
 import de.webis.cikm20_duplicates.util.SourceDocuments.CollectionDocumentWithTopics;
+import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import scala.Tuple2;
 import de.webis.trec_ndd.trec_collections.CollectionConfiguration.TrecCollections;
 
 /**
@@ -25,14 +29,17 @@ import de.webis.trec_ndd.trec_collections.CollectionConfiguration.TrecCollection
 public class SparkCreateSourceDocuments {
 	
 	private static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();
+	
+	private static final AnseriniCollectionReader<?>
+			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
+			CLUEWEB12 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB12);
 
-	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			transformAllImportantDocuments(context,
-				new AnseriniCollectionReader(TrecCollections.CLUEWEB09),
-				new AnseriniCollectionReader(TrecCollections.CLUEWEB12)
-			).saveAsTextFile("cikm2020/source-documents");
+//			transformAllImportantDocuments(context, CLUEWEB09, CLUEWEB12)
+//				.saveAsTextFile("cikm2020/source-documents");
+			fingerprintAllDocuments(context, CLUEWEB09, CLUEWEB12)
+				.saveAsTextFile("cikm2020/document-fingerprints");
 		}
 	}
 	
@@ -44,20 +51,32 @@ public class SparkCreateSourceDocuments {
 	}
 	
 	public static JavaRDD<CollectionDocumentWithTopics> transformAllImportantDocuments(JavaSparkContext context, AnseriniCollectionReader<?>...acrs) {
-		JavaRDD<CollectionDocumentWithTopics> ret = context.parallelize(Arrays.asList());
-		
-		for(AnseriniCollectionReader<?> acr: acrs) {
-			ret = ret.union(transform(context, acr));
-		}
-		
-		return ret;
+		return docs(context, acrs)
+				.map(doc -> transformDocIfImportantOrNull(doc))
+				.filter(i -> i != null); 
 	}
 	
-	private static JavaRDD<CollectionDocumentWithTopics> transform(JavaSparkContext context, AnseriniCollectionReader<?> acr) {
-		return context.parallelize(acr.segmentPaths())
-				.flatMap(s -> acr.collectionDocumentsInPath(s))
-				.map(doc -> transformDocIfImportantOrNull(doc))
-				.filter(i -> i != null);
+	@SuppressWarnings("rawtypes")
+	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, AnseriniCollectionReader...acr) {
+		Fingerprinter<Integer> fp = FingerPrintUtil.minHashFingerPrinting(1);
+		
+		return docs(context, acr)
+				.map(i -> new DocumentWithFingerprint(i.getId(), fp.fingerprint(i)));
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static JavaRDD<CollectionDocument> docs(JavaSparkContext context, AnseriniCollectionReader...acrs) {
+		List<Tuple2<AnseriniCollectionReader, String>> readerToSegment = new ArrayList<>();
+		
+		for(AnseriniCollectionReader acr: acrs) {
+			List<String> segmentPaths = acr.segmentPaths();
+			for(String segmentPath: segmentPaths) {
+				readerToSegment.add(new Tuple2<>(acr, segmentPath));
+			}
+		}
+		
+		return context.parallelize(readerToSegment, readerToSegment.size())
+				.flatMap(i -> i._1().collectionDocumentsInPath(i._2()));
 	}
 	
 	private static CollectionDocumentWithTopics transformDocIfImportantOrNull(CollectionDocument doc) {

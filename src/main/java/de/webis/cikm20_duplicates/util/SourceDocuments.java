@@ -81,6 +81,21 @@ public final class SourceDocuments {
 			return collection.name() + "::" + task.name() + "::" + topic + "::" + documentId;
 		}
 	}
+	
+	@Data
+	@Wither
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class DocumentWithFingerprint {
+		private String docId;
+		private List<Integer> minHashParts;
+		
+		@Override
+		@SneakyThrows
+		public String toString() {
+			return new ObjectMapper().writeValueAsString(this);
+		}
+	}
 
 	private static List<SourceDocument> getAllDocumentsForWhichDuplicatesShouldBeSearched() {
 		List<SourceDocument> ret = new LinkedList<>();

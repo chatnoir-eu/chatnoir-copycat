@@ -105,7 +105,7 @@ public class SparkCreateSourceDocumentsIntegrationTest extends SharedJavaSparkCo
 		return new CollectionDocument(id, "content of " + id, "fullyCanonicalizedContent of " + id);
 	}
 	
-	private static List<String> sorted(JavaRDD<CollectionDocumentWithTopics> rdd) {
+	public static List<String> sorted(JavaRDD<?> rdd) {
 		List<String> ret = rdd.map(i -> i.toString()).collect();
 		ret = new ArrayList<>(ret);
 		Collections.sort(ret);
