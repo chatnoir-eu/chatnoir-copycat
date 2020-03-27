@@ -95,6 +95,11 @@ public final class SourceDocuments {
 		public String toString() {
 			return new ObjectMapper().writeValueAsString(this);
 		}
+
+		@SneakyThrows
+		public static DocumentWithFingerprint fromString(String src) {
+			return new ObjectMapper().readValue(src, DocumentWithFingerprint.class);
+		}
 	}
 
 	private static List<SourceDocument> getAllDocumentsForWhichDuplicatesShouldBeSearched() {

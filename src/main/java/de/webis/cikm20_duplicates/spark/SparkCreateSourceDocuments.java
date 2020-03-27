@@ -28,7 +28,7 @@ import de.webis.trec_ndd.trec_collections.CollectionConfiguration.TrecCollection
  */
 public class SparkCreateSourceDocuments {
 	
-	private static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();
+	static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();
 	
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),

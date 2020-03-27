@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.curator.shaded.com.google.common.collect.Iterators;
+import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -19,6 +20,7 @@ import com.google.common.hash.Funnels;
 
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.cikm20_duplicates.util.SourceDocuments.CollectionDocumentWithTopics;
+import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import io.anserini.collection.ClueWeb09Collection.Document;
@@ -31,6 +33,23 @@ import scala.Tuple2;
  */
 public class SparkCreateDeduplicationCandidates {
 
+	public static void main(String[] args) {
+		try (JavaSparkContext context = context()) {
+			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
+			
+			duplicationCandidatesFromFingerprints(input)
+				.saveAsTextFile("cikm2020/candidates");
+		}
+	}
+	
+	
+	private static JavaSparkContext context() {
+		SparkConf conf = new SparkConf(true);
+		conf.setAppName("cikm2020/candidates");
+
+		return new JavaSparkContext(conf);
+	}
+	
 	public static JavaPairRDD<String, Iterable<Tuple2<String, CollectionDocument>>> topicsToImportantDocuments(JavaRDD<String> rdd) {
 		JavaRDD<Tuple2<String, CollectionDocument>> ret = rdd
 				.map(i -> CollectionDocumentWithTopics.fromString(i))
@@ -102,5 +121,25 @@ public class SparkCreateDeduplicationCandidates {
 		return candidateTopics.stream()
 				.map(i -> new Tuple2<>(i, doc))
 				.iterator();
+	}
+
+	public static JavaRDD<String> duplicationCandidatesFromFingerprints(JavaRDD<String> docsWithFingerprint) {
+		JavaRDD<DocumentWithFingerprint> parsedInput = docsWithFingerprint.map(i -> DocumentWithFingerprint.fromString(i));
+		BloomFilter<Integer> bf = bf(parsedInput);
+		
+		return parsedInput.filter(doc -> doc.getMinHashParts().stream().anyMatch(i -> bf.mightContain(i)))
+				.map(i -> i.getDocId());
+	}
+	
+	private static BloomFilter<Integer> bf(JavaRDD<DocumentWithFingerprint> docs) {
+		List<Integer> allElements = docs.filter(i -> SparkCreateSourceDocuments.DOCS_TO_TOPIC.containsKey(i.getDocId()))
+			.flatMap(i -> i.getMinHashParts().iterator())
+			.distinct()
+			.collect();
+		
+		BloomFilter<Integer> ret = BloomFilter.create(Funnels.integerFunnel(), allElements.size(), 1.0e-8);
+		allElements.forEach(i -> ret.put(i));
+		
+		return ret;
 	}
 }
