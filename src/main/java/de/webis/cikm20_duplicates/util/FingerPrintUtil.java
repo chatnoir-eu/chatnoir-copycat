@@ -1,6 +1,7 @@
 package de.webis.cikm20_duplicates.util;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,7 +25,6 @@ public class FingerPrintUtil {
 		public double similarity(List<T> a, List<T> b);
 	}
 
-
 	@SuppressWarnings("serial")
 	public static Fingerprinter<Integer> minHashFingerPrinting(long seed) {
 		int dict_size = 1;
@@ -43,6 +43,22 @@ public class FingerPrintUtil {
 				int[] bArray = b.stream().mapToInt(i -> i).toArray();
 				
 				return minHash.similarity(aArray, bArray);
+			}
+		};
+	}
+	
+	@SuppressWarnings("serial")
+	public static Fingerprinter<Integer> simHashFingerPrinting(int bitsInSimHash, int k) {
+		return new Fingerprinter<Integer>() {
+
+			@Override
+			public List<Integer> fingerprint(CollectionDocument doc) {
+				return Arrays.asList(1,1,1,1);
+			}
+
+			@Override
+			public double similarity(List<Integer> a, List<Integer> b) {
+				return 1.0;
 			}
 		};
 	}
