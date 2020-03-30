@@ -1,7 +1,6 @@
 package de.webis.cikm20_duplicates.util;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,6 +9,7 @@ import java.util.stream.IntStream;
 import de.aitools.ir.fingerprinting.hashfunction.SimHash;
 import de.aitools.ir.fingerprinting.representation.HashVector;
 import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
+import de.aitools.ir.fingerprinting.representer.Hash;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.util.NGramms;
 import info.debatty.java.lsh.MinHash;
@@ -58,31 +58,17 @@ public class FingerPrintUtil {
 			public List<Integer> fingerprint(CollectionDocument doc) {
 				byte[] hash = hashVector(doc, bitsInSimHash);
 				
-				return hashToIntegers(hash, k);
+				return HashTransformationUtil.hashToIntegers(hash, k);
 			}
 
 			@Override
 			public double similarity(List<Integer> a, List<Integer> b) {
-				return 1.0;
+				byte[] aArr = HashTransformationUtil.integersToHash(a);
+				byte[] bArr = HashTransformationUtil.integersToHash(b);
+				
+				return 1.0 - (((double)Hash.getHammingDistance(aArr, bArr))/(double)aArr.length);
 			}
 		};
-	}
-	
-	static List<Integer> hashToIntegers(byte[] hash, int k) {
-		if(k != 3 || hash == null || hash.length != 8) {
-			throw new IllegalArgumentException("");
-		}
-		
-		return Arrays.asList(
-			// 0-15. Use 0 bytes at positions 3 and 4 to identify bytes 0-15.
-			HashTransformationUtil.bytesToInt(new byte[] {hash[0], hash[1], 0x0, 0x0}),
-			// 16-31. Use 0 bytes at positions 1 and 2 to identify bytes 16-31.
-			HashTransformationUtil.bytesToInt(new byte[] {0x0, 0x0, hash[2], hash[3]}),
-			// 32-47. Use 0 bytes at positions 2 and 4 to identify bytes 32-47.
-			HashTransformationUtil.bytesToInt(new byte[] {0x0, hash[4], 0x0, hash[5]}),
-			// 48-63. Use 0 bytes at positions 1 and 4 to identify bytes 48-63.
-			HashTransformationUtil.bytesToInt(new byte[] {0x0, hash[6], hash[7], 0x0})
-		);
 	}
 	
 	static byte[] hashVector(CollectionDocument doc, int bitsInSimHash) {
