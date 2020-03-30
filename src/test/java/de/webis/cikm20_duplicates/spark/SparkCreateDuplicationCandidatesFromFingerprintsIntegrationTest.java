@@ -9,6 +9,11 @@ import org.junit.Test;
 
 import com.holdenkarau.spark.testing.SharedJavaSparkContext;
 
+/**
+ * 
+ * @author Maik Fröbe
+ *
+ */
 public class SparkCreateDuplicationCandidatesFromFingerprintsIntegrationTest extends SharedJavaSparkContext {
 	
 	@Test
@@ -102,7 +107,9 @@ public class SparkCreateDuplicationCandidatesFromFingerprintsIntegrationTest ext
 	
 	private List<String> duplicationCandidates(String...a) {
 		JavaRDD<String> input = jsc().parallelize(Arrays.asList(a));
-		JavaRDD<String> ret = SparkCreateDeduplicationCandidates.duplicationCandidatesFromFingerprints(input);
+		JavaRDD<String> ret = SparkCreateDeduplicationCandidates
+				.duplicationCandidatesFromFingerprints(input)
+				.map(i -> i.getDocId());
 		
 		return SparkCreateSourceDocumentsIntegrationTest.sorted(ret);
 	}

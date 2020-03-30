@@ -1,8 +1,12 @@
 package de.webis.cikm20_duplicates.spark;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,11 +14,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.curator.shaded.com.google.common.collect.Iterators;
+import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 
@@ -24,6 +30,7 @@ import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import io.anserini.collection.ClueWeb09Collection.Document;
+import lombok.SneakyThrows;
 import scala.Tuple2;
 
 /**
@@ -37,8 +44,11 @@ public class SparkCreateDeduplicationCandidates {
 		try (JavaSparkContext context = context()) {
 			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
 			
-			duplicationCandidatesFromFingerprints(input)
-				.saveAsTextFile("cikm2020/candidates");
+			JavaRDD<String> duplicationCandidates = duplicationCandidatesFromFingerprints(input)
+				.map(i -> i.toString());
+			
+			duplicationCandidatePairsFromFingerprints(duplicationCandidates)
+				.saveAsTextFile("cikm2020/candidate-pairs");
 		}
 	}
 	
@@ -123,12 +133,46 @@ public class SparkCreateDeduplicationCandidates {
 				.iterator();
 	}
 
-	public static JavaRDD<String> duplicationCandidatesFromFingerprints(JavaRDD<String> docsWithFingerprint) {
+
+	public static JavaRDD<String> duplicationCandidatePairsFromFingerprints(JavaRDD<String> docsWithFingerprint) {
+		JavaRDD<Tuple2<Integer, String>> parsedInput = docsWithFingerprint
+				.map(i -> DocumentWithFingerprint.fromString(i))
+				.flatMap(doc -> extractHashesToDocId(doc));
+
+		return parsedInput.groupBy(i -> i._1())
+				.flatMap(i -> emitAllPairs(i._2()))
+				.distinct();
+	}
+	
+	@SneakyThrows
+	private static Iterator<String> emitAllPairs(Iterable<Tuple2<Integer, String>> group) {
+		Set<String> uniqueIds = new HashSet<>(ImmutableList.copyOf(Iterators.transform(group.iterator(), j -> j._2())));
+		List<String> ids = new ArrayList<>(uniqueIds);
+		Collections.sort(ids);
+		List<String> ret = new LinkedList<>();
+		
+		for(int i=0; i<ids.size(); i++) {
+			for(int j=i+1; j< ids.size(); j++) {
+				Map<String, String> candidate = new LinkedHashMap<>();
+				candidate.put("firstId", ids.get(i));
+				candidate.put("secondId", ids.get(j));
+				
+				ret.add(new ObjectMapper().writeValueAsString(candidate));
+			}
+		}
+		
+		return ret.iterator();
+	}
+
+	private static Iterator<Tuple2<Integer, String>> extractHashesToDocId(DocumentWithFingerprint doc) {
+		return doc.getMinHashParts().stream().map(hash -> new Tuple2<Integer, String>(hash, doc.getDocId())).iterator();
+	}
+	
+	public static JavaRDD<DocumentWithFingerprint> duplicationCandidatesFromFingerprints(JavaRDD<String> docsWithFingerprint) {
 		JavaRDD<DocumentWithFingerprint> parsedInput = docsWithFingerprint.map(i -> DocumentWithFingerprint.fromString(i));
 		BloomFilter<Integer> bf = bf(parsedInput);
 		
-		return parsedInput.filter(doc -> doc.getMinHashParts().stream().anyMatch(i -> bf.mightContain(i)))
-				.map(i -> i.getDocId());
+		return parsedInput.filter(doc -> doc.getMinHashParts().stream().anyMatch(i -> bf.mightContain(i)));
 	}
 	
 	private static BloomFilter<Integer> bf(JavaRDD<DocumentWithFingerprint> docs) {
