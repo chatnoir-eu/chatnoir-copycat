@@ -6,8 +6,8 @@ import lombok.experimental.UtilityClass;
 public class HashTransformationUtil {
 
 	public static int bytesToInt(byte[] bytes) {
-		if(bytes == null ||bytes.length <= 1 || bytes.length > 4) {
-			throw new IllegalArgumentException("Input must be not null and has a length between 1 and 4");
+		if(bytes == null || bytes.length != 4) {
+			throw new IllegalArgumentException("Input must be not null and 4 bytes");
 		}
 		
 		int ret = 0;

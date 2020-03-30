@@ -20,6 +20,12 @@ public class HashToIntTransformationTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void checkExceptionIsThrownForToShortByteArray() {
+		byte[] bytes = new byte[] {0x0, 0x0, 0x0};
+		bytesToInt(bytes);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void checkExceptionIsThrownForEmptyByteArray() {
 		byte[] bytes = new byte[] {};
 		bytesToInt(bytes);
 	}
