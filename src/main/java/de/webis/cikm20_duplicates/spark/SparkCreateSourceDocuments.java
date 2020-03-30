@@ -61,7 +61,7 @@ public class SparkCreateSourceDocuments {
 		Fingerprinter<Integer> fp = FingerPrintUtil.minHashFingerPrinting(1);
 		
 		return docs(context, acr)
-				.map(i -> new DocumentWithFingerprint(i.getId(), fp.fingerprint(i)));
+				.map(i -> new DocumentWithFingerprint(i.getId(), i.getUrl(), fp.fingerprint(i)));
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

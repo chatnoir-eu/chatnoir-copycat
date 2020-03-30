@@ -1,6 +1,7 @@
 package de.webis.cikm20_duplicates.util;
 
 import java.io.Serializable;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -88,6 +89,7 @@ public final class SourceDocuments {
 	@AllArgsConstructor
 	public static class DocumentWithFingerprint {
 		private String docId;
+		private URL url;
 		private List<Integer> minHashParts;
 		
 		@Override
