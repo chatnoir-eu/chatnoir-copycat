@@ -1,12 +1,9 @@
 package de.webis.cikm20_duplicates.spark;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,7 +17,6 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 
@@ -135,33 +131,27 @@ public class SparkCreateDeduplicationCandidates {
 
 
 	public static JavaRDD<String> duplicationCandidatePairsFromFingerprints(JavaRDD<String> docsWithFingerprint) {
-		JavaRDD<Tuple2<Integer, String>> parsedInput = docsWithFingerprint
+		JavaPairRDD<Integer, String> parsedInput = docsWithFingerprint
 				.map(i -> DocumentWithFingerprint.fromString(i))
-				.flatMap(doc -> extractHashesToDocId(doc));
-
-		return parsedInput.groupBy(i -> i._1())
-				.flatMap(i -> emitAllPairs(i._2()))
+				.flatMapToPair(doc -> extractHashesToDocId(doc));
+		
+		return parsedInput.join(parsedInput)
+				.map(i -> emitPairOrNull(i._2()))
+				.filter(i -> i != null)
 				.distinct();
 	}
 	
 	@SneakyThrows
-	private static Iterator<String> emitAllPairs(Iterable<Tuple2<Integer, String>> group) {
-		Set<String> uniqueIds = new HashSet<>(ImmutableList.copyOf(Iterators.transform(group.iterator(), j -> j._2())));
-		List<String> ids = new ArrayList<>(uniqueIds);
-		Collections.sort(ids);
-		List<String> ret = new LinkedList<>();
-		
-		for(int i=0; i<ids.size(); i++) {
-			for(int j=i+1; j< ids.size(); j++) {
-				Map<String, String> candidate = new LinkedHashMap<>();
-				candidate.put("firstId", ids.get(i));
-				candidate.put("secondId", ids.get(j));
-				
-				ret.add(new ObjectMapper().writeValueAsString(candidate));
-			}
+	private static String emitPairOrNull(Tuple2<String, String> pair) {
+		if(pair == null || pair._1() == null || pair._2() == null || pair._1().compareTo(pair._2()) >= 0) {
+			return null;
 		}
-		
-		return ret.iterator();
+
+		Map<String, String> candidate = new LinkedHashMap<>();
+		candidate.put("firstId", pair._1());
+		candidate.put("secondId", pair._2());
+				
+		return new ObjectMapper().writeValueAsString(candidate);
 	}
 
 	private static Iterator<Tuple2<Integer, String>> extractHashesToDocId(DocumentWithFingerprint doc) {
