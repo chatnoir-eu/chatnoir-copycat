@@ -27,6 +27,7 @@ import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import io.anserini.collection.ClueWeb09Collection.Document;
+import lombok.Data;
 import lombok.SneakyThrows;
 import scala.Tuple2;
 
@@ -135,14 +136,14 @@ public class SparkCreateDeduplicationCandidates {
 				.iterator();
 	}
 
-	private static JavaPairRDD<Integer, String> hashPartitionToDocument(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
+	private static JavaPairRDD<Integer, DeduplicationUnit> hashPartitionToDocument(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
 		return docsWithFingerprint
 				.map(i -> DocumentWithFingerprint.fromString(i))
 				.flatMapToPair(doc -> extractHashesToDocId(doc, f));
 	}
 	
 	public static JavaRDD<String> duplicationCandidatePairsFromFingerprints(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
-		JavaPairRDD<Integer, String> parsedInput = hashPartitionToDocument(docsWithFingerprint, f);
+		JavaPairRDD<Integer, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithFingerprint, f);
 		
 		return parsedInput.join(parsedInput)
 				.map(i -> emitPairOrNull(i._2()))
@@ -159,21 +160,25 @@ public class SparkCreateDeduplicationCandidates {
 	}
 	
 	@SneakyThrows
-	private static String emitPairOrNull(Tuple2<String, String> pair) {
-		if(pair == null || pair._1() == null || pair._2() == null || pair._1().compareTo(pair._2()) >= 0) {
+	private static String emitPairOrNull(Tuple2<DeduplicationUnit, DeduplicationUnit> pair) {
+		if(pair == null || pair._1() == null || pair._2() == null || pair._1().getId().compareTo(pair._2().getId()) >= 0) {
 			return null;
 		}
 
-		Map<String, String> candidate = new LinkedHashMap<>();
-		candidate.put("firstId", pair._1());
-		candidate.put("secondId", pair._2());
+		Map<String, Object> candidate = new LinkedHashMap<>();
+		candidate.put("firstId", pair._1().getId());
+		candidate.put("secondId", pair._2().getId());
+		candidate.put("firstFingerprintComponents", pair._1().getHashParts());
+		candidate.put("secondFingerprintComponents", pair._2().getHashParts());
 				
 		return new ObjectMapper().writeValueAsString(candidate);
 	}
 
-	private static Iterator<Tuple2<Integer, String>> extractHashesToDocId(DocumentWithFingerprint doc, DeduplicationStrategy f) {
-		return f.extract(doc).stream()
-				.map(hash -> new Tuple2<>(hash, doc.getDocId()))
+	private static Iterator<Tuple2<Integer, DeduplicationUnit>> extractHashesToDocId(DocumentWithFingerprint doc, DeduplicationStrategy f) {
+		List<Integer> hashParts = f.extract(doc);
+		
+		return hashParts.stream()
+				.map(hash -> new Tuple2<>(hash, new DeduplicationUnit(doc.getDocId(), hashParts)))
 				.iterator();
 	}
 	
@@ -194,6 +199,13 @@ public class SparkCreateDeduplicationCandidates {
 		allElements.forEach(i -> ret.put(i));
 		
 		return ret;
+	}
+	
+	@Data
+	@SuppressWarnings("serial")
+	private static class DeduplicationUnit implements Serializable {
+		private final String id;
+		private final List<Integer> hashParts;
 	}
 	
 	static interface DeduplicationStrategy extends Serializable {

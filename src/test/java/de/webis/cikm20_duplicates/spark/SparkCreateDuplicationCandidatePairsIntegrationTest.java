@@ -62,15 +62,17 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 		Assert.assertEquals(expected, actual);
 	}
 	
+	//,"firstFingerprintComponents":[1,1],"secondFingerprintComponents":[1,1]
+	
 	@Test
 	public void testInputsWithAllPairsSimilarForMinHash() {
 		List<String> expected = Arrays.asList(
-			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-2\"}",
-			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-3\"}",
-			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-4\"}",
-			"{\"firstId\":\"not-in-corpus-2\",\"secondId\":\"not-in-corpus-3\"}",
-			"{\"firstId\":\"not-in-corpus-2\",\"secondId\":\"not-in-corpus-4\"}",
-			"{\"firstId\":\"not-in-corpus-3\",\"secondId\":\"not-in-corpus-4\"}"
+			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-2\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-3\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-4\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-2\",\"secondId\":\"not-in-corpus-3\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-2\",\"secondId\":\"not-in-corpus-4\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-3\",\"secondId\":\"not-in-corpus-4\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}"
 		);
 		List<String> actual = minHashDuplicationPairs(
 				minHashesDoc("not-in-corpus-1", 1, 1),
@@ -85,12 +87,12 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 	@Test
 	public void testInputsWithAllPairsSimilarForSimHash() {
 		List<String> expected = Arrays.asList(
-			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-2\"}",
-			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-3\"}",
-			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-4\"}",
-			"{\"firstId\":\"not-in-corpus-2\",\"secondId\":\"not-in-corpus-3\"}",
-			"{\"firstId\":\"not-in-corpus-2\",\"secondId\":\"not-in-corpus-4\"}",
-			"{\"firstId\":\"not-in-corpus-3\",\"secondId\":\"not-in-corpus-4\"}"
+			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-2\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-3\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-1\",\"secondId\":\"not-in-corpus-4\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-2\",\"secondId\":\"not-in-corpus-3\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-2\",\"secondId\":\"not-in-corpus-4\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+			"{\"firstId\":\"not-in-corpus-3\",\"secondId\":\"not-in-corpus-4\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}"
 		);
 		List<String> actual = simHashDuplicationPairs(
 				simHashesDoc("not-in-corpus-1", 1, 1),
@@ -105,9 +107,9 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 	@Test
 	public void testWithSomeSimilarPairsForMinHash() {
 		List<String> expected = Arrays.asList(
-				"{\"firstId\":\"0\",\"secondId\":\"a\"}",
-				"{\"firstId\":\"0\",\"secondId\":\"b\"}",
-				"{\"firstId\":\"a\",\"secondId\":\"b\"}"
+				"{\"firstId\":\"0\",\"secondId\":\"a\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+				"{\"firstId\":\"0\",\"secondId\":\"b\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+				"{\"firstId\":\"a\",\"secondId\":\"b\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}"
 			);
 		
 		List<String> actual = minHashDuplicationPairs(
@@ -124,9 +126,9 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 	@Test
 	public void testWithSomeSimilarPairsForSimHash() {
 		List<String> expected = Arrays.asList(
-				"{\"firstId\":\"0\",\"secondId\":\"a\"}",
-				"{\"firstId\":\"0\",\"secondId\":\"b\"}",
-				"{\"firstId\":\"a\",\"secondId\":\"b\"}"
+				"{\"firstId\":\"0\",\"secondId\":\"a\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+				"{\"firstId\":\"0\",\"secondId\":\"b\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}",
+				"{\"firstId\":\"a\",\"secondId\":\"b\",\"firstFingerprintComponents\":[1,1],\"secondFingerprintComponents\":[1,1]}"
 			);
 		
 		List<String> actual = simHashDuplicationPairs(
@@ -143,7 +145,7 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 	@Test
 	public void testWithSingleSimilarPairForMinHash() {
 		List<String> expected = Arrays.asList(
-				"{\"firstId\":\"0\",\"secondId\":\"clueweb09-en0008-02-29970\"}"
+				"{\"firstId\":\"0\",\"secondId\":\"clueweb09-en0008-02-29970\",\"firstFingerprintComponents\":[2,2],\"secondFingerprintComponents\":[2,2]}"
 			);
 		
 		List<String> actual = minHashDuplicationPairs(
@@ -160,7 +162,7 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 	@Test
 	public void testWithSingleSimilarPairForSimHash() {
 		List<String> expected = Arrays.asList(
-				"{\"firstId\":\"0\",\"secondId\":\"clueweb09-en0008-02-29970\"}"
+				"{\"firstId\":\"0\",\"secondId\":\"clueweb09-en0008-02-29970\",\"firstFingerprintComponents\":[2,2],\"secondFingerprintComponents\":[2,2]}"
 			);
 		
 		List<String> actual = simHashDuplicationPairs(
@@ -168,6 +170,40 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 				simHashesDoc("clueweb09-en0008-02-29970", 2, 2),
 				simHashesDoc("clueweb12-1800tw-04-16339", 3, 3),
 				simHashesDoc("0", 2, 2),
+				simHashesDoc("b", 4, 4)
+		);
+
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testWithSingleSimilarPairForMinHashWithLongElementList() {
+		List<String> expected = Arrays.asList(
+				"{\"firstId\":\"0\",\"secondId\":\"clueweb09-en0008-02-29970\",\"firstFingerprintComponents\":[-10,-5,2,-1],\"secondFingerprintComponents\":[10,12,2,5]}"
+			);
+		
+		List<String> actual = minHashDuplicationPairs(
+				minHashesDoc("a", 1, 1),
+				minHashesDoc("clueweb09-en0008-02-29970", 10, 12, 2, 5),
+				minHashesDoc("clueweb12-1800tw-04-16339", 3, 3),
+				minHashesDoc("0", -10, -5, 2, -1),
+				minHashesDoc("b", 4, 4)
+		);
+
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testWithSingleSimilarPairForSimHashWithLongElementList() {
+		List<String> expected = Arrays.asList(
+				"{\"firstId\":\"0\",\"secondId\":\"clueweb09-en0008-02-29970\",\"firstFingerprintComponents\":[-10,-5,2,-1],\"secondFingerprintComponents\":[10,11,2,5]}"
+			);
+		
+		List<String> actual = simHashDuplicationPairs(
+				simHashesDoc("a", 1, 1),
+				simHashesDoc("clueweb09-en0008-02-29970", 10, 11, 2, 5),
+				simHashesDoc("clueweb12-1800tw-04-16339", 3, 3),
+				simHashesDoc("0", -10, -5, 2, -1),
 				simHashesDoc("b", 4, 4)
 		);
 
@@ -193,12 +229,12 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 		return SparkCreateSourceDocumentsIntegrationTest.sorted(ret);
 	}
 	
-	private static String minHashesDoc(String id, int hash1, int hash2) {
-		return doc(id, Arrays.asList(hash1, hash2), Arrays.asList(1, 2, 3));
+	private static String minHashesDoc(String id, Integer...hashes) {
+		return doc(id, Arrays.asList(hashes), Arrays.asList(1, 2, 3));
 	}
 	
-	private static String simHashesDoc(String id, int hash1, int hash2) {
-		return doc(id, Arrays.asList(1, 2, 3), Arrays.asList(hash1, hash2));
+	private static String simHashesDoc(String id, Integer...hashes) {
+		return doc(id, Arrays.asList(1, 2, 3), Arrays.asList(hashes));
 	}
 	
 	private static String doc(String id, List<Integer> minHashes, List<Integer> simHashes) {
