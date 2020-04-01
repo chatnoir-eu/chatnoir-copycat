@@ -40,11 +40,16 @@ public class SparkCreateDeduplicationCandidates {
 		try (JavaSparkContext context = context()) {
 			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
 			
-			JavaRDD<String> duplicationCandidates = duplicationCandidatesFromFingerprints(input)
-				.map(i -> i.toString());
+//			JavaRDD<String> duplicationCandidates = duplicationCandidatesFromFingerprints(input)
+//				.map(i -> i.toString());
+//			
+//			duplicationCandidatePairsFromFingerprints(duplicationCandidates)
+//				.saveAsTextFile("cikm2020/candidate-pairs");
 			
-			duplicationCandidatePairsFromFingerprints(duplicationCandidates)
-				.saveAsTextFile("cikm2020/candidate-pairs");
+			hashPartitionToDocument(input)
+				.aggregateByKey(0l, (count, doc) -> Long.valueOf((long)(count +1)), (i,j) -> Long.valueOf((long) i+j))
+				.map(i -> "{\"hash-partition\": "+ i._1() +", \"count\": "+ i._2() +"}")
+				.saveAsTextFile("cikm2020/count-per-hash-partition");
 		}
 	}
 	
@@ -129,11 +134,15 @@ public class SparkCreateDeduplicationCandidates {
 				.iterator();
 	}
 
-
-	public static JavaRDD<String> duplicationCandidatePairsFromFingerprints(JavaRDD<String> docsWithFingerprint) {
-		JavaPairRDD<Integer, String> parsedInput = docsWithFingerprint
+	private static JavaPairRDD<Integer, String> hashPartitionToDocument(JavaRDD<String> docsWithFingerprint) {
+		return docsWithFingerprint
 				.map(i -> DocumentWithFingerprint.fromString(i))
-				.flatMapToPair(doc -> extractHashesToDocId(doc));
+				.flatMapToPair(doc -> extractHashesToDocId(doc))
+				.repartition(6000);
+	}
+	
+	public static JavaRDD<String> duplicationCandidatePairsFromFingerprints(JavaRDD<String> docsWithFingerprint) {
+		JavaPairRDD<Integer, String> parsedInput = hashPartitionToDocument(docsWithFingerprint);
 		
 		return parsedInput.join(parsedInput)
 				.map(i -> emitPairOrNull(i._2()))
