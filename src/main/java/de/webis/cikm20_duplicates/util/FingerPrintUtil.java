@@ -66,7 +66,7 @@ public class FingerPrintUtil {
 				byte[] aArr = HashTransformationUtil.integersToHash(a);
 				byte[] bArr = HashTransformationUtil.integersToHash(b);
 				
-				return 1.0 - (((double)Hash.getHammingDistance(aArr, bArr))/(double)aArr.length);
+				return 1.0 - (((double)Hash.getHammingDistance(aArr, bArr))/((double)aArr.length*8));
 			}
 		};
 	}
