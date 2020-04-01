@@ -58,10 +58,11 @@ public class SparkCreateSourceDocuments {
 	
 	@SuppressWarnings("rawtypes")
 	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, AnseriniCollectionReader...acr) {
-		Fingerprinter<Integer> fp = FingerPrintUtil.minHashFingerPrinting(1);
+		Fingerprinter<Integer> minHash384 = FingerPrintUtil.minHashFingerPrinting(1);
+		Fingerprinter<Integer> simHash64 = FingerPrintUtil.simHashFingerPrinting(64, 3);
 		
 		return docs(context, acr)
-				.map(i -> new DocumentWithFingerprint(i.getId(), i.getUrl(), fp.fingerprint(i)));
+				.map(i -> new DocumentWithFingerprint(i.getId(), i.getUrl(), minHash384.fingerprint(i), simHash64.fingerprint(i)));
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

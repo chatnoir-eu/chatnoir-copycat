@@ -91,6 +91,7 @@ public final class SourceDocuments {
 		private String docId;
 		private URL url;
 		private List<Integer> minHashParts;
+		private List<Integer> simHash65BitParts;
 		
 		@Override
 		@SneakyThrows
