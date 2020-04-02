@@ -40,7 +40,8 @@ public class SparkCreateDeduplicationCandidates {
 
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
+			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints")
+					.repartition(60000);
 			
 //			JavaRDD<String> duplicationCandidates = duplicationCandidatesFromFingerprints(input)
 //				.map(i -> i.toString());
@@ -48,11 +49,14 @@ public class SparkCreateDeduplicationCandidates {
 //			duplicationCandidatePairsFromFingerprints(duplicationCandidates)
 //				.saveAsTextFile("cikm2020/candidate-pairs");
 			
-			hashPartitionToDocument(input, DeduplicationStrategy.SIM_HASH_DEDUPLICATION_STRATEGY)
-				.repartition(6000)
-				.aggregateByKey(0l, (count, doc) -> Long.valueOf((long)(count +1)), (i,j) -> Long.valueOf((long) i+j))
-				.map(i -> "{\"hash-partition\": "+ i._1() +", \"count\": "+ i._2() +"}")
-				.saveAsTextFile("cikm2020/count-per-sim-hash-partition");
+			duplicationCandidatePairsFromFingerprints(input, DeduplicationStrategy.SIM_HASH_DEDUPLICATION_STRATEGY)
+				.saveAsTextFile("cikm2020/candidate-pairs-sim-hash");
+			
+//			hashPartitionToDocument(input, DeduplicationStrategy.SIM_HASH_DEDUPLICATION_STRATEGY)
+//				.repartition(6000)
+//				.aggregateByKey(0l, (count, doc) -> Long.valueOf((long)(count +1)), (i,j) -> Long.valueOf((long) i+j))
+//				.map(i -> "{\"hash-partition\": "+ i._1() +", \"count\": "+ i._2() +"}")
+//				.saveAsTextFile("cikm2020/count-per-sim-hash-partition");
 		}
 	}
 	
