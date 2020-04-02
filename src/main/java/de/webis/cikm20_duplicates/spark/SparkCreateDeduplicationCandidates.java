@@ -48,10 +48,11 @@ public class SparkCreateDeduplicationCandidates {
 //			duplicationCandidatePairsFromFingerprints(duplicationCandidates)
 //				.saveAsTextFile("cikm2020/candidate-pairs");
 			
-			hashPartitionToDocument(input, DeduplicationStrategy.MIN_HASH_DEDUPLICATION_STRATEGY)
+			hashPartitionToDocument(input, DeduplicationStrategy.SIM_HASH_DEDUPLICATION_STRATEGY)
+				.repartition(6000)
 				.aggregateByKey(0l, (count, doc) -> Long.valueOf((long)(count +1)), (i,j) -> Long.valueOf((long) i+j))
 				.map(i -> "{\"hash-partition\": "+ i._1() +", \"count\": "+ i._2() +"}")
-				.saveAsTextFile("cikm2020/count-per-hash-partition");
+				.saveAsTextFile("cikm2020/count-per-sim-hash-partition");
 		}
 	}
 	
