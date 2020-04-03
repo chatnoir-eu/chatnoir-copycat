@@ -47,11 +47,11 @@ public class SparkCreateDeduplicationCandidates {
 //			JavaRDD<String> duplicationCandidates = duplicationCandidatesFromFingerprints(input)
 //				.map(i -> i.toString());
 //			
-//			duplicationCandidatePairsFromFingerprints(duplicationCandidates)
-//				.saveAsTextFile("cikm2020/candidate-pairs");
+			duplicationCandidatePairsFromFingerprints(input, DeduplicationStrategy.simHashDeduplication(10000))
+				.saveAsTextFile("cikm2020/candidate-pairs");
 			
-			hashPartitionToDocument(input, DeduplicationStrategy.simHashDeduplication(6000))
-				.saveAsTextFile("cikm2020/input-with-new-partition");
+//			hashPartitionToDocument(input, DeduplicationStrategy.simHashDeduplication(6000))
+//				.saveAsTextFile("cikm2020/input-with-new-partition");
 			
 //			hashPartitionToDocument(input, DeduplicationStrategy.SIM_HASH_DEDUPLICATION_STRATEGY)
 //				.repartition(6000)
