@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 
 import org.apache.curator.shaded.com.google.common.collect.Iterators;
 import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.spark.HashPartitioner;
+import org.apache.spark.Partitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -40,8 +42,7 @@ public class SparkCreateDeduplicationCandidates {
 
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints")
-					.repartition(60000);
+			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
 			
 //			JavaRDD<String> duplicationCandidates = duplicationCandidatesFromFingerprints(input)
 //				.map(i -> i.toString());
@@ -49,8 +50,8 @@ public class SparkCreateDeduplicationCandidates {
 //			duplicationCandidatePairsFromFingerprints(duplicationCandidates)
 //				.saveAsTextFile("cikm2020/candidate-pairs");
 			
-			duplicationCandidatePairsFromFingerprints(input, DeduplicationStrategy.SIM_HASH_DEDUPLICATION_STRATEGY)
-				.saveAsTextFile("cikm2020/candidate-pairs-sim-hash");
+			hashPartitionToDocument(input, DeduplicationStrategy.simHashDeduplication(6000))
+				.saveAsTextFile("cikm2020/input-with-new-partition");
 			
 //			hashPartitionToDocument(input, DeduplicationStrategy.SIM_HASH_DEDUPLICATION_STRATEGY)
 //				.repartition(6000)
@@ -144,7 +145,8 @@ public class SparkCreateDeduplicationCandidates {
 	private static JavaPairRDD<Integer, DeduplicationUnit> hashPartitionToDocument(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
 		return docsWithFingerprint
 				.map(i -> DocumentWithFingerprint.fromString(i))
-				.flatMapToPair(doc -> extractHashesToDocId(doc, f));
+				.flatMapToPair(doc -> extractHashesToDocId(doc, f))
+				.repartitionAndSortWithinPartitions(f.getPartitioner());
 	}
 	
 	public static JavaRDD<String> duplicationCandidatePairsFromFingerprints(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
@@ -212,24 +214,59 @@ public class SparkCreateDeduplicationCandidates {
 		private final String id;
 		private final List<Integer> hashParts;
 	}
+
+	@SuppressWarnings("serial")
+	static abstract class DeduplicationStrategy implements Serializable {
+		public abstract List<Integer> extract(DocumentWithFingerprint doc);
+		
+		public abstract int numPartitions();
+		
+		public Partitioner getPartitioner() {
+			return new IntPartitioner(numPartitions());
+		}
+		
+		public static DeduplicationStrategy minHashDeduplication(int numPartitions) {
+			return new DeduplicationStrategy() {
+				@Override
+				public List<Integer> extract(DocumentWithFingerprint doc) {
+					return doc.getMinHashParts();
+				}
+
+				@Override
+				public int numPartitions() {
+					return numPartitions;
+				}
+			};
+		}
+		
+		public static DeduplicationStrategy simHashDeduplication(int numPartitions) {
+			return new DeduplicationStrategy() {
+				@Override
+				public List<Integer> extract(DocumentWithFingerprint doc) {
+					return doc.getSimHash65BitParts();
+				}
+
+				@Override
+				public int numPartitions() {
+					return numPartitions;
+				}
+			};
+		}
+	}
 	
-	static interface DeduplicationStrategy extends Serializable {
-		public List<Integer> extract(DocumentWithFingerprint doc);
+	@SuppressWarnings("serial")
+	static class IntPartitioner extends HashPartitioner {
+		public IntPartitioner(int partitions) {
+			super(partitions);
+		}
 		
-		@SuppressWarnings("serial")
-		public static final DeduplicationStrategy MIN_HASH_DEDUPLICATION_STRATEGY = new DeduplicationStrategy() {
-			@Override
-			public List<Integer> extract(DocumentWithFingerprint doc) {
-				return doc.getMinHashParts();
+		@Override
+		public int getPartition(Object key) {
+			if(key == null || !(key instanceof Integer)) {
+				throw new RuntimeException("I work only for ints");
 			}
-		};
-		
-		@SuppressWarnings("serial")
-		public static final DeduplicationStrategy SIM_HASH_DEDUPLICATION_STRATEGY = new DeduplicationStrategy() {
-			@Override
-			public List<Integer> extract(DocumentWithFingerprint doc) {
-				return doc.getSimHash65BitParts();
-			}
-		};
+			
+			return super.getPartition((int) key);
+		}
 	}
 }

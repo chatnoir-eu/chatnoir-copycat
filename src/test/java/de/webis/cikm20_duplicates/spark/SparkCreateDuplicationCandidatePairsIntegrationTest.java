@@ -211,11 +211,11 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 	}
 	
 	private List<String> simHashDuplicationPairs(String...a) {
-		return duplicationPairs(DeduplicationStrategy.SIM_HASH_DEDUPLICATION_STRATEGY, a);
+		return duplicationPairs(DeduplicationStrategy.simHashDeduplication(10), a);
 	}
 	
 	private List<String> minHashDuplicationPairs(String...a) {
-		return duplicationPairs(DeduplicationStrategy.MIN_HASH_DEDUPLICATION_STRATEGY, a);
+		return duplicationPairs(DeduplicationStrategy.minHashDeduplication(10), a);
 	}
 	
 	
