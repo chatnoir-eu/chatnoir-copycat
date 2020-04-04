@@ -1,9 +1,7 @@
 package de.webis.cikm20_duplicates.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import lombok.experimental.UtilityClass;
 
@@ -67,17 +65,35 @@ public class HashTransformationUtil {
 	
 	static List<Integer> removeIntFromUnderlyingBitArray(List<Integer> ints, Integer remove) {
 		failIfIntsAreInvalid(ints);
-		positionOrFail(ints, remove);
+		int[] pos = positionsOrFail(ints, remove);
+		byte[] hash = integersToHash(ints);
+		hash = new byte[] {hash[pos[0]], hash[pos[1]], hash[pos[2]], hash[pos[3]], hash[pos[4]], hash[pos[5]]};
 		
-		return ints;
+		return hashToIntegers(new byte[]{
+						hash[0], centralBytes((byte) 0x0, hash[1]),
+						
+						centralBytes(hash[1], (byte) 0x0), hash[2],
+						
+						hash[3], centralBytes((byte) 0x0, hash[4]),
+
+						centralBytes(hash[4], (byte) 0x0), hash[5]
+			}, 3);
 	}
 	
-	private static int positionOrFail(List<Integer> ints, Integer remove) {
-		if(!ints.contains(remove)) {
+	private static int[] positionsOrFail(List<Integer> ints, Integer remove) {
+		int index = ints.indexOf(remove);
+		
+		if(index == 0) {
+			return new int[] {2, 3, 4, 5, 6, 7};
+		} else if(index == 1) {
+			return new int[] {0, 1, 4, 5, 6, 7};
+		} else if(index == 2) {
+			return new int[] {0, 1, 2, 3, 6, 7};
+		} else if(index == 3) {
+			return new int[] {0, 1, 2, 3, 4, 5};
+		} else {
 			throw new IllegalArgumentException("");
 		}
-		
-		return ints.indexOf(remove);
 	}
 	
 	static byte centralBytes(byte a, byte b) {

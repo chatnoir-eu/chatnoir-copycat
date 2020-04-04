@@ -253,7 +253,7 @@ public class HashToIntTransformationTest {
 		}
 	}
 	
-	private byte rand() {
+	static byte rand() {
 		return (byte) (int)((Math.random()*255) -128);
 	}
 }
