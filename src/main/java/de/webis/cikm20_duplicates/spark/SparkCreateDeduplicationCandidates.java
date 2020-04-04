@@ -1,10 +1,13 @@
 package de.webis.cikm20_duplicates.spark;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,6 +23,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 
@@ -44,20 +48,8 @@ public class SparkCreateDeduplicationCandidates {
 		try (JavaSparkContext context = context()) {
 			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
 			
-//			JavaRDD<String> duplicationCandidates = duplicationCandidatesFromFingerprints(input)
-//				.map(i -> i.toString());
-//			
-			duplicationCandidatePairsFromFingerprints(input, DeduplicationStrategy.simHashDeduplication(10000))
-				.saveAsTextFile("cikm2020/candidate-pairs");
-			
-//			hashPartitionToDocument(input, DeduplicationStrategy.simHashDeduplication(6000))
-//				.saveAsTextFile("cikm2020/input-with-new-partition");
-			
-//			hashPartitionToDocument(input, DeduplicationStrategy.SIM_HASH_DEDUPLICATION_STRATEGY)
-//				.repartition(6000)
-//				.aggregateByKey(0l, (count, doc) -> Long.valueOf((long)(count +1)), (i,j) -> Long.valueOf((long) i+j))
-//				.map(i -> "{\"hash-partition\": "+ i._1() +", \"count\": "+ i._2() +"}")
-//				.saveAsTextFile("cikm2020/count-per-sim-hash-partition");
+			toCounts(input, DeduplicationStrategy.simHashDeduplication(20000))
+				.saveAsTextFile("cikm2020/counts-with-client-side-sort");
 		}
 	}
 	
@@ -149,14 +141,50 @@ public class SparkCreateDeduplicationCandidates {
 				.repartitionAndSortWithinPartitions(f.getPartitioner());
 	}
 	
+	public static JavaRDD<String> toCounts(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
+		JavaPairRDD<Integer, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithFingerprint, f);
+		
+		return parsedInput.groupBy(i -> i._1())
+				.map(i -> "{\"bucket\": " + i._1() + ", \"count\": " + sortedList(i._2()).size() +"}");
+	}
+	
 	public static JavaRDD<String> duplicationCandidatePairsFromFingerprints(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
 		JavaPairRDD<Integer, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithFingerprint, f);
 		
-		return parsedInput.join(parsedInput)
-				.map(i -> emitPairOrNull(i._2()))
+		return parsedInput.groupBy(i -> i._1())
+				.flatMap(i -> emitAllPairs(i._2()))
 				.filter(i -> i != null)
 				.distinct();
 	}
+
+	private static List<DeduplicationUnit> sortedList(Iterable<Tuple2<Integer, DeduplicationUnit>> group) {
+		Set<DeduplicationUnit> uniqueIds = new HashSet<>(ImmutableList.copyOf(Iterators.transform(group.iterator(), j -> j._2())));
+		List<DeduplicationUnit> ids = new ArrayList<>(uniqueIds);
+		Collections.sort(ids, (a,b) -> a.id.compareTo(b.getId()));
+		
+		return ids;
+	}
+	
+	@SneakyThrows
+	private static Iterator<String> emitAllPairs(Iterable<Tuple2<Integer, DeduplicationUnit>> group) {
+		List<DeduplicationUnit> ids = sortedList(group);
+		List<String> ret = new LinkedList<>();
+		
+		for(int i=0; i<ids.size(); i++) {
+			for(int j=i+1; j< ids.size(); j++) {
+				Map<String, Object> candidate = new LinkedHashMap<>();
+				candidate.put("firstId", ids.get(i).getId());
+				candidate.put("secondId", ids.get(j).getId());
+				candidate.put("firstFingerprintComponents", ids.get(i).getHashParts());
+				candidate.put("secondFingerprintComponents", ids.get(j).getHashParts());
+				
+				ret.add(new ObjectMapper().writeValueAsString(candidate));
+			}
+		}
+		
+		return ret.iterator();
+	}
+
 	
 	public static List<Integer> useMinHash(DocumentWithFingerprint doc) {
 		return doc.getMinHashParts();
@@ -164,21 +192,6 @@ public class SparkCreateDeduplicationCandidates {
 	
 	public static List<Integer> useSimHash(DocumentWithFingerprint doc) {
 		return doc.getSimHash65BitParts();
-	}
-	
-	@SneakyThrows
-	private static String emitPairOrNull(Tuple2<DeduplicationUnit, DeduplicationUnit> pair) {
-		if(pair == null || pair._1() == null || pair._2() == null || pair._1().getId().compareTo(pair._2().getId()) >= 0) {
-			return null;
-		}
-
-		Map<String, Object> candidate = new LinkedHashMap<>();
-		candidate.put("firstId", pair._1().getId());
-		candidate.put("secondId", pair._2().getId());
-		candidate.put("firstFingerprintComponents", pair._1().getHashParts());
-		candidate.put("secondFingerprintComponents", pair._2().getHashParts());
-				
-		return new ObjectMapper().writeValueAsString(candidate);
 	}
 
 	private static Iterator<Tuple2<Integer, DeduplicationUnit>> extractHashesToDocId(DocumentWithFingerprint doc, DeduplicationStrategy f) {
