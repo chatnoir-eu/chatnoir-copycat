@@ -339,7 +339,7 @@ public class RemovePartFromHashTest {
 		return s.substring(4, 8) + "0000";
 	}
 	
-	private static String binary(List<Integer> ints) {
+	static String binary(List<Integer> ints) {
 		String ret = "";
 		byte[] bytes = integersToHash(ints);
 		

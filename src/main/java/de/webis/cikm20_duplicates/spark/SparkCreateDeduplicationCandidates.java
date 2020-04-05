@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 
+import de.webis.cikm20_duplicates.util.ClientLocalDeduplication;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.cikm20_duplicates.util.SourceDocuments.CollectionDocumentWithTopics;
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
@@ -48,8 +49,8 @@ public class SparkCreateDeduplicationCandidates {
 		try (JavaSparkContext context = context()) {
 			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
 			
-			toCounts(input, DeduplicationStrategy.simHashDeduplication(20000))
-				.saveAsTextFile("cikm2020/counts-with-client-side-sort");
+			toCountsOfRecursion(input, DeduplicationStrategy.simHashDeduplication(20000))
+				.saveAsTextFile("cikm2020/recursive-counts-with-client-side-sort");
 		}
 	}
 	
@@ -148,6 +149,26 @@ public class SparkCreateDeduplicationCandidates {
 				.map(i -> "{\"bucket\": " + i._1() + ", \"count\": " + sortedList(i._2()).size() +"}");
 	}
 	
+	public static JavaRDD<String> toCountsOfRecursion(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
+		JavaPairRDD<Integer, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithFingerprint, f);
+		
+		return parsedInput.groupBy(i -> i._1())
+				.flatMap(i -> tmpFlatCount(i));
+	}
+	
+	private static Iterator<String> tmpFlatCount(Tuple2<Integer, Iterable<Tuple2<Integer, DeduplicationUnit>>> i) {
+		List<String> ret = new LinkedList<>();
+		Map<String, List<Tuple2<Integer, DeduplicationUnit>>> bla = ClientLocalDeduplication.sortedList(i._2());
+		int pos = 0;
+		
+		for(List<DeduplicationUnit> bbb : ClientLocalDeduplication.deduplicationPairs(bla)) {
+			ret.add("{\"bucket\": \"" + i._1() +"-"  + (++pos) + "-recursive\", \"count\": " + bbb.size() +"}");
+		}
+		
+		return ret.iterator();
+	}
+
+
 	public static JavaRDD<String> duplicationCandidatePairsFromFingerprints(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
 		JavaPairRDD<Integer, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithFingerprint, f);
 		
@@ -223,7 +244,7 @@ public class SparkCreateDeduplicationCandidates {
 	
 	@Data
 	@SuppressWarnings("serial")
-	private static class DeduplicationUnit implements Serializable {
+	public static class DeduplicationUnit implements Serializable {
 		private final String id;
 		private final List<Integer> hashParts;
 	}
