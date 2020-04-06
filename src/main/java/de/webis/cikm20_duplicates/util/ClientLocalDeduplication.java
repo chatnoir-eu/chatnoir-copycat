@@ -12,11 +12,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.curator.shaded.com.google.common.collect.Iterators;
+import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
 
 import com.google.common.collect.ImmutableList;
+import com.ibm.icu.util.BytesTrie.Iterator;
 
 import de.aitools.ir.fingerprinting.representer.Hash;
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationUnit;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import scala.Tuple2;
 
 public class ClientLocalDeduplication {
@@ -142,5 +148,28 @@ public class ClientLocalDeduplication {
 		
 		
 		return ret;
+	}
+	
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class DeduplicationTask {
+		private List<DeduplicationUnit> entries;
+		
+		@Override
+		@SneakyThrows
+		public String toString() {
+			return new ObjectMapper().writeValueAsString(this);
+		}
+	}
+
+	public static java.util.Iterator<String> workingPackages(Iterable<Tuple2<Integer, DeduplicationUnit>> group) {
+		Map<String, List<Tuple2<Integer, DeduplicationUnit>>> equals = sortedList(group);
+		Collection<List<DeduplicationUnit>> ret = deduplicationPairs(equals);
+		
+		return com.google.common.collect.Iterators.transform(
+			ret.iterator(), 
+			i -> new DeduplicationTask(i).toString()
+		);
 	}
 }

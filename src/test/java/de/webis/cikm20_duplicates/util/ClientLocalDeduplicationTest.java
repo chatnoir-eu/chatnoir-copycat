@@ -92,19 +92,7 @@ public class ClientLocalDeduplicationTest {
 	
 	@Test
 	public void checkDeduplicationWithSomeExactAndSomeNearDuplciates() {
-		Iterable<Tuple2<Integer, DeduplicationUnit>> group = Arrays.asList(
-			tuple(257, "2", ONES),
-			tuple(257, "1", ONES),
-			tuple(257, "4", ONES),
-			tuple(257, "3", ONES),
-			
-			tuple(257, "5", ONES_THEN_SINGLE_TWO),
-			tuple(257, "6", ONES_THEN_SINGLE_TWO),
-			
-			tuple(257, "7", Arrays.asList(257, 100, 23, 16)),
-			tuple(257, "8", Arrays.asList(257, 21, 41, 18)),
-			tuple(257, "9", Arrays.asList(257, 31, 97, 255))
-		);
+		Iterable<Tuple2<Integer, DeduplicationUnit>> group = firstLargeDeduplicationInput();
 		List<String> expected = Arrays.asList(
 			nearDuplicate("1", "2", 0),
 			nearDuplicate("1", "3", 0),
@@ -121,27 +109,11 @@ public class ClientLocalDeduplicationTest {
 		dedup(group);
 	}
 	
+	
+	
 	@Test
 	public void checkDeduplicationWithSomeDuplicatesAndMoreNearDuplicates() {
-		Iterable<Tuple2<Integer, DeduplicationUnit>> group = Arrays.asList(
-			tuple(257, "2", ONES_THEN_SINGLE_TWO),
-			tuple(257, "1", ONES_THEN_SINGLE_TWO),
-			tuple(257, "3", ONES_THEN_SINGLE_TWO),
-			
-			tuple(257, "5", ONES),
-			tuple(257, "6", ONES),
-			
-			tuple(257, "7", Arrays.asList(257, 100, 23, 16)),
-			tuple(257, "8", Arrays.asList(257, 21, 41, 18)),
-			tuple(257, "9", Arrays.asList(257, 31, 97, 255)),
-			
-			tuple(257, "10", ONES_THEN_SINGLE_THREE),
-			tuple(257, "11", ONES_THEN_SINGLE_THREE),
-			
-			tuple(257, "12", ONES_THEN_FIVE_THREE),
-			
-			tuple(257, "999", ONES_THEN_SIX_FIVE_THREE)
-		);
+		Iterable<Tuple2<Integer, DeduplicationUnit>> group = secondLargeDeduplicationInput();
 		List<String> expected = Arrays.asList(
 			nearDuplicate("1", "2", 0),
 			nearDuplicate("1", "3", 0),
@@ -175,6 +147,44 @@ public class ClientLocalDeduplicationTest {
 				HashTransformationUtil.integersToHash(ONES_THEN_SIX_FIVE_THREE),
 				HashTransformationUtil.integersToHash(ONES_THEN_FIVE_THREE)
 		));
+	}
+	
+	public static Iterable<Tuple2<Integer, DeduplicationUnit>> firstLargeDeduplicationInput() {
+		return Arrays.asList(
+				tuple(257, "2", ONES),
+				tuple(257, "1", ONES),
+				tuple(257, "4", ONES),
+				tuple(257, "3", ONES),
+				
+				tuple(257, "5", ONES_THEN_SINGLE_TWO),
+				tuple(257, "6", ONES_THEN_SINGLE_TWO),
+				
+				tuple(257, "7", Arrays.asList(257, 100, 23, 16)),
+				tuple(257, "8", Arrays.asList(257, 21, 41, 18)),
+				tuple(257, "9", Arrays.asList(257, 31, 97, 255))
+			);
+	}
+	
+	public static Iterable<Tuple2<Integer, DeduplicationUnit>> secondLargeDeduplicationInput() {
+		return Arrays.asList(
+				tuple(257, "2", ONES_THEN_SINGLE_TWO),
+				tuple(257, "1", ONES_THEN_SINGLE_TWO),
+				tuple(257, "3", ONES_THEN_SINGLE_TWO),
+				
+				tuple(257, "5", ONES),
+				tuple(257, "6", ONES),
+				
+				tuple(257, "7", Arrays.asList(257, 100, 23, 16)),
+				tuple(257, "8", Arrays.asList(257, 21, 41, 18)),
+				tuple(257, "9", Arrays.asList(257, 31, 97, 255)),
+				
+				tuple(257, "10", ONES_THEN_SINGLE_THREE),
+				tuple(257, "11", ONES_THEN_SINGLE_THREE),
+				
+				tuple(257, "12", ONES_THEN_FIVE_THREE),
+				
+				tuple(257, "999", ONES_THEN_SIX_FIVE_THREE)
+			);
 	}
 	
 	private static String nearDuplicate(String id1, String id2, int hemming) {
