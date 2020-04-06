@@ -34,7 +34,9 @@ import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import io.anserini.collection.ClueWeb09Collection.Document;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import scala.Tuple2;
 
@@ -258,10 +260,12 @@ public class SparkCreateDeduplicationCandidates {
 	}
 	
 	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
 	@SuppressWarnings("serial")
 	public static class DeduplicationUnit implements Serializable {
-		private final String id;
-		private final List<Integer> hashParts;
+		private String id;
+		private List<Integer> hashParts;
 	}
 
 	@SuppressWarnings("serial")
