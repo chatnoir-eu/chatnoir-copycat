@@ -1,6 +1,7 @@
 package de.webis.cikm20_duplicates.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -42,6 +43,19 @@ public class ClientLocalDeduplication {
 	public static Collection<List<DeduplicationUnit>> deduplicationPairs(Map<String, List<Tuple2<Integer, DeduplicationUnit>>> equals) {
 		Map<Integer, List<DeduplicationUnit>> ret = new LinkedHashMap<>();
 		
+		if(equals.size() < 100000) {
+			List<DeduplicationUnit> tmpRet = new ArrayList<>();
+			for(List<Tuple2<Integer, DeduplicationUnit>> equal: equals.values()) {
+				if(equal.size() < 1) {
+					continue;
+				}
+				
+				tmpRet.add(equal.get(0)._2);
+			}
+			
+			return Arrays.asList(tmpRet);
+		}
+		
 		for(List<Tuple2<Integer, DeduplicationUnit>> equal: equals.values()) {
 			if(equal.size() < 1) {
 				continue;
@@ -51,7 +65,7 @@ public class ClientLocalDeduplication {
 			List<Integer> rekursiveInts = HashTransformationUtil.removeIntFromUnderlyingBitArray(i._2.getHashParts(), i._1());
 			for(int recursivePart: rekursiveInts) {
 				if(!ret.containsKey(recursivePart)) {
-					ret.put(recursivePart, new LinkedList<>());
+					ret.put(recursivePart, new ArrayList<>());
 				}
 				
 				ret.get(recursivePart).add(i._2);
@@ -61,26 +75,28 @@ public class ClientLocalDeduplication {
 		return ret.values();
 	}
 	
-	private static List<String> fullDeduplication(List<DeduplicationUnit> l) {
+	private static List<String> fullDeduplication(List<DeduplicationUnit> orig) {
 		List<String> ret = new LinkedList<>();
+		List<Tuple2<String, byte[]>> idToHash = new ArrayList<>(orig.size());
 		
-		for(int i=0; i<l.size(); i++) {
-			for(int j=i+1; j< l.size(); j++) {
-				int hemming = hemming(l.get(i), l.get(j));
+		for(DeduplicationUnit d: orig) {
+			idToHash.add(new Tuple2<>(d.getId(), HashTransformationUtil.integersToHash(d.getHashParts())));
+		}
+		
+		for(int i=0; i<idToHash.size(); i++) {
+			Tuple2<String, byte[]> left = idToHash.get(i);
+
+			for(int j=i+1; j< idToHash.size(); j++) {
+				Tuple2<String, byte[]> right = idToHash.get(j);
+				
+				int hemming = Hash.getHammingDistance(left._2(), right._2());
 				if(hemming <= 3) {
-					ret.add(nearDuplicate(l.get(i).getId(), l.get(j).getId(), hemming));
+					ret.add(nearDuplicate(left._1(), right._1(), hemming));
 				}
 			}
 		}
 		
 		return ret;
-	}
-	
-	private static int hemming(DeduplicationUnit a, DeduplicationUnit b) {
-		byte[] aArr = HashTransformationUtil.integersToHash(a.getHashParts());
-		byte[] bArr = HashTransformationUtil.integersToHash(b.getHashParts());
-		
-		return Hash.getHammingDistance(aArr, bArr);
 	}
 
 	private static Collection<String> equalPairs(List<Tuple2<Integer, DeduplicationUnit>> equal) {

@@ -49,8 +49,8 @@ public class SparkCreateDeduplicationCandidates {
 		try (JavaSparkContext context = context()) {
 			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
 			
-			toCountsOfRecursion(input, DeduplicationStrategy.simHashDeduplication(20000))
-				.saveAsTextFile("cikm2020/recursive-counts-with-client-side-sort");
+			deduplicateWithinGroupByGroups(input, DeduplicationStrategy.simHashDeduplication(50000))
+				.saveAsTextFile("cikm2020/near-duplicates-cw09-cw12");
 		}
 	}
 	
@@ -154,6 +154,13 @@ public class SparkCreateDeduplicationCandidates {
 		
 		return parsedInput.groupBy(i -> i._1())
 				.flatMap(i -> tmpFlatCount(i));
+	}
+	
+	public static JavaRDD<String> deduplicateWithinGroupByGroups(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
+		JavaPairRDD<Integer, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithFingerprint, f);
+		
+		return parsedInput.groupBy(i -> i._1())
+				.flatMap(i -> ClientLocalDeduplication.dedup(i._2()).iterator());
 	}
 	
 	private static Iterator<String> tmpFlatCount(Tuple2<Integer, Iterable<Tuple2<Integer, DeduplicationUnit>>> i) {
