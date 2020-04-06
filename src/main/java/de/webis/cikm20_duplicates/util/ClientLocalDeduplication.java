@@ -15,7 +15,6 @@ import org.apache.curator.shaded.com.google.common.collect.Iterators;
 import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
 
 import com.google.common.collect.ImmutableList;
-import com.ibm.icu.util.BytesTrie.Iterator;
 
 import de.aitools.ir.fingerprinting.representer.Hash;
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationUnit;
@@ -81,7 +80,7 @@ public class ClientLocalDeduplication {
 		return ret.values();
 	}
 	
-	private static List<String> fullDeduplication(List<DeduplicationUnit> orig) {
+	public static List<String> fullDeduplication(List<DeduplicationUnit> orig) {
 		List<String> ret = new LinkedList<>();
 		List<Tuple2<String, byte[]>> idToHash = new ArrayList<>(orig.size());
 		
@@ -160,6 +159,11 @@ public class ClientLocalDeduplication {
 		@SneakyThrows
 		public String toString() {
 			return new ObjectMapper().writeValueAsString(this);
+		}
+		
+		@SneakyThrows
+		public static DeduplicationTask fromString(String value) {
+			return new ObjectMapper().readValue(value, DeduplicationTask.class);
 		}
 	}
 
