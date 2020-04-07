@@ -89,6 +89,7 @@ public class ClientLocalDeduplication {
 		}
 		
 		for(int i=0; i<idToHash.size(); i++) {
+			sleepSometimesToPreventNetworkProblems(i);
 			Tuple2<String, byte[]> left = idToHash.get(i);
 
 			for(int j=i+1; j< idToHash.size(); j++) {
@@ -102,6 +103,15 @@ public class ClientLocalDeduplication {
 		}
 		
 		return ret;
+	}
+	
+	private static void sleepSometimesToPreventNetworkProblems(int i) {
+		//sounds silly, but is true: 
+		if(i % 1000 == 0) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {}
+		}
 	}
 
 	private static Collection<String> equalPairs(List<Tuple2<Integer, DeduplicationUnit>> equal) {
