@@ -53,6 +53,22 @@ public class SparkCombineIntermediateResultstIntegrationTest extends SharedJavaS
 
 		Assert.assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void testCombinationOfSmallSampleInputWithEmptyStrings() {
+		List<String> expected = Arrays.asList(
+			"clueweb09-es0014-01-08083,clueweb09-es0021-46-13605,2",
+			"clueweb09-es0014-03-19697,clueweb09-pt0001-81-12710,3"
+		);
+		List<String> actual = combineIntermediateResults(
+			"{\"firstId\":\"clueweb09-es0014-01-08083\",\"secondId\":\"clueweb09-es0021-46-13605\",\"hemmingDistance\":2}",
+			"        ",
+			"{\"firstId\":\"clueweb09-es0014-03-19697\",\"secondId\":\"clueweb09-pt0001-81-12710\",\"hemmingDistance\":3}",
+			"\t"
+		);
+
+		Assert.assertEquals(expected, actual);
+	}
 
 	@Test
 	public void testCombinationOfSmallSampleInputWithDuplicates() {
