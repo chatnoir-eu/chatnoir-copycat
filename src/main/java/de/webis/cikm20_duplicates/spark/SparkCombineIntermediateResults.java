@@ -15,7 +15,7 @@ public class SparkCombineIntermediateResults {
 	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> input = context.textFile("cikm2020/near-duplicate-tasks-cw09-cw12");
+			JavaRDD<String> input = context.textFile("cikm2020/deduplication/near-duplicates/cw09-cw12");
 			
 			combineIntermediateResults(input, 5000)
 				.saveAsTextFile("cikm2020/results/test-01");
