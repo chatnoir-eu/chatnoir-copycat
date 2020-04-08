@@ -90,7 +90,7 @@ public class SparkCombineIntermediateResultstIntegrationTest extends SharedJavaS
 	
 	private List<String> combineIntermediateResults(String...input) {
 		JavaRDD<String> inputRDD = jsc().parallelize(Arrays.asList(input));
-		JavaRDD<String> ret = SparkCombineIntermediateResultst.combineIntermediateResults(inputRDD, 1);
+		JavaRDD<String> ret = SparkCombineIntermediateResults.combineIntermediateResults(inputRDD, 1);
 		
 		return ret.collect();
 	}
