@@ -50,8 +50,12 @@ public class SparkCreateDeduplicationCandidates {
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
+			DeduplicationStrategy deduplicationStrategy = DeduplicationStrategy.simHashDeduplication(50000);
 			
-			createDeduplicationtasks(input, DeduplicationStrategy.simHashDeduplication(50000))
+			exactDuplicates(input, deduplicationStrategy)
+				.saveAsTextFile("cikm2020/exact-duplicates-simhash-cw09-cw12");
+			
+			createDeduplicationtasks(input, deduplicationStrategy)
 				.saveAsTextFile("cikm2020/near-duplicate-tasks-cw09-cw12");
 		}
 	}
@@ -322,4 +326,26 @@ public class SparkCreateDeduplicationCandidates {
 			return super.getPartition((int) key);
 		}
 	}
+
+	public static JavaRDD<String> exactDuplicates(JavaRDD<String> input, DeduplicationStrategy dedupStrategy) {
+		
+		return input.map(i -> DocumentWithFingerprint.fromString(i))
+				.map(i -> new Tuple2<String, String>(dedupStrategy.extract(i).toString(), i.getDocId()))
+				.groupBy(i -> i._1())
+				.map(i -> toExactRepresentationOrNull(i))
+				.filter(i -> i != null);
+	}
+
+	@SneakyThrows
+	private static String toExactRepresentationOrNull(Tuple2<String, Iterable<Tuple2<String, String>>> i) {
+		List<String> ret = new ArrayList<>(new HashSet<>(ImmutableList.copyOf(Iterators.transform(i._2.iterator(), j -> j._2()))));
+		Collections.sort(ret);
+		
+		if(ret.size() <= 1) {
+			return null;
+		}
+		
+		return "{\"equivalentDocuments\": "+ new ObjectMapper().writeValueAsString(ret) +",\"hash\":"+ i._1() +"}";
+	}
+	
 }
