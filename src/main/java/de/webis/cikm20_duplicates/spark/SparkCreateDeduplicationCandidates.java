@@ -282,6 +282,10 @@ public class SparkCreateDeduplicationCandidates {
 			return new IntPartitioner(numPartitions());
 		}
 		
+		public Partitioner getStringPartitioner() {
+			return new StringPartitioner(numPartitions());
+		}
+		
 		public static DeduplicationStrategy minHashDeduplication(int numPartitions) {
 			return new DeduplicationStrategy() {
 				@Override
@@ -312,6 +316,22 @@ public class SparkCreateDeduplicationCandidates {
 	}
 	
 	@SuppressWarnings("serial")
+	static class StringPartitioner extends HashPartitioner {
+		public StringPartitioner(int partitions) {
+			super(partitions);
+		}
+		
+		@Override
+		public int getPartition(Object key) {
+			if(key == null || !(key instanceof String)) {
+				throw new RuntimeException("I work only for Strings");
+			}
+			
+			return super.getPartition((String) key);
+		}
+	}
+	
+	@SuppressWarnings("serial")
 	static class IntPartitioner extends HashPartitioner {
 		public IntPartitioner(int partitions) {
 			super(partitions);
@@ -328,9 +348,11 @@ public class SparkCreateDeduplicationCandidates {
 	}
 
 	public static JavaRDD<String> exactDuplicates(JavaRDD<String> input, DeduplicationStrategy dedupStrategy) {
-		
-		return input.map(i -> DocumentWithFingerprint.fromString(i))
-				.map(i -> new Tuple2<String, String>(dedupStrategy.extract(i).toString(), i.getDocId()))
+		JavaPairRDD<String, String> tmp = input.map(i -> DocumentWithFingerprint.fromString(i))
+				.mapToPair(i -> new Tuple2<String, String>(dedupStrategy.extract(i).toString(), i.getDocId()))
+				.repartitionAndSortWithinPartitions(dedupStrategy.getStringPartitioner());
+	
+		return tmp
 				.groupBy(i -> i._1())
 				.map(i -> toExactRepresentationOrNull(i))
 				.filter(i -> i != null);

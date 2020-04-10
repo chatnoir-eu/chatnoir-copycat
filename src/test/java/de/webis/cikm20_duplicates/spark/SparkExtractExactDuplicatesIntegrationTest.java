@@ -1,6 +1,5 @@
 package de.webis.cikm20_duplicates.spark;
 
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
