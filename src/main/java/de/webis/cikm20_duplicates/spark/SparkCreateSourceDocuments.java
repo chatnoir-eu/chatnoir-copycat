@@ -18,7 +18,12 @@ import de.webis.cikm20_duplicates.util.SourceDocuments.CollectionDocumentWithTop
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import de.webis.trec_ndd.util.S3Files;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.Namespace;
 import scala.Tuple2;
+import de.webis.trec_ndd.trec_collections.CollectionConfiguration.OtherCollections;
 import de.webis.trec_ndd.trec_collections.CollectionConfiguration.TrecCollections;
 
 /**
@@ -36,10 +41,10 @@ public class SparkCreateSourceDocuments {
 
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-//			transformAllImportantDocuments(context, CLUEWEB09, CLUEWEB12)
-//				.saveAsTextFile("cikm2020/source-documents");
-			fingerprintAllDocuments(context, CLUEWEB09, CLUEWEB12)
-				.saveAsTextFile("cikm2020/document-fingerprints");
+//			fingerprintAllDocuments(context, CLUEWEB09, CLUEWEB12)
+//				.saveAsTextFile("cikm2020/document-fingerprints");
+			fingerprintAllDocuments(context, commonCrawl(args))
+				.saveAsTextFile("cikm2020/document-fingerprints-commoncrawl-main-2015-11");
 		}
 	}
 	
@@ -102,5 +107,30 @@ public class SparkCreateSourceDocuments {
 		}
 		
 		return ret;
+	}
+	
+	private static AnseriniCollectionReader<?> commonCrawl(String[] args) {
+		Namespace parsedArgs = parseArguments(args);
+		S3Files s3Files = new S3Files(
+				parsedArgs.getString("accessKey"),
+				parsedArgs.getString("secretKey"),
+				"corpus-commoncrawl-main-2015-11"
+		);
+		
+		OtherCollections config = OtherCollections.commonCrawl_2015_02(s3Files);
+		return new AnseriniCollectionReader<>(config);
+	}
+	
+	private static Namespace parseArguments(String[] args) {
+		ArgumentParser parser = ArgumentParsers.newFor("SparkCreateSourceDocuments").build().defaultHelp(true);
+
+		parser.addArgument("--accessKey")
+			.required(Boolean.TRUE)
+			.help("Specify the s3 access key.");
+		parser.addArgument("--secretKey")
+			.required(Boolean.TRUE)
+			.help("Specify the s3 secret key.");
+		
+		return parser.parseArgsOrFail(args);
 	}
 }
