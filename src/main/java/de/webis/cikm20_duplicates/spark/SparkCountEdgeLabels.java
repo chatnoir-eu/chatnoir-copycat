@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.math.BigIntegerMath;
@@ -16,6 +18,22 @@ import scala.Tuple2;
 
 public class SparkCountEdgeLabels {
 
+	public static void main(String[] args) {
+		try (JavaSparkContext context = context()) {
+			JavaRDD<String> exactDuplicates = context.textFile("cikm2020/exact-duplicates-simhash-cw09-cw12");
+			JavaRDD<String> pairs = context.textFile("cikm2020/results/test-01");
+		
+			countEdgeLabels(exactDuplicates, pairs).saveAsTextFile("cikm2020/near-duplicate-graph/edge-count-cw09-cw12");
+		}
+	}
+	
+	private static JavaSparkContext context() {
+		SparkConf conf = new SparkConf(true);
+		conf.setAppName("cikm2020/count-edges");
+
+		return new JavaSparkContext(conf);
+	}
+	
 	public static JavaRDD<String> countEdgeLabels(JavaRDD<String> exactDuplicates, JavaRDD<String> pairs) {
 		JavaPairRDD<String, BigInteger> a = exactDuplicates.flatMapToPair(i -> flatten(i).iterator())
 				.reduceByKey((i,j) -> i.add(j), 10)

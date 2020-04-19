@@ -1,3 +1,7 @@
+count-edges: install
+	hdfs dfs -rm -r -f cikm2020/near-duplicate-graph/edge-count-cw09-cw12 && \
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCountEdgeLabels
+
 combine-intermediate-results: install
 	hdfs dfs -rm -r -f cikm2020/results/test-01 && \
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCombineIntermediateResults
