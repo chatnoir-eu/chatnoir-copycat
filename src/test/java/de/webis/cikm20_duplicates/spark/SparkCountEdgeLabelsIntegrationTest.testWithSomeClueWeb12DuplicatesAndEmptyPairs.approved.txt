@@ -1,0 +1,1 @@
+[{"clueweb12<->clueweb12 (k=0)":3}]

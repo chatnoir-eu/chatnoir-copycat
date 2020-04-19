@@ -1,0 +1,1 @@
+[{"clueweb09<->clueweb09 (k=0)":3}, {"clueweb09<->clueweb09 (k=1)":1}, {"clueweb09<->clueweb09 (k=2)":2}, {"clueweb09<->clueweb12 (k=0)":3}, {"clueweb09<->clueweb12 (k=3)":2}, {"clueweb12<->clueweb12 (k=1)":1}]
