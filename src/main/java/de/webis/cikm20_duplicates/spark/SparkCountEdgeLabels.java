@@ -50,9 +50,9 @@ public class SparkCountEdgeLabels {
 	}
 
 	private static Tuple2<String, BigInteger> toTuple(String a) {
-		String[] parsed = a.split(";");
+		String[] parsed = a.split(",");
 		if(parsed.length != 3) {
-			throw new RuntimeException("tbd");
+			throw new RuntimeException("Can not transform input to tuple: '" + a + "'");
 		}
 		
 		String name;

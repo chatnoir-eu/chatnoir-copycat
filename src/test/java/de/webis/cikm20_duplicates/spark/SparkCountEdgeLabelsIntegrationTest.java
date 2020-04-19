@@ -57,12 +57,12 @@ public class SparkCountEdgeLabelsIntegrationTest extends SharedJavaSparkContext 
 		List<String> actual = countAllEdges(rdd(
 				"{\"equivalentDocuments\": [\"clueweb09-2\",\"clueweb12-4\",\"clueweb09-5\",\"clueweb09-6\"],\"hash\":[]}"
 		), rdd(
-				"clueweb09-2;clueweb09-3;2",
-				"clueweb09-2;clueweb09-3;2",
-				"clueweb09-2;clueweb09-3;1",
-				"clueweb12-2;clueweb09-3;3",
-				"clueweb09-2;clueweb12-3;3",
-				"clueweb12-2;clueweb12-3;1"
+				"clueweb09-2,clueweb09-3,2",
+				"clueweb09-2,clueweb09-3,2",
+				"clueweb09-2,clueweb09-3,1",
+				"clueweb12-2,clueweb09-3,3",
+				"clueweb09-2,clueweb12-3,3",
+				"clueweb12-2,clueweb12-3,1"
 		));
 		
 		Approvals.verify(actual);

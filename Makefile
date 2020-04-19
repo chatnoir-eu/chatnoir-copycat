@@ -11,6 +11,7 @@ deduplicate: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkDeduplicateCandidates
 
 create-candidates: install
+	hdfs dfs -rm -r -f cikm2020/exact-duplicates-simhash-cw09-cw12 &&\
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates
 
 create-source-docs: install
