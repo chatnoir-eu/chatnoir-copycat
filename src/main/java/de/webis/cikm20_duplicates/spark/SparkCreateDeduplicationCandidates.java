@@ -60,7 +60,6 @@ public class SparkCreateDeduplicationCandidates {
 		}
 	}
 	
-	
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
 		conf.setAppName("cikm2020/candidates");

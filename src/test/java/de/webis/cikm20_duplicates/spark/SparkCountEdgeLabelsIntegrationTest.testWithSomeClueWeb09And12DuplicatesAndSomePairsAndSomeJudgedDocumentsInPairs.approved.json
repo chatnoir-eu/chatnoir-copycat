@@ -1,0 +1,12 @@
+[
+  "{\"clueweb09(judged)\u003c-\u003eclueweb09(unjudged) (k\u003d2)\":1}",
+  "{\"clueweb09(judged)\u003c-\u003eclueweb12(unjudged) (k\u003d3)\":1}",
+  "{\"clueweb09(unjudged)\u003c-\u003eclueweb09(judged) (k\u003d1)\":1}",
+  "{\"clueweb09(unjudged)\u003c-\u003eclueweb12(judged) (k\u003d3)\":1}",
+  "{\"clueweb09\u003c-\u003eclueweb09 (k\u003d0)\":3}",
+  "{\"clueweb09\u003c-\u003eclueweb09 (k\u003d1)\":2}",
+  "{\"clueweb09\u003c-\u003eclueweb09 (k\u003d2)\":3}",
+  "{\"clueweb09\u003c-\u003eclueweb12 (k\u003d0)\":3}",
+  "{\"clueweb09\u003c-\u003eclueweb12 (k\u003d3)\":4}",
+  "{\"clueweb12\u003c-\u003eclueweb12 (k\u003d1)\":1}"
+]
