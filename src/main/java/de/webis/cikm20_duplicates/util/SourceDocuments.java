@@ -48,6 +48,8 @@ public final class SourceDocuments {
 	
 	public static final List<SourceDocument> ALL_DOCS_FOR_WHICH_DUPLICATES_SHOULD_BE_SEARCHED = getAllDocumentsForWhichDuplicatesShouldBeSearched();
 	
+	public static final Map<String, Map<String, SourceDocument>> TOPIC_TO_ID_TO_SOURCE_DOC = topicsToSourceDocuments();
+	
 	@Data
 	@Wither
 	@NoArgsConstructor
@@ -77,6 +79,7 @@ public final class SourceDocuments {
 		private final TrecCollections collection;
 		private final String documentId;
 		private final String topic;
+		private final int judgment;
 		
 		public String toString() {
 			return collection.name() + "::" + task.name() + "::" + topic + "::" + documentId;
@@ -111,11 +114,12 @@ public final class SourceDocuments {
 			Set<String> topics = task.documentJudgments().getData().keySet();
 
 			for (String topic : topics) {
-				Set<String> judgedDocs = task.documentJudgments().getData().get(topic).keySet();
+				Map<String, String> judgmentsForTopic = task.documentJudgments().getData().get(topic);
+				Set<String> judgedDocs = judgmentsForTopic.keySet();
 				for (String doc : judgedDocs) {
 					ret.add(new SourceDocument(
 							(TrecSharedTask) task, collectionForTask(task),
-							doc, topic
+							doc, topic, Integer.parseInt(judgmentsForTopic.get(doc))
 					));
 				}
 			}
@@ -125,7 +129,7 @@ public final class SourceDocuments {
 		
 		return Collections.unmodifiableList(ret);
 	}
-	
+
 	public static Map<TrecSharedTask, List<SourceDocument>> taskToDocuments() {
 		Map<TrecSharedTask, List<SourceDocument>> ret = new LinkedHashMap<>();
 		
@@ -140,11 +144,27 @@ public final class SourceDocuments {
 		return ret;
 	}
 	
+
+	private static Map<String, Map<String, SourceDocument>> topicsToSourceDocuments() {
+		Map<String, Map<String, SourceDocument>> ret = new LinkedHashMap<>();
+		for(SourceDocument doc : ALL_DOCS_FOR_WHICH_DUPLICATES_SHOULD_BE_SEARCHED) {
+			String topic = topicName(doc);
+			
+			if(!ret.containsKey(topic)) {
+				ret.put(topic, new LinkedHashMap<>());
+			}
+			
+			ret.get(topic).put(doc.documentId, doc);
+		}
+		
+		return ret;
+	}
+	
 	public static Map<String, Set<String>> topicsToDocumentIds() {
 		Map<String, Set<String>> ret = new LinkedHashMap<>();
 		
 		for(SourceDocument doc : ALL_DOCS_FOR_WHICH_DUPLICATES_SHOULD_BE_SEARCHED) {
-			String topic = doc.collection.name() + "::" + doc.task.name() + "::" + doc.topic;
+			String topic = topicName(doc);
 			if(!ret.containsKey(topic)) {
 				ret.put(topic, new HashSet<>());
 			}
@@ -153,6 +173,10 @@ public final class SourceDocuments {
 		}
 		
 		return ret;
+	}
+	
+	private static String topicName(SourceDocument doc) {
+		return doc.collection.name() + "::" + doc.task.name() + "::" + doc.topic;
 	}
 	
 	private static TrecCollections collectionForTask(SharedTask task) {

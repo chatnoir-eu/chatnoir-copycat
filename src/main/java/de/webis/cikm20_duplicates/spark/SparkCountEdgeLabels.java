@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -125,9 +124,10 @@ public class SparkCountEdgeLabels {
 		
 		return new Tuple2<>(name +" (k=" + Integer.parseInt(parsed[2]) + ")", BigInteger.ONE);
 	}
+	
 	@SneakyThrows
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static List<String> docs(String src) {
+	static List<String> docs(String src) {
 		Map<String, Object> s = new ObjectMapper().readValue(src, Map.class);
 		return new ArrayList<>((List) s.get("equivalentDocuments"));
 	}

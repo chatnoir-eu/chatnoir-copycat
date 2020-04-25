@@ -1,0 +1,7 @@
+[
+  "{\"srcId\":\"clueweb09-en0008-02-29970\",\"targetId\":\"clueweb12-02\",\"topic\":\"CLUEWEB09::WEB_2009::50\",\"k\":3,\"relevanceLabel\":0}",
+  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-3\",\"topic\":\"CLUEWEB12::SESSION_2013::52\",\"k\":3,\"relevanceLabel\":1}",
+  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-3\",\"topic\":\"CLUEWEB12::SESSION_2014::60\",\"k\":3,\"relevanceLabel\":1}",
+  "{\"srcId\":\"clueweb09-en0008-02-29970\",\"targetId\":\"clueweb09-3\",\"topic\":\"CLUEWEB09::WEB_2009::50\",\"k\":1,\"relevanceLabel\":0}",
+  "{\"srcId\":\"clueweb09-en0008-02-29970\",\"targetId\":\"clueweb09-04\",\"topic\":\"CLUEWEB09::WEB_2009::50\",\"k\":2,\"relevanceLabel\":0}"
+]
