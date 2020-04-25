@@ -1,11 +1,11 @@
 [
-  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-5\",\"topic\":\"CLUEWEB12::SESSION_2013::52\",\"k\":0,\"relevanceLabel\":1}",
-  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-5\",\"topic\":\"CLUEWEB12::SESSION_2014::60\",\"k\":0,\"relevanceLabel\":1}",
   "{\"srcId\":\"clueweb09-en0008-02-29970\",\"targetId\":\"clueweb09-2\",\"topic\":\"CLUEWEB09::WEB_2009::50\",\"k\":0,\"relevanceLabel\":0}",
   "{\"srcId\":\"clueweb09-en0008-02-29970\",\"targetId\":\"clueweb09-5\",\"topic\":\"CLUEWEB09::WEB_2009::50\",\"k\":0,\"relevanceLabel\":0}",
   "{\"srcId\":\"clueweb09-en0008-02-29970\",\"targetId\":\"clueweb12-1800tw-04-16339\",\"topic\":\"CLUEWEB09::WEB_2009::50\",\"k\":0,\"relevanceLabel\":0}",
-  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-en0008-02-29970\",\"topic\":\"CLUEWEB12::SESSION_2013::52\",\"k\":0,\"relevanceLabel\":1}",
-  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-en0008-02-29970\",\"topic\":\"CLUEWEB12::SESSION_2014::60\",\"k\":0,\"relevanceLabel\":1}",
   "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-2\",\"topic\":\"CLUEWEB12::SESSION_2013::52\",\"k\":0,\"relevanceLabel\":1}",
-  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-2\",\"topic\":\"CLUEWEB12::SESSION_2014::60\",\"k\":0,\"relevanceLabel\":1}"
+  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-2\",\"topic\":\"CLUEWEB12::SESSION_2014::60\",\"k\":0,\"relevanceLabel\":1}",
+  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-5\",\"topic\":\"CLUEWEB12::SESSION_2013::52\",\"k\":0,\"relevanceLabel\":1}",
+  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-5\",\"topic\":\"CLUEWEB12::SESSION_2014::60\",\"k\":0,\"relevanceLabel\":1}",
+  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-en0008-02-29970\",\"topic\":\"CLUEWEB12::SESSION_2013::52\",\"k\":0,\"relevanceLabel\":1}",
+  "{\"srcId\":\"clueweb12-1800tw-04-16339\",\"targetId\":\"clueweb09-en0008-02-29970\",\"topic\":\"CLUEWEB12::SESSION_2014::60\",\"k\":0,\"relevanceLabel\":1}"
 ]

@@ -100,7 +100,9 @@ public class SparkRelevanceTransferDataConstructionIntegrationTest extends Share
 	}
 	
 	private List<String> relevanceTransfer(JavaRDD<String> exactDuplicates, JavaRDD<String> pairs) {
-		return SparkRelevanceTransferDataConstruction.transfer(exactDuplicates, pairs).collect();
+		return SparkCreateDuplicationCandidatesIntegrationTest.sorted(
+			SparkRelevanceTransferDataConstruction.transfer(exactDuplicates, pairs)
+		);
 	}
 	
 	private JavaRDD<String> rdd(String...vals) {
