@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,9 +54,10 @@ public class SparkCountEdgeLabels {
 				.reduceByKey((i,j) -> i.add(j), 10)
 				.filter(i -> !i._2.equals(BigInteger.ZERO));
 		
-		JavaPairRDD<String, BigInteger> d = exactDuplicates.flatMap(i -> extractAllPairsWithJudgedDocuments(docs(i)).iterator())
+		JavaPairRDD<String, BigInteger> d = exactDuplicates.flatMap(i -> extractAllPairsWithJudgedDocuments(docs(i)))
 				.filter(i -> i != null)
 				.map(i -> i._1() +"," + i._2() +"," + i._3())
+				.distinct()
 				.map(i -> toTupleWithJudgedInformations(i))
 				.filter(i -> i != null)
 				.mapToPair(i -> i)
@@ -127,7 +129,7 @@ public class SparkCountEdgeLabels {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static List<String> docs(String src) {
 		Map<String, Object> s = new ObjectMapper().readValue(src, Map.class);
-		return (List) s.get("equivalentDocuments");
+		return new ArrayList<>((List) s.get("equivalentDocuments"));
 	}
 	
 	private static List<Tuple2<String, BigInteger>> flatten(String src) {
@@ -155,21 +157,23 @@ public class SparkCountEdgeLabels {
 		return nodeCount.divide(denominator);
 	}
 
-	public static List<Tuple3<String, String, Integer>> extractAllPairsWithJudgedDocuments(List<String> ids) {
-		List<Tuple3<String, String, Integer>> ret = new ArrayList<>();
-		List<String> judged = ids.stream().filter(i -> SparkCreateSourceDocuments.DOCS_TO_TOPIC.containsKey(i)).collect(Collectors.toList());
-		Collections.sort(judged);
-		
-		for(String j: judged) {
-			for(String i: ids) {
-				if(j.compareTo(i) > 0) {
-					ret.add(new Tuple3<>(i, j, 0));
-				} else if(j.compareTo(i) < 0) {
-					ret.add(new Tuple3<>(j, i, 0));
-				}
-			}
+	public static Iterator<Tuple3<String, String, Integer>> extractAllPairsWithJudgedDocuments(List<String> ids) {
+		Collections.sort(ids);
+
+		return ids.stream().filter(i -> SparkCreateSourceDocuments.DOCS_TO_TOPIC.containsKey(i))
+				.flatMap(i -> ids.stream().map(j -> bla(i, j)))
+				.filter(i -> i != null)
+				.distinct()
+				.iterator();
+	}
+	
+	private static Tuple3<String, String, Integer> bla(String i, String j) {
+		if(j.compareTo(i) > 0) {
+			return new Tuple3<>(i, j, 0);
+		} else if(j.compareTo(i) < 0) {
+			return new Tuple3<>(j, i, 0);
 		}
 		
-		return ret.stream().distinct().sorted((i,j) -> i.toString().compareTo(j.toString())).collect(Collectors.toList());
+		return null;
 	}
 }
