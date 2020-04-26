@@ -1,0 +1,4 @@
+[
+  "{\"srcId\":\"clueweb09-en0000-79-31634\",\"targetId\":\"clueweb09-en0000-79-31634\",\"topic\":\"CLUEWEB09::ENTITY_2010::25\",\"relevanceLabel\":1,\"srcURL\":null,\"targetURL\":null,\"k\":0,\"cosine-similarity\":0.9999999999999999}",
+  "{\"srcId\":\"clueweb09-en0000-79-31634\",\"targetId\":\"clueweb12-0900wb-15-08700\",\"topic\":\"CLUEWEB09::ENTITY_2010::25\",\"relevanceLabel\":1,\"srcURL\":\"https://chatnoir.eu/cache?uuid\u003d1dbc1f0b-f23c-5107-a5f8-464bd5e26adf\u0026index\u003dcw09\u0026raw\",\"targetURL\":\"https://chatnoir.eu/cache?uuid\u003df3539b18-9497-57c2-a8d2-91f6e5e161f4\u0026index\u003dcw12\u0026raw\",\"k\":0,\"cosine-similarity\":0.8971675617141531}"
+]

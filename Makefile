@@ -1,3 +1,7 @@
+enrich-relevance-transfer-dataset: install
+	hdfs dfs -rm -r -f cikm2020/enriched-relevance-transfer-pairs.jsonl && \
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs
+
 create-relevance-transfer-dataset: install
 	hdfs dfs -rm -r -f cikm2020/relevance-transfer-pairs.jsonl && \
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkRelevanceTransferDataConstruction

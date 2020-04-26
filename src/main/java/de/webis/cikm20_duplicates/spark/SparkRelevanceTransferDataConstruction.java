@@ -14,13 +14,13 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.cikm20_duplicates.util.SourceDocuments;
 import de.webis.cikm20_duplicates.util.SourceDocuments.SourceDocument;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import de.webis.WebisUUID;
 
 public class SparkRelevanceTransferDataConstruction {
 
@@ -97,6 +97,11 @@ public class SparkRelevanceTransferDataConstruction {
 			return new ObjectMapper().writeValueAsString(this);
 		}
 		
+		@SneakyThrows
+		public static RelevanceTransferPair fromString(String src) {
+			return new ObjectMapper().readValue(src, RelevanceTransferPair.class);
+		}
+		
 		public static RelevanceTransferPair transferPair(String src, String target, String topic, int k) {
 			Map<String, SourceDocument> docIdToSrc = SourceDocuments.TOPIC_TO_ID_TO_SOURCE_DOC.get(topic);
 			if(docIdToSrc == null || docIdToSrc.get(src) == null) {
@@ -105,36 +110,7 @@ public class SparkRelevanceTransferDataConstruction {
 			
 			int relevanceLabel = docIdToSrc.get(src).getJudgment();
 			
-			return new RelevanceTransferPair(src, target, topic, chatNoirURL(src), chatNoirURL(target), k, relevanceLabel);
-		}
-		
-		private static String webisUUID(String documentId) {
-			return new WebisUUID(longChatNoirId(documentId))
-					.generateUUID(documentId).toString();
-		}
-		
-		private static String longChatNoirId(String documentId) {
-			if(documentId.startsWith("clueweb09")) {
-				return "clueweb09";
-			} else if (documentId.startsWith("clueweb12")) {
-				return "clueweb12";
-			}
-			
-			throw new RuntimeException("ID '" + documentId + "' is not supported.");
-		}
-		
-		private static String shortChatNoirId(String documentId) {
-			if (documentId.startsWith("clueweb09")) {
-				return "cw09";
-			} else if (documentId.startsWith("clueweb12")) {
-				return "cw12";
-			}
-			
-			throw new RuntimeException("ID '" + documentId + "' is not supported.");
-		}
-		
-		private static String chatNoirURL(String documentId) {
-			return "https://chatnoir.eu/cache?uuid=" + webisUUID(documentId) + "&index="+ shortChatNoirId(documentId) +"&raw";
+			return new RelevanceTransferPair(src, target, topic, CollectionDocumentUtil.chatNoirURL(src), CollectionDocumentUtil.chatNoirURL(target), k, relevanceLabel);
 		}
 	}
 }

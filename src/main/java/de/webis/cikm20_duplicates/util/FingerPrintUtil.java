@@ -72,10 +72,13 @@ public class FingerPrintUtil {
 	}
 	
 	static byte[] hashVector(CollectionDocument doc, int bitsInSimHash) {
+		return new SimHash().hash(internalHashVector(doc, bitsInSimHash)).getArray();
+	}
+	
+	public static HashVector internalHashVector(CollectionDocument doc, int bitsInSimHash) {
 		List<String> terms = NGramms.tokenize(doc.getFullyCanonicalizedContent());
-		HashVector vector = HashVectorSha3.toVector(terms, bitsInSimHash);
 		
-		return new SimHash().hash(vector).getArray();
+		return HashVectorSha3.toVector(terms, bitsInSimHash);
 	}
 	
 	private static Set<Integer> docToElementSet(CollectionDocument doc) {
