@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import de.webis.WebisUUID;
 
 public class SparkRelevanceTransferDataConstruction {
 
@@ -86,7 +87,8 @@ public class SparkRelevanceTransferDataConstruction {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class RelevanceTransferPair {
-		private String srcId, targetId, topic;
+		private String srcId, targetId, topic,
+			srcURL, targetURL;
 		private int k, relevanceLabel;
 		
 		@Override
@@ -103,7 +105,36 @@ public class SparkRelevanceTransferDataConstruction {
 			
 			int relevanceLabel = docIdToSrc.get(src).getJudgment();
 			
-			return new RelevanceTransferPair(src, target, topic, k, relevanceLabel);
+			return new RelevanceTransferPair(src, target, topic, chatNoirURL(src), chatNoirURL(target), k, relevanceLabel);
+		}
+		
+		private static String webisUUID(String documentId) {
+			return new WebisUUID(longChatNoirId(documentId))
+					.generateUUID(documentId).toString();
+		}
+		
+		private static String longChatNoirId(String documentId) {
+			if(documentId.startsWith("clueweb09")) {
+				return "clueweb09";
+			} else if (documentId.startsWith("clueweb12")) {
+				return "clueweb12";
+			}
+			
+			throw new RuntimeException("ID '" + documentId + "' is not supported.");
+		}
+		
+		private static String shortChatNoirId(String documentId) {
+			if (documentId.startsWith("clueweb09")) {
+				return "cw09";
+			} else if (documentId.startsWith("clueweb12")) {
+				return "cw12";
+			}
+			
+			throw new RuntimeException("ID '" + documentId + "' is not supported.");
+		}
+		
+		private static String chatNoirURL(String documentId) {
+			return "https://chatnoir.eu/cache?uuid=" + webisUUID(documentId) + "&index="+ shortChatNoirId(documentId) +"&raw";
 		}
 	}
 }
