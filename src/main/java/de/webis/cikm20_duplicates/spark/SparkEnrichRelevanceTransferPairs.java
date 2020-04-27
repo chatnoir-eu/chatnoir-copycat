@@ -1,7 +1,10 @@
 package de.webis.cikm20_duplicates.spark;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.spark.SparkConf;
@@ -16,12 +19,21 @@ import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import lombok.SneakyThrows;
 
 public class SparkEnrichRelevanceTransferPairs {
-
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> input = context.textFile("cikm2020/relevance-transfer-pairs.jsonl");
+			JavaRDD<RelevanceTransferPair> input = context.textFile("cikm2020/relevance-transfer-pairs.jsonl")
+					.map(i -> RelevanceTransferPair.fromString(i))
+					.filter(i -> "clueweb09-en0002-28-35595".equals(i.getSrcId()));
 		
-			enrich(input).saveAsTextFile("cikm2020/enriched-relevance-transfer-pairs.jsonl");
+			List<RelevanceTransferPair> tmp = input.take(1000);
+			Collections.shuffle(tmp);
+			
+			List<String> enriched = tmp.subList(0,100).stream()
+					.map(i -> enrich2(i))
+					.collect(Collectors.toList());
+			
+			context.parallelize(enriched)
+					.saveAsTextFile("cikm2020/enriched-relevance-transfer-pairs.jsonl");
 		}
 	}
 	
@@ -51,6 +63,29 @@ public class SparkEnrichRelevanceTransferPairs {
 		ret.put("relevanceLabel", pair.getRelevanceLabel());
 		ret.put("srcURL", pair.getSrcURL());
 		ret.put("targetURL", pair.getTargetURL());
+		ret.put("k", pair.getK());
+		ret.put("cosine-similarity", srcVec.getCosSimilarity(targetVec));
+//		ret.put("jaccard", value);
+		
+		return new ObjectMapper().writeValueAsString(ret);
+	}
+	
+	@SneakyThrows
+	private static String enrich2(RelevanceTransferPair pair) {
+		CollectionDocument srcDoc = CollectionDocumentUtil.loadCollectionDocument(pair.getSrcId());
+		CollectionDocument targetDoc = CollectionDocumentUtil.loadCollectionDocument(pair.getTargetId());
+		HashVector srcVec = FingerPrintUtil.internalHashVector(srcDoc, 64);
+		HashVector targetVec = FingerPrintUtil.internalHashVector(targetDoc, 64);
+		
+		Map<String, Object> ret = new LinkedHashMap<>();
+		ret.put("src", srcDoc);
+		ret.put("target", targetDoc);
+		ret.put("srcId", pair.getSrcId());
+		ret.put("targetId", pair.getTargetId());
+		ret.put("topic", pair.getTopic());
+		ret.put("relevanceLabel", pair.getRelevanceLabel());
+		ret.put("srcURL", pair.getSrcURL() +"&plain");
+		ret.put("targetURL", pair.getTargetURL() +"&plain");
 		ret.put("k", pair.getK());
 		ret.put("cosine-similarity", srcVec.getCosSimilarity(targetVec));
 //		ret.put("jaccard", value);
