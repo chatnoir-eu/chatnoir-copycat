@@ -1,3 +1,7 @@
+create-canonical-link-graph: install
+	hdfs dfs -rm -r -f cikm2020/canonical-link-graph/cw09 && \
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction
+
 enrich-relevance-transfer-dataset: install
 	hdfs dfs -rm -r -f cikm2020/enriched-relevance-transfer-pairs.jsonl && \
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs
@@ -28,4 +32,7 @@ create-source-docs: install
 
 install:
 	./mvnw clean install
+
+label-data-maik:
+	./src/main/bash/label-data-maik.sh
 
