@@ -1,9 +1,11 @@
 package de.webis.cikm20_duplicates.spark;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +17,12 @@ import de.aitools.ir.fingerprinting.representation.HashVector;
 import de.webis.cikm20_duplicates.spark.SparkRelevanceTransferDataConstruction.RelevanceTransferPair;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil;
+import de.webis.trec_ndd.spark.DocumentHash;
+import de.webis.trec_ndd.spark.S3ScoreOnWord8GrammIndex.S3Score;
+import de.webis.trec_ndd.spark.S3ScoreOnWord8GrammIndex.S3ScoreIntermediateResult;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import de.webis.trec_ndd.util.NGramms;
+import de.webis.trec_ndd.util.NGramms.Word8Gramm;
 import lombok.SneakyThrows;
 
 public class SparkEnrichRelevanceTransferPairs {
@@ -65,6 +72,7 @@ public class SparkEnrichRelevanceTransferPairs {
 		ret.put("targetURL", pair.getTargetURL());
 		ret.put("k", pair.getK());
 		ret.put("cosine-similarity", srcVec.getCosSimilarity(targetVec));
+		ret.put("s3-score", s3Score(srcDoc, targetDoc));
 //		ret.put("jaccard", value);
 		
 		return new ObjectMapper().writeValueAsString(ret);
@@ -88,8 +96,32 @@ public class SparkEnrichRelevanceTransferPairs {
 		ret.put("targetURL", pair.getTargetURL() +"&plain");
 		ret.put("k", pair.getK());
 		ret.put("cosine-similarity", srcVec.getCosSimilarity(targetVec));
+		ret.put("s3-score", s3Score(srcDoc, targetDoc));
 //		ret.put("jaccard", value);
 		
 		return new ObjectMapper().writeValueAsString(ret);
+	}
+	
+	private static double s3Score(CollectionDocument a, CollectionDocument b) {
+		DocumentHash aHash = new DocumentHash(a);
+		Set<Word8Gramm> aWord8Gramms = word8Gramms(a);
+		DocumentHash bHash = new DocumentHash(b);
+		Set<Word8Gramm> bWord8Gramms = word8Gramms(b);
+		aWord8Gramms.retainAll(bWord8Gramms);
+		
+		S3ScoreIntermediateResult data = new S3ScoreIntermediateResult();
+		data.setLeftMetadata(aHash);
+		data.setRightMetadata(bHash);
+		data.setCommonNGramms(aWord8Gramms.size());
+		
+		S3Score ret = new S3Score(data);
+		
+		return ret.getS3Score();
+	}
+	
+	private static Set<Word8Gramm> word8Gramms(CollectionDocument doc) {
+		List<Word8Gramm> tmp = NGramms.build8Gramms(doc.getFullyCanonicalizedContent());
+		
+		return new HashSet<Word8Gramm>(tmp);
 	}
 }
