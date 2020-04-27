@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.avro.mapred.SequenceFileInputFormat;
+import org.apache.hadoop.mapred.SequenceFileInputFormat;
 import org.apache.hadoop.io.Text;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaHadoopRDD;
@@ -84,6 +84,7 @@ public class SparkCreateSourceDocuments {
 	@SuppressWarnings("unchecked")
 	static JavaRDD<CollectionDocument> ccDocs(JavaSparkContext context) {
 		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-*/data";
+		
 		
 		JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);
 		
