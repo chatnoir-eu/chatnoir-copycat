@@ -102,12 +102,16 @@ public class SparkCanonicalLinkGraphExtraction {
 	
 	@SneakyThrows
 	public static URL extractCanonicalLinkOrNull(String resolveFrom, String contentBody) {
-		Elements canonicals = Jsoup.parse(contentBody).head().select("link[rel=\"canonical\"][href]");
-		if(canonicals.size() == 0) {
+		try {
+			Elements canonicals = Jsoup.parse(contentBody).head().select("link[rel=\"canonical\"][href]");
+			if(canonicals.size() == 0) {
+				return null;
+			}
+	
+			return new URL(new URL(resolveFrom), canonicals.get(0).attr("href"));
+		} catch(Exception e) {
 			return null;
 		}
-
-		return new URL(new URL(resolveFrom), canonicals.get(0).attr("href"));
 	}
 
 	@Data
