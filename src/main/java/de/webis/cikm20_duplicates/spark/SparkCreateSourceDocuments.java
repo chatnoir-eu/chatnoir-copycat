@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.spark;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,9 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.avro.mapred.SequenceFileInputFormat;
+import org.apache.hadoop.io.Text;
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaHadoopRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil;
@@ -19,6 +25,8 @@ import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.util.S3Files;
+import io.anserini.index.transform.JsoupStringTransform;
+import lombok.SneakyThrows;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.Namespace;
@@ -43,7 +51,7 @@ public class SparkCreateSourceDocuments {
 		try (JavaSparkContext context = context()) {
 //			fingerprintAllDocuments(context, CLUEWEB09, CLUEWEB12)
 //				.saveAsTextFile("cikm2020/document-fingerprints");
-			fingerprintAllDocuments(context, commonCrawl(args))
+			fingerprintAllDocuments(context, ccDocs(context))
 				.saveAsTextFile("cikm2020/document-fingerprints-commoncrawl-main-2015-11");
 		}
 	}
@@ -61,13 +69,72 @@ public class SparkCreateSourceDocuments {
 				.filter(i -> i != null); 
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, AnseriniCollectionReader...acr) {
+	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, JavaRDD<CollectionDocument> docs) {
 		Fingerprinter<Integer> minHash384 = FingerPrintUtil.minHashFingerPrinting(1);
 		Fingerprinter<Integer> simHash64 = FingerPrintUtil.simHashFingerPrinting(64, 3);
 		
-		return docs(context, acr)
-				.map(i -> new DocumentWithFingerprint(i.getId(), i.getUrl(), minHash384.fingerprint(i), simHash64.fingerprint(i)));
+		return docs.map(i -> new DocumentWithFingerprint(i.getId(), i.getUrl(), minHash384.fingerprint(i), simHash64.fingerprint(i)));
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, AnseriniCollectionReader...acr) {
+		return fingerprintAllDocuments(context, docs(context, acr));
+	}
+	
+	@SuppressWarnings("unchecked")
+	static JavaRDD<CollectionDocument> ccDocs(JavaSparkContext context) {
+		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-*/data";
+		
+		JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);
+		
+		return rdd.map(i -> chatnoirMapFileDocumentToDocOrNull(i))
+				.filter(i -> i != null);
+	}
+	
+	@SneakyThrows
+	private static CollectionDocument chatnoirMapFileDocumentToDocOrNull(Tuple2<Text, Text> kv) {
+		final String keyStr = kv._1().toString();
+		final String valueStr = kv._2().toString();
+		
+        // ignore large files
+        if (valueStr.getBytes().length > 1024 * 1024) {
+            return null;
+        }
+        
+        JSONObject inputJson  = new JSONObject(valueStr);
+
+        final JSONObject metadata = inputJson.getJSONObject("metadata");
+        if (null == metadata) {
+            throw new JSONException("Missing 'metadata'");
+        }
+
+        final JSONObject payload = inputJson.getJSONObject("payload");
+        if (null == payload) {
+            throw new JSONException("Missing 'payload'");
+        }
+
+        final String contentBody = payload.getString("body");
+        final String contentEncoding    = payload.getString("encoding");
+
+        if (null == contentEncoding || null == contentBody) {
+            throw new JSONException("Missing one of 'payload/[encoding|body]'");
+        }
+
+        if (!contentEncoding.equals("plain")) {
+            return null;
+        }
+        
+        if(!"response".equals(metadata.getString("WARC-Type"))) {
+        	return null;
+        }
+
+        String targetUri = metadata.getString("WARC-Target-URI");
+        String recordId = metadata.getString("WARC-Record-ID");
+        
+        CollectionDocument ret = CollectionDocument.collectionDocument(new JsoupStringTransform().apply(contentBody), keyStr);
+        ret.setUrl(new URL(targetUri));
+        
+		return ret;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

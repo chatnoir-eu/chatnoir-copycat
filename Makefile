@@ -23,6 +23,7 @@ create-candidates: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates
 
 create-source-docs: install
+	hdfs dfs -rm -r -f cikm2020/document-fingerprints-commoncrawl-main-2015-11 &&\
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments
 
 install:
