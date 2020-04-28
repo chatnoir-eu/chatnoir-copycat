@@ -129,5 +129,10 @@ public class SparkCanonicalLinkGraphExtraction {
 		public String toString() {
 			return new ObjectMapper().writeValueAsString(this);
 		}
+		
+		@SneakyThrows
+		public static CanonicalLinkGraphEdge fromString(String src) {
+			return new ObjectMapper().readValue(src, CanonicalLinkGraphEdge.class);
+		}
 	}
 }
