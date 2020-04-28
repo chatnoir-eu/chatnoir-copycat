@@ -91,7 +91,10 @@ public class SparkCanonicalLinkGraphExtraction {
         }
         
         
-        String id = metadata.getString("WARC-TREC-ID");
+        String id = internalId;
+        if(metadata.has("WARC-TREC-ID")) {
+        	id = metadata.getString("WARC-TREC-ID");
+        }
         String timestamp = metadata.getString("WARC-Date");
         
         CollectionDocument ret = CollectionDocument.collectionDocument(new JsoupStringTransform().apply(contentBody), id);
