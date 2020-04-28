@@ -60,7 +60,7 @@ public class SparkAnalyzeCanonicalLinkGraph {
 	}
 	
 	@SneakyThrows
-	private static String hostFromUrl(String url) {
-	    return new URI(url).getHost();
+	static String hostFromUrl(String url) {
+	    return new URI(url.replaceAll("\\s", "%20")).getHost();
 	}
 }
