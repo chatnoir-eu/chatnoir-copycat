@@ -65,8 +65,14 @@ public class SparkAnalyzeCanonicalLinkGraph {
 		try {
 			return new URI(url).getHost();
 		} catch (URISyntaxException e) {
-			url = url.substring(0,  e.getIndex());
-			return new URI(url).getHost();
+			String origUrl = url;
+			try {
+				url = url.substring(0,  e.getIndex());
+				return new URI(url).getHost();
+			} catch (Exception e2) {
+				System.out.println("ERROR-PARSING-URL: "+ origUrl);
+				return "ERROR-PARSING-URL";
+			}
 		}
 	}
 }
