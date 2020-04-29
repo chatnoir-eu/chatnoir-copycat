@@ -17,7 +17,7 @@ public class SparkAnalyzeCanonicalLinkGraph {
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
 	public static void main(String[] args) {
-		String[] corpora = new String[] {"cw12", "cw09"};
+		String[] corpora = new String[] {"cw12", "cw09", "cc-2015-11"};
 		
 		try (JavaSparkContext context = context()) {
 			for(String corpus : corpora) {
