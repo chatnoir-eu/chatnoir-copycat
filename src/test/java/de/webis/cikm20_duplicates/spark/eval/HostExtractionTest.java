@@ -12,4 +12,12 @@ public class HostExtractionTest {
 		
 		Assert.assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void example2() {
+		String expected = "www.sfigf.com";
+		String actual = SparkAnalyzeCanonicalLinkGraph.hostFromUrl("http://www.sfigf.com/504/portland_christmas_cash_and_carry_show_|_booth_package.htm");
+		
+		Assert.assertEquals(expected, actual);
+	}
 }

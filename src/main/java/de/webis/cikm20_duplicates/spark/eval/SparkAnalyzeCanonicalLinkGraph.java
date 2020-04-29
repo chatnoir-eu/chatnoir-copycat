@@ -1,6 +1,7 @@
 package de.webis.cikm20_duplicates.spark.eval;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -61,6 +62,11 @@ public class SparkAnalyzeCanonicalLinkGraph {
 	
 	@SneakyThrows
 	static String hostFromUrl(String url) {
-	    return new URI(url.replaceAll("\\s", "%20")).getHost();
+		try {
+			return new URI(url).getHost();
+		} catch (URISyntaxException e) {
+			url = url.substring(0,  e.getIndex());
+			return new URI(url).getHost();
+		}
 	}
 }
