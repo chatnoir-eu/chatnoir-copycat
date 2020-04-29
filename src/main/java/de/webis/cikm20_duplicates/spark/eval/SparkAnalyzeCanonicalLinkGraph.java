@@ -62,10 +62,11 @@ public class SparkAnalyzeCanonicalLinkGraph {
 	
 	@SneakyThrows
 	static String hostFromUrl(String url) {
+		String origUrl = url;
+		url = url.replaceAll("\\s", "");
 		try {
 			return new URI(url).getHost();
 		} catch (URISyntaxException e) {
-			String origUrl = url;
 			try {
 				url = url.substring(0,  e.getIndex());
 				return new URI(url).getHost();

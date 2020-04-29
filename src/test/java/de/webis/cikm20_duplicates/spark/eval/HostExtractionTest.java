@@ -20,4 +20,36 @@ public class HostExtractionTest {
 		
 		Assert.assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void example3() {
+		String expected = "ERROR-PARSING-URL";
+		String actual = SparkAnalyzeCanonicalLinkGraph.hostFromUrl("http://www.californiashutters.co.uk{currentURL}");
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void example4() {
+		String expected = "www.harwellandchiltonchurches.org.uk";
+		String actual = SparkAnalyzeCanonicalLinkGraph.hostFromUrl("http://www.harwellandchiltonchurches.org.uk /Groups/187690/St_Matthew_s/Church_Life/Groups/Evergreens/Evergreens.aspx");
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void example5() {
+		String expected = "www.savannahsmiledesigns.com";
+		String actual = SparkAnalyzeCanonicalLinkGraph.hostFromUrl("http:// www.savannahsmiledesigns.com");
+		
+		Assert.assertEquals(expected, actual);
+	}
+
+	@Test
+	public void example6() {
+		String expected = "ERROR-PARSING-URL";
+		String actual = SparkAnalyzeCanonicalLinkGraph.hostFromUrl("http://<!--Nope performer not found-->");
+		
+		Assert.assertEquals(expected, actual);
+	}
 }
