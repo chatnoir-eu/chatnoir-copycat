@@ -102,7 +102,7 @@ public class SparkEnrichRelevanceTransferPairs {
 		return new ObjectMapper().writeValueAsString(ret);
 	}
 	
-	private static double s3Score(CollectionDocument a, CollectionDocument b) {
+	public static double s3Score(CollectionDocument a, CollectionDocument b) {
 		DocumentHash aHash = new DocumentHash(a);
 		Set<Word8Gramm> aWord8Gramms = word8Gramms(a);
 		DocumentHash bHash = new DocumentHash(b);
