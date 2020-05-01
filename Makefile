@@ -1,3 +1,6 @@
+create-canonical-link-graph-edges: install
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkCalculateCanonicalLinkGraphEdgeLabels
+
 analyze-canonical-link-graph: install
 	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cw12-duplicate-group-counts && \
 	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cw12-duplicate-group-counts-per-domain && \

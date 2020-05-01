@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.spark;
 
+import java.io.Serializable;
 import java.net.URL;
 
 import org.apache.hadoop.io.Text;
@@ -120,7 +121,8 @@ public class SparkCanonicalLinkGraphExtraction {
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class CanonicalLinkGraphEdge {
+	@SuppressWarnings("serial")
+	public static class CanonicalLinkGraphEdge implements Serializable {
 		private CollectionDocument doc;
 		private URL canonicalLink;
 		private String crawlingTimestamp;
