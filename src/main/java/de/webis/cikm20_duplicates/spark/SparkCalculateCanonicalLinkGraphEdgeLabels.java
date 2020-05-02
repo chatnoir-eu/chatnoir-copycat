@@ -28,7 +28,7 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
 	public static void main(String[] args) {
-		String[] corpora = new String[] {"cw09" /*, "cw12", "cc-2015-11"*/};
+		String[] corpora = new String[] {/*"cw09" ,*/ "cw12"/*, "cc-2015-11"*/};
 		
 		try (JavaSparkContext context = context()) {
 			for(String corpus : corpora) {
@@ -62,7 +62,8 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 	private static Tuple2<String, CanonicalLinkGraphEdge> toPair(String src) {
 		CanonicalLinkGraphEdge edge = CanonicalLinkGraphEdge.fromString(src);
 		String url = edge.getCanonicalLink().toString();
-		if(SparkAnalyzeCanonicalLinkGraph.hostFromUrl(url).equalsIgnoreCase("ERROR-PARSING-URL")) {
+		String host = SparkAnalyzeCanonicalLinkGraph.hostFromUrl(url);
+		if(host == null || host.equalsIgnoreCase("ERROR-PARSING-URL")) {
 			return null;
 		}
 		
