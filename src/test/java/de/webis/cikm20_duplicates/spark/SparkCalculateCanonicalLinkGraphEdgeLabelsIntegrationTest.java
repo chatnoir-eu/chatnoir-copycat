@@ -52,6 +52,20 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabelsIntegrationTest extends S
 		Assert.assertEquals(expected, actual);
 	}
 	
+	@Test
+	public void edgeLabelsOnSmallExampleWithInvalidCanonicalLinks() {
+		List<String> expected = Collections.emptyList();
+		List<String> actual = edgeLabels(
+				entry("http://google.de/1", "https://google.de{}"),
+				entry("http://youtube.de/2", "https://youtube.de{}"),
+				entry("http://youtube.de/3", "https://youtube.de{}"),
+				entry("http://youtube.de/4", "https://youtube.de{}"),
+				entry("http://google.de/5", "https://google.de{}")
+		);
+
+		Assert.assertEquals(expected, actual);
+	}
+	
 	private List<String> edgeLabels(String...elements) {
 		JavaRDD<String> input = jsc().parallelize(Arrays.asList(elements));
 		JavaRDD<String> ret = SparkCalculateCanonicalLinkGraphEdgeLabels.edgeLabels(input, new HashPartitioner(2));

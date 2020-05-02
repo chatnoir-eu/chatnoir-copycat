@@ -19,11 +19,11 @@ import org.apache.spark.api.java.JavaSparkContext;
 import com.google.common.collect.ImmutableList;
 
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction.CanonicalLinkGraphEdge;
+import de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeCanonicalLinkGraph;
 import lombok.SneakyThrows;
 import scala.Tuple2;
 
 public class SparkCalculateCanonicalLinkGraphEdgeLabels {
-
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
@@ -48,23 +48,38 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 	}
 	
 	public static JavaRDD<String> edgeLabels(JavaRDD<String> input, Partitioner partitioner) {
-		return input.map(i -> CanonicalLinkGraphEdge.fromString(i))
-			.mapToPair(i -> new Tuple2<>(i.getCanonicalLink().toString(), i))
+		return input.mapToPair(i -> toPair(i))
+			.filter(i -> i != null)
 			.repartitionAndSortWithinPartitions(partitioner)
 			.groupByKey()
-			.flatMap(i -> group(i));
+			.flatMapToPair(i -> pairsForCalculation(i))
+			.filter(i -> i != null && i._1() != null && i._2() != null && i._2()._1() != null && i._2()._2() != null)
+			.repartitionAndSortWithinPartitions(partitioner)
+			.map(i -> reportEdgeOrNull(i._2()._1(), i._2()._2()))
+			.filter(i -> i != null);
 	}
 
-	private static Iterator<String> group(Tuple2<String, Iterable<CanonicalLinkGraphEdge>> bla) {
+	private static Tuple2<String, CanonicalLinkGraphEdge> toPair(String src) {
+		CanonicalLinkGraphEdge edge = CanonicalLinkGraphEdge.fromString(src);
+		String url = edge.getCanonicalLink().toString();
+		if(SparkAnalyzeCanonicalLinkGraph.hostFromUrl(url).equalsIgnoreCase("ERROR-PARSING-URL")) {
+			return null;
+		}
+		
+		return new Tuple2<>(url, edge);
+	}
+	
+	private static Iterator<Tuple2<String, Tuple2<CanonicalLinkGraphEdge, CanonicalLinkGraphEdge>>> pairsForCalculation(Tuple2<String, Iterable<CanonicalLinkGraphEdge>> bla) {
 		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(ImmutableList.copyOf(bla._2().iterator()));
 		Collections.sort(edges, (a,b) -> a.getDoc().getId().compareTo(b.getDoc().getId()));
 		
 		Stream<Tuple2<Integer, Integer>> indizesToCompare = IntStream.range(0, edges.size()).mapToObj(i -> i)
 				.flatMap(i -> IntStream.range(i+1, edges.size()).mapToObj(j -> new Tuple2<Integer, Integer>(i,j)));
-		
-		return indizesToCompare.map(i -> reportEdgeOrNull(edges.get(i._1()), edges.get(i._2())))
-				.filter(i -> i != null)
-				.iterator();
+	
+		return indizesToCompare.map(i -> new Tuple2<>(
+				edges.get(i._1()).getDoc().getId() +"-" +edges.get(i._2()).getDoc().getId(),
+				new Tuple2<>(edges.get(i._1()), edges.get(i._2()))
+		)).iterator();
 	}
 
 	@SneakyThrows
@@ -81,5 +96,4 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 		
 		return new ObjectMapper().writeValueAsString(ret);
 	}
-
 }

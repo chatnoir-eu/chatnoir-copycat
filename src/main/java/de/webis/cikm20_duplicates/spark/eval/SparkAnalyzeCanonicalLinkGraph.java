@@ -61,7 +61,7 @@ public class SparkAnalyzeCanonicalLinkGraph {
 	}
 	
 	@SneakyThrows
-	static String hostFromUrl(String url) {
+	public static String hostFromUrl(String url) {
 		String origUrl = url;
 		url = url.replaceAll("\\s", "");
 		try {
