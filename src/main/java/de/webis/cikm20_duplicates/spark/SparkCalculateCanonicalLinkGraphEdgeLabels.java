@@ -29,14 +29,14 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
 	public static void main(String[] args) {
-		String[] corpora = new String[] {/*"cw09" ,*/ "cw12"/*, "cc-2015-11"*/};
+		String[] corpora = new String[] {"cw09" /*, "cw12", "cc-2015-11"*/};
 		
 		try (JavaSparkContext context = context()) {
 			for(String corpus : corpora) {
 				JavaRDD<String> input = context.textFile(DIR + corpus);
 				
 				edgeLabels(input, new HashPartitioner(200000))
-					.saveAsTextFile(DIR + corpus + "-calulated-edges");
+					.saveAsTextFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
 			}
 		}
 	}
