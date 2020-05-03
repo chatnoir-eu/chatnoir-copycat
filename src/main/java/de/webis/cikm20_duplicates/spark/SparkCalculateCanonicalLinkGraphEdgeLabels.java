@@ -29,13 +29,13 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
 	public static void main(String[] args) {
-		String[] corpora = new String[] {"cw09" /*, "cw12", "cc-2015-11"*/};
+		String[] corpora = new String[] {/*"cw09",*/ "cw12"/*, "cc-2015-11"*/};
 		
 		try (JavaSparkContext context = context()) {
 			for(String corpus : corpora) {
 				JavaRDD<String> input = context.textFile(DIR + corpus);
 				
-				edgeLabels(input, new HashPartitioner(200000))
+				edgeLabels(input, new HashPartitioner(50000))
 					.saveAsTextFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
 			}
 		}
@@ -76,8 +76,7 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 	}
 	
 	private static Iterator<String> group(Tuple2<String, Iterable<CanonicalLinkGraphEdge>> bla) {
-//		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(TakeRandom.takeRandomElements(100, bla._2));
-		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(TakeRandom.takeFirst(10, bla._2));
+		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(TakeRandom.takeRandomElements(50, bla._2));
 		Collections.sort(edges, (a,b) -> a.getDoc().getId().compareTo(b.getDoc().getId()));
 		
 		Stream<Tuple2<Integer, Integer>> indizesToCompare = IntStream.range(0, edges.size()).mapToObj(i -> i)
