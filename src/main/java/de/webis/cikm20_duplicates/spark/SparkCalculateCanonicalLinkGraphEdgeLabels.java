@@ -13,6 +13,7 @@ import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.spark.HashPartitioner;
 import org.apache.spark.Partitioner;
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
@@ -48,15 +49,22 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 	}
 	
 	public static JavaRDD<String> edgeLabels(JavaRDD<String> input, Partitioner partitioner) {
-		return input.mapToPair(i -> toPair(i))
+		JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = input.mapToPair(i -> toPair(i))
 			.filter(i -> i != null)
-			.repartitionAndSortWithinPartitions(partitioner)
-			.groupByKey()
-			.flatMapToPair(i -> pairsForCalculation(i))
-			.filter(i -> i != null && i._1() != null && i._2() != null && i._2()._1() != null && i._2()._2() != null)
-			.repartitionAndSortWithinPartitions(partitioner)
+			.repartitionAndSortWithinPartitions(partitioner);
+		
+		return idToEdge.join(idToEdge)
 			.map(i -> reportEdgeOrNull(i._2()._1(), i._2()._2()))
 			.filter(i -> i != null);
+		
+		
+//		return idToEdge
+//			.groupByKey()
+//			.flatMapToPair(i -> pairsForCalculation(i))
+//			.filter(i -> i != null && i._1() != null && i._2() != null && i._2()._1() != null && i._2()._2() != null)
+//			.repartitionAndSortWithinPartitions(partitioner)
+//			.map(i -> reportEdgeOrNull(i._2()._1(), i._2()._2()))
+//			.filter(i -> i != null);
 	}
 
 	private static Tuple2<String, CanonicalLinkGraphEdge> toPair(String src) {
