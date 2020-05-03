@@ -16,6 +16,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.storage.StorageLevel;
 
 import com.google.common.collect.ImmutableList;
 
@@ -35,7 +36,7 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 			for(String corpus : corpora) {
 				JavaRDD<String> input = context.textFile(DIR + corpus);
 				
-				edgeLabels(input, new HashPartitioner(10000))
+				blaaa(input, new HashPartitioner(200000))
 					.saveAsTextFile(DIR + corpus + "-calulated-edges");
 			}
 		}
@@ -48,15 +49,33 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 		return new JavaSparkContext(conf);
 	}
 	
-	public static JavaRDD<String> edgeLabels(JavaRDD<String> input, Partitioner partitioner) {
-		JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = input.mapToPair(i -> toPair(i))
-			.filter(i -> i != null)
-			.repartitionAndSortWithinPartitions(partitioner);
+	private static JavaPairRDD<String, CanonicalLinkGraphEdge> partitionedBla(JavaRDD<String> input, Partitioner partitioner) {
+		return input.mapToPair(i -> toPair(i))
+				.filter(i -> i != null)
+				.repartitionAndSortWithinPartitions(partitioner)
+				.persist(StorageLevel.DISK_ONLY());
+	}
+	
+	private static JavaRDD<String> blaaa(JavaRDD<String> input, Partitioner partitioner) {
+		JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = partitionedBla(input, partitioner);
 		
-		return idToEdge.join(idToEdge)
+		return idToEdge.groupByKey()
+				.map(i -> tmpBla(i));
+	}
+	
+	private static String tmpBla(Tuple2<String, Iterable<CanonicalLinkGraphEdge>> i) {
+		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(ImmutableList.copyOf(i._2().iterator()));
+		Collections.sort(edges, (a,b) -> a.getDoc().getId().compareTo(b.getDoc().getId()));
+		
+		return "{\"url\":\""+ i._1() +"\", \"size\":"+ edges.size() +"}";
+	}
+
+	public static JavaRDD<String> edgeLabels(JavaRDD<String> input, Partitioner partitioner) {
+		JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = partitionedBla(input, partitioner);
+		
+		return idToEdge.join(idToEdge, partitioner)
 			.map(i -> reportEdgeOrNull(i._2()._1(), i._2()._2()))
 			.filter(i -> i != null);
-		
 		
 //		return idToEdge
 //			.groupByKey()
