@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -35,5 +36,16 @@ public class TakeRandom {
 		return ImmutableList.copyOf(ret.iterator()).stream()
 				.map(i -> i.getRight())
 				.collect(Collectors.toList());
+	}
+
+	public static <T> List<T> takeFirst(int k, Iterable<T> iterable) {
+		List<T> ret = new ArrayList<>();
+		Iterator<T> iter = iterable.iterator();
+		
+		while(iter.hasNext() && ret.size() < k) {
+			ret.add(iter.next());
+		}
+		
+		return ret;
 	}
 }

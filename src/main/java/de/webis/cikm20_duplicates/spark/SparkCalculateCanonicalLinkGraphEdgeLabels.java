@@ -76,7 +76,8 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 	}
 	
 	private static Iterator<String> group(Tuple2<String, Iterable<CanonicalLinkGraphEdge>> bla) {
-		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(TakeRandom.takeRandomElements(100, bla._2));
+//		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(TakeRandom.takeRandomElements(100, bla._2));
+		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(TakeRandom.takeFirst(10, bla._2));
 		Collections.sort(edges, (a,b) -> a.getDoc().getId().compareTo(b.getDoc().getId()));
 		
 		Stream<Tuple2<Integer, Integer>> indizesToCompare = IntStream.range(0, edges.size()).mapToObj(i -> i)

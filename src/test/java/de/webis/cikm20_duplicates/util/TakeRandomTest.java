@@ -57,6 +57,33 @@ public class TakeRandomTest {
 		}
 	}
 	
+	@Test
+	public void takeFirstTenFromEmptyIterable() {
+		Iterable<String> input = Collections.emptyList();
+		List<String> expected = Collections.emptyList();
+		
+		List<String> actual = TakeRandom.takeFirst(10, input);
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void takeFirstThreeFromNonEmptyIterable() {
+		Iterable<String> input = Arrays.asList("a", "b", "a", "b");
+		List<String> expected = Arrays.asList("a", "b", "a");
+		List<String> actual = TakeRandom.takeFirst(3, input);
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void takeFirstHundredFromNonEmptyIterable() {
+		Iterable<String> input = Arrays.asList("a", "b", "c", "d", "e", "f");
+		List<String> expected = Arrays.asList("a", "b", "c", "d", "e", "f");
+		
+		List<String> actual = TakeRandom.takeFirst(100, input);
+		Assert.assertEquals(expected, actual);	
+	}
+	
 	private static Random mockRandom(Double...vals) {
 		Iterator<Double> tmp = Arrays.asList(vals).iterator(); 
 		Random r = Mockito.mock(Random.class);
