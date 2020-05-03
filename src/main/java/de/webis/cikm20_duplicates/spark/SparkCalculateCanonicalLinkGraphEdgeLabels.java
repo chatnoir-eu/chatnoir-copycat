@@ -18,10 +18,9 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.storage.StorageLevel;
 
-import com.google.common.collect.ImmutableList;
-
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction.CanonicalLinkGraphEdge;
 import de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeCanonicalLinkGraph;
+import de.webis.cikm20_duplicates.util.TakeRandom;
 import lombok.SneakyThrows;
 import scala.Tuple2;
 
@@ -36,7 +35,7 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 			for(String corpus : corpora) {
 				JavaRDD<String> input = context.textFile(DIR + corpus);
 				
-				blaaa(input, new HashPartitioner(200000))
+				edgeLabels(input, new HashPartitioner(200000))
 					.saveAsTextFile(DIR + corpus + "-calulated-edges");
 			}
 		}
@@ -55,35 +54,14 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 				.repartitionAndSortWithinPartitions(partitioner)
 				.persist(StorageLevel.DISK_ONLY());
 	}
-	
-	private static JavaRDD<String> blaaa(JavaRDD<String> input, Partitioner partitioner) {
-		JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = partitionedBla(input, partitioner);
-		
-		return idToEdge.groupByKey()
-				.map(i -> tmpBla(i));
-	}
-	
-	private static String tmpBla(Tuple2<String, Iterable<CanonicalLinkGraphEdge>> i) {
-		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(ImmutableList.copyOf(i._2().iterator()));
-		Collections.sort(edges, (a,b) -> a.getDoc().getId().compareTo(b.getDoc().getId()));
-		
-		return "{\"url\":\""+ i._1() +"\", \"size\":"+ edges.size() +"}";
-	}
 
 	public static JavaRDD<String> edgeLabels(JavaRDD<String> input, Partitioner partitioner) {
 		JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = partitionedBla(input, partitioner);
 		
-		return idToEdge.join(idToEdge, partitioner)
-			.map(i -> reportEdgeOrNull(i._2()._1(), i._2()._2()))
+		return idToEdge
+			.groupByKey()
+			.flatMap(i -> group(i))
 			.filter(i -> i != null);
-		
-//		return idToEdge
-//			.groupByKey()
-//			.flatMapToPair(i -> pairsForCalculation(i))
-//			.filter(i -> i != null && i._1() != null && i._2() != null && i._2()._1() != null && i._2()._2() != null)
-//			.repartitionAndSortWithinPartitions(partitioner)
-//			.map(i -> reportEdgeOrNull(i._2()._1(), i._2()._2()))
-//			.filter(i -> i != null);
 	}
 
 	private static Tuple2<String, CanonicalLinkGraphEdge> toPair(String src) {
@@ -97,19 +75,18 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 		return new Tuple2<>(url, edge);
 	}
 	
-	private static Iterator<Tuple2<String, Tuple2<CanonicalLinkGraphEdge, CanonicalLinkGraphEdge>>> pairsForCalculation(Tuple2<String, Iterable<CanonicalLinkGraphEdge>> bla) {
-		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(ImmutableList.copyOf(bla._2().iterator()));
+	private static Iterator<String> group(Tuple2<String, Iterable<CanonicalLinkGraphEdge>> bla) {
+		List<CanonicalLinkGraphEdge> edges = new ArrayList<>(TakeRandom.takeRandomElements(100, bla._2));
 		Collections.sort(edges, (a,b) -> a.getDoc().getId().compareTo(b.getDoc().getId()));
 		
 		Stream<Tuple2<Integer, Integer>> indizesToCompare = IntStream.range(0, edges.size()).mapToObj(i -> i)
 				.flatMap(i -> IntStream.range(i+1, edges.size()).mapToObj(j -> new Tuple2<Integer, Integer>(i,j)));
-	
-		return indizesToCompare.map(i -> new Tuple2<>(
-				edges.get(i._1()).getDoc().getId() +"-" +edges.get(i._2()).getDoc().getId(),
-				new Tuple2<>(edges.get(i._1()), edges.get(i._2()))
-		)).iterator();
+		
+		return indizesToCompare.map(i -> reportEdgeOrNull(edges.get(i._1()), edges.get(i._2())))
+				.filter(i -> i != null)
+				.iterator();
 	}
-
+	
 	@SneakyThrows
 	private static String reportEdgeOrNull(CanonicalLinkGraphEdge a, CanonicalLinkGraphEdge b) {
 		if(!a.getCanonicalLink().equals(b.getCanonicalLink()) || a.getDoc().getId().compareTo(b.getDoc().getId()) >= 0) {
