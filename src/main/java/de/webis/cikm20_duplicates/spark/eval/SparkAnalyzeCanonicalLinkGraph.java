@@ -142,12 +142,14 @@ public class SparkAnalyzeCanonicalLinkGraph {
 	
 	@SneakyThrows
 	@SuppressWarnings("unchecked")
-	private static Double extractS3Score(String src) {
+	static Double extractS3Score(String src) {
 		Map<String, Object> bla = new ObjectMapper().readValue(src, Map.class);
 		Object ret = bla.get("s3score");
 		
 		if(ret instanceof Double) {
 			return (Double) ret;
+		} else if( ret instanceof Integer) {
+			return ((Integer) ret).doubleValue();
 		}
 		
 		return Double.valueOf((String) ret);
