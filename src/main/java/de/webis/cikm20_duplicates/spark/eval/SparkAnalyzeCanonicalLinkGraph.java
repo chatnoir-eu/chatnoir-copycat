@@ -2,7 +2,14 @@ package de.webis.cikm20_duplicates.spark.eval;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -16,20 +23,33 @@ public class SparkAnalyzeCanonicalLinkGraph {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
+	private static final String[] CORPORA = new String[] {"cw12", "cw09"/*, "cc-2015-11"*/};
+	
 	public static void main(String[] args) {
-		String[] corpora = new String[] {"cw12", "cw09", "cc-2015-11"};
-		
 		try (JavaSparkContext context = context()) {
-			for(String corpus : corpora) {
-				JavaRDD<String> input = context.textFile(DIR + corpus);
+			for(String corpus : CORPORA) {
+				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+				Map<String, Long> edgeToCount = countEdgesAboveThreshold(input);
 				
-				duplicateGroupCounts(input)
-					.saveAsTextFile(DIR + corpus + "-duplicate-group-counts");
-				duplicateGroupCountsPerDomain(input)
-					.saveAsTextFile(DIR + corpus + "-duplicate-group-counts-per-domain");
+				context.parallelize(Arrays.asList(edgeToCount), 1)
+					.map(i -> serialize(i))
+					.saveAsTextFile(DIR + corpus + "-s3-edge-aggregations");
 			}
 		}
 	}
+	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus);
+//				
+//				duplicateGroupCounts(input)
+//					.saveAsTextFile(DIR + corpus + "-duplicate-group-counts");
+//				duplicateGroupCountsPerDomain(input)
+//					.saveAsTextFile(DIR + corpus + "-duplicate-group-counts-per-domain");
+//			}
+//		}
+//	}
 	
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
@@ -75,5 +95,60 @@ public class SparkAnalyzeCanonicalLinkGraph {
 				return "ERROR-PARSING-URL";
 			}
 		}
+	}
+
+	public static Map<String, Long> s3thresholdToEdgeCountNullValue() {
+		Map<String, Long> ret = new LinkedHashMap<>();
+		double current = 0d;
+		
+		while (current < 1d) {
+			ret.put(String.format("%.4f", current), 0l);
+			current += 0.005d;
+		}
+		
+		return ret;
+	}
+
+	public static Map<String, Long> add(Map<String, Long> map, double d) {
+		List<String> keys = new ArrayList<>(map.keySet());
+		Collections.sort(keys, (a,b) -> Double.valueOf(b).compareTo(Double.valueOf(a)));
+		
+		for(String key : keys) {
+			if(Double.valueOf(key) <= d) {
+				map.put(key, map.get(key) + 1);
+				break;
+			}
+		}
+		
+		return map;
+	}
+
+	public static Map<String, Long> merge(Map<String, Long> a, Map<String, Long> b) {
+		Map<String, Long> ret = new LinkedHashMap<>();
+		
+		for(String key: a.keySet()) {
+			ret.put(key, a.get(key) + b.get(key));
+		}
+		
+		return ret;
+	}
+
+	public static Map<String, Long> countEdgesAboveThreshold(JavaRDD<String> input) {
+		JavaRDD<Double> s3Scores = input.map(i -> extractS3Score(i));
+		
+		return s3Scores.aggregate(s3thresholdToEdgeCountNullValue(),
+				(map, d) -> add(map, d), (map1, map2) -> merge(map1, map2));
+	}
+	
+	@SneakyThrows
+	@SuppressWarnings("unchecked")
+	private static Double extractS3Score(String src) {
+		Map<String, Object> bla = new ObjectMapper().readValue(src, Map.class);
+		return (Double) bla.get("s3score");
+	}
+	
+	@SneakyThrows
+	private static String serialize(Object o) {
+		return new ObjectMapper().writeValueAsString(o);
 	}
 }
