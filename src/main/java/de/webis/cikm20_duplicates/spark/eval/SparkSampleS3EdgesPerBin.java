@@ -31,7 +31,7 @@ public class SparkSampleS3EdgesPerBin {
 			for(String corpus : CORPORA) {
 				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
 				
-				samplePerBin(input).coalesce(10)
+				samplePerBin(input)
 					.saveAsTextFile(DIR + corpus + "-sampled-edges");
 			}
 		}
