@@ -21,6 +21,9 @@ import org.apache.spark.storage.StorageLevel;
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction.CanonicalLinkGraphEdge;
 import de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeCanonicalLinkGraph;
 import de.webis.cikm20_duplicates.util.TakeRandom;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import scala.Tuple2;
 
@@ -100,5 +103,19 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 		ret.put("s3score", SparkEnrichRelevanceTransferPairs.s3Score(a.getDoc(), b.getDoc()));
 		
 		return new ObjectMapper().writeValueAsString(ret);
+	}
+	
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class CanonicalLinkGraphEdge2 {
+		private String canonicalLink;
+		private CanonicalLinkGraphEdge firstDoc, secondDoc;
+		private double s3score;
+		
+		@SneakyThrows
+		public static CanonicalLinkGraphEdge2 fromString(String src) {
+			return new ObjectMapper().readValue(src, CanonicalLinkGraphEdge2.class);
+		}
 	}
 }
