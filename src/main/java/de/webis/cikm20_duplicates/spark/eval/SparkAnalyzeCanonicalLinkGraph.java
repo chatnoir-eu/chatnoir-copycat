@@ -51,13 +51,34 @@ public class SparkAnalyzeCanonicalLinkGraph {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls");
+//				
+//				existingUrlToCount(input)
+//					.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
-				JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls");
+				JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls-to-count");
+				JavaPairRDD<String, Integer> urlToCount = input.mapToPair(i -> toUrlToCount(i));
 				
-				existingUrlToCount(input)
-					.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count");
+				JavaPairRDD<String, Integer> groupSizeToOne = urlToCount.mapToPair(i -> new Tuple2<>(i._2() + "", 1));
+
+				groupSizeToOne.reduceByKey((a,b) -> a+b)
+						.map(i -> "{\"groupSize\": " + i._1() + ", \"count\": " + i._2() +"}")
+						.saveAsTextFile(DIR + corpus + "-duplicate-group-counts");
+				
+				
+				urlToCount.mapToPair(i -> new Tuple2<String, Tuple2<Integer, Integer>>(hostFromUrl(i._1()), new Tuple2<>(i._2(), 1)))
+					.reduceByKey((a,b) -> new Tuple2<Integer, Integer>(a._1() + b._1(), a._2() + b._2()))
+					.map(i -> "{\"domain\":\"" + i._1() + "\",\"groups\":" + i._2()._2() + ",\"documents\":" + i._2()._1() + "}")
+					.saveAsTextFile(DIR + corpus + "-duplicate-group-counts-per-domain");
 			}
 		}
 	}
@@ -113,6 +134,20 @@ public class SparkAnalyzeCanonicalLinkGraph {
 		ret.put("count", count);
 		
 		return new ObjectMapper().writeValueAsString(ret);
+	}
+	
+	@SneakyThrows
+	@SuppressWarnings("unchecked")
+	private static Tuple2<String, Integer> toUrlToCount(String src) {
+		Map<String, Object> ret = new ObjectMapper().readValue(src, Map.class);
+		String url = (String) ret.get("url");
+		Integer count = (Integer) ret.get("count");
+		
+		if(url == null || count == null || count <= 0) {
+			throw new RuntimeException("Fix this");
+		}
+		
+		return new Tuple2<>(url, count);
 	}
 	
 	public static JavaRDD<String> duplicateGroupCountsPerDomain(JavaRDD<String> input) {
