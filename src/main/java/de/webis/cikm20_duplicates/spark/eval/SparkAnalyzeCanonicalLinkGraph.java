@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.spark.HashPartitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.storage.StorageLevel;
 
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction.CanonicalLinkGraphEdge;
 import lombok.SneakyThrows;
@@ -55,9 +57,9 @@ public class SparkAnalyzeCanonicalLinkGraph {
 			for(String corpus : CORPORA) {
 				JavaRDD<String> input = context.textFile(DIR + corpus);
 				
-				urlToCount(input)
-					.map(i -> i._1 + "\t" + i._2())
-					.saveAsTextFile(DIR + corpus + "-canonical-url-to-counts");
+				input.map(i -> CanonicalLinkGraphEdge.fromString(i).getCanonicalLink().toString())
+					.filter(i -> i != null)
+					.saveAsTextFile(DIR + corpus + "-canonical-urls");
 			}
 		}
 	}
@@ -80,6 +82,8 @@ public class SparkAnalyzeCanonicalLinkGraph {
 	private static JavaPairRDD<String, Integer> urlToCount(JavaRDD<String> input) {
 		return input.map(i -> CanonicalLinkGraphEdge.fromString(i))
 				.mapToPair(i -> new Tuple2<>(i.getCanonicalLink().toString(), 1))
+//				.repartitionAndSortWithinPartitions(partitioner)
+//				.persist(StorageLevel.DISK_ONLY())
 				.reduceByKey((a,b) -> a+b)
 				.filter(i -> i._2() > 1);
 	}
