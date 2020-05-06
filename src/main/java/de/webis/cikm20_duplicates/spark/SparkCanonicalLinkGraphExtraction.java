@@ -28,12 +28,12 @@ public class SparkCanonicalLinkGraphExtraction {
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		String path = "/corpora/corpora-thirdparty/corpus-clueweb/09-mapfile/data-r-*/data";
+		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*/data";
 		
 		try (JavaSparkContext context = context()) {
 			JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);	
 		
-			canonicalLinkedges(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cw09");
+			canonicalLinkedges(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04");
 		}
 	}
 
