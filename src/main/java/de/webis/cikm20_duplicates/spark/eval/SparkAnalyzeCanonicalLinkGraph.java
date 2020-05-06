@@ -14,7 +14,6 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.storage.StorageLevel;
 
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction.CanonicalLinkGraphEdge;
 import lombok.SneakyThrows;
@@ -99,11 +98,21 @@ public class SparkAnalyzeCanonicalLinkGraph {
 //		}
 //	}
 	
-	private static JavaPairRDD<String, Integer> existingUrlToCount(JavaRDD<String> input) {
+	private static JavaRDD<String> existingUrlToCount(JavaRDD<String> input) {
 		return input.mapToPair(i -> new Tuple2<>(i, 1))
 				.repartitionAndSortWithinPartitions(new HashPartitioner(10000))
 				.reduceByKey((a,b) -> a+b)
-				.filter(i -> i._2() > 1);
+				.filter(i -> i._2() > 1)
+				.map(i -> urlToCount(i._1(), i._2()));
+	}
+	
+	@SneakyThrows
+	private static String urlToCount(String url, int count) {
+		Map<String, Object> ret = new LinkedHashMap<>();
+		ret.put("url", url);
+		ret.put("count", count);
+		
+		return new ObjectMapper().writeValueAsString(ret);
 	}
 	
 	public static JavaRDD<String> duplicateGroupCountsPerDomain(JavaRDD<String> input) {
