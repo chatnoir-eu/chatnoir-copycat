@@ -55,11 +55,10 @@ public class SparkAnalyzeCanonicalLinkGraph {
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
-				JavaRDD<String> input = context.textFile(DIR + corpus);
+				JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls");
 				
-				input.map(i -> CanonicalLinkGraphEdge.fromString(i).getCanonicalLink().toString())
-					.filter(i -> i != null)
-					.saveAsTextFile(DIR + corpus + "-canonical-urls");
+				existingUrlToCount(input)
+					.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count");
 			}
 		}
 	}
@@ -84,6 +83,25 @@ public class SparkAnalyzeCanonicalLinkGraph {
 				.mapToPair(i -> new Tuple2<>(i.getCanonicalLink().toString(), 1))
 //				.repartitionAndSortWithinPartitions(partitioner)
 //				.persist(StorageLevel.DISK_ONLY())
+				.reduceByKey((a,b) -> a+b)
+				.filter(i -> i._2() > 1);
+	}
+	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus);
+//				
+//				input.map(i -> CanonicalLinkGraphEdge.fromString(i).getCanonicalLink().toString())
+//					.filter(i -> i != null)
+//					.saveAsTextFile(DIR + corpus + "-canonical-urls");
+//			}
+//		}
+//	}
+	
+	private static JavaPairRDD<String, Integer> existingUrlToCount(JavaRDD<String> input) {
+		return input.mapToPair(i -> new Tuple2<>(i, 1))
+				.repartitionAndSortWithinPartitions(new HashPartitioner(10000))
 				.reduceByKey((a,b) -> a+b)
 				.filter(i -> i._2() > 1);
 	}
