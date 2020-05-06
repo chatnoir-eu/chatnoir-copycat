@@ -33,7 +33,8 @@ public class SparkCanonicalLinkGraphExtraction {
 		try (JavaSparkContext context = context()) {
 			JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);	
 		
-			canonicalLinkedges(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04");
+//			canonicalLinkedges(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04");
+			canonicalLinks(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04-canonical-urls");
 		}
 	}
 
@@ -44,12 +45,28 @@ public class SparkCanonicalLinkGraphExtraction {
 		return new JavaSparkContext(conf);
 	}
 	
+	public static JavaRDD<String> canonicalLinks(JavaPairRDD<Text, Text> input) {
+		return input.map(i -> toCanonicalUrl(i._1().toString(), i._2().toString()))
+				.filter(i -> i != null);
+	}
+	
 	public static JavaRDD<String> canonicalLinkedges(JavaPairRDD<Text, Text> input) {
 		return input.map(i -> toVertex(i._1().toString(), i._2().toString()))
 				.filter(i -> i != null)
 				.map(i -> i.toString());
 	}
 
+	@SneakyThrows
+	private static String toCanonicalUrl(String internalId, String json) {
+		CanonicalLinkGraphEdge ret = toVertex(internalId, json);
+		
+		if(ret == null || ret.getCanonicalLink() == null) {
+			return null;
+		}
+		
+		return ret.getCanonicalLink().toString();
+	}
+	
 	@SneakyThrows
 	private static CanonicalLinkGraphEdge toVertex(String internalId, String json) {
 		// ignore large files
