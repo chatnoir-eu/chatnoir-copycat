@@ -1,6 +1,10 @@
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
 
+repartition-parts: install
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.util.SparkRepartitionParts
+
+
 sample-canonical-link-graph-edges: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkSampleS3EdgesPerBin
 
