@@ -6,10 +6,10 @@ import java.util.List;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.approvaltests.Approvals;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.holdenkarau.spark.testing.SharedJavaSparkContext;
 
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocumentsIntegrationTest;
