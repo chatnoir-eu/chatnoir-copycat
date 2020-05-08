@@ -68,6 +68,8 @@ public class SparkAnalyzeCanonicalLinkGraph {
 				for(String sampleSize: new String[] {"0.05", "0.1", "0.15", "0.2"}) {
 					JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls-to-count")
 							.sample(Boolean.FALSE, Float.parseFloat(sampleSize), 1);
+					
+					input.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count-sample-" + sampleSize);
 					JavaPairRDD<String, Integer> urlToCount = input.mapToPair(i -> toUrlToCount(i));
 					
 					JavaPairRDD<String, Integer> groupSizeToOne = urlToCount.mapToPair(i -> new Tuple2<>(i._2() + "", 1));
