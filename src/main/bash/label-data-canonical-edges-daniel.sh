@@ -1,4 +1,7 @@
+#!/bin/bash -e
+
 TO_LABEL=$(find src/main/resources/canonical-link-edges-human-judgments/judgments-by-daniel/ -type f -printf '%h\n'|grep '__to__' | sort | uniq -d)
+
 function process_dir()
 {
 	echo "\nProcess ${DIR}"
