@@ -24,6 +24,7 @@ import lombok.experimental.UtilityClass;
 public class FingerPrintUtil {
 	public static interface Fingerprinter<T extends Comparable<T>> extends Serializable {
 		public List<T> fingerprint(CollectionDocument doc);
+		public List<T> fingerprint(List<String> features);
 		
 		public double similarity(List<T> a, List<T> b);
 	}
@@ -38,6 +39,11 @@ public class FingerPrintUtil {
 			@Override
 			public List<Integer> fingerprint(CollectionDocument doc) {
 				return IntStream.of(minHash.signature(docToElementSet(doc))).boxed().collect(Collectors.toList());
+			}
+			
+			@Override
+			public List<Integer> fingerprint(List<String> features) {
+				throw new RuntimeException();
 			}
 
 			@Override
@@ -62,6 +68,13 @@ public class FingerPrintUtil {
 			}
 
 			@Override
+			public List<Integer> fingerprint(List<String> features) {
+				byte[] hash = hashVector(features, bitsInSimHash);
+				
+				return HashTransformationUtil.hashToIntegers(hash, k);
+			}
+			
+			@Override
 			public double similarity(List<Integer> a, List<Integer> b) {
 				byte[] aArr = HashTransformationUtil.integersToHash(a);
 				byte[] bArr = HashTransformationUtil.integersToHash(b);
@@ -75,9 +88,16 @@ public class FingerPrintUtil {
 		return new SimHash().hash(internalHashVector(doc, bitsInSimHash)).getArray();
 	}
 	
+	static byte[] hashVector(List<String> terms, int bitsInSimHash) {
+		return new SimHash().hash(internalHashVector(terms, bitsInSimHash)).getArray();
+	}
+	
 	public static HashVector internalHashVector(CollectionDocument doc, int bitsInSimHash) {
 		List<String> terms = NGramms.tokenize(doc.getFullyCanonicalizedContent());
-		
+		return internalHashVector(terms, bitsInSimHash);
+	}
+	
+	public static HashVector internalHashVector(List<String> terms, int bitsInSimHash) {
 		return HashVectorSha3.toVector(terms, bitsInSimHash);
 	}
 	

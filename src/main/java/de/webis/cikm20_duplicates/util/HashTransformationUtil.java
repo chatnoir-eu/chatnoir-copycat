@@ -48,7 +48,7 @@ public class HashTransformationUtil {
 				HashTransformationUtil.bytesToInt(new byte[] { 0x0, hash[6], hash[7], 0x0 }));
 	}
 
-	static byte[] integersToHash(List<Integer> ints) {
+	public static byte[] integersToHash(List<Integer> ints) {
 		failIfIntsAreInvalid(ints);
 		byte[] firstInt = intToBytes(ints.get(0), 4);
 		byte[] secondInt = intToBytes(ints.get(1), 4);

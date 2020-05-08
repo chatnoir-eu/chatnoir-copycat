@@ -4,6 +4,8 @@ label-data-daniel:
 repartition-parts: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.util.SparkRepartitionParts
 
+report-feature-sets: install
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures
 
 sample-canonical-link-graph-edges: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkSampleS3EdgesPerBin
