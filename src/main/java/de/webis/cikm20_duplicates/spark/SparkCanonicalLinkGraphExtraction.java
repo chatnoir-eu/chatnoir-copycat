@@ -2,6 +2,10 @@ package de.webis.cikm20_duplicates.spark;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.SequenceFileInputFormat;
@@ -31,10 +35,11 @@ public class SparkCanonicalLinkGraphExtraction {
 		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*/data";
 		
 		try (JavaSparkContext context = context()) {
+			Set<String> urlsToKeep = canonicalLinksToKeep(context.textFile(""));
 			JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);	
 		
-//			canonicalLinkedges(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04");
-			canonicalLinks(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04-canonical-urls");
+			canonicalLinkedges(rdd, urlsToKeep).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04");
+//			canonicalLinks(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04-canonical-urls");
 		}
 	}
 
@@ -50,15 +55,15 @@ public class SparkCanonicalLinkGraphExtraction {
 				.filter(i -> i != null);
 	}
 	
-	public static JavaRDD<String> canonicalLinkedges(JavaPairRDD<Text, Text> input) {
-		return input.map(i -> toVertex(i._1().toString(), i._2().toString()))
+	public static JavaRDD<String> canonicalLinkedges(JavaPairRDD<Text, Text> input, Set<String> urlsToKeep) {
+		return input.map(i -> toVertex(i._1().toString(), i._2().toString(), urlsToKeep))
 				.filter(i -> i != null)
 				.map(i -> i.toString());
 	}
 
 	@SneakyThrows
 	private static String toCanonicalUrl(String internalId, String json) {
-		CanonicalLinkGraphEdge ret = toVertex(internalId, json);
+		CanonicalLinkGraphEdge ret = toVertex(internalId, json, null);
 		
 		if(ret == null || ret.getCanonicalLink() == null) {
 			return null;
@@ -68,7 +73,7 @@ public class SparkCanonicalLinkGraphExtraction {
 	}
 	
 	@SneakyThrows
-	private static CanonicalLinkGraphEdge toVertex(String internalId, String json) {
+	private static CanonicalLinkGraphEdge toVertex(String internalId, String json, Set<String> urlsToKeep) {
 		// ignore large files
         if (json.getBytes().length > 1024 * 1024) {
             return null;
@@ -104,7 +109,7 @@ public class SparkCanonicalLinkGraphExtraction {
 
         String targetUri = metadata.getString("WARC-Target-URI");
         URL canonicalLink = extractCanonicalLinkOrNull(targetUri, contentBody);
-        if(canonicalLink == null) {
+        if(canonicalLink == null || (urlsToKeep != null && !urlsToKeep.contains(canonicalLink.toString()))) {
         	return null;
         }
         
@@ -153,5 +158,18 @@ public class SparkCanonicalLinkGraphExtraction {
 		public static CanonicalLinkGraphEdge fromString(String src) {
 			return new ObjectMapper().readValue(src, CanonicalLinkGraphEdge.class);
 		}
+	}
+
+	public static Set<String> canonicalLinksToKeep(JavaRDD<String> input) {
+		List<String> ret = input.map(i -> urlFromUrlToCount(i))
+				.filter(i -> i != null)
+				.distinct().collect();
+		
+		return new HashSet<>(ret);
+	}
+	
+	@SneakyThrows
+	private static final String urlFromUrlToCount(String src) {
+		return (String) new ObjectMapper().readValue(src, Map.class).get("url");
 	}
 }
