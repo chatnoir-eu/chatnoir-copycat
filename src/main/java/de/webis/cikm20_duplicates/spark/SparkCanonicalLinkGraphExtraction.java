@@ -32,13 +32,15 @@ public class SparkCanonicalLinkGraphExtraction {
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
+		String corpus = "cc-2017-04";
+		String sampleSize = "0.1";
 		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*/data";
-		
+
 		try (JavaSparkContext context = context()) {
-			Set<String> urlsToKeep = canonicalLinksToKeep(context.textFile(""));
+			Set<String> urlsToKeep = canonicalLinksToKeep(context.textFile("cikm2020/canonical-link-graph/" + corpus + "-canonical-urls-to-count-sample-" + sampleSize));
 			JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);	
 		
-			canonicalLinkedges(rdd, urlsToKeep).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04");
+			canonicalLinkedges(rdd, urlsToKeep).saveAsTextFile("cikm2020/canonical-link-graph/" + corpus + "-sample-" + sampleSize);
 //			canonicalLinks(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04-canonical-urls");
 		}
 	}
@@ -81,7 +83,6 @@ public class SparkCanonicalLinkGraphExtraction {
         
         
         JSONObject inputJson  = new JSONObject(json);
-
         final JSONObject metadata = inputJson.getJSONObject("metadata");
         if (null == metadata) {
             throw new JSONException("Missing 'metadata'");
