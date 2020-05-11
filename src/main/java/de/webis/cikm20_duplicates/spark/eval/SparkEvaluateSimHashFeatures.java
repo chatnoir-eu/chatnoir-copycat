@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -23,7 +25,6 @@ import com.google.common.collect.ImmutableList;
 import de.aitools.ir.fingerprinting.representer.Hash;
 import de.webis.cikm20_duplicates.spark.SparkCalculateCanonicalLinkGraphEdgeLabels.CanonicalLinkGraphEdge2;
 import de.webis.cikm20_duplicates.util.HashTransformationUtil;
-import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.util.NGramms;
@@ -35,15 +36,27 @@ public class SparkEvaluateSimHashFeatures {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {"cw09"/*, "cw12", "cc-2015-11"*/};
+	private static final String[] CORPORA = new String[] {/*"cw09",*/ "cw12"/*, "cc-2015-11"*/};
 
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+//				
+//				reportFeatureSetEvaluation(input, FingerPrintUtil.simHashFingerPrinting(64, 3), 0.8)
+//					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
 				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-feature-set-evaluation");
 				
-				reportFeatureSetEvaluation(input, FingerPrintUtil.simHashFingerPrinting(64, 3), 0.8)
-					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation");
+				reportFeatureSetEvaluation(input, 0.8, existingGroups)
+					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
 			}
 		}
 	}
@@ -126,6 +139,28 @@ public class SparkEvaluateSimHashFeatures {
 	}
 
 
+	public static JavaRDD<String> reportFeatureSetEvaluation(JavaRDD<String> input, double threshold, JavaRDD<String> existingGroups) {
+		JavaRDD<FeatureSetCandidate> b = groundTruth(input, threshold);
+		JavaPairRDD<Tuple2<String, String>, String> t = b.mapToPair(i -> new Tuple2<Tuple2<String, String>, String>(new Tuple2<String, String>(i.firstId, i.secondId), i.featureName));
+		
+		JavaPairRDD<Tuple2<String, String>, String> ret = existingGroups.mapToPair(i -> tmp(i));
+
+		return ret.join(t).flatMapToPair(i -> reportSecondEvaluationForFeatureSet(i))
+				.groupByKey()
+				.map(i -> reportEvaluationForFeatureSet(i));
+	}
+
+	@SneakyThrows
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static Iterator<Tuple2<Tuple2<String, String> ,String>> reportSecondEvaluationForFeatureSet(Tuple2<Tuple2<String, String>, Tuple2<String, String>> orig) {
+		List<String> features = new ArrayList<>(Arrays.<String>asList(orig._2()._2()));
+		Map<String, Object> tmp2 = new ObjectMapper().readValue(orig._2()._1(), Map.class);
+		features.addAll((List) tmp2.get("featureNames"));
+		
+		Stream<Tuple2<Tuple2<String, String> ,String>> ret = features.stream().collect(Collectors.toSet()).stream().map(i -> new Tuple2<>(orig._1(), i));
+		return ret.iterator();
+	}
+
 	public static JavaRDD<String> reportFeatureSetEvaluation(JavaRDD<String> input, Fingerprinter<Integer> fingerprinter, double threshold) {
 		JavaRDD<FeatureSetCandidate> a = featureSetCandidates(input, fingerprinter);
 		JavaRDD<FeatureSetCandidate> b = groundTruth(input, threshold);
@@ -149,6 +184,14 @@ public class SparkEvaluateSimHashFeatures {
 		ret.put("featureNames", tmp);
 		
 		return new ObjectMapper().writeValueAsString(ret);
+	}
+	
+	@SneakyThrows
+	@SuppressWarnings("unchecked")
+	private static Tuple2<Tuple2<String, String>, String> tmp(String src) {
+		Map<String, Object> ret = new ObjectMapper().readValue(src, Map.class);
+		
+		return new Tuple2<Tuple2<String, String>, String>(new Tuple2<String, String>((String)ret.get("firstId"), (String)ret.get("secondId")), src);
 	}
 
 	public static JavaRDD<FeatureSetCandidate> groundTruth(JavaRDD<String> input, double threshold) {
@@ -195,15 +238,16 @@ public class SparkEvaluateSimHashFeatures {
 		CanonicalLinkGraphEdge2 edge = CanonicalLinkGraphEdge2.fromString(src);
 		CollectionDocument a = edge.getFirstDoc().getDoc();
 		CollectionDocument b = edge.getSecondDoc().getDoc();
+		String label = "S3";
 		
 		if(edge.getS3score() < threshold) {
-			return null;
+			label = "S3-negative";
 		}
 		
 		if(a.getId().compareTo(b.getId()) < 0) {
-			return new FeatureSetCandidate("S3", a.getId(), b.getId());
+			return new FeatureSetCandidate(label, a.getId(), b.getId());
 		} else if (a.getId().compareTo(b.getId()) > 0) {
-			return new FeatureSetCandidate("S3", b.getId(), a.getId());
+			return new FeatureSetCandidate(label, b.getId(), a.getId());
 		} else {
 			return null;
 		}

@@ -82,6 +82,34 @@ public class SparkEvaluateSimHashFeaturesIntegrationTest extends SharedJavaSpark
 		Approvals.verifyAsJson(actual);
 	}
 	
+	@Test
+	public void reportGroundTruthBasigsForLowThreshold1() {
+		JavaRDD<String> existingGroups = jsc().parallelize(Arrays.asList(
+			"{\"firstId\":\"1\",\"secondId\":\"3\",\"featureNames\":[\"1-3-gramms\",\"1-5-gramms\",\"1-8-gramms\",\"1-gramms\",\"S3\"]}",
+			"{\"firstId\":\"4\",\"secondId\":\"5\",\"featureNames\":[\"1-3-gramms\",\"1-5-gramms\",\"1-8-gramms\",\"1-gramms\",\"3-5-gramms\",\"3-8-gramms\",\"3-gramms\",\"5-8-gramms\",\"5-gramms\",\"8-gramms\"]}",
+			"{\"firstId\":\"clueweb12-0303wb-10-02360\",\"secondId\":\"clueweb12-0715wb-02-10722\",\"featureNames\":[\"1-3-gramms\",\"1-5-gramms\",\"1-gramms\", \"S3\"]}"
+		));
+		JavaRDD<String> hashToFeatures = SparkEvaluateSimHashFeatures.reportFeatureSetEvaluation(input(), 0.6, existingGroups);
+		
+		List<String> actual = SparkCreateSourceDocumentsIntegrationTest.sorted(hashToFeatures);
+		
+		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
+	public void reportGroundTruthBasigsForHighThreshold1() {
+		JavaRDD<String> existingGroups = jsc().parallelize(Arrays.asList(
+			"{\"firstId\":\"1\",\"secondId\":\"3\",\"featureNames\":[\"1-3-gramms\",\"1-5-gramms\",\"1-8-gramms\",\"1-gramms\",\"S3\"]}",
+			"{\"firstId\":\"4\",\"secondId\":\"5\",\"featureNames\":[\"1-3-gramms\",\"1-5-gramms\",\"1-8-gramms\",\"1-gramms\",\"3-5-gramms\",\"3-8-gramms\",\"3-gramms\",\"5-8-gramms\",\"5-gramms\",\"8-gramms\"]}",
+			"{\"firstId\":\"clueweb12-0303wb-10-02360\",\"secondId\":\"clueweb12-0715wb-02-10722\",\"featureNames\":[\"1-3-gramms\",\"1-5-gramms\",\"1-gramms\", \"S3\"]}"
+		));
+		JavaRDD<String> hashToFeatures = SparkEvaluateSimHashFeatures.reportFeatureSetEvaluation(input(), 0.75, existingGroups);
+		
+		List<String> actual = SparkCreateSourceDocumentsIntegrationTest.sorted(hashToFeatures);
+		
+		Approvals.verifyAsJson(actual);
+	}
+	
 	private static List<String> tmp(JavaRDD<?> t) {
 		return SparkCreateSourceDocumentsIntegrationTest.sorted(t.map(i -> json(i)));
 	}
