@@ -32,10 +32,13 @@ public class SparkCanonicalLinkGraphExtraction {
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		String corpus = "cc-2017-04";
+//		String corpus = "cc-2017-04";
+//		String sampleSize = "0.1";
+//		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*/data";
+		String corpus = "cc-2015-11";
 		String sampleSize = "0.1";
-		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*/data";
-
+		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-*/data";
+		
 		try (JavaSparkContext context = context()) {
 			Set<String> urlsToKeep = canonicalLinksToKeep(context.textFile("cikm2020/canonical-link-graph/" + corpus + "-canonical-urls-to-count-sample-" + sampleSize));
 			JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);	
