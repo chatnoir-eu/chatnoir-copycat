@@ -11,8 +11,8 @@ public class SparkRepartitionParts {
 	
 	public static void main(String[] args) {
 		//String inputDir = "cikm2020/canonical-link-graph/cc-2017-04-canonical-urls";
-//		String inputDir = "cikm2020/canonical-link-graph/cc-2017-04-sample-0.1";
-		String inputDir = "cikm2020/canonical-link-graph/cc-2015-11-sample-0.1";
+		String inputDir = "cikm2020/canonical-link-graph/cc-2017-04-sample-0.1";
+//		String inputDir = "cikm2020/canonical-link-graph/cc-2015-11-sample-0.1";
 		
 		try (JavaSparkContext context = context()) {
 			for(String suffix: createPartSuffixes()) {
