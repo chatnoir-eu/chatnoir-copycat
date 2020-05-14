@@ -2,7 +2,10 @@ package de.webis.cikm20_duplicates.spark;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Supplier;
 
 import org.apache.spark.HashPartitioner;
 import org.apache.spark.api.java.JavaRDD;
@@ -64,6 +67,18 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabelsIntegrationTest extends S
 		);
 
 		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void checkThatWeObtain100RandomStrings() {
+		Set<String> seen = new HashSet<>();
+		Supplier<String> suppl = SparkCalculateCanonicalLinkGraphEdgeLabels::randomStringForGroupSplitting;
+		
+		for(int i=0; i< 10000; i++) {
+			seen.add(suppl.get());
+		}
+		
+		Assert.assertEquals(100, seen.size());
 	}
 	
 	private List<String> edgeLabels(String...elements) {

@@ -1,11 +1,14 @@
 package de.webis.cikm20_duplicates.spark;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -58,14 +61,22 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 //	}
 	
 	public static void main(String[] args) {
-		String[] corpora = new String[] {/*"cw09", "cw12",*/ "cc-2015-11" /*, "cc-2017-04"*/};
+		String[] corpora = new String[] {/*"cw09", "cw12", "cc-2015-11",*/ "cc-2017-04"};
 		
 		try (JavaSparkContext context = context()) {
 			for(String corpus : corpora) {
 				JavaRDD<String> input = context.textFile(DIR + corpus + "-sample-0.1");
-				JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = partitionedBla(input, new HashPartitioner(50000));
+				JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = partitionedBla(input, new HashPartitioner(10000), SparkCalculateCanonicalLinkGraphEdgeLabels::randomStringForGroupSplitting);
 				
 				JavaRDD<CanonicalLinkGraphEdge> ret = idToEdge
+					.groupByKey()
+					.flatMap(i -> new ArrayList<>(TakeRandom.takeRandomElements(50, i._2())).iterator());
+				
+				input = ret.map(i -> i.toString());
+				
+				idToEdge = partitionedBla(input, new HashPartitioner(10000));
+				
+				ret = idToEdge
 					.groupByKey()
 					.flatMap(i -> new ArrayList<>(TakeRandom.takeRandomElements(50, i._2())).iterator());
 				
@@ -82,11 +93,17 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 		return new JavaSparkContext(conf);
 	}
 	
-	private static JavaPairRDD<String, CanonicalLinkGraphEdge> partitionedBla(JavaRDD<String> input, Partitioner partitioner) {
+
+	private static JavaPairRDD<String, CanonicalLinkGraphEdge> partitionedBla(JavaRDD<String> input, Partitioner partitioner, SerializableSupplier<String> stringProducer) {
 		return input.mapToPair(i -> toPair(i))
 				.filter(i -> i != null)
+				.mapToPair(i -> new Tuple2<>(i._1() + stringProducer.get(), i._2()))
 				.repartitionAndSortWithinPartitions(partitioner)
 				.persist(StorageLevel.DISK_ONLY());
+	}
+	
+	private static JavaPairRDD<String, CanonicalLinkGraphEdge> partitionedBla(JavaRDD<String> input, Partitioner partitioner) {
+		return partitionedBla(input, partitioner, () -> "");
 	}
 
 	public static JavaRDD<String> edgeLabels(JavaRDD<String> input, Partitioner partitioner) {
@@ -149,4 +166,10 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 			return new ObjectMapper().readValue(src, CanonicalLinkGraphEdge2.class);
 		}
 	}
+	
+	public static String randomStringForGroupSplitting() {
+		return "-" + new Random().nextInt(100);
+	}
+	
+	public static interface SerializableSupplier<T> extends Supplier<T>, Serializable {}
 }
