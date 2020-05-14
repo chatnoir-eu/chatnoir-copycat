@@ -16,7 +16,9 @@ import lombok.SneakyThrows;
 public class CreateStuffToJudge {
 	private static final String
 		DIR = "src/main/resources/canonical-link-edges-human-judgments/",
-		INPUT = DIR + "cw09-sampled-edges.jsonl";
+		
+		//CREATED BY: de.webis.cikm20_duplicates.spark.eval.SparkSampleS3EdgesPerBin
+		INPUT = DIR + "cw12-sampled-edges.jsonl";
 	
 	@SneakyThrows
 	public static void main(String[] args) {

@@ -24,7 +24,7 @@ public class SparkSampleS3EdgesPerBin {
 	
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {"cw09"/*, "cw12", "cc-2015-11"*/};
+	private static final String[] CORPORA = new String[] {/*"cw09",*/ "cw12"/*, "cc-2015-11"*/};
 	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
