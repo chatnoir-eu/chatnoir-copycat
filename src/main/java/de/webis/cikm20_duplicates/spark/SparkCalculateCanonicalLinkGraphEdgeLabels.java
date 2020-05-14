@@ -47,44 +47,44 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 //		}
 //	}
 	
+	public static void main(String[] args) {
+		String[] corpora = new String[] {/*"cw09", "cw12",*/ "cc-2015-11" /*, "cc-2017-04"*/};
+		
+		try (JavaSparkContext context = context()) {
+			for(String corpus : corpora) {
+				JavaRDD<String> input = context.textFile(DIR + corpus + "-sample-0.1-and-large-groups");
+				
+				edgeLabels(input, new HashPartitioner(50000))
+					.saveAsTextFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+			}
+		}
+	}
+	
 //	public static void main(String[] args) {
-//		String[] corpora = new String[] {/*"cw09", "cw12",*/ "cc-2015-11" /*, "cc-2017-04"*/};
+//		String[] corpora = new String[] {/*"cw09", "cw12", "cc-2015-11",*/ "cc-2017-04"};
 //		
 //		try (JavaSparkContext context = context()) {
 //			for(String corpus : corpora) {
 //				JavaRDD<String> input = context.textFile(DIR + corpus + "-sample-0.1");
+//				JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = partitionedBla(input, new HashPartitioner(10000), SparkCalculateCanonicalLinkGraphEdgeLabels::randomStringForGroupSplitting);
 //				
-//				edgeLabels(input, new HashPartitioner(50000))
-//					.saveAsTextFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+//				JavaRDD<CanonicalLinkGraphEdge> ret = idToEdge
+//					.groupByKey()
+//					.flatMap(i -> new ArrayList<>(TakeRandom.takeRandomElements(50, i._2())).iterator());
+//				
+//				input = ret.map(i -> i.toString());
+//				
+//				idToEdge = partitionedBla(input, new HashPartitioner(10000));
+//				
+//				ret = idToEdge
+//					.groupByKey()
+//					.flatMap(i -> new ArrayList<>(TakeRandom.takeRandomElements(50, i._2())).iterator());
+//				
+//				ret.map(i -> i.toString())
+//					.saveAsTextFile(DIR + corpus + "-sample-0.1-and-large-groups");
 //			}
 //		}
 //	}
-	
-	public static void main(String[] args) {
-		String[] corpora = new String[] {/*"cw09", "cw12", "cc-2015-11",*/ "cc-2017-04"};
-		
-		try (JavaSparkContext context = context()) {
-			for(String corpus : corpora) {
-				JavaRDD<String> input = context.textFile(DIR + corpus + "-sample-0.1");
-				JavaPairRDD<String, CanonicalLinkGraphEdge> idToEdge = partitionedBla(input, new HashPartitioner(10000), SparkCalculateCanonicalLinkGraphEdgeLabels::randomStringForGroupSplitting);
-				
-				JavaRDD<CanonicalLinkGraphEdge> ret = idToEdge
-					.groupByKey()
-					.flatMap(i -> new ArrayList<>(TakeRandom.takeRandomElements(50, i._2())).iterator());
-				
-				input = ret.map(i -> i.toString());
-				
-				idToEdge = partitionedBla(input, new HashPartitioner(10000));
-				
-				ret = idToEdge
-					.groupByKey()
-					.flatMap(i -> new ArrayList<>(TakeRandom.takeRandomElements(50, i._2())).iterator());
-				
-				ret.map(i -> i.toString())
-					.saveAsTextFile(DIR + corpus + "-sample-0.1-and-large-groups");
-			}
-		}
-	}
 	
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
