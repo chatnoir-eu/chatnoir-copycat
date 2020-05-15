@@ -24,7 +24,9 @@ import com.google.common.collect.ImmutableList;
 
 import de.aitools.ir.fingerprinting.representer.Hash;
 import de.webis.cikm20_duplicates.spark.SparkCalculateCanonicalLinkGraphEdgeLabels.CanonicalLinkGraphEdge2;
+import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction.CanonicalLinkGraphEdge;
 import de.webis.cikm20_duplicates.util.HashTransformationUtil;
+import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.util.NGramms;
@@ -36,7 +38,7 @@ public class SparkEvaluateSimHashFeatures {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {/*"cw09",*/ "cw12"/*, "cc-2015-11"*/};
+	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11"};
 
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -50,16 +52,34 @@ public class SparkEvaluateSimHashFeatures {
 //	}
 	
 	public static void main(String[] args) {
-		try (JavaSparkContext context = context()) {
-			for(String corpus : CORPORA) {
-				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
-				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-feature-set-evaluation");
-				
-				reportFeatureSetEvaluation(input, 0.8, existingGroups)
-					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
-			}
+	try (JavaSparkContext context = context()) {
+		for(String corpus : CORPORA) {
+			JavaRDD<FeatureSetCandidate> groundTruth = groundTruth(
+					context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups"),
+					0.8
+			);
+			JavaRDD<FeatureSetCandidate> candidates = featureSetCandidatesForCanonicalLinkGraphEdge(
+					context.textFile(DIR + corpus + "-sample-0.1-and-large-groups"),
+					FingerPrintUtil.simHashFingerPrinting(64, 3)
+			);
+			
+			reportFeatureSetEvaluation(candidates, groundTruth)
+				.saveAsTextFile(DIR + corpus + "-feature-set-evaluation");
 		}
 	}
+}
+	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+//				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-feature-set-evaluation");
+//				
+//				reportFeatureSetEvaluation(input, 0.8, existingGroups)
+//					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
+//			}
+//		}
+//	}
 	
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
@@ -102,6 +122,15 @@ public class SparkEvaluateSimHashFeatures {
 		ret.addAll(b);
 		
 		return ret;
+	}
+	
+	public static JavaRDD<FeatureSetCandidate> featureSetCandidatesForCanonicalLinkGraphEdge(JavaRDD<String> input, Fingerprinter<Integer> fingerprinter) {
+		JavaPairRDD<String, DocToFeatures> docToFeatures = input.flatMap(i -> extractPairs(fingerprinter, CanonicalLinkGraphEdge.fromString(i).getDoc()))
+				.mapToPair(i -> new Tuple2<>(i.docId, i));
+		
+		JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = featureHashToDocToFeatures(docToFeatures);
+		return hashToDocFeatures.groupByKey()
+				.flatMap(i -> reportFeatureSetCandidates(i, fingerprinter));
 	}
 	
 	public static JavaRDD<FeatureSetCandidate> featureSetCandidates(JavaRDD<String> input, Fingerprinter<Integer> fingerprinter) {
@@ -162,10 +191,12 @@ public class SparkEvaluateSimHashFeatures {
 	}
 
 	public static JavaRDD<String> reportFeatureSetEvaluation(JavaRDD<String> input, Fingerprinter<Integer> fingerprinter, double threshold) {
-		JavaRDD<FeatureSetCandidate> a = featureSetCandidates(input, fingerprinter);
-		JavaRDD<FeatureSetCandidate> b = groundTruth(input, threshold);
-		
-		JavaPairRDD<Tuple2<String, String> ,String> ret = a.union(b).mapToPair(i -> new Tuple2<>(new Tuple2<>(i.firstId, i.secondId), i.featureName));
+		return reportFeatureSetEvaluation(featureSetCandidates(input, fingerprinter), groundTruth(input, threshold));
+	}
+	
+	public static JavaRDD<String> reportFeatureSetEvaluation(JavaRDD<FeatureSetCandidate> candidates, JavaRDD<FeatureSetCandidate> groundTruth) {
+		JavaPairRDD<Tuple2<String, String> ,String> ret = candidates.union(groundTruth)
+				.mapToPair(i -> new Tuple2<>(new Tuple2<>(i.firstId, i.secondId), i.featureName));
 		
 		return ret.groupByKey()
 				.map(i -> reportEvaluationForFeatureSet(i));
@@ -202,12 +233,16 @@ public class SparkEvaluateSimHashFeatures {
 		JavaPairRDD<String, DocToFeatures> docToFeatures = input.flatMap(i -> extractPairs(i, fingerprinter))
 				.mapToPair(i -> new Tuple2<>(i.docId, i));
 		
+		return featureHashToDocToFeatures(docToFeatures);
+	}
+
+	public static JavaPairRDD<String, SimHashDocumentFeatures> featureHashToDocToFeatures(JavaPairRDD<String, DocToFeatures> docToFeatures) {
 		docToFeatures = docToFeatures.groupByKey()
 			.mapToPair(i -> keepOnlyFirst(i));
 		
 		return docToFeatures.flatMapToPair(i -> extractAllFeatures(i._2())).filter(i -> i != null);
 	}
-
+	
 	private static Iterator<Tuple2<String, SimHashDocumentFeatures>> extractAllFeatures(DocToFeatures i) {
 		List<Tuple2<String, SimHashDocumentFeatures>> ret = new ArrayList<>();
 		
@@ -228,10 +263,13 @@ public class SparkEvaluateSimHashFeatures {
 	private static Iterator<DocToFeatures> extractPairs(String src, Fingerprinter<Integer> fingerprinter) {
 		CanonicalLinkGraphEdge2 edge = CanonicalLinkGraphEdge2.fromString(src);
 		
-		return Arrays.asList(
-				new DocToFeatures(edge.getFirstDoc().getDoc(), fingerprinter),
-				new DocToFeatures(edge.getSecondDoc().getDoc(), fingerprinter)
-		).iterator();
+		return extractPairs(fingerprinter, edge.getFirstDoc().getDoc(), edge.getSecondDoc().getDoc());
+	}
+	
+	private static Iterator<DocToFeatures> extractPairs(Fingerprinter<Integer> fingerprinter, CollectionDocument...docs) {
+		return Arrays.asList(docs).stream()
+				.map(i -> new DocToFeatures(i, fingerprinter))
+				.iterator();
 	}
 	
 	private static FeatureSetCandidate groundTruthOrNull(String src, double threshold) {
