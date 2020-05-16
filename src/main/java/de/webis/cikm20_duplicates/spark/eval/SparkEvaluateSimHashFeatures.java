@@ -30,7 +30,9 @@ import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.util.NGramms;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import scala.Tuple2;
 
@@ -51,23 +53,39 @@ public class SparkEvaluateSimHashFeatures {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<FeatureSetCandidate> groundTruth = groundTruth(
+//						context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups"),
+//						0.8
+//				);
+//				JavaRDD<FeatureSetCandidate> candidates = featureSetCandidatesForCanonicalLinkGraphEdge(
+//						context.textFile(DIR + corpus + "-sample-0.1-and-large-groups"),
+//						FingerPrintUtil.simHashFingerPrinting(64, 3)
+//				);
+//				
+//				reportFeatureSetEvaluation(candidates, groundTruth)
+//					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
-	try (JavaSparkContext context = context()) {
-		for(String corpus : CORPORA) {
-			JavaRDD<FeatureSetCandidate> groundTruth = groundTruth(
-					context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups"),
-					0.8
-			);
-			JavaRDD<FeatureSetCandidate> candidates = featureSetCandidatesForCanonicalLinkGraphEdge(
-					context.textFile(DIR + corpus + "-sample-0.1-and-large-groups"),
-					FingerPrintUtil.simHashFingerPrinting(64, 3)
-			);
-			
-			reportFeatureSetEvaluation(candidates, groundTruth)
-				.saveAsTextFile(DIR + corpus + "-feature-set-evaluation");
+		try (JavaSparkContext context = context()) {
+			for(String corpus : CORPORA) {
+				JavaRDD<String> input = context.textFile(DIR + corpus + "-sample-0.1-and-large-groups");
+				JavaPairRDD<String, DocToFeatures> docToFeatures = input.flatMap(i -> extractPairs(FingerPrintUtil.simHashFingerPrinting(64, 3), CanonicalLinkGraphEdge.fromString(i).getDoc()))
+						.mapToPair(i -> new Tuple2<>(i.docId, i));
+				
+				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = featureHashToDocToFeatures(docToFeatures);
+				
+				
+				hashToDocFeatures.map(i -> i._2().toString())
+					.saveAsTextFile(DIR + corpus + "-feature-set-sim-hash-document-features");
+			}
 		}
 	}
-}
 	
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -292,11 +310,24 @@ public class SparkEvaluateSimHashFeatures {
 	}
 	
 	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
 	@SuppressWarnings("serial")
 	public static class SimHashDocumentFeatures implements Serializable {
-		private final String featureName;
-		private final String docId;
-		private final List<Integer> simHash;
+		private String featureName;
+		private String docId;
+		private List<Integer> simHash;
+		
+		@Override
+		@SneakyThrows
+		public String toString() {
+			return new ObjectMapper().writeValueAsString(this);
+		}
+		
+		@SneakyThrows
+		public static SimHashDocumentFeatures fromString(String src) {
+			return new ObjectMapper().readValue(src, SimHashDocumentFeatures.class);
+		}
 	}
 	
 	@Data
