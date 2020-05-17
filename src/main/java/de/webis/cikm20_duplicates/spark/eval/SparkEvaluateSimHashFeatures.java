@@ -71,18 +71,38 @@ public class SparkEvaluateSimHashFeatures {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus + "-sample-0.1-and-large-groups");
+//				JavaPairRDD<String, DocToFeatures> docToFeatures = input.flatMap(i -> extractPairs(FingerPrintUtil.simHashFingerPrinting(64, 3), CanonicalLinkGraphEdge.fromString(i).getDoc()))
+//						.mapToPair(i -> new Tuple2<>(i.docId, i));
+//				
+//				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = featureHashToDocToFeatures(docToFeatures);
+//				
+//				
+//				hashToDocFeatures.map(i -> i._2().toString())
+//					.saveAsTextFile(DIR + corpus + "-feature-set-sim-hash-document-features");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
-				JavaRDD<String> input = context.textFile(DIR + corpus + "-sample-0.1-and-large-groups");
-				JavaPairRDD<String, DocToFeatures> docToFeatures = input.flatMap(i -> extractPairs(FingerPrintUtil.simHashFingerPrinting(64, 3), CanonicalLinkGraphEdge.fromString(i).getDoc()))
-						.mapToPair(i -> new Tuple2<>(i.docId, i));
+				JavaRDD<SimHashDocumentFeatures> input = context.textFile(DIR + corpus + "-feature-set-sim-hash-document-features")
+						.map(i -> SimHashDocumentFeatures.fromString(i));
 				
-				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = featureHashToDocToFeatures(docToFeatures);
+				JavaPairRDD<String, SimHashDocumentFeatures> docFeatures = input.mapToPair(i -> new Tuple2<>(i.featureName + i.docId, i));
+				input = docFeatures.groupByKey().map(i -> i._2.iterator().next());
 				
+				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = input.flatMapToPair(i -> extractAllFeatures(i));
 				
-				hashToDocFeatures.map(i -> i._2().toString())
-					.saveAsTextFile(DIR + corpus + "-feature-set-sim-hash-document-features");
+				JavaRDD<FeatureSetCandidate> candidates = hashToDocFeatures.groupByKey()
+						.flatMap(i -> reportFeatureSetCandidates(i, FingerPrintUtil.simHashFingerPrinting(64, 3)));
+				
+				candidates.map(i -> i.toString())
+					.saveAsTextFile(DIR + corpus + "-feature-set-candidates");
 			}
 		}
 	}
@@ -266,9 +286,20 @@ public class SparkEvaluateSimHashFeatures {
 		
 		for(SimHashDocumentFeatures featureSet: i.features) {
 			for(Integer feature: featureSet.simHash) {
-				String key = featureSet.featureName +"___" + feature;
+				String key = featureSet.featureName + "___" + feature;
 				ret.add(new Tuple2<>(key, featureSet));
 			}
+		}
+		
+		return ret.iterator();
+	}
+	
+	private static Iterator<Tuple2<String, SimHashDocumentFeatures>> extractAllFeatures(SimHashDocumentFeatures i) {
+		List<Tuple2<String, SimHashDocumentFeatures>> ret = new ArrayList<>();
+		
+		for(Integer feature: i.simHash) {
+			String key = i.featureName + "___" + feature;
+			ret.add(new Tuple2<>(key, i));
 		}
 		
 		return ret.iterator();
@@ -348,11 +379,13 @@ public class SparkEvaluateSimHashFeatures {
 	}
 	
 	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
 	@SuppressWarnings("serial")
 	public static class FeatureSetCandidate implements Serializable {
-		private final String featureName;
-		private final String firstId;
-		private final String secondId;
+		private String featureName;
+		private String firstId;
+		private String secondId;
 		
 		public static FeatureSetCandidate featureSetCandidateOrNull(SimHashDocumentFeatures a, SimHashDocumentFeatures b) {
 			if(a == null || a.docId == null || b == null || b.docId == null || a.docId.compareTo(b.docId) == 0) {
@@ -366,6 +399,17 @@ public class SparkEvaluateSimHashFeatures {
 			} else {
 				return null;
 			}
+		}
+		
+		@Override
+		@SneakyThrows
+		public String toString() {
+			return new ObjectMapper().writeValueAsString(this);
+		}
+		
+		@SneakyThrows
+		public static FeatureSetCandidate fromString(String src) {
+			return new ObjectMapper().readValue(src, FeatureSetCandidate.class);
 		}
 	}
 }
