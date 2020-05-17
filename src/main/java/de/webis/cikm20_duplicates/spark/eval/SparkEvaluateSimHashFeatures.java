@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.spark.HashPartitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -27,6 +26,7 @@ import de.aitools.ir.fingerprinting.representer.Hash;
 import de.webis.cikm20_duplicates.spark.SparkCalculateCanonicalLinkGraphEdgeLabels.CanonicalLinkGraphEdge2;
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction.CanonicalLinkGraphEdge;
 import de.webis.cikm20_duplicates.util.HashTransformationUtil;
+import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.util.NGramms;
@@ -87,25 +87,39 @@ public class SparkEvaluateSimHashFeatures {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<SimHashDocumentFeatures> input = context.textFile(DIR + corpus + "-feature-set-sim-hash-document-features")
+//						.map(i -> SimHashDocumentFeatures.fromString(i));
+//				
+//				JavaPairRDD<String, SimHashDocumentFeatures> docFeatures = input.mapToPair(i -> new Tuple2<>(i.featureName + i.docId, i));
+//				input = docFeatures.groupByKey().map(i -> i._2.iterator().next());
+//				
+//				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = input.flatMapToPair(i -> extractAllFeatures(i));
+//			
+//				hashToDocFeatures.repartitionAndSortWithinPartitions(new HashPartitioner(10000)).map(i -> BlaForTmp.persist(i))
+//					.saveAsTextFile(DIR + corpus + "-feature-set-hash-to-document-features");
+//			}
+//		}
+//	}
+
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
-				JavaRDD<SimHashDocumentFeatures> input = context.textFile(DIR + corpus + "-feature-set-sim-hash-document-features")
-						.map(i -> SimHashDocumentFeatures.fromString(i));
-				
-				JavaPairRDD<String, SimHashDocumentFeatures> docFeatures = input.mapToPair(i -> new Tuple2<>(i.featureName + i.docId, i));
-				input = docFeatures.groupByKey().map(i -> i._2.iterator().next());
-				
-				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = input.flatMapToPair(i -> extractAllFeatures(i));
-				
-//				JavaRDD<FeatureSetCandidate> candidates = hashToDocFeatures.groupByKey()
-//						.flatMap(i -> reportFeatureSetCandidates(i, FingerPrintUtil.simHashFingerPrinting(64, 3)));
-				
-				hashToDocFeatures.repartitionAndSortWithinPartitions(new HashPartitioner(10000)).map(i -> BlaForTmp.persist(i))
-					.saveAsTextFile(DIR + corpus + "-feature-set-hash-to-document-features");
+				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = context
+						.textFile(DIR + corpus + "-feature-set-hash-to-document-features")
+						.mapToPair(i -> BlaForTmp.fromString(i));
+			
+				JavaRDD<FeatureSetCandidate> candidates = hashToDocFeatures.groupByKey()
+						.flatMap(i -> reportFeatureSetCandidates(i, FingerPrintUtil.simHashFingerPrinting(64, 3)));
+
+				candidates.map(i -> i.toString())
+					.saveAsTextFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation");
 			}
 		}
 	}
+
 	
 	@Data
 	@NoArgsConstructor
