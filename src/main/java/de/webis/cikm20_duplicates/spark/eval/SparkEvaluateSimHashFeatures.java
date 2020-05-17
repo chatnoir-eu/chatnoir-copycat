@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.spark.HashPartitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -26,7 +27,6 @@ import de.aitools.ir.fingerprinting.representer.Hash;
 import de.webis.cikm20_duplicates.spark.SparkCalculateCanonicalLinkGraphEdgeLabels.CanonicalLinkGraphEdge2;
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction.CanonicalLinkGraphEdge;
 import de.webis.cikm20_duplicates.util.HashTransformationUtil;
-import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.util.NGramms;
@@ -98,12 +98,37 @@ public class SparkEvaluateSimHashFeatures {
 				
 				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = input.flatMapToPair(i -> extractAllFeatures(i));
 				
-				JavaRDD<FeatureSetCandidate> candidates = hashToDocFeatures.groupByKey()
-						.flatMap(i -> reportFeatureSetCandidates(i, FingerPrintUtil.simHashFingerPrinting(64, 3)));
+//				JavaRDD<FeatureSetCandidate> candidates = hashToDocFeatures.groupByKey()
+//						.flatMap(i -> reportFeatureSetCandidates(i, FingerPrintUtil.simHashFingerPrinting(64, 3)));
 				
-				candidates.map(i -> i.toString())
-					.saveAsTextFile(DIR + corpus + "-feature-set-candidates");
+				hashToDocFeatures.repartitionAndSortWithinPartitions(new HashPartitioner(10000)).map(i -> BlaForTmp.persist(i))
+					.saveAsTextFile(DIR + corpus + "-feature-set-hash-to-document-features");
 			}
+		}
+	}
+	
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class BlaForTmp {
+		private String hash;
+		private SimHashDocumentFeatures features;
+		
+		public static String persist(Tuple2<String, SimHashDocumentFeatures> i) {
+			return new BlaForTmp(i._1(), i._2()).toString();
+		}
+		
+		@Override
+		@SneakyThrows
+		public String toString() {
+			return new ObjectMapper().writeValueAsString(this);
+		}
+
+		@SneakyThrows
+		public static Tuple2<String, SimHashDocumentFeatures> fromString(String src) {
+			BlaForTmp ret = new ObjectMapper().readValue(src, BlaForTmp.class);
+			
+			return new Tuple2<>(ret.hash, ret.features);
 		}
 	}
 	
