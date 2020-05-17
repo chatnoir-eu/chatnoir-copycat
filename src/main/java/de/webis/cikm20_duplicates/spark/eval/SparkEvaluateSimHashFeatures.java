@@ -12,8 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.curator.shaded.com.google.common.collect.Iterators;
+import org.apache.spark.HashPartitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -111,11 +115,9 @@ public class SparkEvaluateSimHashFeatures {
 						.textFile(DIR + corpus + "-feature-set-hash-to-document-features")
 						.mapToPair(i -> BlaForTmp.fromString(i));
 			
-				JavaRDD<FeatureSetCandidate> candidates = hashToDocFeatures.groupByKey()
-						.flatMap(i -> reportFeatureSetCandidates(i, FingerPrintUtil.simHashFingerPrinting(64, 3)));
-
-				candidates.map(i -> i.toString())
-					.saveAsTextFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation");
+				hashToDocFeatures.groupByKey(new HashPartitioner(10000))
+						.flatMap(i -> Iterators.transform(reportFeatureSetCandidates(i, FingerPrintUtil.simHashFingerPrinting(64, 3)), j -> j.toString()))
+						.saveAsTextFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation");
 			}
 		}
 	}
@@ -219,29 +221,31 @@ public class SparkEvaluateSimHashFeatures {
 
 	private static Iterator<FeatureSetCandidate> reportFeatureSetCandidates(Tuple2<String, Iterable<SimHashDocumentFeatures>> a, Fingerprinter<Integer> fingerprinter) {
 		List<SimHashDocumentFeatures> docs = new ArrayList<>(ImmutableList.copyOf(a._2.iterator()));
-		List<FeatureSetCandidate> ret = new ArrayList<>();
 		
-		for(int i=0; i< docs.size(); i++) {
-			SimHashDocumentFeatures aFeatures = docs.get(i);
-			
-			byte[] hashA = HashTransformationUtil.integersToHash(aFeatures.simHash);
-			for(int j=i+1; j<docs.size(); j++) {
-				SimHashDocumentFeatures bFeatures = docs.get(j);
-				
-				if(!aFeatures.featureName.equals(bFeatures.featureName)) {
-					continue;
-				}
-				
-				byte[] hashB = HashTransformationUtil.integersToHash(bFeatures.simHash);
-				
-				int hemming = Hash.getHammingDistance(hashA, hashB);
-				if(hemming <= 3) {
-					ret.add(FeatureSetCandidate.featureSetCandidateOrNull(aFeatures, bFeatures));
-				}
-			}
+		Stream<Pair<Integer, Integer>> indexStream = IntStream.range(0, docs.size()).boxed().flatMap(i -> IntStream.range(i+1, docs.size()).mapToObj(j -> Pair.of(i, j)));
+		return indexStream.flatMap(i -> internalBla(docs, i))
+				.filter(i -> i != null)
+				.iterator();
+	}
+	
+	private static Stream<FeatureSetCandidate> internalBla(List<SimHashDocumentFeatures> docs, Pair<Integer, Integer> index) {
+		List<FeatureSetCandidate> ret = new LinkedList<>();
+		
+		SimHashDocumentFeatures aFeatures = docs.get(index.getLeft());
+		byte[] hashA = HashTransformationUtil.integersToHash(aFeatures.simHash);
+		SimHashDocumentFeatures bFeatures = docs.get(index.getRight());
+		
+		if(!aFeatures.featureName.equals(bFeatures.featureName)) {
+			return ret.stream();
+		}
+
+		byte[] hashB = HashTransformationUtil.integersToHash(bFeatures.simHash);
+		int hemming = Hash.getHammingDistance(hashA, hashB);
+		if(hemming <= 3) {
+			ret.add(FeatureSetCandidate.featureSetCandidateOrNull(aFeatures, bFeatures));
 		}
 		
-		return ret.stream().filter(i -> i != null).iterator();
+		return ret.stream().filter(i -> i != null);
 	}
 
 
