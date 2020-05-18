@@ -2,6 +2,7 @@ package de.webis.cikm20_duplicates.spark.eval;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +37,7 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 		String docs_dir = DIR + corpus + "-sample-0.1-and-large-groups";
 		
 		try(JavaSparkContext jsc = context()) {
-			for(String feature: featureNames()) {
+			for(String feature: featureNames2()) {
 				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
 				Set<String> idsToKeep = idsToKeep(candidatesForFeature);
 				
@@ -179,5 +180,10 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 
 	public static List<String> featureNames() {
 		return new ArrayList<>(SparkEvaluateSimHashFeatures.allFeatures(new CollectionDocument("", "", "", null)).keySet());
+	}
+	
+	public static List<String> featureNames2() {
+		return Arrays.asList("3-gramms", "5-gramms", "8-gramms",
+				"1-3-gramms", "1-5-gramms", "1-8-gramms", "3-5-gramms", "3-8-gramms", "5-8-gramms");
 	}
 }
