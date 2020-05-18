@@ -67,7 +67,7 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 			ret = jsc.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
 					.map(i -> FeatureSetCandidate.fromString(i));
 		} else  {
-			ret = jsc.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
+			ret = jsc.textFile(DIR + corpus + "-feature-set-evaluation")
 					.flatMap(i -> candidatesFrom(i, feature));
 		}
 		
