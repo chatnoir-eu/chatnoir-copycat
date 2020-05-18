@@ -2,7 +2,6 @@ package de.webis.cikm20_duplicates.spark.eval;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -30,37 +29,47 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {/*"cw09", "cw12", "cc-2015-11"*/ "cc-2017-04"};
+	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11" /*, "cc-2017-04"*/};
+	
+//	public static void main(String[] args) {
+//		String corpus = CORPORA[0];
+//		String docs_dir = DIR + corpus + "-sample-0.1-and-large-groups";
+//		
+//		try(JavaSparkContext jsc = context()) {
+//			for(String feature: featureNames()) {
+//				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
+//				Set<String> idsToKeep = idsToKeep(candidatesForFeature);
+//				
+//				if(idsToKeep.isEmpty() || candidatesForFeature.isEmpty()) {
+//					throw new RuntimeException("Something invalid happened: " + feature);
+//				}
+//				
+//				JavaPairRDD<String, CollectionDocument> docs = docs(jsc, docs_dir, idsToKeep);
+//				JavaRDD<TwoDocsForFeatureWithS3Score> rdd = jsc.parallelize(candidatesForFeature, 500)
+//						.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0));
+//				
+//				rdd = leftJoin(rdd, docs);
+//				rdd = rightJoin(rdd, docs);
+//				
+//				rdd.map(i -> addS3Score(i))
+//					.map(i -> i.toString())
+//					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-" + feature + "-raw-data.jsonl");
+//			}
+//		}
+//	}
 	
 	public static void main(String[] args) {
 		String corpus = CORPORA[0];
-		String docs_dir = DIR + corpus + "-sample-0.1-and-large-groups";
 		
 		try(JavaSparkContext jsc = context()) {
-			for(String feature: featureNames2()) {
+			for(String feature: featureNames()) {
 				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
-				Set<String> idsToKeep = idsToKeep(candidatesForFeature);
-				
-				if(idsToKeep.isEmpty() || candidatesForFeature.isEmpty()) {
-					throw new RuntimeException("Something invalid happened: " + feature);
-				}
-				
-				JavaPairRDD<String, CollectionDocument> docs = docs(jsc, docs_dir, idsToKeep);
-				JavaRDD<TwoDocsForFeatureWithS3Score> rdd = jsc.parallelize(candidatesForFeature, 500)
-						.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0));
-				
-				rdd = leftJoin(rdd, docs);
-				rdd = rightJoin(rdd, docs);
-				
-				rdd.map(i -> addS3Score(i))
-					.map(i -> i.toString())
-					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-" + feature + "-raw-data.jsonl");
+				jsc.parallelize(candidatesForFeature, 500)
+					.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0))
+					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-pairs-without-s3-" + feature );
 			}
 		}
 	}
-	
-	// cikm2020/canonical-link-graph/cw12-feature-set-evaluation
-	// cikm2020/canonical-link-graph/cc-2017-04-feature-set-evaluation
 	
 	private static List<FeatureSetCandidate> candidatesForFeature(JavaSparkContext jsc, String corpus, String feature) {
 		JavaRDD<FeatureSetCandidate> ret = null;
@@ -182,8 +191,8 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 		return new ArrayList<>(SparkEvaluateSimHashFeatures.allFeatures(new CollectionDocument("", "", "", null)).keySet());
 	}
 	
-	public static List<String> featureNames2() {
-		return Arrays.asList("3-gramms", "5-gramms", "8-gramms",
-				"1-3-gramms", "1-5-gramms", "1-8-gramms", "3-5-gramms", "3-8-gramms", "5-8-gramms");
-	}
+//	public static List<String> featureNames2() {
+//		return Arrays.asList("3-gramms", "5-gramms", "8-gramms",
+//				"1-3-gramms", "1-5-gramms", "1-8-gramms", "3-5-gramms", "3-8-gramms", "5-8-gramms");
+//	}
 }
