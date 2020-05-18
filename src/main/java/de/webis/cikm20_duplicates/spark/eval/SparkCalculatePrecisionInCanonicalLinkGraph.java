@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.spark.eval;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -123,7 +124,8 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class TwoDocsForFeatureWithS3Score {
+	@SuppressWarnings("serial")
+	public static class TwoDocsForFeatureWithS3Score implements Serializable {
 		private FeatureSetCandidate candidate;
 		private CollectionDocument leftDoc;
 		private CollectionDocument rightDoc;
