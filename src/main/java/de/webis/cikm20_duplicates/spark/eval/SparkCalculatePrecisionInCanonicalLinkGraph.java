@@ -2,7 +2,10 @@ package de.webis.cikm20_duplicates.spark.eval;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.spark.SparkConf;
@@ -26,7 +29,7 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11"};
+	private static final String[] CORPORA = new String[] {/*"cw09", "cw12", "cc-2015-11"*/ "cc-2017-04"};
 	
 	public static void main(String[] args) {
 		String corpus = CORPORA[0];
@@ -34,12 +37,13 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 		
 		try(JavaSparkContext jsc = context()) {
 			for(String feature: featureNames()) {
-				List<FeatureSetCandidate> candidatesForFeature = jsc.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
-						.map(i -> FeatureSetCandidate.fromString(i))
-						.filter(i -> feature.equals(i.getFeatureName()))
-						.takeSample(false, 50000);
-				
+				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
 				Set<String> idsToKeep = idsToKeep(candidatesForFeature);
+				
+				if(idsToKeep.isEmpty() || candidatesForFeature.isEmpty()) {
+					throw new RuntimeException("Something invalid happened: " + feature);
+				}
+				
 				JavaPairRDD<String, CollectionDocument> docs = docs(jsc, docs_dir, idsToKeep);
 				JavaRDD<TwoDocsForFeatureWithS3Score> rdd = jsc.parallelize(candidatesForFeature, 500)
 						.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0));
@@ -54,6 +58,41 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 		}
 	}
 	
+	// cikm2020/canonical-link-graph/cw12-feature-set-evaluation
+	// cikm2020/canonical-link-graph/cc-2017-04-feature-set-evaluation
+	
+	private static List<FeatureSetCandidate> candidatesForFeature(JavaSparkContext jsc, String corpus, String feature) {
+		JavaRDD<FeatureSetCandidate> ret = null;
+		if(corpus.equalsIgnoreCase("cc-2015-11")) {
+			ret = jsc.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
+					.map(i -> FeatureSetCandidate.fromString(i));
+		} else  {
+			ret = jsc.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
+					.flatMap(i -> candidatesFrom(i, feature));
+		}
+		
+		return ret.filter(i -> i != null && feature.equals(i.getFeatureName()))
+				.takeSample(false, 50000);
+	}
+	
+	@SneakyThrows
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static Iterator<FeatureSetCandidate> candidatesFrom(String src, String feature) {
+		Map<String, Object> data = new ObjectMapper().readValue(src, Map.class);
+		String firstId = (String) data.get("firstId");
+		String secondId = (String) data.get("secondId");
+		List<String> featureNames = (List) data.get("featureNames");
+		List<FeatureSetCandidate> ret = new ArrayList<>();
+		
+		for(String f: featureNames) {
+			if(feature.equals(f)) {
+				ret.add(new FeatureSetCandidate(f, firstId, secondId));
+			}
+		}
+		
+		return ret.iterator();
+	}
+
 	private static TwoDocsForFeatureWithS3Score addS3Score(TwoDocsForFeatureWithS3Score i) {
 		i.setS3Score(SparkEnrichRelevanceTransferPairs.s3Score(i.leftDoc, i.rightDoc));
 		return i;
