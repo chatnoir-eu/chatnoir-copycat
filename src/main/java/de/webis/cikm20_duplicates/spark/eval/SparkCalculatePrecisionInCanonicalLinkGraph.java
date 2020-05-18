@@ -3,7 +3,6 @@ package de.webis.cikm20_duplicates.spark.eval;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -99,7 +98,7 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 	}
 	
 	private static JavaRDD<TwoDocsForFeatureWithS3Score> leftJoin(JavaRDD<TwoDocsForFeatureWithS3Score> rdd, JavaPairRDD<String, CollectionDocument> docs) {
-		JavaPairRDD<String, TwoDocsForFeatureWithS3Score> ret = rdd.mapToPair(i -> new Tuple2<>(i.leftDoc.getId(), i));
+		JavaPairRDD<String, TwoDocsForFeatureWithS3Score> ret = rdd.mapToPair(i -> new Tuple2<>(i.getCandidate().getFirstId(), i));
 		
 		return ret.join(docs).map(i -> {
 			TwoDocsForFeatureWithS3Score iNew = i._2()._1();
@@ -111,7 +110,7 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 	
 	
 	private static JavaRDD<TwoDocsForFeatureWithS3Score> rightJoin(JavaRDD<TwoDocsForFeatureWithS3Score> rdd, JavaPairRDD<String, CollectionDocument> docs) {
-		JavaPairRDD<String, TwoDocsForFeatureWithS3Score> ret = rdd.mapToPair(i -> new Tuple2<>(i.rightDoc.getId(), i));
+		JavaPairRDD<String, TwoDocsForFeatureWithS3Score> ret = rdd.mapToPair(i -> new Tuple2<>(i.getCandidate().getSecondId(), i));
 		
 		return ret.join(docs).map(i -> {
 			TwoDocsForFeatureWithS3Score iNew = i._2()._1();
