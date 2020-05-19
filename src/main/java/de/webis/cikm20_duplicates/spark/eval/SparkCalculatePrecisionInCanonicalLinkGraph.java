@@ -2,6 +2,7 @@ package de.webis.cikm20_duplicates.spark.eval;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -31,45 +32,44 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 	
 	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11" /*, "cc-2017-04"*/};
 	
-//	public static void main(String[] args) {
-//		String corpus = CORPORA[0];
-//		String docs_dir = DIR + corpus + "-sample-0.1-and-large-groups";
-//		
-//		try(JavaSparkContext jsc = context()) {
-//			for(String feature: featureNames()) {
-//				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
-//				Set<String> idsToKeep = idsToKeep(candidatesForFeature);
-//				
-//				if(idsToKeep.isEmpty() || candidatesForFeature.isEmpty()) {
-//					throw new RuntimeException("Something invalid happened: " + feature);
-//				}
-//				
-//				JavaPairRDD<String, CollectionDocument> docs = docs(jsc, docs_dir, idsToKeep);
-//				JavaRDD<TwoDocsForFeatureWithS3Score> rdd = jsc.parallelize(candidatesForFeature, 500)
-//						.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0));
-//				
-//				rdd = leftJoin(rdd, docs);
-//				rdd = rightJoin(rdd, docs);
-//				
-//				rdd.map(i -> addS3Score(i))
-//					.map(i -> i.toString())
-//					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-" + feature + "-raw-data.jsonl");
-//			}
-//		}
-//	}
-	
 	public static void main(String[] args) {
 		String corpus = CORPORA[0];
 		
 		try(JavaSparkContext jsc = context()) {
 			for(String feature: featureNames()) {
 				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
-				jsc.parallelize(candidatesForFeature, 500)
-					.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0))
-					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-pairs-without-s3-" + feature );
+				Set<String> idsToKeep = idsToKeep(candidatesForFeature);
+				
+				if(idsToKeep.isEmpty() || candidatesForFeature.isEmpty()) {
+					throw new RuntimeException("Something invalid happened: " + feature);
+				}
+				
+				JavaPairRDD<String, CollectionDocument> docs = docs(jsc, corpus, idsToKeep);
+				JavaRDD<TwoDocsForFeatureWithS3Score> rdd = jsc.parallelize(candidatesForFeature, 500)
+						.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0));
+				
+				rdd = leftJoin(rdd, docs);
+				rdd = rightJoin(rdd, docs);
+				
+				rdd.map(i -> addS3Score(i))
+					.map(i -> i.toString())
+					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-" + feature + "-raw-data.jsonl");
 			}
 		}
 	}
+	
+//	public static void main(String[] args) {
+//		String corpus = CORPORA[0];
+//		
+//		try(JavaSparkContext jsc = context()) {
+//			for(String feature: featureNames()) {
+//				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
+//				jsc.parallelize(candidatesForFeature, 500)
+//					.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0))
+//					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-pairs-without-s3-" + feature );
+//			}
+//		}
+//	}
 	
 	private static List<FeatureSetCandidate> candidatesForFeature(JavaSparkContext jsc, String corpus, String feature) {
 		JavaRDD<FeatureSetCandidate> ret = null;
@@ -166,7 +166,12 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 		return new JavaSparkContext(conf);
 	}
 	
-	private static JavaPairRDD<String, CollectionDocument> docs(JavaSparkContext jsc, String dir, Set<String> idsToKeep) {
+	private static JavaPairRDD<String, CollectionDocument> docs(JavaSparkContext jsc, String corpus, Set<String> idsToKeep) {
+		String dir = DIR + corpus + "-sample-large-groups";
+		if(Arrays.asList("cc-2015-11", "cc-2017-04").contains(corpus)) {
+			dir = DIR + corpus + "-sample-0.1-and-large-groups";
+		}
+		
 		return jsc.textFile(dir).map(i -> docOrNull(i, idsToKeep))
 				.filter(i -> i != null)
 				.mapToPair(i -> new Tuple2<>(i.getId(), i));

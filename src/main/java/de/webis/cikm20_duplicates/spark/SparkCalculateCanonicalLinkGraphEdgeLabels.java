@@ -2,6 +2,7 @@ package de.webis.cikm20_duplicates.spark;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -24,6 +25,7 @@ import org.apache.spark.storage.StorageLevel;
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction.CanonicalLinkGraphEdge;
 import de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeCanonicalLinkGraph;
 import de.webis.cikm20_duplicates.util.TakeRandom;
+import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,18 +49,45 @@ public class SparkCalculateCanonicalLinkGraphEdgeLabels {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		String[] corpora = new String[] {/*"cw09", "cw12",*/ "cc-2015-11" /*, "cc-2017-04"*/};
+//		
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : corpora) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus + "-sample-0.1-and-large-groups");
+//				
+//				edgeLabels(input, new HashPartitioner(50000))
+//					.saveAsTextFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
-		String[] corpora = new String[] {/*"cw09", "cw12",*/ "cc-2015-11" /*, "cc-2017-04"*/};
+		String[] corpora = new String[] {"cw09", "cw12"};
 		
 		try (JavaSparkContext context = context()) {
 			for(String corpus : corpora) {
-				JavaRDD<String> input = context.textFile(DIR + corpus + "-sample-0.1-and-large-groups");
+				JavaPairRDD<String, CanonicalLinkGraphEdge> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups")
+					.flatMapToPair(src -> {
+						CanonicalLinkGraphEdge2 edge = CanonicalLinkGraphEdge2.fromString(src);
+						List<CollectionDocument> ret = Arrays.asList(edge.getFirstDoc().getDoc(), edge.getSecondDoc().getDoc());
+
+						return ret.stream()
+								.map(doc -> new Tuple2<>(doc.getId(), new CanonicalLinkGraphEdge(doc, null, null)))
+								.iterator();
+					});
 				
-				edgeLabels(input, new HashPartitioner(50000))
-					.saveAsTextFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+				input.groupByKey(new HashPartitioner(20000))
+					.map(i -> keepOnlyFirst(i))
+					.saveAsTextFile(DIR + corpus + "-sample-large-groups");
 			}
 		}
 	}
+	
+	private static String keepOnlyFirst(Tuple2<String, Iterable<CanonicalLinkGraphEdge>> i) {
+		return i._2().iterator().next().toString();
+	}
+	
 	
 //	public static void main(String[] args) {
 //		String[] corpora = new String[] {/*"cw09", "cw12", "cc-2015-11",*/ "cc-2017-04"};
