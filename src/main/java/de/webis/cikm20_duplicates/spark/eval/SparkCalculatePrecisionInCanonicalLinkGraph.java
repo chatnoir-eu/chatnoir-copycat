@@ -30,7 +30,7 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11" /*, "cc-2017-04"*/};
+	private static final String[] CORPORA = new String[] {"cw09"/*, "cw12", "cc-2015-11" /*, "cc-2017-04"*/};
 	
 	public static void main(String[] args) {
 		String corpus = CORPORA[0];
