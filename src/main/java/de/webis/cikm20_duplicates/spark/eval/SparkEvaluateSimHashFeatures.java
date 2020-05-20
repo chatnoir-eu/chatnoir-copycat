@@ -44,7 +44,7 @@ public class SparkEvaluateSimHashFeatures {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11"};
+	private static final String[] CORPORA = new String[] {"cw09" /*, "cw12", "cc-2015-11"*/};
 
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -108,20 +108,19 @@ public class SparkEvaluateSimHashFeatures {
 //		}
 //	}
 
-	public static void main(String[] args) {
-		try (JavaSparkContext context = context()) {
-			for(String corpus : CORPORA) {
-				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = context
-						.textFile(DIR + corpus + "-feature-set-hash-to-document-features")
-						.mapToPair(i -> BlaForTmp.fromString(i));
-			
-				hashToDocFeatures.groupByKey(new HashPartitioner(10000))
-						.flatMap(i -> Iterators.transform(reportFeatureSetCandidates(i, FingerPrintUtil.simHashFingerPrinting(64, 3)), j -> j.toString()))
-						.saveAsTextFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation");
-			}
-		}
-	}
-
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = context
+//						.textFile(DIR + corpus + "-feature-set-hash-to-document-features")
+//						.mapToPair(i -> BlaForTmp.fromString(i));
+//			
+//				hashToDocFeatures.groupByKey(new HashPartitioner(10000))
+//						.flatMap(i -> Iterators.transform(reportFeatureSetCandidates(i, FingerPrintUtil.simHashFingerPrinting(64, 3)), j -> j.toString()))
+//						.saveAsTextFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation");
+//			}
+//		}
+//	}
 	
 	@Data
 	@NoArgsConstructor
@@ -148,17 +147,17 @@ public class SparkEvaluateSimHashFeatures {
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		try (JavaSparkContext context = context()) {
-//			for(String corpus : CORPORA) {
-//				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
-//				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-feature-set-evaluation");
-//				
-//				reportFeatureSetEvaluation(input, 0.8, existingGroups)
-//					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
-//			}
-//		}
-//	}
+	public static void main(String[] args) {
+		try (JavaSparkContext context = context()) {
+			for(String corpus : CORPORA) {
+				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-feature-set-evaluation");
+				
+				reportFeatureSetEvaluation(input, 0.8, existingGroups)
+					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
+			}
+		}
+	}
 	
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
