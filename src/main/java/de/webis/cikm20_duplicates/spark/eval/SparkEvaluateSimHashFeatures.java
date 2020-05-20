@@ -346,7 +346,7 @@ public class SparkEvaluateSimHashFeatures {
 		JavaPairRDD<Tuple2<String, String> ,String> ret = candidates.union(groundTruth)
 				.mapToPair(i -> new Tuple2<>(new Tuple2<>(i.firstId, i.secondId), i.featureName));
 		
-		return ret.groupByKey()
+		return ret.groupByKey(new HashPartitioner(20000))
 				.map(i -> reportEvaluationForFeatureSet(i));
 	}
 	
