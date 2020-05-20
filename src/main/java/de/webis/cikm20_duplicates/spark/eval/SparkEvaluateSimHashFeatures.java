@@ -166,20 +166,19 @@ public class SparkEvaluateSimHashFeatures {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
 				BloomFilter<Long> bf = pairInGroundTruthBloomFilter(context, corpus);
-				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
+				JavaRDD<FeatureSetCandidate> existingGroups = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
+						.map(i -> FeatureSetCandidate.fromString(i))
 						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
 				
-				existingGroups.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-trimmed-to-ground-truth");
+				existingGroups
+					.map(i -> i.toString())
+					.saveAsTextFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth");
 			}
 		}
 	}
 	
-	private static boolean keepOnlyFromGroundTruthBF(String i, BloomFilter<Long> bf) {
-		Tuple2<Tuple2<String, String>, String> parsed = tmp(i);
-		String firstId = parsed._1()._1();
-		String secondId = parsed._1()._2();
-		
-		return bf.mightContain(hashIds(firstId, secondId));
+	private static boolean keepOnlyFromGroundTruthBF(FeatureSetCandidate i, BloomFilter<Long> bf) {
+		return bf.mightContain(hashIds(i.firstId, i.secondId));
 	}
 	
 	private static BloomFilter<Long> pairInGroundTruthBloomFilter(JavaSparkContext jsc, String corpus) {
