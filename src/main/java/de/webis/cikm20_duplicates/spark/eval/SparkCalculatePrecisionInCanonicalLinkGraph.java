@@ -30,14 +30,55 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {"cw09"/*, "cw12", "cc-2015-11" /*, "cc-2017-04"*/};
+	private static final String[] CORPORA = new String[] {/*"cw09", "cw12", */ "cc-2015-11" /*, "cc-2017-04"*/};
+	
+//	public static void main(String[] args) {
+//		String corpus = CORPORA[0];
+//		
+//		try(JavaSparkContext jsc = context()) {
+//			for(String feature: featureNames()) {
+//				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
+//				Set<String> idsToKeep = idsToKeep(candidatesForFeature);
+//				
+//				if(idsToKeep.isEmpty() || candidatesForFeature.isEmpty()) {
+//					throw new RuntimeException("Something invalid happened: " + feature);
+//				}
+//				
+//				JavaPairRDD<String, CollectionDocument> docs = docs(jsc, corpus, idsToKeep);
+//				JavaRDD<TwoDocsForFeatureWithS3Score> rdd = jsc.parallelize(candidatesForFeature, 500)
+//						.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0));
+//				
+//				rdd = leftJoin(rdd, docs);
+//				rdd = rightJoin(rdd, docs);
+//				
+//				rdd.map(i -> addS3Score(i))
+//					.map(i -> i.toString())
+//					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-" + feature + "-raw-data.jsonl");
+//			}
+//		}
+//	}
+//	
+//	public static void main(String[] args) {
+//		String corpus = CORPORA[0];
+//		
+//		try(JavaSparkContext jsc = context()) {
+//			for(String feature: featureNames()) {
+//				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
+//				jsc.parallelize(candidatesForFeature, 500)
+//					.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0))
+//					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-pairs-without-s3-" + feature );
+//			}
+//		}
+//	}
 	
 	public static void main(String[] args) {
 		String corpus = CORPORA[0];
 		
 		try(JavaSparkContext jsc = context()) {
 			for(String feature: featureNames()) {
-				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
+				List<FeatureSetCandidate> candidatesForFeature = jsc.textFile(DIR + "feature-set-precision-experiments/" + corpus + "-without-s3-" + feature)
+						.map(src -> TwoDocsForFeatureWithS3Score.fromString(src).getCandidate())
+						.collect();
 				Set<String> idsToKeep = idsToKeep(candidatesForFeature);
 				
 				if(idsToKeep.isEmpty() || candidatesForFeature.isEmpty()) {
@@ -57,19 +98,6 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 			}
 		}
 	}
-	
-//	public static void main(String[] args) {
-//		String corpus = CORPORA[0];
-//		
-//		try(JavaSparkContext jsc = context()) {
-//			for(String feature: featureNames()) {
-//				List<FeatureSetCandidate> candidatesForFeature = candidatesForFeature(jsc, corpus, feature);
-//				jsc.parallelize(candidatesForFeature, 500)
-//					.map(i -> new TwoDocsForFeatureWithS3Score(i, null, null, 0.0))
-//					.saveAsTextFile(DIR + "feature-set-precision-experiments/" + corpus + "-pairs-without-s3-" + feature );
-//			}
-//		}
-//	}
 	
 	private static List<FeatureSetCandidate> candidatesForFeature(JavaSparkContext jsc, String corpus, String feature) {
 		JavaRDD<FeatureSetCandidate> ret = null;
@@ -145,6 +173,11 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 		@SneakyThrows
 		public String toString() {
 			return new ObjectMapper().writeValueAsString(this);
+		}
+		
+		@SneakyThrows
+		public static TwoDocsForFeatureWithS3Score fromString(String src) {
+			return new ObjectMapper().readValue(src, TwoDocsForFeatureWithS3Score.class);
 		}
 	}
 	
