@@ -162,17 +162,31 @@ public class SparkEvaluateSimHashFeatures {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				BloomFilter<Long> bf = pairInGroundTruthBloomFilter(context, corpus);
+//				JavaRDD<FeatureSetCandidate> existingGroups = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
+//						.map(i -> FeatureSetCandidate.fromString(i))
+//						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
+//				
+//				existingGroups
+//					.map(i -> i.toString())
+//					.saveAsTextFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth");
+//			}
+//		}
+//	}
+
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
-				BloomFilter<Long> bf = pairInGroundTruthBloomFilter(context, corpus);
-				JavaRDD<FeatureSetCandidate> existingGroups = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
-						.map(i -> FeatureSetCandidate.fromString(i))
-						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
+				JavaRDD<FeatureSetCandidate> groundTruth = context.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth/")
+						.map(src -> FeatureSetCandidate.fromString(src));
+				JavaRDD<FeatureSetCandidate> candidates = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth")
+						.map(src -> FeatureSetCandidate.fromString(src));
 				
-				existingGroups
-					.map(i -> i.toString())
-					.saveAsTextFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth");
+				reportFeatureSetEvaluation(candidates, groundTruth)
+					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
 			}
 		}
 	}
