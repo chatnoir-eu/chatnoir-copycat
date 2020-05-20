@@ -25,6 +25,9 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnels;
+import com.google.common.hash.Hashing;
 
 import de.aitools.ir.fingerprinting.representer.Hash;
 import de.webis.cikm20_duplicates.spark.SparkCalculateCanonicalLinkGraphEdgeLabels.CanonicalLinkGraphEdge2;
@@ -162,14 +165,55 @@ public class SparkEvaluateSimHashFeatures {
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
-				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
-				JavaRDD<FeatureSetCandidate> groundTruth = groundTruth(input, 0.8);
-
-				groundTruth.map(i -> i.toString())
-					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-ground-truth");
+				BloomFilter<Long> bf = pairInGroundTruthBloomFilter(context, corpus);
+				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-feature-set-evaluation")
+						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
+				
+				existingGroups.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-trimmed-to-ground-truth");
 			}
 		}
 	}
+	
+	private static boolean keepOnlyFromGroundTruthBF(String i, BloomFilter<Long> bf) {
+		Tuple2<Tuple2<String, String>, String> parsed = tmp(i);
+		String firstId = parsed._1()._1();
+		String secondId = parsed._1()._2();
+		
+		return bf.mightContain(hashIds(firstId, secondId));
+	}
+	
+	private static BloomFilter<Long> pairInGroundTruthBloomFilter(JavaSparkContext jsc, String corpus) {
+		BloomFilter<Long> bf = BloomFilter.create(Funnels.longFunnel(), 200000000, 1.0e-6);
+		List<Long> all = jsc.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth")
+			.map(i -> FeatureSetCandidate.fromString(i))
+			.map(i -> hashIds(i.getFirstId(), i.getSecondId()))
+			.distinct()
+			.collect();
+		
+		for(long i: all) {
+			bf.put(i);
+		}
+		
+		return bf;
+	}
+	
+	private static long hashIds(String firstId, String secondId) {
+		String txt = firstId + "---vs---" + secondId;
+		
+		return Hashing.md5().hashString(txt).asLong();
+	}
+	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+//				JavaRDD<FeatureSetCandidate> groundTruth = groundTruth(input, 0.8);
+//
+//				groundTruth.map(i -> i.toString())
+//					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-ground-truth");
+//			}
+//		}
+//	}
 	
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
