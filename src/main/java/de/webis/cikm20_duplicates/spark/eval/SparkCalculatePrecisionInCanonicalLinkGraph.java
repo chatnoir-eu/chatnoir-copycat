@@ -76,7 +76,7 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 		
 		try(JavaSparkContext jsc = context()) {
 			for(String feature: featureNames()) {
-				List<FeatureSetCandidate> candidatesForFeature = jsc.textFile(DIR + "feature-set-precision-experiments/" + corpus + "-without-s3-" + feature)
+				List<FeatureSetCandidate> candidatesForFeature = jsc.textFile(DIR + "feature-set-precision-experiments/" + corpus + "-pairs-without-s3-" + feature)
 						.map(src -> TwoDocsForFeatureWithS3Score.fromString(src).getCandidate())
 						.collect();
 				Set<String> idsToKeep = idsToKeep(candidatesForFeature);
