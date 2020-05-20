@@ -166,7 +166,7 @@ public class SparkEvaluateSimHashFeatures {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
 				BloomFilter<Long> bf = pairInGroundTruthBloomFilter(context, corpus);
-				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-feature-set-evaluation")
+				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation")
 						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
 				
 				existingGroups.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-trimmed-to-ground-truth");
