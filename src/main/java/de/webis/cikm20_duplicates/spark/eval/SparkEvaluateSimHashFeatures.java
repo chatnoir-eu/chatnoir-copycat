@@ -44,7 +44,7 @@ public class SparkEvaluateSimHashFeatures {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {"cw09" /*, "cw12", "cc-2015-11"*/};
+	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11"/*, "cc-2017-04*/};
 
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -147,14 +147,26 @@ public class SparkEvaluateSimHashFeatures {
 		}
 	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+//				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-feature-set-evaluation");
+//				
+//				reportFeatureSetEvaluation(input, 0.8, existingGroups)
+//					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
 				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
-				JavaRDD<String> existingGroups = context.textFile(DIR + corpus + "-feature-set-evaluation");
-				
-				reportFeatureSetEvaluation(input, 0.8, existingGroups)
-					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
+				JavaRDD<FeatureSetCandidate> groundTruth = groundTruth(input, 0.8);
+
+				groundTruth.map(i -> i.toString())
+					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-ground-truth");
 			}
 		}
 	}
@@ -246,7 +258,6 @@ public class SparkEvaluateSimHashFeatures {
 		
 		return ret.stream().filter(i -> i != null);
 	}
-
 
 	public static JavaRDD<String> reportFeatureSetEvaluation(JavaRDD<String> input, double threshold, JavaRDD<String> existingGroups) {
 		JavaRDD<FeatureSetCandidate> b = groundTruth(input, threshold);
