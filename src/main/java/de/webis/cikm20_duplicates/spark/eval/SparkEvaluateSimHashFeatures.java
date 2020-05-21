@@ -249,15 +249,26 @@ public class SparkEvaluateSimHashFeatures {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			JavaPairRDD<Tuple2<String, String>, String> ret = context.textFile(DIR + "cc-2015-11-candidates-and-positive-ground-truth-for-feature-set-hash-evaluation")
+//					.map(src -> FeatureSetCandidate.fromString(src))
+//					.mapToPair(i -> new Tuple2<Tuple2<String, String>, String>(new Tuple2<String, String>(i.firstId, i.secondId), i.featureName));
+//			
+//			ret.groupByKey(new HashPartitioner(10000))
+//					.map(i -> reportEvaluationForFeatureSet(i))
+//					.saveAsTextFile(DIR + "cc-2015-11-feature-set-evaluation-canonical-link-graph-edges-positive-only");
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaPairRDD<Tuple2<String, String>, String> ret = context.textFile(DIR + "cc-2015-11-candidates-and-positive-ground-truth-for-feature-set-hash-evaluation")
-					.map(src -> FeatureSetCandidate.fromString(src))
-					.mapToPair(i -> new Tuple2<Tuple2<String, String>, String>(new Tuple2<String, String>(i.firstId, i.secondId), i.featureName));
+			JavaRDD<String> input1 = context.textFile(DIR + "cc-2015-11-feature-set-evaluation-canonical-link-graph-edges-negative-only");
+			JavaRDD<String> input2 = context.textFile(DIR + "cc-2015-11-feature-set-evaluation-canonical-link-graph-edges-positive-only");
 			
-			ret.groupByKey(new HashPartitioner(10000))
-					.map(i -> reportEvaluationForFeatureSet(i))
-					.saveAsTextFile(DIR + "cc-2015-11-feature-set-evaluation-canonical-link-graph-edges-positive-only");
+			input1.union(input2)
+					.repartition(5000)
+					.saveAsTextFile(DIR + "cc-2015-11-feature-set-evaluation-canonical-link-graph-edges");
 		}
 	}
 	
