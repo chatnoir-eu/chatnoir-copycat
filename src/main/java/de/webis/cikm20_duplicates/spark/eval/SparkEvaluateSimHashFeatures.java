@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.curator.shaded.com.google.common.collect.Iterators;
 import org.apache.spark.HashPartitioner;
+import org.apache.spark.Partitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -46,6 +47,9 @@ import scala.Tuple2;
 public class SparkEvaluateSimHashFeatures {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
+	
+	private static final String S3_POSITIVE = "S3";
+	private static final String S3_NEGATIVE = "S3-negative";
 	
 	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11"/*, "cc-2017-04*/};
 
@@ -177,31 +181,57 @@ public class SparkEvaluateSimHashFeatures {
 //		}
 //	}
 
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<FeatureSetCandidate> groundTruth = context.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth/")
+//						.map(src -> FeatureSetCandidate.fromString(src));
+//				JavaRDD<FeatureSetCandidate> candidates = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth")
+//						.map(src -> FeatureSetCandidate.fromString(src));
+//				
+//				reportFeatureSetEvaluation(candidates, groundTruth, new HashPartitioner(20000))
+//					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
-				JavaRDD<FeatureSetCandidate> groundTruth = context.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth/")
-						.map(src -> FeatureSetCandidate.fromString(src));
-				JavaRDD<FeatureSetCandidate> candidates = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth")
-						.map(src -> FeatureSetCandidate.fromString(src));
+				JavaRDD<FeatureSetCandidate> s3NegativeGroundTruth = context.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth/")
+						.map(src -> FeatureSetCandidate.fromString(src))
+						.filter(f -> S3_NEGATIVE.equals(f.getFeatureName()));
+				List<Long> allNegativeIds = s3NegativeGroundTruth.map(i -> hashIds(i.getFirstId(), i.getSecondId()))
+						.collect();
+				BloomFilter<Long> bf = bf(allNegativeIds);
 				
-				reportFeatureSetEvaluation(candidates, groundTruth)
-					.saveAsTextFile(DIR + corpus + "-feature-set-evaluation-canonical-link-graph-edges");
+				JavaRDD<FeatureSetCandidate> candidates = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth")
+						.map(src -> FeatureSetCandidate.fromString(src))
+						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
+				
+				s3NegativeGroundTruth.union(candidates).map(i -> i.toString())
+					.repartition(20000)
+					.saveAsTextFile(DIR + corpus + "-candidates-and-negative-ground-truth-for-feature-set-hash-evaluation");
 			}
 		}
-	}
+}
 	
 	private static boolean keepOnlyFromGroundTruthBF(FeatureSetCandidate i, BloomFilter<Long> bf) {
 		return bf.mightContain(hashIds(i.firstId, i.secondId));
 	}
 	
 	private static BloomFilter<Long> pairInGroundTruthBloomFilter(JavaSparkContext jsc, String corpus) {
-		BloomFilter<Long> bf = BloomFilter.create(Funnels.longFunnel(), 200000000, 1.0e-6);
 		List<Long> all = jsc.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth")
 			.map(i -> FeatureSetCandidate.fromString(i))
 			.map(i -> hashIds(i.getFirstId(), i.getSecondId()))
 			.distinct()
 			.collect();
+
+		return bf(all);
+	}
+	
+	private static BloomFilter<Long> bf(List<Long> all) {
+		BloomFilter<Long> bf = BloomFilter.create(Funnels.longFunnel(), 200000000, 1.0e-6);
 		
 		for(long i: all) {
 			bf.put(i);
@@ -271,12 +301,12 @@ public class SparkEvaluateSimHashFeatures {
 		return ret;
 	}
 	
-	public static JavaRDD<FeatureSetCandidate> featureSetCandidatesForCanonicalLinkGraphEdge(JavaRDD<String> input, Fingerprinter<Integer> fingerprinter) {
+	public static JavaRDD<FeatureSetCandidate> featureSetCandidatesForCanonicalLinkGraphEdge(JavaRDD<String> input, Fingerprinter<Integer> fingerprinter, Partitioner partitioner) {
 		JavaPairRDD<String, DocToFeatures> docToFeatures = input.flatMap(i -> extractPairs(fingerprinter, CanonicalLinkGraphEdge.fromString(i).getDoc()))
 				.mapToPair(i -> new Tuple2<>(i.docId, i));
 		
 		JavaPairRDD<String, SimHashDocumentFeatures> hashToDocFeatures = featureHashToDocToFeatures(docToFeatures);
-		return hashToDocFeatures.groupByKey()
+		return hashToDocFeatures.groupByKey(partitioner)
 				.flatMap(i -> reportFeatureSetCandidates(i, fingerprinter));
 	}
 	
@@ -338,15 +368,15 @@ public class SparkEvaluateSimHashFeatures {
 		return ret.iterator();
 	}
 
-	public static JavaRDD<String> reportFeatureSetEvaluation(JavaRDD<String> input, Fingerprinter<Integer> fingerprinter, double threshold) {
-		return reportFeatureSetEvaluation(featureSetCandidates(input, fingerprinter), groundTruth(input, threshold));
+	public static JavaRDD<String> reportFeatureSetEvaluation(JavaRDD<String> input, Fingerprinter<Integer> fingerprinter, double threshold, Partitioner partitioner) {
+		return reportFeatureSetEvaluation(featureSetCandidates(input, fingerprinter), groundTruth(input, threshold), partitioner);
 	}
 	
-	public static JavaRDD<String> reportFeatureSetEvaluation(JavaRDD<FeatureSetCandidate> candidates, JavaRDD<FeatureSetCandidate> groundTruth) {
+	public static JavaRDD<String> reportFeatureSetEvaluation(JavaRDD<FeatureSetCandidate> candidates, JavaRDD<FeatureSetCandidate> groundTruth, Partitioner partitioner) {
 		JavaPairRDD<Tuple2<String, String> ,String> ret = candidates.union(groundTruth)
 				.mapToPair(i -> new Tuple2<>(new Tuple2<>(i.firstId, i.secondId), i.featureName));
 		
-		return ret.groupByKey(new HashPartitioner(20000))
+		return ret.groupByKey(partitioner)
 				.map(i -> reportEvaluationForFeatureSet(i));
 	}
 	
@@ -435,10 +465,10 @@ public class SparkEvaluateSimHashFeatures {
 		CanonicalLinkGraphEdge2 edge = CanonicalLinkGraphEdge2.fromString(src);
 		CollectionDocument a = edge.getFirstDoc().getDoc();
 		CollectionDocument b = edge.getSecondDoc().getDoc();
-		String label = "S3";
+		String label = S3_POSITIVE;
 		
 		if(edge.getS3score() < threshold) {
-			label = "S3-negative";
+			label = S3_NEGATIVE;
 		}
 		
 		if(a.getId().compareTo(b.getId()) < 0) {

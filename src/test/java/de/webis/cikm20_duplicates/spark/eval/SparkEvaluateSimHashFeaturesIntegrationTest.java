@@ -3,6 +3,7 @@ package de.webis.cikm20_duplicates.spark.eval;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.spark.HashPartitioner;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.approvaltests.Approvals;
@@ -68,7 +69,7 @@ public class SparkEvaluateSimHashFeaturesIntegrationTest extends SharedJavaSpark
 	
 	@Test
 	public void reportGroundTruthBasicsForLowThreshold() {
-		JavaRDD<String> hashToFeatures = SparkEvaluateSimHashFeatures.reportFeatureSetEvaluation(input(), fingerprinter, 0.6);
+		JavaRDD<String> hashToFeatures = SparkEvaluateSimHashFeatures.reportFeatureSetEvaluation(input(), fingerprinter, 0.6, new HashPartitioner(10));
 		List<String> actual = SparkCreateSourceDocumentsIntegrationTest.sorted(hashToFeatures);
 		
 		Approvals.verifyAsJson(actual);
@@ -76,7 +77,7 @@ public class SparkEvaluateSimHashFeaturesIntegrationTest extends SharedJavaSpark
 	
 	@Test
 	public void reportGroundTruthBasicsForHighThreshold() {
-		JavaRDD<String> hashToFeatures = SparkEvaluateSimHashFeatures.reportFeatureSetEvaluation(input(), fingerprinter, 0.95);
+		JavaRDD<String> hashToFeatures = SparkEvaluateSimHashFeatures.reportFeatureSetEvaluation(input(), fingerprinter, 0.95, new HashPartitioner(10));
 		List<String> actual = SparkCreateSourceDocumentsIntegrationTest.sorted(hashToFeatures);
 		
 		Approvals.verifyAsJson(actual);
