@@ -96,11 +96,11 @@ public class SparkCreateSourceDocuments {
 		return docs.map(i -> new DocumentWithFingerprint(i.getId(), i.getUrl(), i.getCanonicalUrl(), fp(i, fingerprinters)));
 	}
 	
-	private static Map<String, List<Integer>> fp(CollectionDocument doc, List<Fingerprinter<Integer>> fingerprinters) {
-		Map<String, List<Integer>> ret = new LinkedHashMap<>();
+	private static LinkedHashMap<String, ArrayList<Integer>> fp(CollectionDocument doc, List<Fingerprinter<Integer>> fingerprinters) {
+		LinkedHashMap<String, ArrayList<Integer>> ret = new LinkedHashMap<>();
 		
 		for(Fingerprinter<Integer> f: fingerprinters) {
-			ret.put(f.fingerprinterName(), f.fingerprint(doc));
+			ret.put(f.fingerprinterName(), new ArrayList<>(f.fingerprint(doc)));
 		}
 		
 		return ret;
