@@ -195,13 +195,34 @@ public class SparkEvaluateSimHashFeatures {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<FeatureSetCandidate> s3NegativeGroundTruth = context.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth/")
+//						.map(src -> FeatureSetCandidate.fromString(src))
+//						.filter(f -> S3_NEGATIVE.equals(f.getFeatureName()));
+//				List<Long> allNegativeIds = s3NegativeGroundTruth.map(i -> hashIds(i.getFirstId(), i.getSecondId()))
+//						.collect();
+//				BloomFilter<Long> bf = bf(allNegativeIds);
+//				
+//				JavaRDD<FeatureSetCandidate> candidates = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth")
+//						.map(src -> FeatureSetCandidate.fromString(src))
+//						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
+//				
+//				s3NegativeGroundTruth.union(candidates).map(i -> i.toString())
+//					.repartition(20000)
+//					.saveAsTextFile(DIR + corpus + "-candidates-and-negative-ground-truth-for-feature-set-hash-evaluation");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
-				JavaRDD<FeatureSetCandidate> s3NegativeGroundTruth = context.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth/")
+				JavaRDD<FeatureSetCandidate> s3PositiveGroundTruth = context.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth/")
 						.map(src -> FeatureSetCandidate.fromString(src))
-						.filter(f -> S3_NEGATIVE.equals(f.getFeatureName()));
-				List<Long> allNegativeIds = s3NegativeGroundTruth.map(i -> hashIds(i.getFirstId(), i.getSecondId()))
+						.filter(f -> S3_POSITIVE.equals(f.getFeatureName()));
+				List<Long> allNegativeIds = s3PositiveGroundTruth.map(i -> hashIds(i.getFirstId(), i.getSecondId()))
 						.collect();
 				BloomFilter<Long> bf = bf(allNegativeIds);
 				
@@ -209,12 +230,12 @@ public class SparkEvaluateSimHashFeatures {
 						.map(src -> FeatureSetCandidate.fromString(src))
 						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
 				
-				s3NegativeGroundTruth.union(candidates).map(i -> i.toString())
+				s3PositiveGroundTruth.union(candidates).map(i -> i.toString())
 					.repartition(20000)
-					.saveAsTextFile(DIR + corpus + "-candidates-and-negative-ground-truth-for-feature-set-hash-evaluation");
+					.saveAsTextFile(DIR + corpus + "-candidates-and-positive-ground-truth-for-feature-set-hash-evaluation");
 			}
 		}
-}
+	}
 	
 	private static boolean keepOnlyFromGroundTruthBF(FeatureSetCandidate i, BloomFilter<Long> bf) {
 		return bf.mightContain(hashIds(i.firstId, i.secondId));
