@@ -238,6 +238,6 @@ public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJ
 	}
 	
 	private static String doc(String id, List<Integer> minHashes, List<Integer> simHashes) {
-		return "{\"docId\": \"" + id + "\", \"minHashParts\": " + minHashes +", \"simHash65BitParts\": "+ simHashes +"}";
+		return "{\"docId\": \"" + id + "\",\"fingerprints\":{\"MinHashWithJavaHash\": " + minHashes +", \"64BitK3SimHashOneGramms\": "+ simHashes +"}}";
 	}
 }

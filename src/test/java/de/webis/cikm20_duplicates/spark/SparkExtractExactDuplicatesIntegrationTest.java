@@ -94,6 +94,6 @@ public class SparkExtractExactDuplicatesIntegrationTest extends SharedJavaSparkC
 	}
 	
 	private static String docWithFingerprint(String id, List<Integer> minHashParts, List<Integer> simHash65BitParts) {
-		return "{\"docId\": \"" + id + "\", \"minHashParts\": " + minHashParts + ", \"simHash65BitParts\": " + simHash65BitParts + "}";
+		return "{\"docId\": \"" + id + "\",\"fingerprints\":{\"MinHashWithJavaHash\": " + minHashParts + ", \"64BitK3SimHashOneGramms\": " + simHash65BitParts + "}}";
 	}
 }

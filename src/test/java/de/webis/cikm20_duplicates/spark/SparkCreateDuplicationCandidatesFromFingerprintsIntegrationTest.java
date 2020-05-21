@@ -115,6 +115,6 @@ public class SparkCreateDuplicationCandidatesFromFingerprintsIntegrationTest ext
 	}
 	
 	private static String docWithFingerprint(String id, int hash1, int hash2) {
-		return "{\"docId\": \"" + id + "\", \"minHashParts\": [" + hash1 + ", " + hash2 + "]}";
+		return "{\"docId\": \"" + id + "\",\"fingerprints\":{\"MinHashWithJavaHash\": [" + hash1 + ", " + hash2 + "]}}";
 	}
 }
