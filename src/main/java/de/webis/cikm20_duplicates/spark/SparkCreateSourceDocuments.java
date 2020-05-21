@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.apache.hadoop.mapred.SequenceFileInputFormat;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaHadoopRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -44,6 +45,8 @@ import de.webis.trec_ndd.trec_collections.CollectionConfiguration.TrecCollection
 public class SparkCreateSourceDocuments {
 	
 	static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();
+
+	private static final String[] CORPORA = new String[] {"cw09", "cw12" /*, "cc-2015-11", "cc-2017-04"*/};
 	
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
@@ -56,13 +59,26 @@ public class SparkCreateSourceDocuments {
 
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-//			fingerprintAllDocuments(context, CLUEWEB09, CLUEWEB12)
-//				.saveAsTextFile("cikm2020/document-fingerprints");
-			fingerprintAllDocuments(context, ccDocs(context), PRODUCTION_FINGERPRINTS)
-				.saveAsTextFile("cikm2020/document-fingerprints-commoncrawl-main-2015-11");
+			for(String corpus: CORPORA) {
+				JavaRDD<CollectionDocument> docs = docs(context, corpus);
+				
+				fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
+					.repartition(10000)
+					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2", BZip2Codec.class);
+			}
 		}
 	}
 	
+	private static JavaRDD<CollectionDocument> docs(JavaSparkContext context, String corpus) {
+		if ("cw09".equals(corpus)) {
+			return docs(context, CLUEWEB09);
+		} else if ("cw12".equals(corpus)) {
+			return docs(context, CLUEWEB12);
+		} else {
+			throw new RuntimeException("Add more corpora");
+		}
+	}
+
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
 		conf.setAppName("cikm2020/source-documents");
