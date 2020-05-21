@@ -93,8 +93,8 @@ public final class SourceDocuments {
 	public static class DocumentWithFingerprint {
 		private String docId;
 		private URL url;
-		private List<Integer> minHashParts;
-		private List<Integer> simHash65BitParts;
+		private URL canonicalURL;
+		private Map<String, List<Integer>> fingerprints;
 		
 		@Override
 		@SneakyThrows

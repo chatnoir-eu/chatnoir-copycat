@@ -2,8 +2,10 @@ package de.webis.cikm20_duplicates.spark;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,12 +48,17 @@ public class SparkCreateSourceDocuments {
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
 			CLUEWEB12 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB12);
+	
+	public static final List<Fingerprinter<Integer>> PRODUCTION_FINGERPRINTS = Arrays.asList(
+		FingerPrintUtil.simHashFingerPrinting(64, 3),
+		FingerPrintUtil.productionFingerpringint(64, 3)	
+	);
 
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 //			fingerprintAllDocuments(context, CLUEWEB09, CLUEWEB12)
 //				.saveAsTextFile("cikm2020/document-fingerprints");
-			fingerprintAllDocuments(context, ccDocs(context))
+			fingerprintAllDocuments(context, ccDocs(context), PRODUCTION_FINGERPRINTS)
 				.saveAsTextFile("cikm2020/document-fingerprints-commoncrawl-main-2015-11");
 		}
 	}
@@ -69,16 +76,23 @@ public class SparkCreateSourceDocuments {
 				.filter(i -> i != null); 
 	}
 	
-	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, JavaRDD<CollectionDocument> docs) {
-		Fingerprinter<Integer> minHash384 = FingerPrintUtil.minHashFingerPrinting(1);
-		Fingerprinter<Integer> simHash64 = FingerPrintUtil.simHashFingerPrinting(64, 3);
+	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, JavaRDD<CollectionDocument> docs, List<Fingerprinter<Integer>> fingerprinters) {
+		return docs.map(i -> new DocumentWithFingerprint(i.getId(), i.getUrl(), i.getCanonicalUrl(), fp(i, fingerprinters)));
+	}
+	
+	private static Map<String, List<Integer>> fp(CollectionDocument doc, List<Fingerprinter<Integer>> fingerprinters) {
+		Map<String, List<Integer>> ret = new LinkedHashMap<>();
 		
-		return docs.map(i -> new DocumentWithFingerprint(i.getId(), i.getUrl(), minHash384.fingerprint(i), simHash64.fingerprint(i)));
+		for(Fingerprinter<Integer> f: fingerprinters) {
+			ret.put(f.fingerprinterName(), f.fingerprint(doc));
+		}
+		
+		return ret;
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, AnseriniCollectionReader...acr) {
-		return fingerprintAllDocuments(context, docs(context, acr));
+	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, List<Fingerprinter<Integer>> fingerprinters, AnseriniCollectionReader...acr) {
+		return fingerprintAllDocuments(context, docs(context, acr), fingerprinters);
 	}
 	
 	@SuppressWarnings("unchecked")

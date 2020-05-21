@@ -226,15 +226,6 @@ public class SparkCreateDeduplicationCandidates {
 		return ret.iterator();
 	}
 
-	
-	public static List<Integer> useMinHash(DocumentWithFingerprint doc) {
-		return doc.getMinHashParts();
-	}
-	
-	public static List<Integer> useSimHash(DocumentWithFingerprint doc) {
-		return doc.getSimHash65BitParts();
-	}
-
 	private static Iterator<Tuple2<Integer, DeduplicationUnit>> extractHashesToDocId(DocumentWithFingerprint doc, DeduplicationStrategy f) {
 		List<Integer> hashParts = f.extract(doc);
 		
@@ -243,16 +234,16 @@ public class SparkCreateDeduplicationCandidates {
 				.iterator();
 	}
 	
-	public static JavaRDD<DocumentWithFingerprint> duplicationCandidatesFromFingerprints(JavaRDD<String> docsWithFingerprint) {
+	public static JavaRDD<DocumentWithFingerprint> duplicationCandidatesFromFingerprints(JavaRDD<String> docsWithFingerprint, String feature) {
 		JavaRDD<DocumentWithFingerprint> parsedInput = docsWithFingerprint.map(i -> DocumentWithFingerprint.fromString(i));
-		BloomFilter<Integer> bf = bf(parsedInput);
+		BloomFilter<Integer> bf = bf(parsedInput, feature);
 		
-		return parsedInput.filter(doc -> doc.getMinHashParts().stream().anyMatch(i -> bf.mightContain(i)));
+		return parsedInput.filter(doc -> doc.getFingerprints().get(feature).stream().anyMatch(i -> bf.mightContain(i)));
 	}
 	
-	private static BloomFilter<Integer> bf(JavaRDD<DocumentWithFingerprint> docs) {
+	private static BloomFilter<Integer> bf(JavaRDD<DocumentWithFingerprint> docs, String feature) {
 		List<Integer> allElements = docs.filter(i -> SparkCreateSourceDocuments.DOCS_TO_TOPIC.containsKey(i.getDocId()))
-			.flatMap(i -> i.getMinHashParts().iterator())
+			.flatMap(i -> i.getFingerprints().get(feature).iterator())
 			.distinct()
 			.collect();
 		
@@ -289,7 +280,7 @@ public class SparkCreateDeduplicationCandidates {
 			return new DeduplicationStrategy() {
 				@Override
 				public List<Integer> extract(DocumentWithFingerprint doc) {
-					return doc.getMinHashParts();
+					return doc.getFingerprints().get("MinHashWithJavaHash");
 				}
 
 				@Override
@@ -303,7 +294,7 @@ public class SparkCreateDeduplicationCandidates {
 			return new DeduplicationStrategy() {
 				@Override
 				public List<Integer> extract(DocumentWithFingerprint doc) {
-					return doc.getSimHash65BitParts();
+					return doc.getFingerprints().get("64BitK3SimHashOneGramms");
 				}
 
 				@Override

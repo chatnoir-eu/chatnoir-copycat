@@ -338,12 +338,19 @@ public class SparkEvaluateSimHashFeatures {
 		ret.put("1-5-gramms", combine(oneGramms, fiveGramms));
 		ret.put("1-8-gramms", combine(oneGramms, eightGramms));
 		
-		ret.put("3-5-gramms", combine(threeGramms, fiveGramms));
+		ret.put("3-5-gramms", theeAndFiveGramms(doc));
 		ret.put("3-8-gramms", combine(threeGramms, eightGramms));
 		
 		ret.put("5-8-gramms", combine(fiveGramms, eightGramms));
 		
 		return ret;
+	}
+	
+	public static List<String> theeAndFiveGramms(CollectionDocument doc) {
+		List<String> threeGramms = nGramms(doc, 3);
+		List<String> fiveGramms = nGramms(doc, 5);
+		
+		return combine(threeGramms, fiveGramms);
 	}
 	
 	private static List<String> nGramms(CollectionDocument doc, int length) {
