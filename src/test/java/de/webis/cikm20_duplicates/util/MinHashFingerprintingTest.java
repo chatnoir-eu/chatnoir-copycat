@@ -141,6 +141,6 @@ public class MinHashFingerprintingTest {
 	}
 	
 	private static CollectionDocument doc(String docId, String fullyCanonicalizedContent) {
-		return new CollectionDocument(docId, null, fullyCanonicalizedContent, null);
+		return new CollectionDocument(docId, null, fullyCanonicalizedContent, null, null);
 	};
 }

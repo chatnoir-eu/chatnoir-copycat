@@ -226,11 +226,6 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 	}
 
 	public static List<String> featureNames() {
-		return new ArrayList<>(SparkEvaluateSimHashFeatures.allFeatures(new CollectionDocument("", "", "", null)).keySet());
+		return new ArrayList<>(SparkEvaluateSimHashFeatures.allFeatures(new CollectionDocument("", "", "", null, null)).keySet());
 	}
-	
-//	public static List<String> featureNames2() {
-//		return Arrays.asList("3-gramms", "5-gramms", "8-gramms",
-//				"1-3-gramms", "1-5-gramms", "1-8-gramms", "3-5-gramms", "3-8-gramms", "5-8-gramms");
-//	}
 }

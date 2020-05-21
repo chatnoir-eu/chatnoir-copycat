@@ -55,6 +55,6 @@ public class SparkCreateFingerprintsIntegrationTest extends SharedJavaSparkConte
 	
 	@SneakyThrows
 	private static CollectionDocument doc(String canonicalizedContent) {
-		return new CollectionDocument("id of " + canonicalizedContent, null, canonicalizedContent, new URL("http://" + canonicalizedContent));
+		return new CollectionDocument("id of " + canonicalizedContent, null, canonicalizedContent, new URL("http://" + canonicalizedContent), null);
 	}
 }

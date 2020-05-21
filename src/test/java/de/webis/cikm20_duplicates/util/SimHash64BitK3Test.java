@@ -167,6 +167,6 @@ public class SimHash64BitK3Test {
 	}
 	
 	private static CollectionDocument doc(int id, String fullyCanonicalizedContent) {
-		return new CollectionDocument("doc" + id, null, fullyCanonicalizedContent, null);
+		return new CollectionDocument("doc" + id, null, fullyCanonicalizedContent, null, null);
 	};
 }
