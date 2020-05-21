@@ -216,24 +216,36 @@ public class SparkEvaluateSimHashFeatures {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<FeatureSetCandidate> s3PositiveGroundTruth = context.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth/")
+//						.map(src -> FeatureSetCandidate.fromString(src))
+//						.filter(f -> S3_POSITIVE.equals(f.getFeatureName()));
+//				List<Long> allNegativeIds = s3PositiveGroundTruth.map(i -> hashIds(i.getFirstId(), i.getSecondId()))
+//						.collect();
+//				BloomFilter<Long> bf = bf(allNegativeIds);
+//				
+//				JavaRDD<FeatureSetCandidate> candidates = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth")
+//						.map(src -> FeatureSetCandidate.fromString(src))
+//						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
+//				
+//				s3PositiveGroundTruth.union(candidates).map(i -> i.toString())
+//					.repartition(20000)
+//					.saveAsTextFile(DIR + corpus + "-candidates-and-positive-ground-truth-for-feature-set-hash-evaluation");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			for(String corpus : CORPORA) {
-				JavaRDD<FeatureSetCandidate> s3PositiveGroundTruth = context.textFile(DIR + corpus + "-feature-set-evaluation-ground-truth/")
-						.map(src -> FeatureSetCandidate.fromString(src))
-						.filter(f -> S3_POSITIVE.equals(f.getFeatureName()));
-				List<Long> allNegativeIds = s3PositiveGroundTruth.map(i -> hashIds(i.getFirstId(), i.getSecondId()))
-						.collect();
-				BloomFilter<Long> bf = bf(allNegativeIds);
-				
-				JavaRDD<FeatureSetCandidate> candidates = context.textFile(DIR + corpus + "-candidates-for-feature-set-hash-evaluation-trimmed-to-ground-truth")
-						.map(src -> FeatureSetCandidate.fromString(src))
-						.filter(i -> keepOnlyFromGroundTruthBF(i, bf));
-				
-				s3PositiveGroundTruth.union(candidates).map(i -> i.toString())
-					.repartition(20000)
-					.saveAsTextFile(DIR + corpus + "-candidates-and-positive-ground-truth-for-feature-set-hash-evaluation");
-			}
+			JavaPairRDD<Tuple2<String, String>, String> ret = context.textFile(DIR + "cc-2015-11-candidates-and-negative-ground-truth-for-feature-set-hash-evaluation")
+					.map(src -> FeatureSetCandidate.fromString(src))
+					.mapToPair(i -> new Tuple2<Tuple2<String, String>, String>(new Tuple2<String, String>(i.firstId, i.secondId), i.featureName));
+			
+			ret.groupByKey(new HashPartitioner(10000))
+					.map(i -> reportEvaluationForFeatureSet(i))
+					.saveAsTextFile(DIR + "cc-2015-11-feature-set-evaluation-canonical-link-graph-edges-negative-only");
 		}
 	}
 	
