@@ -126,45 +126,46 @@ public class SparkCreateSourceDocuments {
 	private static CollectionDocument chatnoirMapFileDocumentToDocOrNull(Tuple2<Text, Text> kv) {
 		final String keyStr = kv._1().toString();
 		final String valueStr = kv._2().toString();
-		
-        // ignore large files
-        if (valueStr.getBytes().length > 1024 * 1024) {
-            return null;
-        }
-        
-        JSONObject inputJson  = new JSONObject(valueStr);
 
-        final JSONObject metadata = inputJson.getJSONObject("metadata");
-        if (null == metadata) {
-            throw new JSONException("Missing 'metadata'");
-        }
+		// ignore large files
+		if (valueStr.getBytes().length > 1024 * 1024) {
+			return null;
+		}
 
-        final JSONObject payload = inputJson.getJSONObject("payload");
-        if (null == payload) {
-            throw new JSONException("Missing 'payload'");
-        }
+		JSONObject inputJson  = new JSONObject(valueStr);
 
-        final String contentBody = payload.getString("body");
-        final String contentEncoding    = payload.getString("encoding");
+		final JSONObject metadata = inputJson.getJSONObject("metadata");
+		if (null == metadata) {
+			throw new JSONException("Missing 'metadata'");
+		}
 
-        if (null == contentEncoding || null == contentBody) {
-            throw new JSONException("Missing one of 'payload/[encoding|body]'");
-        }
+		final JSONObject payload = inputJson.getJSONObject("payload");
+		if (null == payload) {
+			throw new JSONException("Missing 'payload'");
+		}
 
-        if (!contentEncoding.equals("plain")) {
-            return null;
-        }
-        
-        if(!"response".equals(metadata.getString("WARC-Type"))) {
-        	return null;
-        }
+		final String contentBody = payload.getString("body");
+		final String contentEncoding    = payload.getString("encoding");
 
-        String targetUri = metadata.getString("WARC-Target-URI");
-        String recordId = metadata.getString("WARC-Record-ID");
-        
-        CollectionDocument ret = CollectionDocument.collectionDocument(new JsoupStringTransform().apply(contentBody), keyStr);
-        ret.setUrl(new URL(targetUri));
-        
+		if (null == contentEncoding || null == contentBody) {
+			throw new JSONException("Missing one of 'payload/[encoding|body]'");
+		}
+
+		if (!contentEncoding.equals("plain")) {
+			return null;
+		}
+
+		if(!"response".equals(metadata.getString("WARC-Type"))) {
+			return null;
+		}
+
+		String targetUri = metadata.getString("WARC-Target-URI");
+		String recordId = metadata.getString("WARC-Record-ID");
+
+		CollectionDocument ret = CollectionDocument.collectionDocument(new JsoupStringTransform().apply(contentBody), keyStr);
+		ret.setUrl(new URL(targetUri));
+		ret.setCanonicalUrl(SparkCanonicalLinkGraphExtraction.extractCanonicalLinkOrNull(targetUri, contentBody));
+
 		return ret;
 	}
 	
