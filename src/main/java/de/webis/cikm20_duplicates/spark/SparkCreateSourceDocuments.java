@@ -15,7 +15,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaHadoopRDD;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.json.JSONException;
@@ -80,9 +79,9 @@ public class SparkCreateSourceDocuments {
 		} else if ("cc-2017-04".equals(corpus)) {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*/data");
 		} else if ("cc-2015-11-small-sample".equals(corpus)) {
-			return ccDocsWithRepartition(context, "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-00001/data");
+			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-00001/data");
 		} else if ("cc-2017-04-small-sample".equals(corpus)) {
-			return ccDocsWithRepartition(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
+			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
 		} else {
 			throw new RuntimeException("Add more corpora");
 		}
@@ -121,23 +120,9 @@ public class SparkCreateSourceDocuments {
 	}
 	
 	@SuppressWarnings("unchecked")
-	static JavaRDD<CollectionDocument> ccDocsWithRepartition(JavaSparkContext context, String path) {
-		JavaPairRDD<String, String> rdd = ((JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class))
-				.mapToPair(kv -> new Tuple2<>(kv._1().toString(), kv._2().toString()));
-		rdd = rdd.repartition(100);
-		
-		return ccDocs(rdd);
-	}
-	
-	@SuppressWarnings("unchecked")
 	static JavaRDD<CollectionDocument> ccDocs(JavaSparkContext context, String path) {
-		JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);
-		
-		return ccDocs(rdd.mapToPair(kv -> new Tuple2<>(kv._1().toString(), kv._2().toString())));
-	}
-	
-	static JavaRDD<CollectionDocument> ccDocs(JavaPairRDD<String, String> rdd) {
-		return rdd.map(kv -> chatnoirMapFileDocumentToDocOrNull(kv._1(), kv._2()))
+		return ((JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class))
+				.map(kv -> chatnoirMapFileDocumentToDocOrNull(kv._1().toString(), kv._2().toString()))
 				.filter(i -> i != null);
 	}
 
