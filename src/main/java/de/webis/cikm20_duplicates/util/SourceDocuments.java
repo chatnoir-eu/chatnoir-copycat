@@ -91,7 +91,8 @@ public final class SourceDocuments {
 	@Wither
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class DocumentWithFingerprint {
+	@SuppressWarnings("serial")
+	public static class DocumentWithFingerprint implements Serializable {
 		private String docId;
 		private URL url;
 		private URL canonicalURL;
