@@ -122,7 +122,8 @@ public class SparkCreateSourceDocuments {
 	
 	@SuppressWarnings("unchecked")
 	static JavaRDD<CollectionDocument> ccDocsWithRepartition(JavaSparkContext context, String path) {
-		JavaPairRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);
+		JavaPairRDD<String, String> rdd = ((JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class))
+				.mapToPair(kv -> new Tuple2<>(kv._1().toString(), kv._2().toString()));
 		rdd = rdd.repartition(100);
 		
 		return ccDocs(rdd);
@@ -132,19 +133,16 @@ public class SparkCreateSourceDocuments {
 	static JavaRDD<CollectionDocument> ccDocs(JavaSparkContext context, String path) {
 		JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);
 		
-		return ccDocs(rdd);
+		return ccDocs(rdd.mapToPair(kv -> new Tuple2<>(kv._1().toString(), kv._2().toString())));
 	}
 	
-	static JavaRDD<CollectionDocument> ccDocs(JavaPairRDD<Text, Text> rdd) {
-		return rdd.map(i -> chatnoirMapFileDocumentToDocOrNull(i))
+	static JavaRDD<CollectionDocument> ccDocs(JavaPairRDD<String, String> rdd) {
+		return rdd.map(kv -> chatnoirMapFileDocumentToDocOrNull(kv._1(), kv._2()))
 				.filter(i -> i != null);
 	}
-	
-	@SneakyThrows
-	private static CollectionDocument chatnoirMapFileDocumentToDocOrNull(Tuple2<Text, Text> kv) {
-		final String keyStr = kv._1().toString();
-		final String valueStr = kv._2().toString();
 
+	@SneakyThrows
+	private static CollectionDocument chatnoirMapFileDocumentToDocOrNull(String keyStr, String valueStr) {
 		// ignore large files
 		if (valueStr.getBytes().length > 1024 * 1024) {
 			return null;
