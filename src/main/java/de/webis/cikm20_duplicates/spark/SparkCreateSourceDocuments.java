@@ -15,6 +15,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaHadoopRDD;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.json.JSONException;
@@ -46,7 +47,7 @@ public class SparkCreateSourceDocuments {
 	
 	static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();
 
-	private static final String[] CORPORA = new String[] {"cw09", "cw12" /*, "cc-2015-11", "cc-2017-04"*/};
+	private static final String[] CORPORA = new String[] {/*"cw09", "cw12", "cc-2015-11", "cc-2017-04", */ "cc-2015-11-small-sample", "cc-2017-04-small-sample"};
 	
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
@@ -74,6 +75,14 @@ public class SparkCreateSourceDocuments {
 			return docs(context, CLUEWEB09);
 		} else if ("cw12".equals(corpus)) {
 			return docs(context, CLUEWEB12);
+		} else if ("cc-2015-11".equals(corpus)) {
+			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-*/data");
+		} else if ("cc-2017-04".equals(corpus)) {
+			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*/data");
+		} else if ("cc-2015-11-small-sample".equals(corpus)) {
+			return ccDocsWithRepartition(context, "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-00001/data");
+		} else if ("cc-2017-04-small-sample".equals(corpus)) {
+			return ccDocsWithRepartition(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
 		} else {
 			throw new RuntimeException("Add more corpora");
 		}
@@ -112,12 +121,21 @@ public class SparkCreateSourceDocuments {
 	}
 	
 	@SuppressWarnings("unchecked")
-	static JavaRDD<CollectionDocument> ccDocs(JavaSparkContext context) {
-		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-*/data";
+	static JavaRDD<CollectionDocument> ccDocsWithRepartition(JavaSparkContext context, String path) {
+		JavaPairRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);
+		rdd = rdd.repartition(100);
 		
-		
+		return ccDocs(rdd);
+	}
+	
+	@SuppressWarnings("unchecked")
+	static JavaRDD<CollectionDocument> ccDocs(JavaSparkContext context, String path) {
 		JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);
 		
+		return ccDocs(rdd);
+	}
+	
+	static JavaRDD<CollectionDocument> ccDocs(JavaPairRDD<Text, Text> rdd) {
 		return rdd.map(i -> chatnoirMapFileDocumentToDocOrNull(i))
 				.filter(i -> i != null);
 	}
