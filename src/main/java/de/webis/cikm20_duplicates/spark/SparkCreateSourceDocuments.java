@@ -49,10 +49,13 @@ public class SparkCreateSourceDocuments {
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
 	private static final String[] CORPORA = new String[] {
-			"cc-2017-04-part-00000", "cc-2017-04-part-00001", "cc-2017-04-part-00002",
-			"cc-2017-04-part-00003", "cc-2017-04-part-00004", "cc-2017-04-part-00005",
-			"cc-2017-04-part-00006", "cc-2017-04-part-00007", "cc-2017-04-part-00008", 
-			"cc-2017-04-part-00009"
+			"cc-2017-04-part-00080", "cc-2017-04-part-00081", "cc-2017-04-part-00082",
+			"cc-2017-04-part-00083", "cc-2017-04-part-00084", "cc-2017-04-part-00085",
+			"cc-2017-04-part-00086", "cc-2017-04-part-00087", "cc-2017-04-part-00088", 
+			"cc-2017-04-part-00089", "cc-2017-04-part-00090", "cc-2017-04-part-00091",
+			"cc-2017-04-part-00092", "cc-2017-04-part-00093", "cc-2017-04-part-00094",
+			"cc-2017-04-part-00095", "cc-2017-04-part-00096", "cc-2017-04-part-00097",
+			"cc-2017-04-part-00098", "cc-2017-04-part-00099"
 	};
 
 //	private static final String[] CORPORA = new String[] {"cc-2015-11-part-0", "cc-2015-11-part-1", 
@@ -105,9 +108,9 @@ public class SparkCreateSourceDocuments {
 		} else if ("cc-2017-04-small-sample".equals(corpus)) {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
 		} else if (corpus.startsWith("cc-2017-04-part-0000")) {
-			for(int i=0; i<10; i++) {
-				if(("cc-2017-04-part-0000" + i).equals(corpus)) {
-					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-0000" + i + "/data");
+			for(int i=80; i<100; i++) {
+				if(("cc-2017-04-part-000" + i).equals(corpus)) {
+					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-000" + i + "/data");
 				}
 			}
 		} else if (corpus.startsWith("cc-2015-11-part-")) {
