@@ -46,7 +46,7 @@ public class SparkCreateSourceDocuments {
 	
 	static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();
 
-	private static final String[] CORPORA = new String[] {/*"cw09", "cw12", "cc-2015-11", "cc-2017-04", */ "cc-2015-11-small-sample", "cc-2017-04-small-sample"};
+	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
@@ -63,7 +63,6 @@ public class SparkCreateSourceDocuments {
 				JavaRDD<CollectionDocument> docs = docs(context, corpus);
 				
 				fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
-					.repartition(10000)
 					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2", BZip2Codec.class);
 			}
 		}
