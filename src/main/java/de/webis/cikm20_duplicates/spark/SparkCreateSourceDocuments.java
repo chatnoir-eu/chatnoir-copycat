@@ -46,7 +46,11 @@ public class SparkCreateSourceDocuments {
 	
 	static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();
 
-	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
+//	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
+	
+	private static final String[] CORPORA = new String[] {"cc-2017-04-part-0", "cc-2017-04-part-1", 
+			"cc-2017-04-part-2", "cc-2017-04-part-3", "cc-2017-04-part-4", "cc-2017-04-part-5",
+			"cc-2017-04-part-6", "cc-2017-04-part-7", "cc-2017-04-part-8", "cc-2017-04-part-9"};
 	
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
@@ -81,8 +85,17 @@ public class SparkCreateSourceDocuments {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-00001/data");
 		} else if ("cc-2017-04-small-sample".equals(corpus)) {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
-		} else {
-			throw new RuntimeException("Add more corpora");
+		} else if (corpus.startsWith("cc-2017-04-part-")) {
+			for(int i=0; i<10; i++) {
+				if(("cc-2017-04-part-" + i).equals(corpus)) {
+					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*" + i + "/data");
+				}
+			}
+
+			throw new RuntimeException("Add more corpora :" + corpus);
+		}
+		else {
+			throw new RuntimeException("Add more corpora :" + corpus);
 		}
 	}
 
