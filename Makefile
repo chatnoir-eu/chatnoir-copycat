@@ -16,6 +16,9 @@ report-precision-experiments: install
 sample-canonical-link-graph-edges: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkSampleS3EdgesPerBin
 
+corpus-analysis: install
+	./src/main/bash/run-spark-job-low-resources-akbnq-new.sh de.webis.cikm20_duplicates.spark.eval.SparkCorpusAnalysis
+
 analize-tmp: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeCanonicalLinkGraph
 
