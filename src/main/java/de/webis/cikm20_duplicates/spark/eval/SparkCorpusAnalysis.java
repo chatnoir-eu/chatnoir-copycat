@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.spark.eval;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.spark.SparkConf;
@@ -39,7 +40,8 @@ public class SparkCorpusAnalysis {
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class CorpusAnalysis {
+	@SuppressWarnings("serial")
+	public static class CorpusAnalysis implements Serializable {
 		public String corpus;
 		public int documentCount;
 		public int urlCount;
