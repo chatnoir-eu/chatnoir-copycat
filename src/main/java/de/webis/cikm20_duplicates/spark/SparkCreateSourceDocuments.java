@@ -48,10 +48,14 @@ public class SparkCreateSourceDocuments {
 
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
-	private static final String[] CORPORA = new String[] {"cc-2017-04-part-0", "cc-2017-04-part-1", 
-			"cc-2017-04-part-2", "cc-2017-04-part-3", "cc-2017-04-part-4", "cc-2017-04-part-5",
-			"cc-2017-04-part-6", "cc-2017-04-part-7", "cc-2017-04-part-8", "cc-2017-04-part-9"};
-	
+//	private static final String[] CORPORA = new String[] {"cc-2017-04-part-0", "cc-2017-04-part-1", 
+//			"cc-2017-04-part-2", "cc-2017-04-part-3", "cc-2017-04-part-4", "cc-2017-04-part-5",
+//			"cc-2017-04-part-6", "cc-2017-04-part-7", "cc-2017-04-part-8", "cc-2017-04-part-9"};
+
+	private static final String[] CORPORA = new String[] {"cc-2015-11-part-0", "cc-2015-11-part-1", 
+	"cc-2015-11-part-2", "cc-2015-11-part-3", "cc-2015-11-part-4", "cc-2015-11-part-5",
+	"cc-2015-11-part-6", "cc-2015-11-part-7", "cc-2015-11-part-8", "cc-2015-11-part-9"};
+
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
 			CLUEWEB12 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB12);
@@ -61,13 +65,24 @@ public class SparkCreateSourceDocuments {
 		FingerPrintUtil.productionFingerpringint(64, 3)	
 	);
 
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus: CORPORA) {
+//				JavaRDD<CollectionDocument> docs = docs(context, corpus);
+//				
+//				fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
+//					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2", BZip2Codec.class);
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus: CORPORA) {
 				JavaRDD<CollectionDocument> docs = docs(context, corpus);
 				
 				fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
-					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2", BZip2Codec.class);
+					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
 			}
 		}
 	}
@@ -91,12 +106,15 @@ public class SparkCreateSourceDocuments {
 					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*" + i + "/data");
 				}
 			}
-
-			throw new RuntimeException("Add more corpora :" + corpus);
+		} else if (corpus.startsWith("cc-2015-11-part-")) {
+			for(int i=0; i<10; i++) {
+				if(("cc-2015-11-part-" + i).equals(corpus)) {
+					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-*" + i + "/data");
+				}
+			}
 		}
-		else {
-			throw new RuntimeException("Add more corpora :" + corpus);
-		}
+		
+		throw new RuntimeException("Add more corpora :" + corpus);
 	}
 
 	private static JavaSparkContext context() {
