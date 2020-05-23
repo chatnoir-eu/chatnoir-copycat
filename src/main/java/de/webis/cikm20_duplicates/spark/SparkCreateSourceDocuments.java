@@ -48,13 +48,17 @@ public class SparkCreateSourceDocuments {
 
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
-//	private static final String[] CORPORA = new String[] {"cc-2017-04-part-0", "cc-2017-04-part-1", 
-//			"cc-2017-04-part-2", "cc-2017-04-part-3", "cc-2017-04-part-4", "cc-2017-04-part-5",
-//			"cc-2017-04-part-6", "cc-2017-04-part-7", "cc-2017-04-part-8", "cc-2017-04-part-9"};
+	private static final String[] CORPORA = new String[] {
+			"cc-2017-04-part-00000", "cc-2017-04-part-00001", "cc-2017-04-part-00002",
+			"cc-2017-04-part-00003", "cc-2017-04-part-00004", "cc-2017-04-part-00005",
+			"cc-2017-04-part-00006", "cc-2017-04-part-00007", "cc-2017-04-part-00008", 
+			"cc-2017-04-part-00009"
+	};
 
-	private static final String[] CORPORA = new String[] {"cc-2015-11-part-0", "cc-2015-11-part-1", 
-	"cc-2015-11-part-2", "cc-2015-11-part-3", "cc-2015-11-part-4", "cc-2015-11-part-5",
-	"cc-2015-11-part-6", "cc-2015-11-part-7", "cc-2015-11-part-8", "cc-2015-11-part-9"};
+//	private static final String[] CORPORA = new String[] {"cc-2015-11-part-0", "cc-2015-11-part-1", 
+//			"cc-2015-11-part-2", "cc-2015-11-part-3", "cc-2015-11-part-4", "cc-2015-11-part-5",
+//			"cc-2015-11-part-6", "cc-2015-11-part-7", "cc-2015-11-part-8", "cc-2015-11-part-9"
+//	};
 
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
@@ -100,10 +104,10 @@ public class SparkCreateSourceDocuments {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-00001/data");
 		} else if ("cc-2017-04-small-sample".equals(corpus)) {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
-		} else if (corpus.startsWith("cc-2017-04-part-")) {
+		} else if (corpus.startsWith("cc-2017-04-part-0000")) {
 			for(int i=0; i<10; i++) {
 				if(("cc-2017-04-part-" + i).equals(corpus)) {
-					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*" + i + "/data");
+					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-0000" + i + "/data");
 				}
 			}
 		} else if (corpus.startsWith("cc-2015-11-part-")) {
