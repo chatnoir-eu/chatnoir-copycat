@@ -106,7 +106,7 @@ public class SparkCreateSourceDocuments {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
 		} else if (corpus.startsWith("cc-2017-04-part-0000")) {
 			for(int i=0; i<10; i++) {
-				if(("cc-2017-04-part-" + i).equals(corpus)) {
+				if(("cc-2017-04-part-0000" + i).equals(corpus)) {
 					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-0000" + i + "/data");
 				}
 			}
