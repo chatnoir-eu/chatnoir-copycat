@@ -48,22 +48,27 @@ public class SparkCreateSourceDocuments {
 
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
-	private static final String[] CORPORA = new String[] {
-			"cc-2017-04-part-00040", "cc-2017-04-part-00041", "cc-2017-04-part-00042",
-			"cc-2017-04-part-00043", "cc-2017-04-part-00044", "cc-2017-04-part-00045",
-			"cc-2017-04-part-00046", "cc-2017-04-part-00047", "cc-2017-04-part-00048", 
-			"cc-2017-04-part-00049", "cc-2017-04-part-00050", "cc-2017-04-part-00051",
-			"cc-2017-04-part-00052", "cc-2017-04-part-00053", "cc-2017-04-part-00054",
-			"cc-2017-04-part-00055", "cc-2017-04-part-00056", "cc-2017-04-part-00057",
-			"cc-2017-04-part-00058", "cc-2017-04-part-00059"
-	};
-
 //	private static final String[] CORPORA = new String[] {
-//			/*"cc-2015-11-part-0", "cc-2015-11-part-1", "cc-2015-11-part-2", 
-//			"cc-2015-11-part-3", "cc-2015-11-part-4", "cc-2015-11-part-5",
-//			"cc-2015-11-part-6", "cc-2015-11-part-7",*/ 
-//			"cc-2015-11-part-8", "cc-2015-11-part-9"
+//			"cc-2017-04-part-00040", "cc-2017-04-part-00041", "cc-2017-04-part-00042",
+//			"cc-2017-04-part-00043", "cc-2017-04-part-00044", "cc-2017-04-part-00045",
+//			"cc-2017-04-part-00046", "cc-2017-04-part-00047", "cc-2017-04-part-00048", 
+//			"cc-2017-04-part-00049", "cc-2017-04-part-00050", "cc-2017-04-part-00051",
+//			"cc-2017-04-part-00052", "cc-2017-04-part-00053", "cc-2017-04-part-00054",
+//			"cc-2017-04-part-00055", "cc-2017-04-part-00056", "cc-2017-04-part-00057",
+//			"cc-2017-04-part-00058", "cc-2017-04-part-00059"
 //	};
+
+	private static final String[] CORPORA = new String[] {
+//			"cc-2015-11-part-0", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-0-jsonl/_SUCCESS
+//			"cc-2015-11-part-1", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-1-jsonl/_SUCCESS
+//			"cc-2015-11-part-2", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-2-jsonl/_SUCCESS
+//			"cc-2015-11-part-3", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-3-jsonl/_SUCCESS
+
+			"cc-2015-11-part-4", "cc-2015-11-part-5", // TODO
+			
+//			"cc-2015-11-part-6", "cc-2015-11-part-7", // IS RUNNING
+//			"cc-2015-11-part-8", "cc-2015-11-part-9"  // IS RUNNING
+	};
 
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
