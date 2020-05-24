@@ -49,15 +49,21 @@ public class SparkCreateDeduplicationCandidates {
 
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints");
-			DeduplicationStrategy deduplicationStrategy = DeduplicationStrategy.simHashDeduplication(50000);
+			String corpus = "cw09";
+			DeduplicationStrategy deduplicationStrategy = DeduplicationStrategy.productionDeduplication(50000);
+		
+			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2");
 			
 			exactDuplicates(input, deduplicationStrategy)
-				.saveAsTextFile("cikm2020/exact-duplicates-simhash-cw09-cw12");
+				.saveAsTextFile(path(deduplicationStrategy, corpus) + "-exact-duplicates");
 			
 			createDeduplicationtasks(input, deduplicationStrategy)
-				.saveAsTextFile("cikm2020/near-duplicate-tasks-cw09-cw12");
+				.saveAsTextFile(path(deduplicationStrategy, corpus) + "-near-duplicate-tasks");
 		}
+	}
+	
+	private static String path(DeduplicationStrategy deduplicationStrategy, String corpus) {
+		return "cikm2020/deduplication-final/" + deduplicationStrategy.name() +"/" + corpus;
 	}
 	
 	private static JavaSparkContext context() {
@@ -264,9 +270,13 @@ public class SparkCreateDeduplicationCandidates {
 
 	@SuppressWarnings("serial")
 	static abstract class DeduplicationStrategy implements Serializable {
-		public abstract List<Integer> extract(DocumentWithFingerprint doc);
+		public final List<Integer> extract(DocumentWithFingerprint doc) {
+			return doc.getFingerprints().get(name());
+		}
 		
 		public abstract int numPartitions();
+		
+		public abstract String name();
 		
 		public Partitioner getPartitioner() {
 			return new IntPartitioner(numPartitions());
@@ -279,8 +289,22 @@ public class SparkCreateDeduplicationCandidates {
 		public static DeduplicationStrategy minHashDeduplication(int numPartitions) {
 			return new DeduplicationStrategy() {
 				@Override
-				public List<Integer> extract(DocumentWithFingerprint doc) {
-					return doc.getFingerprints().get("MinHashWithJavaHash");
+				public int numPartitions() {
+					return numPartitions;
+				}
+
+				@Override
+				public String name() {
+					return "MinHashWithJavaHash";
+				}
+			};
+		}
+
+		public static DeduplicationStrategy productionDeduplication(int numPartitions) {
+			return new DeduplicationStrategy() {
+				@Override
+				public String name() {
+					return "64BitK3SimHashThreeAndFiveGramms";
 				}
 
 				@Override
@@ -293,8 +317,8 @@ public class SparkCreateDeduplicationCandidates {
 		public static DeduplicationStrategy simHashDeduplication(int numPartitions) {
 			return new DeduplicationStrategy() {
 				@Override
-				public List<Integer> extract(DocumentWithFingerprint doc) {
-					return doc.getFingerprints().get("64BitK3SimHashOneGramms");
+				public String name() {
+					return "64BitK3SimHashOneGramms";
 				}
 
 				@Override
