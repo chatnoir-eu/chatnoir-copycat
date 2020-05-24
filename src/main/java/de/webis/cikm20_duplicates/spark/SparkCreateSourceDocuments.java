@@ -48,20 +48,22 @@ public class SparkCreateSourceDocuments {
 
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
-	private static final String[] CORPORA = new String[] {
-			"cc-2017-04-part-00060", "cc-2017-04-part-00061", "cc-2017-04-part-00062",
-			"cc-2017-04-part-00063", "cc-2017-04-part-00064", "cc-2017-04-part-00065",
-			"cc-2017-04-part-00066", "cc-2017-04-part-00067", "cc-2017-04-part-00068", 
-			"cc-2017-04-part-00069", "cc-2017-04-part-00070", "cc-2017-04-part-00071",
-			"cc-2017-04-part-00072", "cc-2017-04-part-00073", "cc-2017-04-part-00074",
-			"cc-2017-04-part-00075", "cc-2017-04-part-00076", "cc-2017-04-part-00077",
-			"cc-2017-04-part-00078", "cc-2017-04-part-00079"
-	};
-
-//	private static final String[] CORPORA = new String[] {"cc-2015-11-part-0", "cc-2015-11-part-1", 
-//			"cc-2015-11-part-2", "cc-2015-11-part-3", "cc-2015-11-part-4", "cc-2015-11-part-5",
-//			"cc-2015-11-part-6", "cc-2015-11-part-7", "cc-2015-11-part-8", "cc-2015-11-part-9"
+//	private static final String[] CORPORA = new String[] {
+//			"cc-2017-04-part-00060", "cc-2017-04-part-00061", "cc-2017-04-part-00062",
+//			"cc-2017-04-part-00063", "cc-2017-04-part-00064", "cc-2017-04-part-00065",
+//			"cc-2017-04-part-00066", "cc-2017-04-part-00067", "cc-2017-04-part-00068", 
+//			"cc-2017-04-part-00069", "cc-2017-04-part-00070", "cc-2017-04-part-00071",
+//			"cc-2017-04-part-00072", "cc-2017-04-part-00073", "cc-2017-04-part-00074",
+//			"cc-2017-04-part-00075", "cc-2017-04-part-00076", "cc-2017-04-part-00077",
+//			"cc-2017-04-part-00078", "cc-2017-04-part-00079"
 //	};
+
+	private static final String[] CORPORA = new String[] {
+			/*"cc-2015-11-part-0", "cc-2015-11-part-1", "cc-2015-11-part-2", 
+			"cc-2015-11-part-3", "cc-2015-11-part-4", "cc-2015-11-part-5",
+			"cc-2015-11-part-6", "cc-2015-11-part-7",*/ 
+			"cc-2015-11-part-8", "cc-2015-11-part-9"
+	};
 
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
