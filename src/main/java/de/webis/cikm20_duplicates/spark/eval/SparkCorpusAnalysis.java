@@ -16,7 +16,7 @@ import lombok.SneakyThrows;
 
 public class SparkCorpusAnalysis {
 	
-	private static final String CORPUS = "cw09";
+	private static final String CORPUS = "cw12";
 	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
