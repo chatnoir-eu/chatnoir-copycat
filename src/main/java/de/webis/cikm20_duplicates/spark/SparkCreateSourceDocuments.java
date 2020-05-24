@@ -161,10 +161,18 @@ public class SparkCreateSourceDocuments {
 	@SuppressWarnings("unchecked")
 	static JavaRDD<CollectionDocument> ccDocs(JavaSparkContext context, String path) {
 		return ((JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class))
-				.map(kv -> chatnoirMapFileDocumentToDocOrNull(kv._1().toString(), kv._2().toString()))
+				.map(kv -> chatnoirMapFileDocumentToDocOrNullFailsave(kv._1().toString(), kv._2().toString()))
 				.filter(i -> i != null);
 	}
 
+	private static CollectionDocument chatnoirMapFileDocumentToDocOrNullFailsave(String keyStr, String valueStr) {
+		try {
+			return chatnoirMapFileDocumentToDocOrNull(keyStr, valueStr);
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+	
 	@SneakyThrows
 	private static CollectionDocument chatnoirMapFileDocumentToDocOrNull(String keyStr, String valueStr) {
 		// ignore large files
