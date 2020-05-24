@@ -48,22 +48,22 @@ public class SparkCreateSourceDocuments {
 
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
-//	private static final String[] CORPORA = new String[] {
-//			"cc-2017-04-part-00060", "cc-2017-04-part-00061", "cc-2017-04-part-00062",
-//			"cc-2017-04-part-00063", "cc-2017-04-part-00064", "cc-2017-04-part-00065",
-//			"cc-2017-04-part-00066", "cc-2017-04-part-00067", "cc-2017-04-part-00068", 
-//			"cc-2017-04-part-00069", "cc-2017-04-part-00070", "cc-2017-04-part-00071",
-//			"cc-2017-04-part-00072", "cc-2017-04-part-00073", "cc-2017-04-part-00074",
-//			"cc-2017-04-part-00075", "cc-2017-04-part-00076", "cc-2017-04-part-00077",
-//			"cc-2017-04-part-00078", "cc-2017-04-part-00079"
-//	};
-
 	private static final String[] CORPORA = new String[] {
-			/*"cc-2015-11-part-0", "cc-2015-11-part-1", "cc-2015-11-part-2", 
-			"cc-2015-11-part-3", "cc-2015-11-part-4", "cc-2015-11-part-5",
-			"cc-2015-11-part-6", "cc-2015-11-part-7",*/ 
-			"cc-2015-11-part-8", "cc-2015-11-part-9"
+			"cc-2017-04-part-00040", "cc-2017-04-part-00041", "cc-2017-04-part-00042",
+			"cc-2017-04-part-00043", "cc-2017-04-part-00044", "cc-2017-04-part-00045",
+			"cc-2017-04-part-00046", "cc-2017-04-part-00047", "cc-2017-04-part-00048", 
+			"cc-2017-04-part-00049", "cc-2017-04-part-00050", "cc-2017-04-part-00051",
+			"cc-2017-04-part-00052", "cc-2017-04-part-00053", "cc-2017-04-part-00054",
+			"cc-2017-04-part-00055", "cc-2017-04-part-00056", "cc-2017-04-part-00057",
+			"cc-2017-04-part-00058", "cc-2017-04-part-00059"
 	};
+
+//	private static final String[] CORPORA = new String[] {
+//			/*"cc-2015-11-part-0", "cc-2015-11-part-1", "cc-2015-11-part-2", 
+//			"cc-2015-11-part-3", "cc-2015-11-part-4", "cc-2015-11-part-5",
+//			"cc-2015-11-part-6", "cc-2015-11-part-7",*/ 
+//			"cc-2015-11-part-8", "cc-2015-11-part-9"
+//	};
 
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
@@ -110,7 +110,7 @@ public class SparkCreateSourceDocuments {
 		} else if ("cc-2017-04-small-sample".equals(corpus)) {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
 		} else if (corpus.startsWith("cc-2017-04-part-000")) {
-			for(int i=60; i<100; i++) {
+			for(int i=10; i<100; i++) {
 				if(("cc-2017-04-part-000" + i).equals(corpus)) {
 					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-000" + i + "/data");
 				}
