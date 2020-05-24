@@ -49,13 +49,13 @@ public class SparkCreateSourceDocuments {
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
 	private static final String[] CORPORA = new String[] {
-			"cc-2017-04-part-00080", "cc-2017-04-part-00081", "cc-2017-04-part-00082",
-			"cc-2017-04-part-00083", "cc-2017-04-part-00084", "cc-2017-04-part-00085",
-			"cc-2017-04-part-00086", "cc-2017-04-part-00087", "cc-2017-04-part-00088", 
-			"cc-2017-04-part-00089", "cc-2017-04-part-00090", "cc-2017-04-part-00091",
-			"cc-2017-04-part-00092", "cc-2017-04-part-00093", "cc-2017-04-part-00094",
-			"cc-2017-04-part-00095", "cc-2017-04-part-00096", "cc-2017-04-part-00097",
-			"cc-2017-04-part-00098", "cc-2017-04-part-00099"
+			"cc-2017-04-part-00060", "cc-2017-04-part-00061", "cc-2017-04-part-00062",
+			"cc-2017-04-part-00063", "cc-2017-04-part-00064", "cc-2017-04-part-00065",
+			"cc-2017-04-part-00066", "cc-2017-04-part-00067", "cc-2017-04-part-00068", 
+			"cc-2017-04-part-00069", "cc-2017-04-part-00070", "cc-2017-04-part-00071",
+			"cc-2017-04-part-00072", "cc-2017-04-part-00073", "cc-2017-04-part-00074",
+			"cc-2017-04-part-00075", "cc-2017-04-part-00076", "cc-2017-04-part-00077",
+			"cc-2017-04-part-00078", "cc-2017-04-part-00079"
 	};
 
 //	private static final String[] CORPORA = new String[] {"cc-2015-11-part-0", "cc-2015-11-part-1", 
@@ -107,8 +107,8 @@ public class SparkCreateSourceDocuments {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-00001/data");
 		} else if ("cc-2017-04-small-sample".equals(corpus)) {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
-		} else if (corpus.startsWith("cc-2017-04-part-0000")) {
-			for(int i=80; i<100; i++) {
+		} else if (corpus.startsWith("cc-2017-04-part-000")) {
+			for(int i=60; i<100; i++) {
 				if(("cc-2017-04-part-000" + i).equals(corpus)) {
 					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-000" + i + "/data");
 				}
