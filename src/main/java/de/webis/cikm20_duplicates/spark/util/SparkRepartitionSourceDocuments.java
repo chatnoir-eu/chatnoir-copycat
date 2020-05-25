@@ -7,10 +7,24 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 public class SparkRepartitionSourceDocuments {
 	
+	private static final String[] CORPORA = new String[] {
+			"cc-2015-11-part-0", "cc-2015-11-part-1", "cc-2015-11-part-2",
+			"cc-2015-11-part-3", "cc-2015-11-part-4", "cc-2015-11-part-5",
+			"cc-2015-11-part-6", "cc-2015-11-part-7", "cc-2015-11-part-8",
+			"cc-2015-11-part-9"
+	};
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			String corpus = "cc-2015-11";
-			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints-final/" + corpus +"*-jsonl");
+			
+			for(String c: CORPORA) {
+				context.textFile("cikm2020/document-fingerprints-final/" + c + "-jsonl")
+					.repartition(100)
+					.saveAsTextFile("cikm2020/document-fingerprints-final/" + c + "-jsonl-repartioned");
+			}
+			
+			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints-final/" + corpus +"*-jsonl-repartioned");
 			
 			input.repartition(10000)
 				.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2", BZip2Codec.class);
