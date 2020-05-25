@@ -48,27 +48,30 @@ public class SparkCreateSourceDocuments {
 
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
-//	private static final String[] CORPORA = new String[] {
-//			"cc-2017-04-part-00040", "cc-2017-04-part-00041", "cc-2017-04-part-00042",
-//			"cc-2017-04-part-00043", "cc-2017-04-part-00044", "cc-2017-04-part-00045",
-//			"cc-2017-04-part-00046", "cc-2017-04-part-00047", "cc-2017-04-part-00048", 
-//			"cc-2017-04-part-00049", "cc-2017-04-part-00050", "cc-2017-04-part-00051",
-//			"cc-2017-04-part-00052", "cc-2017-04-part-00053", "cc-2017-04-part-00054",
-//			"cc-2017-04-part-00055", "cc-2017-04-part-00056", "cc-2017-04-part-00057",
-//			"cc-2017-04-part-00058", "cc-2017-04-part-00059"
-//	};
-
 	private static final String[] CORPORA = new String[] {
+			"cc-2017-04-part-00100", "cc-2017-04-part-00101", "cc-2017-04-part-00102",
+			"cc-2017-04-part-00103", "cc-2017-04-part-00104", "cc-2017-04-part-00105",
+			"cc-2017-04-part-00106", "cc-2017-04-part-00107", "cc-2017-04-part-00108", 
+			"cc-2017-04-part-00109", "cc-2017-04-part-00110", "cc-2017-04-part-00111",
+			"cc-2017-04-part-00112", "cc-2017-04-part-00113", "cc-2017-04-part-00114",
+			"cc-2017-04-part-00115", "cc-2017-04-part-00116", "cc-2017-04-part-00117",
+			"cc-2017-04-part-00118", "cc-2017-04-part-00119"
+	};
+
+/*	private static final String[] CORPORA = new String[] {
 //			"cc-2015-11-part-0", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-0-jsonl/_SUCCESS
 //			"cc-2015-11-part-1", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-1-jsonl/_SUCCESS
 //			"cc-2015-11-part-2", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-2-jsonl/_SUCCESS
 //			"cc-2015-11-part-3", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-3-jsonl/_SUCCESS
-
-			"cc-2015-11-part-4", "cc-2015-11-part-5", // TODO
+			"cc-2015-11-part-4", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-4-jsonl/_SUCCESS  
 			
-//			"cc-2015-11-part-6", "cc-2015-11-part-7", // IS RUNNING
-//			"cc-2015-11-part-8", "cc-2015-11-part-9"  // IS RUNNING
-	};
+			"cc-2015-11-part-5", // TODO
+			
+//			"cc-2015-11-part-6", // SUCCeSS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-6-jsonl/_SUCCESS
+//			"cc-2015-11-part-7", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-7-jsonl/_SUCCESS
+//			"cc-2015-11-part-8", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-8-jsonl/_SUCCESS
+//			"cc-2015-11-part-9"  // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-9-jsonl/_SUCCESS
+	};*/
 
 	private static final AnseriniCollectionReader<?>
 			CLUEWEB09 = new AnseriniCollectionReader<>(TrecCollections.CLUEWEB09),
@@ -114,10 +117,10 @@ public class SparkCreateSourceDocuments {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-00001/data");
 		} else if ("cc-2017-04-small-sample".equals(corpus)) {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
-		} else if (corpus.startsWith("cc-2017-04-part-000")) {
-			for(int i=10; i<100; i++) {
-				if(("cc-2017-04-part-000" + i).equals(corpus)) {
-					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-000" + i + "/data");
+		} else if (corpus.startsWith("cc-2017-04-part-00")) {
+			for(int i=100; i<200; i++) {
+				if(("cc-2017-04-part-00" + i).equals(corpus)) {
+					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00" + i + "/data");
 				}
 			}
 		} else if (corpus.startsWith("cc-2015-11-part-")) {
