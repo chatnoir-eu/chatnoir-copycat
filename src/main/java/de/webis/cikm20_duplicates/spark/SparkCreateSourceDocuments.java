@@ -63,10 +63,8 @@ public class SparkCreateSourceDocuments {
 //			"cc-2015-11-part-1", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-1-jsonl/_SUCCESS
 //			"cc-2015-11-part-2", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-2-jsonl/_SUCCESS
 //			"cc-2015-11-part-3", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-3-jsonl/_SUCCESS
-			"cc-2015-11-part-4", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-4-jsonl/_SUCCESS  
-			
-			"cc-2015-11-part-5", // TODO
-			
+//			"cc-2015-11-part-4", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-4-jsonl/_SUCCESS
+//			"cc-2015-11-part-5", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-5-jsonl/_SUCCESS
 //			"cc-2015-11-part-6", // SUCCeSS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-6-jsonl/_SUCCESS
 //			"cc-2015-11-part-7", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-7-jsonl/_SUCCESS
 //			"cc-2015-11-part-8", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-8-jsonl/_SUCCESS
