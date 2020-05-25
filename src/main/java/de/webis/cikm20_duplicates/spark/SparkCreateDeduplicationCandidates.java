@@ -49,7 +49,7 @@ public class SparkCreateDeduplicationCandidates {
 
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			String corpus = "cw09";
+			String corpus = "cw12";
 			DeduplicationStrategy deduplicationStrategy = DeduplicationStrategy.productionDeduplication(50000);
 		
 			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2");
