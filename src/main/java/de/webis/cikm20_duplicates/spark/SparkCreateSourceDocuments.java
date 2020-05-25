@@ -49,13 +49,13 @@ public class SparkCreateSourceDocuments {
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
 	private static final String[] CORPORA = new String[] {
-			"cc-2017-04-part-00100", "cc-2017-04-part-00101", "cc-2017-04-part-00102",
-			"cc-2017-04-part-00103", "cc-2017-04-part-00104", "cc-2017-04-part-00105",
-			"cc-2017-04-part-00106", "cc-2017-04-part-00107", "cc-2017-04-part-00108", 
-			"cc-2017-04-part-00109", "cc-2017-04-part-00110", "cc-2017-04-part-00111",
-			"cc-2017-04-part-00112", "cc-2017-04-part-00113", "cc-2017-04-part-00114",
-			"cc-2017-04-part-00115", "cc-2017-04-part-00116", "cc-2017-04-part-00117",
-			"cc-2017-04-part-00118", "cc-2017-04-part-00119"
+			"cc-2017-04-part-00010", "cc-2017-04-part-00011", "cc-2017-04-part-00012",
+			"cc-2017-04-part-00013", "cc-2017-04-part-00014", "cc-2017-04-part-00015",
+			"cc-2017-04-part-00016", "cc-2017-04-part-00017", "cc-2017-04-part-00018", 
+			"cc-2017-04-part-00019", "cc-2017-04-part-00020", "cc-2017-04-part-00021",
+			"cc-2017-04-part-00022", "cc-2017-04-part-00023", "cc-2017-04-part-00024",
+			"cc-2017-04-part-00025", "cc-2017-04-part-00026", "cc-2017-04-part-00027",
+			"cc-2017-04-part-00028", "cc-2017-04-part-00029"
 	};
 
 /*	private static final String[] CORPORA = new String[] {
@@ -116,9 +116,9 @@ public class SparkCreateSourceDocuments {
 		} else if ("cc-2017-04-small-sample".equals(corpus)) {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
 		} else if (corpus.startsWith("cc-2017-04-part-00")) {
-			for(int i=100; i<200; i++) {
-				if(("cc-2017-04-part-00" + i).equals(corpus)) {
-					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00" + i + "/data");
+			for(int i=0; i<200; i++) {
+				if(("cc-2017-04-part-000" + i).equals(corpus)) {
+					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-000" + i + "/data");
 				}
 			}
 		} else if (corpus.startsWith("cc-2015-11-part-")) {
