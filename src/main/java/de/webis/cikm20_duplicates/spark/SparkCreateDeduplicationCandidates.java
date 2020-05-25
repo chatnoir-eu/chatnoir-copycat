@@ -49,10 +49,11 @@ public class SparkCreateDeduplicationCandidates {
 
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			String corpus = "cw12";
+			//String corpus = "cw12";
+			String corpus = "cw09-cw12";
 			DeduplicationStrategy deduplicationStrategy = DeduplicationStrategy.productionDeduplication(50000);
 		
-			JavaRDD<String> input = context.textFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2");
+			JavaRDD<String> input = context.textFile(inputPath(corpus));
 			
 			exactDuplicates(input, deduplicationStrategy)
 				.saveAsTextFile(path(deduplicationStrategy, corpus) + "-exact-duplicates");
@@ -60,6 +61,14 @@ public class SparkCreateDeduplicationCandidates {
 			createDeduplicationtasks(input, deduplicationStrategy)
 				.saveAsTextFile(path(deduplicationStrategy, corpus) + "-near-duplicate-tasks");
 		}
+	}
+	
+	private static String inputPath(String corpus) {
+		if("cw09-cw12".equals(corpus)) {
+			return "cikm2020/document-fingerprints-final/cw*-jsonl.bzip2";
+		}
+		
+		return "cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2";
 	}
 	
 	private static String path(DeduplicationStrategy deduplicationStrategy, String corpus) {
