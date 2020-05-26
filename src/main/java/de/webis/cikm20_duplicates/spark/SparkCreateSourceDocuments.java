@@ -49,14 +49,31 @@ public class SparkCreateSourceDocuments {
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
 	private static final String[] CORPORA = new String[] {
-			"cc-2017-04-part-00010", "cc-2017-04-part-00011", "cc-2017-04-part-00012",
-			"cc-2017-04-part-00013", "cc-2017-04-part-00014", "cc-2017-04-part-00015",
-			"cc-2017-04-part-00016", "cc-2017-04-part-00017", "cc-2017-04-part-00018", 
-			"cc-2017-04-part-00019", "cc-2017-04-part-00020", "cc-2017-04-part-00021",
-			"cc-2017-04-part-00022", "cc-2017-04-part-00023", "cc-2017-04-part-00024",
-			"cc-2017-04-part-00025", "cc-2017-04-part-00026", "cc-2017-04-part-00027",
-			"cc-2017-04-part-00028", "cc-2017-04-part-00029"
+			//30-40 + 90-100 + 70-80
+			"cc-2017-04-part-00030", "cc-2017-04-part-00031", "cc-2017-04-part-00032",
+			"cc-2017-04-part-00033", "cc-2017-04-part-00034", "cc-2017-04-part-00035",
+			"cc-2017-04-part-00036", "cc-2017-04-part-00037", "cc-2017-04-part-00038", 
+			"cc-2017-04-part-00039", "cc-2017-04-part-00070", "cc-2017-04-part-00071",
+			"cc-2017-04-part-00072", "cc-2017-04-part-00073", "cc-2017-04-part-00074",
+			"cc-2017-04-part-00075", "cc-2017-04-part-00076", "cc-2017-04-part-00077",
+			"cc-2017-04-part-00078", "cc-2017-04-part-00079", "cc-2017-04-part-00090",
+			"cc-2017-04-part-00091", "cc-2017-04-part-00092", "cc-2017-04-part-00093",
+			"cc-2017-04-part-00094", "cc-2017-04-part-00095", "cc-2017-04-part-00096",
+			"cc-2017-04-part-00097", "cc-2017-04-part-00098", "cc-2017-04-part-00099"
 	};
+	
+//	//TODO :130-140 + 150-160
+//	private static final String[] CORPORA = new String[] {
+//			"cc-2017-04-part-00130", "cc-2017-04-part-00131", "cc-2017-04-part-00132",
+//			"cc-2017-04-part-00133", "cc-2017-04-part-00134", "cc-2017-04-part-00135",
+//			"cc-2017-04-part-00136", "cc-2017-04-part-00137", "cc-2017-04-part-00138", 
+//			"cc-2017-04-part-00139",
+//			
+//			"cc-2017-04-part-00150", "cc-2017-04-part-00151", "cc-2017-04-part-00152",
+//			"cc-2017-04-part-00153", "cc-2017-04-part-00154", "cc-2017-04-part-00155",
+//			"cc-2017-04-part-00156", "cc-2017-04-part-00157", "cc-2017-04-part-00158",
+//			"cc-2017-04-part-00159"
+//	};
 
 /*	private static final String[] CORPORA = new String[] {
 //			"cc-2015-11-part-0", // SUCCESS-FILE is there: cikm2020/document-fingerprints-final/cc-2015-11-part-0-jsonl/_SUCCESS
