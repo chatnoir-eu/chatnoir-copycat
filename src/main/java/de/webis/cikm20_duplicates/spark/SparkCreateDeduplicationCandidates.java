@@ -51,7 +51,8 @@ public class SparkCreateDeduplicationCandidates {
 		try (JavaSparkContext context = context()) {
 			//String corpus = "cw12";
 			//String corpus = "cw09-cw12";
-			String corpus = "cc-2015-11";
+//			String corpus = "cc-2015-11";
+			String corpus = "cw09-cw12-cc-2015-11";
 			DeduplicationStrategy deduplicationStrategy = DeduplicationStrategy.productionDeduplication(50000);
 		
 			JavaRDD<String> input = context.textFile(inputPath(corpus));
@@ -65,8 +66,10 @@ public class SparkCreateDeduplicationCandidates {
 	}
 	
 	private static String inputPath(String corpus) {
-		if("cw09-cw12".equals(corpus)) {
+		if ("cw09-cw12".equals(corpus)) {
 			return "cikm2020/document-fingerprints-final/cw*-jsonl.bzip2";
+		} else if ("cw09-cw12-cc-2015-11".equals(corpus)) {
+			return "cikm2020/document-fingerprints-final/{cw,cc-2015}*-jsonl.bzip2";
 		}
 		
 		return "cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2";
