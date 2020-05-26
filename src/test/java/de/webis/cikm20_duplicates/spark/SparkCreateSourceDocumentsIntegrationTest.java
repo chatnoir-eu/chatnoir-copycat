@@ -80,6 +80,13 @@ public class SparkCreateSourceDocumentsIntegrationTest extends SharedJavaSparkCo
 		Approvals.verifyAsJson(actual);
 	}
 	
+	@Test
+	public void approveCC17Collections() {
+		List<String> collections = SparkCreateSourceDocuments.cc17Collections();
+		
+		Approvals.verifyAsJson(collections);
+	}
+	
 	@SuppressWarnings("serial")
 	public static class DummyAnseriniCollectionReader extends AnseriniCollectionReader<Document> {
 

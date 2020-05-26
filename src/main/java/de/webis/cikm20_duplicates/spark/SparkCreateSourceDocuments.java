@@ -9,11 +9,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.hadoop.mapred.SequenceFileInputFormat;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
+import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaHadoopRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -108,13 +114,30 @@ public class SparkCreateSourceDocuments {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus: CORPORA) {
+//				JavaRDD<CollectionDocument> docs = docs(context, corpus);
+//				
+//				fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
+//					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			for(String corpus: CORPORA) {
-				JavaRDD<CollectionDocument> docs = docs(context, corpus);
+			for(String corpus: cc17Collections()) {
+				if(dirExists(context, "cikm2020/document-fingerprints-final/" + corpus +"-jsonl")) {
+					System.out.println("Exists: " + corpus);
+				} else {
+					System.out.println("Does not exist: " + corpus);
+				}
 				
-				fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
-					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
+//				JavaRDD<CollectionDocument> docs = docs(context, corpus);
+//				
+//				fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
+//					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
 			}
 		}
 	}
@@ -133,9 +156,9 @@ public class SparkCreateSourceDocuments {
 		} else if ("cc-2017-04-small-sample".equals(corpus)) {
 			return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-00001/data");
 		} else if (corpus.startsWith("cc-2017-04-part-00")) {
-			for(int i=0; i<200; i++) {
-				if(("cc-2017-04-part-000" + i).equals(corpus)) {
-					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-000" + i + "/data");
+			for(String p : cc17Collections()) {
+				if(p.equals(corpus)) {
+					return ccDocs(context, "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-" + StringUtils.substringAfterLast(p, "-") + "/data");
 				}
 			}
 		} else if (corpus.startsWith("cc-2015-11-part-")) {
@@ -302,5 +325,18 @@ public class SparkCreateSourceDocuments {
 			.help("Specify the s3 secret key.");
 		
 		return parser.parseArgsOrFail(args);
+	}
+
+	public static List<String> cc17Collections() {
+		return IntStream.range(0, 200)
+			.mapToObj(i -> "cc-2017-04-part-" + String.format("%05d", i))
+			.collect(Collectors.toList());
+	}
+	
+	@SneakyThrows
+	public static boolean dirExists(JavaSparkContext sc, String path) {
+		FileSystem fs = FileSystem.get(sc.hadoopConfiguration());
+		
+		return fs.exists(new Path(path));
 	}
 }
