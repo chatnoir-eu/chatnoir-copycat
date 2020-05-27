@@ -126,14 +126,14 @@ public class SparkCreateSourceDocuments {
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus: cc17Collections()) {
-				if(successExists(context, "cikm2020/document-fingerprints-final/" + corpus +"-jsonl")) {
+				if(dirExists(context, "cikm2020/document-fingerprints-final/" + corpus +"-jsonl")) {
 					System.out.println("Exists: " + corpus);
 				} else {
 					System.out.println("Does not exists: " + corpus);
-//					JavaRDD<CollectionDocument> docs = docs(context, corpus);
-//					
-//					fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
-//						.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
+					JavaRDD<CollectionDocument> docs = docs(context, corpus);
+					
+					fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
+						.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
 				}				
 			}
 		}
