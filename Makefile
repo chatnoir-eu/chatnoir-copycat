@@ -63,6 +63,9 @@ deduplicate: install
 	hdfs dfs -rm -r -f cikm2020/deduplication/near-duplicates/cw09-cw12 && \
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkDeduplicateCandidates
 
+deduplication-task-sizes: install
+	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.SparkDeduplicateCandidates
+
 create-candidates: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates
 

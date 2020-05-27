@@ -65,7 +65,7 @@ public class SparkCreateDeduplicationCandidates {
 		}
 	}
 	
-	private static String inputPath(String corpus) {
+	public static String inputPath(String corpus) {
 		if ("cw09-cw12".equals(corpus)) {
 			return "cikm2020/document-fingerprints-final/cw*-jsonl.bzip2";
 		} else if ("cw09-cw12-cc-2015-11".equals(corpus)) {
