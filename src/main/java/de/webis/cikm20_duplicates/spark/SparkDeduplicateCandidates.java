@@ -27,7 +27,7 @@ public class SparkDeduplicateCandidates {
 	public static void main(String[] args) {
 		String corpus = "cw09-cw12";
 		try (JavaSparkContext context = context()) {
-			JavaPairRDD<Integer, Integer> deduplicationTaskSizeToCount = context.textFile(SparkCreateDeduplicationCandidates.inputPath(corpus))
+			JavaPairRDD<Integer, Integer> deduplicationTaskSizeToCount = context.textFile(inputPath(corpus))
 				.mapToPair(i-> new Tuple2<>(DeduplicationTask.fromString(i).getEntries().size(), 1))
 				.reduceByKey((a,b) -> a+b);
 			
@@ -37,6 +37,10 @@ public class SparkDeduplicateCandidates {
 		}
 	}
 	
+	private static String inputPath(String corpus) {
+		return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus;
+	}
+
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
 		conf.setAppName("cikm2020/deduplication/near-duplicates");
