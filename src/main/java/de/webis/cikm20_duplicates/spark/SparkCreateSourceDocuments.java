@@ -17,9 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
-import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaHadoopRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -131,13 +129,11 @@ public class SparkCreateSourceDocuments {
 				if(dirExists(context, "cikm2020/document-fingerprints-final/" + corpus +"-jsonl")) {
 					System.out.println("Exists: " + corpus);
 				} else {
-					System.out.println("Does not exist: " + corpus);
-				}
-				
-//				JavaRDD<CollectionDocument> docs = docs(context, corpus);
-//				
-//				fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
-//					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
+					JavaRDD<CollectionDocument> docs = docs(context, corpus);
+					
+					fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
+						.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
+				}				
 			}
 		}
 	}
