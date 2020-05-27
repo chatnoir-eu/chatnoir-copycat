@@ -38,7 +38,7 @@ public class SparkDeduplicateCandidates {
 	}
 	
 	private static String inputPath(String corpus) {
-		return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus;
+		return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus +"-near-duplicate-tasks";
 	}
 
 	private static JavaSparkContext context() {
