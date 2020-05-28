@@ -126,7 +126,7 @@ public class SparkCreateSourceDocuments {
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus: cc17Collections()) {
-				if(dirExists(context, "cikm2020/document-fingerprints-final/" + corpus +"-jsonl")) {
+				if(successExists(context, "cikm2020/document-fingerprints-final/" + corpus +"-jsonl")) {
 					System.out.println("Exists: " + corpus);
 				} else {
 					System.out.println("Does not exists: " + corpus);
