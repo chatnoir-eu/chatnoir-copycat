@@ -169,8 +169,12 @@ public class SparkCreateDeduplicationCandidates {
 	public static JavaRDD<String> toCounts(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
 		JavaPairRDD<Integer, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithFingerprint, f);
 		
-		return parsedInput.groupBy(i -> i._1())
-				.map(i -> "{\"bucket\": " + i._1() + ", \"count\": " + sortedList(i._2()).size() +"}");
+		JavaPairRDD<Integer, Integer> deduplicationTaskSizeToCount = parsedInput.groupBy(i -> i._1())
+				.mapToPair(i -> new Tuple2<>(ClientLocalDeduplication.sortedList(i._2()).size(), 1))
+				.reduceByKey((a,b) -> a+b);
+		
+		return deduplicationTaskSizeToCount
+				.map(i -> "{\"groupSize\":" + i._1() + ",\"count\":" + i._2() + "}");
 	}
 	
 	public static JavaRDD<String> toCountsOfRecursion(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
