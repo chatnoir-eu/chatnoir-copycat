@@ -15,13 +15,25 @@ import scala.Tuple2;
  *
  */
 public class SparkDeduplicateCandidates {
+//	public static void main(String[] args) {
+//		String corpus = "cw09-cw12";
+//		try (JavaSparkContext context = context()) {
+//			context.textFile(inputPath(corpus))
+//				.map(i-> DeduplicationTask.fromString(i))
+//				.flatMap(i -> ClientLocalDeduplication.fullDeduplication(i.getEntries()).iterator())
+//				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-near-duplicates-without-exact-duplicates");
+//		}
+//	}
+
 	public static void main(String[] args) {
-		String corpus = "cw09-cw12";
+		String corpus = "cw09-cw12-cc-2015-11";
 		try (JavaSparkContext context = context()) {
-			context.textFile(inputPath(corpus))
-				.map(i-> DeduplicationTask.fromString(i))
-				.flatMap(i -> ClientLocalDeduplication.fullDeduplication(i.getEntries()).iterator())
-				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-near-duplicates-without-exact-duplicates");
+			for(int part=0; part<10; part++) {
+				context.textFile(inputPath(corpus, part))
+					.map(i-> DeduplicationTask.fromString(i))
+					.flatMap(i -> ClientLocalDeduplication.fullDeduplication(i.getEntries()).iterator())
+					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-near-duplicates-without-exact-duplicates/part-" + part);
+			}
 		}
 	}
 	
@@ -40,6 +52,10 @@ public class SparkDeduplicateCandidates {
 	
 	private static String inputPath(String corpus) {
 		return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus +"-near-duplicate-tasks";
+	}
+	
+	private static String inputPath(String corpus, int part) {
+		return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus +"-near-duplicate-tasks/part-*" + part;
 	}
 
 	private static JavaSparkContext context() {
