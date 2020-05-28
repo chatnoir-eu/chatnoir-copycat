@@ -60,7 +60,6 @@ combine-intermediate-results: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCombineIntermediateResults
 
 deduplicate: install
-	hdfs dfs -rm -r -f cikm2020/deduplication/near-duplicates/cw09-cw12 && \
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkDeduplicateCandidates
 
 deduplication-task-sizes: install
