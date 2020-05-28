@@ -63,7 +63,7 @@ deduplicate: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkDeduplicateCandidates
 
 deduplication-task-sizes: install
-	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.SparkDeduplicateCandidates
+	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeDeduplicationTaskSizes
 
 create-candidates: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates
