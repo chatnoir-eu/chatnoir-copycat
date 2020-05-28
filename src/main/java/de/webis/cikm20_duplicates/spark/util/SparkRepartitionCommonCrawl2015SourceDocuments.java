@@ -5,7 +5,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
-public class SparkRepartitionSourceDocuments {
+public class SparkRepartitionCommonCrawl2015SourceDocuments {
 	
 	private static final String[] CORPORA = new String[] {
 			"cc-2015-11-part-0", "cc-2015-11-part-1", "cc-2015-11-part-2",
