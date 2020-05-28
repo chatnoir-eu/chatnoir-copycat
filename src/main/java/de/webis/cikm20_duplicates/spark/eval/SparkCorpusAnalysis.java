@@ -45,14 +45,14 @@ public class SparkCorpusAnalysis {
 	@SuppressWarnings("serial")
 	public static class CorpusAnalysis implements Serializable {
 		public String corpus;
-		public int documentCount;
-		public int urlCount;
-		public int canonicalUrlCount;
+		public long documentCount;
+		public long urlCount;
+		public long canonicalUrlCount;
 		
 		public static CorpusAnalysis fromDocumentWithFingerprint(String src) {
 			DocumentWithFingerprint doc = DocumentWithFingerprint.fromString(src);
-			int urlCount = doc.getUrl() == null ? 0: 1;
-			int canonicalUrlCount = doc.getCanonicalURL() == null ? 0: 1;
+			long urlCount = doc.getUrl() == null ? 0: 1;
+			long canonicalUrlCount = doc.getCanonicalURL() == null ? 0: 1;
 			
 			return new CorpusAnalysis(CORPUS, 1, urlCount, canonicalUrlCount);
 		}
