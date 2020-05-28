@@ -34,7 +34,7 @@ public class SparkDeduplicateCandidates {
 //			
 //			deduplicationTaskSizeToCount
 //				.map(i -> "{\"groupSize\":" + i._1() + ",\"count\":" + i._2() + "}")
-//				.saveAsTextFile("cikm2020/document-fingerprints-final/deduplication-task-size-to-count/" + corpus);
+//				.saveAsTextFile("cikm2020/document-fingerprints-final/recursively-blocked-deduplication-task-size-to-count/" + corpus);
 //		}
 //	}
 	

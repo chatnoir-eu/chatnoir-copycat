@@ -75,7 +75,7 @@ public class SparkCreateDeduplicationCandidates {
 		return "cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2";
 	}
 	
-	private static String path(DeduplicationStrategy deduplicationStrategy, String corpus) {
+	public static String path(DeduplicationStrategy deduplicationStrategy, String corpus) {
 		return "cikm2020/deduplication-final/" + deduplicationStrategy.name() +"/" + corpus;
 	}
 	
@@ -282,7 +282,7 @@ public class SparkCreateDeduplicationCandidates {
 	}
 
 	@SuppressWarnings("serial")
-	static abstract class DeduplicationStrategy implements Serializable {
+	public static abstract class DeduplicationStrategy implements Serializable {
 		public final List<Integer> extract(DocumentWithFingerprint doc) {
 			return doc.getFingerprints().get(name());
 		}
