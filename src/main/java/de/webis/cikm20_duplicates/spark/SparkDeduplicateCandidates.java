@@ -26,7 +26,8 @@ public class SparkDeduplicateCandidates {
 //	}
 
 	public static void main(String[] args) {
-		String corpus = "cw09-cw12-cc-2015-11";
+		//String corpus = "cw09-cw12-cc-2015-11";
+		String corpus = "cc-2017-04";
 		try (JavaSparkContext context = context()) {
 			for(int part=0; part<10; part++) {
 				context.textFile(inputPath(corpus, part))
