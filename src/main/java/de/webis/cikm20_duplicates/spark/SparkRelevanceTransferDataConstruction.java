@@ -65,9 +65,9 @@ public class SparkRelevanceTransferDataConstruction {
 		
 		return ret.iterator();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private static List<String> possibleRelevanceTransfersFromTo(String src, String target, int k) {
+	public static List<RelevanceTransferPair> possibleRelevanceTransferPairsFromTo(String src, String target, int k) {
 		Set<String> sourceTopics = SparkCreateSourceDocuments.DOCS_TO_TOPIC.getOrDefault(src, Collections.EMPTY_SET);
 		Set<String> targetTopics = SparkCreateSourceDocuments.DOCS_TO_TOPIC.getOrDefault(target, Collections.EMPTY_SET);
 		List<RelevanceTransferPair> ret = new LinkedList<>();
@@ -78,7 +78,11 @@ public class SparkRelevanceTransferDataConstruction {
 			}
 		}
 		
-		return ret.stream().filter(i -> i!= null)
+		return ret.stream().filter(i -> i!= null).collect(Collectors.toList());
+	}
+	
+	public static List<String> possibleRelevanceTransfersFromTo(String src, String target, int k) {
+		return possibleRelevanceTransferPairsFromTo(src, target, k).stream()
 				.map(i -> i.toString())
 				.collect(Collectors.toList());
 	}

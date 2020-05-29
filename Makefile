@@ -19,6 +19,8 @@ sample-canonical-link-graph-edges: install
 corpus-analysis: install
 	./src/main/bash/run-spark-job-low-resources-akbnq-new.sh de.webis.cikm20_duplicates.spark.eval.SparkCorpusAnalysis
 
+
+
 analize-tmp: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeCanonicalLinkGraph
 
@@ -42,6 +44,9 @@ analyze-canonical-link-graph: install
 
 create-canonical-link-graph: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction
+
+relevance-transfer: install
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.evalSparkAggregateKnowledgeTransferBetweenCrawls
 
 enrich-relevance-transfer-dataset: install
 	hdfs dfs -rm -r -f cikm2020/enriched-relevance-transfer-pairs.jsonl && \
