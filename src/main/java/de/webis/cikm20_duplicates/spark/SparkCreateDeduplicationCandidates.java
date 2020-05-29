@@ -52,7 +52,8 @@ public class SparkCreateDeduplicationCandidates {
 			//String corpus = "cw12";
 			//String corpus = "cw09-cw12";
 //			String corpus = "cc-2015-11";
-			String corpus = "cw09-cw12-cc-2015-11";
+//			String corpus = "cw09-cw12-cc-2015-11";
+			String corpus = "cc-2017-04";
 			DeduplicationStrategy deduplicationStrategy = DeduplicationStrategy.productionDeduplication(50000);
 		
 			JavaRDD<String> input = context.textFile(inputPath(corpus));
