@@ -53,12 +53,7 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 	}
 
 	public static JavaRDD<String> urlDeduplicationTask(JavaRDD<String> input) {
-		JavaRDD<DocumentWithFingerprint> docsWithCanonicalURL = input.map(i -> DocumentWithFingerprint.fromString(i))
-				.filter(i -> i.getCanonicalURL() != null);
-		
-		JavaPairRDD<String, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithCanonicalURL);
-				
-		return parsedInput.groupByKey()
+		return hashPartitionToDocument(input).groupByKey()
 				.map(i -> workingPackages(i._2()))
 				.filter(i -> i != null);
 	}
@@ -73,13 +68,19 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 		return new DeduplicationTask(task).toString();
 	}
 
-	private static JavaPairRDD<String, DeduplicationUnit> hashPartitionToDocument(JavaRDD<DocumentWithFingerprint> docsWithCanonicalURL) {
+	private static JavaPairRDD<String, DeduplicationUnit> hashPartitionToDocument(JavaRDD<String> docsWithCanonicalURL) {
 		return docsWithCanonicalURL
 				.flatMapToPair(doc -> extractHashesToDocId(doc));
 	}
 
-	private static Iterator<Tuple2<String, DeduplicationUnit>> extractHashesToDocId(DocumentWithFingerprint doc) {
+	private static Iterator<Tuple2<String, DeduplicationUnit>> extractHashesToDocId(String src) {
+		DocumentWithFingerprint doc = DocumentWithFingerprint.fromString(src);
 		List<Tuple2<String, DeduplicationUnit>> ret = new ArrayList<>();
+		
+		if(doc.getCanonicalURL() == null ||doc.getCanonicalURL().toString().trim().isEmpty()) {
+			return ret.iterator();
+		}
+		
 		DeduplicationUnit dedupUnit = new DeduplicationUnit(doc.getDocId(), doc.getFingerprints().get("64BitK3SimHashOneGramms"));
 		
 		for(Integer hashPart: dedupUnit.getHashParts()) {
