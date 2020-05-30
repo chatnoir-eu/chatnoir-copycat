@@ -1,10 +1,14 @@
 package de.webis.cikm20_duplicates.spark;
 
+import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -16,6 +20,8 @@ import com.google.common.collect.ImmutableList;
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationUnit;
 import de.webis.cikm20_duplicates.util.ClientLocalDeduplication.DeduplicationTask;
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import scala.Tuple2;
 
 public class SparkCreateCanonicalLinkDeduplicationTasks {
@@ -54,39 +60,55 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 
 	public static JavaRDD<String> urlDeduplicationTask(JavaRDD<String> input) {
 		return hashPartitionToDocument(input).groupByKey()
-				.map(i -> workingPackages(i._2()))
-				.filter(i -> i != null);
+				.flatMap(i -> workingPackages2(i._2()));
 	}
 
-	private static String workingPackages(Iterable<DeduplicationUnit> bla) {
-		List<DeduplicationUnit> task = new LinkedList<>(new HashSet<>(ImmutableList.copyOf(bla)));
+	private static Iterator<String> workingPackages2(Iterable<DeduplicationUnit2> bla) {
+		List<DeduplicationUnit2> tasks = new LinkedList<>(new HashSet<>(ImmutableList.copyOf(bla)));
+		Map<URL, List<DeduplicationUnit>> ret = new LinkedHashMap<>();
 		
-		if(task.size() <= 1) {
-			return null;
+		for(DeduplicationUnit2 t: tasks) {
+			if(!ret.containsKey(t.url)) {
+				ret.put(t.url, new ArrayList<>());
+			}
+			
+			ret.get(t.url).add(new DeduplicationUnit(t.id, t.hashParts));
 		}
 		
-		return new DeduplicationTask(task).toString();
+		return ret.values().stream()
+				.filter(i -> i.size() > 1)
+				.map(i -> new DeduplicationTask(i).toString())
+				.iterator();
 	}
 
-	private static JavaPairRDD<String, DeduplicationUnit> hashPartitionToDocument(JavaRDD<String> docsWithCanonicalURL) {
+	private static JavaPairRDD<Integer, DeduplicationUnit2> hashPartitionToDocument(JavaRDD<String> docsWithCanonicalURL) {
 		return docsWithCanonicalURL
 				.flatMapToPair(doc -> extractHashesToDocId(doc));
 	}
 
-	private static Iterator<Tuple2<String, DeduplicationUnit>> extractHashesToDocId(String src) {
+	private static Iterator<Tuple2<Integer, DeduplicationUnit2>> extractHashesToDocId(String src) {
 		DocumentWithFingerprint doc = DocumentWithFingerprint.fromString(src);
-		List<Tuple2<String, DeduplicationUnit>> ret = new ArrayList<>();
+		List<Tuple2<Integer, DeduplicationUnit2>> ret = new ArrayList<>();
 		
 		if(doc.getCanonicalURL() == null ||doc.getCanonicalURL().toString().trim().isEmpty()) {
 			return ret.iterator();
 		}
 		
-		DeduplicationUnit dedupUnit = new DeduplicationUnit(doc.getDocId(), doc.getFingerprints().get("64BitK3SimHashOneGramms"));
+		DeduplicationUnit2 dedupUnit = new DeduplicationUnit2(doc.getDocId(), doc.getCanonicalURL(), doc.getFingerprints().get("64BitK3SimHashOneGramms"));
 		
 		for(Integer hashPart: dedupUnit.getHashParts()) {
-			ret.add(new Tuple2<>(doc.getCanonicalURL().hashCode() + "-" + hashPart, dedupUnit));
+			ret.add(new Tuple2<>(hashPart, dedupUnit));
 		}
 		
 		return ret.iterator();
+	}
+	
+	@Data
+	@AllArgsConstructor
+	@SuppressWarnings("serial")
+	public static class DeduplicationUnit2 implements Serializable {
+		private String id;
+		private URL url;
+		private ArrayList<Integer> hashParts;
 	}
 }
