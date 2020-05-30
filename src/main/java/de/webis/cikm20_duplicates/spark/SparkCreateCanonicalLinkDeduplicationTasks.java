@@ -1,6 +1,5 @@
 package de.webis.cikm20_duplicates.spark;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -57,7 +56,7 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 		JavaRDD<DocumentWithFingerprint> docsWithCanonicalURL = input.map(i -> DocumentWithFingerprint.fromString(i))
 				.filter(i -> i.getCanonicalURL() != null);
 		
-		JavaPairRDD<Tuple2<URL, Integer>, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithCanonicalURL);
+		JavaPairRDD<String, DeduplicationUnit> parsedInput = hashPartitionToDocument(docsWithCanonicalURL);
 				
 		return parsedInput.groupByKey()
 				.map(i -> workingPackages(i._2()))
@@ -74,17 +73,17 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 		return new DeduplicationTask(task).toString();
 	}
 
-	private static JavaPairRDD<Tuple2<URL, Integer>, DeduplicationUnit> hashPartitionToDocument(JavaRDD<DocumentWithFingerprint> docsWithCanonicalURL) {
+	private static JavaPairRDD<String, DeduplicationUnit> hashPartitionToDocument(JavaRDD<DocumentWithFingerprint> docsWithCanonicalURL) {
 		return docsWithCanonicalURL
 				.flatMapToPair(doc -> extractHashesToDocId(doc));
 	}
 
-	private static Iterator<Tuple2<Tuple2<URL, Integer>, DeduplicationUnit>> extractHashesToDocId(DocumentWithFingerprint doc) {
-		List<Tuple2<Tuple2<URL, Integer>, DeduplicationUnit>> ret = new ArrayList<>();
+	private static Iterator<Tuple2<String, DeduplicationUnit>> extractHashesToDocId(DocumentWithFingerprint doc) {
+		List<Tuple2<String, DeduplicationUnit>> ret = new ArrayList<>();
 		DeduplicationUnit dedupUnit = new DeduplicationUnit(doc.getDocId(), doc.getFingerprints().get("64BitK3SimHashOneGramms"));
 		
 		for(Integer hashPart: dedupUnit.getHashParts()) {
-			ret.add(new Tuple2<>(new Tuple2<>(doc.getCanonicalURL(), hashPart), dedupUnit));
+			ret.add(new Tuple2<>(doc.getCanonicalURL().hashCode() + "-" + hashPart, dedupUnit));
 		}
 		
 		return ret.iterator();
