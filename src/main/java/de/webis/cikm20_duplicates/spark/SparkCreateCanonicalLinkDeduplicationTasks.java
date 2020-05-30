@@ -14,7 +14,6 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 import com.google.common.collect.ImmutableList;
 
-import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationStrategy;
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationUnit;
 import de.webis.cikm20_duplicates.util.ClientLocalDeduplication.DeduplicationTask;
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
@@ -24,11 +23,12 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			String corpus = "cw09";
-			JavaRDD<String> input = context.textFile(inputPath(corpus));
-			
-			urlDeduplicationTask(input)
-				.saveAsTextFile(path(corpus) + "-near-duplicate-tasks");
+			for(String corpus: new String[] {"cw12", "cc-2015-11", "cc-2017-04"}) {
+				JavaRDD<String> input = context.textFile(inputPath(corpus));
+				
+				urlDeduplicationTask(input)
+					.saveAsTextFile(path(corpus) + "-near-duplicate-tasks");
+			}
 		}
 	}
 	
