@@ -70,8 +70,8 @@ public class SparkAggregateKnowledgeTransferBetweenCrawls {
 		
 		List<String> bla = new ArrayList<>(ret);
 		
-		List<RelevanceTransferPair> tmp = SparkRelevanceTransferDataConstruction.possibleRelevanceTransferPairsFromTo(id1, id2, 0);
-		tmp.addAll(SparkRelevanceTransferDataConstruction.possibleRelevanceTransferPairsFromTo(id2, id1, 0));
+		List<RelevanceTransferPair> tmp = SparkRelevanceTransferDataConstruction.possibleRelevanceTransferPairsWithoutURLsFromTo(id1, id2, 0);
+		tmp.addAll(SparkRelevanceTransferDataConstruction.possibleRelevanceTransferPairsWithoutURLsFromTo(id2, id1, 0));
 		ret = new ArrayList<>(ret);
 		
 		for(RelevanceTransferPair relevanceTransfer: tmp) {

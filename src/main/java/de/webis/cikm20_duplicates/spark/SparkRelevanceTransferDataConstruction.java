@@ -67,14 +67,14 @@ public class SparkRelevanceTransferDataConstruction {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<RelevanceTransferPair> possibleRelevanceTransferPairsFromTo(String src, String target, int k) {
+	public static List<RelevanceTransferPair> possibleRelevanceTransferPairsWithoutURLsFromTo(String src, String target, int k) {
 		Set<String> sourceTopics = SparkCreateSourceDocuments.DOCS_TO_TOPIC.getOrDefault(src, Collections.EMPTY_SET);
 		Set<String> targetTopics = SparkCreateSourceDocuments.DOCS_TO_TOPIC.getOrDefault(target, Collections.EMPTY_SET);
 		List<RelevanceTransferPair> ret = new LinkedList<>();
 		
 		for(String sourceTopic: sourceTopics) {
 			if(!targetTopics.contains(sourceTopic)) {
-				ret.add(RelevanceTransferPair.transferPair(src, target, sourceTopic, k));
+				ret.add(RelevanceTransferPair.transferPairWithoutChatnoirId(src, target, sourceTopic, k));
 			}
 		}
 		
@@ -82,7 +82,8 @@ public class SparkRelevanceTransferDataConstruction {
 	}
 	
 	public static List<String> possibleRelevanceTransfersFromTo(String src, String target, int k) {
-		return possibleRelevanceTransferPairsFromTo(src, target, k).stream()
+		return possibleRelevanceTransferPairsWithoutURLsFromTo(src, target, k).stream()
+				.map(i -> RelevanceTransferPair.enrichWithURLs(i))
 				.map(i -> i.toString())
 				.collect(Collectors.toList());
 	}
@@ -106,7 +107,8 @@ public class SparkRelevanceTransferDataConstruction {
 			return new ObjectMapper().readValue(src, RelevanceTransferPair.class);
 		}
 		
-		public static RelevanceTransferPair transferPair(String src, String target, String topic, int k) {
+		
+		public static RelevanceTransferPair transferPairWithoutChatnoirId(String src, String target, String topic, int k) {
 			Map<String, SourceDocument> docIdToSrc = SourceDocuments.TOPIC_TO_ID_TO_SOURCE_DOC.get(topic);
 			if(docIdToSrc == null || docIdToSrc.get(src) == null) {
 				return null;
@@ -114,7 +116,20 @@ public class SparkRelevanceTransferDataConstruction {
 			
 			int relevanceLabel = docIdToSrc.get(src).getJudgment();
 			
-			return new RelevanceTransferPair(src, target, topic, CollectionDocumentUtil.chatNoirURL(src), CollectionDocumentUtil.chatNoirURL(target), k, relevanceLabel);
+			return new RelevanceTransferPair(src, target, topic, null, null, k, relevanceLabel);
+		}
+		
+		public static RelevanceTransferPair transferPair(String src, String target, String topic, int k) {
+			RelevanceTransferPair ret = transferPairWithoutChatnoirId(src, target, topic, k);
+
+			return enrichWithURLs(ret);
+		}
+		
+		public static RelevanceTransferPair enrichWithURLs(RelevanceTransferPair ret) {
+			ret.setTargetURL(CollectionDocumentUtil.chatNoirURL(ret.getTargetId()));
+			ret.setSrcURL(CollectionDocumentUtil.chatNoirURL(ret.getSrcId()));
+			
+			return ret;
 		}
 	}
 }

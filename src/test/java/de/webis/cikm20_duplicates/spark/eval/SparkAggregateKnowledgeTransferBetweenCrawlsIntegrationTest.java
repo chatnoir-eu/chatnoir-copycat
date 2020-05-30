@@ -155,6 +155,36 @@ public class SparkAggregateKnowledgeTransferBetweenCrawlsIntegrationTest extends
 		Assert.assertEquals(expected, actual);
 	}
 	
+	@Test
+	public void labelsForIntegrationExample4() {
+		List<String> exampleNearDuplicatesWithoutExactDuplicatesShuffled = Arrays.asList(
+				"{\"firstId\":\"clueweb09-en0008-02-29970\",\"secondId\":\"74a36712-7671-55f6-8ece-1714d810a3c2\",\"hemmingDistance\":3}",
+				"{\"firstId\":\"cluseweb12-1911wb-63-21940\",\"secondId\":\"clueweb12-1911wb-61-32607\",\"hemmingDistance\":3}",
+				"{\"firstId\":\"cluewseb12-1912wb-69-16845\",\"secondId\":\"clueweb12-1912wb-23-02148\",\"hemmingDistance\":2}",
+				"{\"firstId\":\"clueweb12-1913wb-21-14719\",\"secondId\":\"cluewes12-1912wb-97-19250\",\"hemmingDistance\":3}",
+				"{\"firstId\":\"clueweb12-1913wb-21-14723\",\"secondId\":\"clueweb12-1912wb-97-19250\",\"hemmingDistance\":2}",
+				"{\"firstId\":\"clueweb12-1913wb-34-21369\",\"secondId\":\"clueweb12-1913wb-11-13833\",\"hemmingDistance\":1}"
+			);
+			
+		List<String> exampleExactDuplicatesShuffled = Arrays.asList(
+				"{\"equivalentDocuments\": [\"sas-0310wb-12-31094\",\"sa-0309wb-77-14169\",\"clueweb09-0309wb-77-14169\"],\"hash\":[2143027200, 11380, 15597713, 679168]}",
+				"{\"equivalentDocuments\": [\"clueweb12-0504wb-14-32223\",\"clueweb12-0308wb-11-17456\"],\"hash\":[-729088000, 64915, 1310914, 3330304]}",
+				"{\"equivalentDocuments\": [\"clueweb12-0405wb-75-31987\",\"clueweb09-en0077-45-03495\"],\"hash\":[-1076559872, 25846, 7208991, 16488448]}"
+			); 
+		
+		Map<String, Long> expected = new HashMap<>();
+		expected.put("cw09-to-cw12", 1l);
+		expected.put("cw09-to-cc15", 3l);
+		expected.put("cw12-to-cc15", 3l);
+		expected.put("cw09-to-cc15---topic---CLUEWEB09::WEB_2009::50---relevance---0", 1l);
+		expected.put("cw09-to-cc15---relevance---0", 1l);
+		
+		
+		Map<String, Long> actual = aggregateKnowledgeTransfer(exampleNearDuplicatesWithoutExactDuplicatesShuffled, exampleExactDuplicatesShuffled);
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
 	private Map<String, Long> aggregateKnowledgeTransfer(List<String> exampleNearDuplicatesWithoutExactDuplicatesShuffled, List<String> exampleExactDuplicatesShuffled) {
 		JavaRDD<String> a = jsc().parallelize(exampleNearDuplicatesWithoutExactDuplicatesShuffled);
 		JavaRDD<String> b = jsc().parallelize(exampleExactDuplicatesShuffled);
