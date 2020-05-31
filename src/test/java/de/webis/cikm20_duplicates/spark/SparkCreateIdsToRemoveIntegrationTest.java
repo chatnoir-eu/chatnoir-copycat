@@ -12,6 +12,8 @@ import org.junit.Test;
 
 import com.holdenkarau.spark.testing.SharedJavaSparkContext;
 
+import de.webis.cikm20_duplicates.spark.SparkCreateIdsToRemove.KeepId;
+
 public class SparkCreateIdsToRemoveIntegrationTest extends SharedJavaSparkContext {
 	private List<String> exampleNearDuplicatesWithoutExactDuplicates = Arrays.asList(
 		"{\"firstId\":\"clueweb12-1910wb-90-00004\",\"secondId\":\"clueweb12-1911wb-61-32607\",\"hemmingDistance\":3}",
@@ -30,14 +32,14 @@ public class SparkCreateIdsToRemoveIntegrationTest extends SharedJavaSparkContex
 	
 	@Test
 	public void ApproveIdsToRemoveForCw12() {
-		List<String> idsToRemove = idsToRemove(exampleNearDuplicatesWithoutExactDuplicates, exampleExactDuplicates, "clueweb12");
+		List<String> idsToRemove = idsToRemove(exampleNearDuplicatesWithoutExactDuplicates, exampleExactDuplicates, SparkCreateIdsToRemove.CLUEWEB12);
 		Approvals.verifyAsJson(idsToRemove);
 	}
 
 	@Test
 	public void ApproveIdsToRemoveForCw09() {
 		List<String> expected = Collections.emptyList();
-		List<String> idsToRemove = idsToRemove(exampleNearDuplicatesWithoutExactDuplicates, exampleExactDuplicates, "clueweb09");
+		List<String> idsToRemove = idsToRemove(exampleNearDuplicatesWithoutExactDuplicates, exampleExactDuplicates, SparkCreateIdsToRemove.CLUEWEB09);
 		
 		Assert.assertEquals(expected, idsToRemove);
 	}
@@ -59,14 +61,14 @@ public class SparkCreateIdsToRemoveIntegrationTest extends SharedJavaSparkContex
 				"{\"equivalentDocuments\": [\"clueweb12-0405wb-75-31987\",\"clueweb09-en0077-45-03495\"],\"hash\":[-1076559872, 25846, 7208991, 16488448]}"
 			); 
 		
-		List<String> idsToRemove = idsToRemove(exampleNearDuplicatesWithoutExactDuplicatesShuffled, exampleExactDuplicatesShuffled, "clueweb12");
+		List<String> idsToRemove = idsToRemove(exampleNearDuplicatesWithoutExactDuplicatesShuffled, exampleExactDuplicatesShuffled, SparkCreateIdsToRemove.CLUEWEB12);
 		Approvals.verifyAsJson(idsToRemove);
 	}
 	
-	private List<String> idsToRemove(List<String> nearDuplicates, List<String> exactDuplicates, String prefix) {
+	private List<String> idsToRemove(List<String> nearDuplicates, List<String> exactDuplicates, KeepId keepId) {
 		JavaRDD<String> a = jsc().parallelize(nearDuplicates);
 		JavaRDD<String> b = jsc().parallelize(exactDuplicates);
-		List<String> ret = new ArrayList<>(SparkCreateIdsToRemove.idsToRemove(a, b, prefix).collect());
+		List<String> ret = new ArrayList<>(SparkCreateIdsToRemove.idsToRemove(a, b, keepId).collect());
 		Collections.sort(ret);
 		
 		return ret;
