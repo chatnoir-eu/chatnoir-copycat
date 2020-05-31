@@ -55,15 +55,25 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 		
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus: new String[] {"cc-2017-04"}) {
+//				JavaRDD<String> nearDuplicates = context.textFile(nearDupPath(corpus));
+//				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
+//					
+//				idsToRemoveNonDistinct(nearDuplicates, exactDuplicates, idsToKeep(corpus))
+//					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-ATTENTION-NON-DISTINCT");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			for(String corpus: new String[] {"cc-2017-04"}) {
-				JavaRDD<String> nearDuplicates = context.textFile(nearDupPath(corpus));
-				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
-					
-				idsToRemoveNonDistinct(nearDuplicates, exactDuplicates, idsToKeep(corpus))
-					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-ATTENTION-NON-DISTINCT");
-			}
+			JavaRDD<String> toDistinct = context.textFile(nearDupPath("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-ids-to-remove-ATTENTION-NON-DISTINCT"));
+				
+			toDistinct.distinct()
+				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-ids-to-remove");
+
 		}
 	}
 	
