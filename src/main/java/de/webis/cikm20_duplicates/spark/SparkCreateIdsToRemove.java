@@ -103,7 +103,7 @@ public class SparkCreateIdsToRemove {
 		} else if ("cc-2015-11".equals(corpus)) {
 			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-near-duplicates-without-exact-duplicates/part*/part*";
 		} else if ("cc-2017-04".equals(corpus)) {
-			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2017-04-near-duplicates-without-exact-duplicates/part*/part*";
+			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-near-duplicates-without-exact-duplicates/part*/part*";
 		} else {
 			throw new RuntimeException("Can not handle: " + corpus);
 		}
