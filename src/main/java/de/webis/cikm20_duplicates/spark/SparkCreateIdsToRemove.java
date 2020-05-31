@@ -43,14 +43,26 @@ public class SparkCreateIdsToRemove {
 			}
 		};
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04"}) {
+//				JavaRDD<String> nearDuplicates = context.textFile(nearDupPath(corpus));
+//				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
+//				
+//				idsToRemove(nearDuplicates, exactDuplicates, idsToKeep(corpus))
+//					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove");
+//			}
+//		}
+//	}
+		
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04"}) {
+			for(String corpus: new String[] {"cc-2017-04"}) {
 				JavaRDD<String> nearDuplicates = context.textFile(nearDupPath(corpus));
 				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
-				
-				idsToRemove(nearDuplicates, exactDuplicates, idsToKeep(corpus))
-					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove");
+					
+				idsToRemoveNonDistinct(nearDuplicates, exactDuplicates, idsToKeep(corpus))
+					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-ATTENTION-NON-DISTINCT");
 			}
 		}
 	}
@@ -123,13 +135,19 @@ public class SparkCreateIdsToRemove {
 		return idsToRemove(ids, keepId);
 	}
 	
-	public static JavaRDD<String> idsToRemove(JavaRDD<String> nearDuplicates, JavaRDD<String> exactDuplicates, KeepId keepId) {
+	
+	public static JavaRDD<String> idsToRemoveNonDistinct(JavaRDD<String> nearDuplicates, JavaRDD<String> exactDuplicates, KeepId keepId) {
 		nearDuplicates = nearDuplicates.flatMap(i -> docsToRemoveFromNearDuplicates(i, keepId).iterator())
 				.filter(i -> i != null);
 		exactDuplicates = exactDuplicates.flatMap(i -> docsToRemoveFromExactDuplicates(i, keepId).iterator())
 				.filter(i -> i != null);
 		
-		return nearDuplicates.union(exactDuplicates).distinct();
+		return nearDuplicates.union(exactDuplicates);
+	}
+	
+	public static JavaRDD<String> idsToRemove(JavaRDD<String> nearDuplicates, JavaRDD<String> exactDuplicates, KeepId keepId) {
+		return idsToRemoveNonDistinct(nearDuplicates, exactDuplicates, keepId)
+				.distinct();
 	}
 
 	public static List<String> idsToRemove(List<String> ids, KeepId keepId) {
