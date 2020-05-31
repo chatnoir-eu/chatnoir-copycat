@@ -19,6 +19,8 @@ sample-canonical-link-graph-edges: install
 corpus-analysis: install
 	./src/main/bash/run-spark-job-low-resources-akbnq-new.sh de.webis.cikm20_duplicates.spark.eval.SparkCorpusAnalysis
 
+distinct-deduplication-pairs: install
+	./src/main/bash/run-spark-job-low-resources-akbnq-new.sh de.webis.cikm20_duplicates.spark.SparkMakeDeduplicatedPairsUnique
 
 
 analize-tmp: install
