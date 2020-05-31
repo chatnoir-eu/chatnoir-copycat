@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -15,6 +17,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments;
 import de.webis.cikm20_duplicates.spark.SparkRelevanceTransferDataConstruction;
 import de.webis.cikm20_duplicates.spark.SparkRelevanceTransferDataConstruction.RelevanceTransferPair;
 import lombok.SneakyThrows;
@@ -25,7 +28,7 @@ public class SparkAggregateKnowledgeTransferBetweenCrawls {
 	@SneakyThrows
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> nearDuplicatesWithoutExactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-near-duplicates-without-exact-duplicates/part*/part*");
+			JavaRDD<String> nearDuplicatesWithoutExactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-near-duplicates-without-exact-duplicates-csv-distinct");
 			JavaRDD<String> exactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates");
 			
 			Map<String, Long> data = aggregateKnowledgeTransfer(nearDuplicatesWithoutExactDuplicates, exactDuplicates);
@@ -76,8 +79,7 @@ public class SparkAggregateKnowledgeTransferBetweenCrawls {
 		
 		for(RelevanceTransferPair relevanceTransfer: tmp) {
 			for(String a: bla) {
-				ret.add(a + "---relevance---" + relevanceTransfer.getRelevanceLabel());
-				ret.add(a + "---topic---" + relevanceTransfer.getTopic() + "---relevance---" + relevanceTransfer.getRelevanceLabel());
+				ret.add(a + "---topic---" + relevanceTransfer.getTopic() + "---source-doc---" + relevanceTransfer.getSrcId() + "---relevance---" + relevanceTransfer.getRelevanceLabel());
 			}
 		}
 		
@@ -119,37 +121,88 @@ public class SparkAggregateKnowledgeTransferBetweenCrawls {
 				.reduceByKey((i,j)-> i+j);
 		
 		JavaPairRDD<String, Long> b = exactDuplicates
-				.flatMap(i -> labelsFromExactDuplicates(i).iterator())
-				.mapToPair(i -> new Tuple2<>(i, 1l))
+				.flatMapToPair(i -> labelsFromExactDuplicates(i).iterator())
 				.reduceByKey((i,j)-> i+j);
 		
 		return a.union(b).reduceByKey((i,j)-> i+j)
 				.collectAsMap();
 	}
 	
-	@SneakyThrows
-	@SuppressWarnings("unchecked")
 	private static List<String> labelsFromNearDuplicates(String src) {
-		Map<String, Object> parsed = new ObjectMapper().readValue(src, Map.class);
-		String firstId = (String) parsed.get("firstId");
-		String secondId = (String) parsed.get("secondId");
+		if(1 != StringUtils.countMatches(src, ",")) {
+			throw new RuntimeException("Could not handle pair: '" + src + "'.");
+		}
+		
+		String firstId = StringUtils.substringBefore(src, ",");
+		String secondId = StringUtils.substringAfter(src, ",");
 		
 		return labels(firstId, secondId);
 	}
 	
 	@SneakyThrows
 	@SuppressWarnings("unchecked")
-	private static List<String> labelsFromExactDuplicates(String src) {
+	private static List<Tuple2<String, Long>> labelsFromExactDuplicates(String src) {
 		Map<String, Object> parsed = new ObjectMapper().readValue(src, Map.class);
-		List<String> ids = (List<String>) parsed.get("equivalentDocuments");
-		List<String> ret = new LinkedList<>();
+		Set<String> ids = new HashSet<>((List<String>) parsed.get("equivalentDocuments"));
+		Map<String, List<RelevanceTransferPair>> idToTransfer = new HashMap<>();
+		long cw09 = 0, cw12 = 0, cc15 = 0;
 		
-		for(int i=0; i<ids.size(); i++) {
-			for(int j=i+1; j<ids.size(); j++) {
-				ret.addAll(labels(ids.get(i), ids.get(j)));
+		for(String id: ids) {
+			if(isCw09(id)) {
+				cw09++;
+			} else if(isCw12(id)) {
+				cw12++;
+			} else {
+				cc15++;
 			}
+			
+			Set<String> sourceTopics = SparkCreateSourceDocuments.DOCS_TO_TOPIC.getOrDefault(id, Collections.EMPTY_SET);
+			List<RelevanceTransferPair> tmp = new ArrayList<>();
+			
+			for(String sourceTopic: sourceTopics) {
+				RelevanceTransferPair rt = RelevanceTransferPair.transferPairWithoutChatnoirId(src, null, sourceTopic, 0);
+				if(rt != null) {
+					tmp.add(rt);
+				}
+			}
+			
+			idToTransfer.put(id, tmp);
 		}
 		
+		List<Tuple2<String, Long>> ret = new ArrayList<>();
+		
+		if(cw09 > 0 && cw12 > 0) {
+			//cw09 * cw12 edges in bipartite graph from cw09 to cw12
+			ret.add(new Tuple2<>("cw09-to-cw12", cw09*cw12));
+		} 
+		
+		if(cw09 > 0 && cc15 > 0) {
+			//cw09 * cc15 edges in bipartite graph from cw09 to cc15
+			ret.add(new Tuple2<>("cw09-to-cc15", cw09*cc15));
+		}
+		
+		if(cw12 > 0 && cc15 > 0) {
+			//cw12 * cc15 edges in bipartite graph from cw12 to cc15
+			ret.add(new Tuple2<>("cw12-to-cc15", cw12*cc15));
+		}
+		
+		for(Map.Entry<String, List<RelevanceTransferPair>> docAndRels: idToTransfer.entrySet()) {
+			for(RelevanceTransferPair relevanceTransfer: docAndRels.getValue()) {
+				if(isCw09(docAndRels.getKey()) && cw12 > 0) {
+					ret.add(new Tuple2<>("cw09-to-cw12---topic---" + relevanceTransfer.getTopic() + "---source-doc---" + relevanceTransfer.getSrcId() + "---relevance---" + relevanceTransfer.getRelevanceLabel(), cw12));
+				}
+				
+				if(isCw09(docAndRels.getKey()) && cc15 > 0) {
+					ret.add(new Tuple2<>("cw09-to-cc15---topic---" + relevanceTransfer.getTopic() + "---source-doc---" + relevanceTransfer.getSrcId() + "---relevance---" + relevanceTransfer.getRelevanceLabel(), cc15));
+				}
+				
+				if(isCw12(docAndRels.getKey()) && cc15 > 0) {
+					ret.add(new Tuple2<>("cw12-to-cc15---topic---" + relevanceTransfer.getTopic() + "---source-doc---" + relevanceTransfer.getSrcId() + "---relevance---" + relevanceTransfer.getRelevanceLabel(), cc15));
+				}
+			}
+			
+		}
+
 		return ret;
 	}
 }

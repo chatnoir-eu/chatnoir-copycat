@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.spark.api.java.JavaRDD;
-import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -75,12 +74,12 @@ public class SparkAggregateKnowledgeTransferBetweenCrawlsIntegrationTest extends
 	@Test
 	public void labelsForIntegrationExample1() {
 		List<String> exampleNearDuplicatesWithoutExactDuplicatesShuffled = Arrays.asList(
-				"{\"firstId\":\"clueweb09-1911wb-61-32607\",\"secondId\":\"clueweb12-1910wb-90-00004\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"clueweb12-1911wb-63-21940\",\"secondId\":\"clueweb12-1911wb-61-32607\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"clueweb12-1912wb-69-16845\",\"secondId\":\"clueweb12-1912wb-23-02148\",\"hemmingDistance\":2}",
-				"{\"firstId\":\"clueweb12-1913wb-21-14719\",\"secondId\":\"clueweb12-1912wb-97-19250\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"clueweb12-1913wb-21-14723\",\"secondId\":\"clueweb12-1912wb-97-19250\",\"hemmingDistance\":2}",
-				"{\"firstId\":\"clueweb12-1913wb-34-21369\",\"secondId\":\"clueweb12-1913wb-11-13833\",\"hemmingDistance\":1}"
+				"clueweb09-1911wb-61-32607,clueweb12-1910wb-90-00004",
+				"clueweb12-1911wb-63-21940,clueweb12-1911wb-61-32607",
+				"clueweb12-1912wb-69-16845,clueweb12-1912wb-23-02148",
+				"clueweb12-1913wb-21-14719,clueweb12-1912wb-97-19250",
+				"clueweb12-1913wb-21-14723,clueweb12-1912wb-97-19250",
+				"clueweb12-1913wb-34-21369,clueweb12-1913wb-11-13833"
 			);
 			
 		List<String> exampleExactDuplicatesShuffled = Arrays.asList(
@@ -100,12 +99,12 @@ public class SparkAggregateKnowledgeTransferBetweenCrawlsIntegrationTest extends
 	@Test
 	public void labelsForIntegrationExample2() {
 		List<String> exampleNearDuplicatesWithoutExactDuplicatesShuffled = Arrays.asList(
-				"{\"firstId\":\"clueweb09-1911wb-61-32607\",\"secondId\":\"clueweb12-1910wb-90-00004\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"cluseweb12-1911wb-63-21940\",\"secondId\":\"clueweb12-1911wb-61-32607\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"cluewseb12-1912wb-69-16845\",\"secondId\":\"clueweb12-1912wb-23-02148\",\"hemmingDistance\":2}",
-				"{\"firstId\":\"clueweb12-1913wb-21-14719\",\"secondId\":\"cluewes12-1912wb-97-19250\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"clueweb12-1913wb-21-14723\",\"secondId\":\"clueweb12-1912wb-97-19250\",\"hemmingDistance\":2}",
-				"{\"firstId\":\"clueweb12-1913wb-34-21369\",\"secondId\":\"clueweb12-1913wb-11-13833\",\"hemmingDistance\":1}"
+				"clueweb09-1911wb-61-32607,clueweb12-1910wb-90-00004",
+				"cluseweb12-1911wb-63-21940,clueweb12-1911wb-61-32607",
+				"cluewseb12-1912wb-69-16845,clueweb12-1912wb-23-02148",
+				"clueweb12-1913wb-21-14719,cluewes12-1912wb-97-19250",
+				"clueweb12-1913wb-21-14723,clueweb12-1912wb-97-19250",
+				"clueweb12-1913wb-34-21369,clueweb12-1913wb-11-13833"
 			);
 			
 		List<String> exampleExactDuplicatesShuffled = Arrays.asList(
@@ -128,12 +127,12 @@ public class SparkAggregateKnowledgeTransferBetweenCrawlsIntegrationTest extends
 	@Test
 	public void labelsForIntegrationExample3() {
 		List<String> exampleNearDuplicatesWithoutExactDuplicatesShuffled = Arrays.asList(
-				"{\"firstId\":\"clueweb09-en0008-02-29970\",\"secondId\":\"clueweb12-1910wb-90-00004\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"cluseweb12-1911wb-63-21940\",\"secondId\":\"clueweb12-1911wb-61-32607\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"cluewseb12-1912wb-69-16845\",\"secondId\":\"clueweb12-1912wb-23-02148\",\"hemmingDistance\":2}",
-				"{\"firstId\":\"clueweb12-1913wb-21-14719\",\"secondId\":\"cluewes12-1912wb-97-19250\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"clueweb12-1913wb-21-14723\",\"secondId\":\"clueweb12-1912wb-97-19250\",\"hemmingDistance\":2}",
-				"{\"firstId\":\"clueweb12-1913wb-34-21369\",\"secondId\":\"clueweb12-1913wb-11-13833\",\"hemmingDistance\":1}"
+				"clueweb09-en0008-02-29970,clueweb12-1910wb-90-00004",
+				"cluseweb12-1911wb-63-21940,clueweb12-1911wb-61-32607",
+				"cluewseb12-1912wb-69-16845,clueweb12-1912wb-23-02148",
+				"clueweb12-1913wb-21-14719,cluewes12-1912wb-97-19250",
+				"clueweb12-1913wb-21-14723,clueweb12-1912wb-97-19250",
+				"clueweb12-1913wb-34-21369,clueweb12-1913wb-11-13833"
 			);
 			
 		List<String> exampleExactDuplicatesShuffled = Arrays.asList(
@@ -146,9 +145,7 @@ public class SparkAggregateKnowledgeTransferBetweenCrawlsIntegrationTest extends
 		expected.put("cw09-to-cw12", 2l);
 		expected.put("cw09-to-cc15", 2l);
 		expected.put("cw12-to-cc15", 3l);
-		expected.put("cw09-to-cw12---topic---CLUEWEB09::WEB_2009::50---relevance---0", 1l);
-		expected.put("cw09-to-cw12---relevance---0", 1l);
-		
+		expected.put("cw09-to-cw12---topic---CLUEWEB09::WEB_2009::50---source-doc---clueweb09-en0008-02-29970---relevance---0", 1l);
 		
 		Map<String, Long> actual = aggregateKnowledgeTransfer(exampleNearDuplicatesWithoutExactDuplicatesShuffled, exampleExactDuplicatesShuffled);
 		
@@ -158,12 +155,12 @@ public class SparkAggregateKnowledgeTransferBetweenCrawlsIntegrationTest extends
 	@Test
 	public void labelsForIntegrationExample4() {
 		List<String> exampleNearDuplicatesWithoutExactDuplicatesShuffled = Arrays.asList(
-				"{\"firstId\":\"clueweb09-en0008-02-29970\",\"secondId\":\"74a36712-7671-55f6-8ece-1714d810a3c2\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"cluseweb12-1911wb-63-21940\",\"secondId\":\"clueweb12-1911wb-61-32607\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"cluewseb12-1912wb-69-16845\",\"secondId\":\"clueweb12-1912wb-23-02148\",\"hemmingDistance\":2}",
-				"{\"firstId\":\"clueweb12-1913wb-21-14719\",\"secondId\":\"cluewes12-1912wb-97-19250\",\"hemmingDistance\":3}",
-				"{\"firstId\":\"clueweb12-1913wb-21-14723\",\"secondId\":\"clueweb12-1912wb-97-19250\",\"hemmingDistance\":2}",
-				"{\"firstId\":\"clueweb12-1913wb-34-21369\",\"secondId\":\"clueweb12-1913wb-11-13833\",\"hemmingDistance\":1}"
+				"clueweb09-en0008-02-29970,74a36712-7671-55f6-8ece-1714d810a3c2",
+				"cluseweb12-1911wb-63-21940,clueweb12-1911wb-61-32607",
+				"cluewseb12-1912wb-69-16845,clueweb12-1912wb-23-02148",
+				"clueweb12-1913wb-21-14719,cluewes12-1912wb-97-19250",
+				"clueweb12-1913wb-21-14723,clueweb12-1912wb-97-19250",
+				"clueweb12-1913wb-34-21369,clueweb12-1913wb-11-13833"
 			);
 			
 		List<String> exampleExactDuplicatesShuffled = Arrays.asList(
@@ -176,9 +173,7 @@ public class SparkAggregateKnowledgeTransferBetweenCrawlsIntegrationTest extends
 		expected.put("cw09-to-cw12", 1l);
 		expected.put("cw09-to-cc15", 3l);
 		expected.put("cw12-to-cc15", 3l);
-		expected.put("cw09-to-cc15---topic---CLUEWEB09::WEB_2009::50---relevance---0", 1l);
-		expected.put("cw09-to-cc15---relevance---0", 1l);
-		
+		expected.put("cw09-to-cc15---topic---CLUEWEB09::WEB_2009::50---source-doc---clueweb09-en0008-02-29970---relevance---0", 1l);
 		
 		Map<String, Long> actual = aggregateKnowledgeTransfer(exampleNearDuplicatesWithoutExactDuplicatesShuffled, exampleExactDuplicatesShuffled);
 		

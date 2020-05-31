@@ -48,7 +48,7 @@ import de.webis.trec_ndd.trec_collections.CollectionConfiguration.TrecCollection
  */
 public class SparkCreateSourceDocuments {
 	
-	static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();
+	public static final Map<String, Set<String>> DOCS_TO_TOPIC = docsToTopic();
 
 //	private static final String[] CORPORA = new String[] {/*"cw09", "cw12",*/ "cc-2015-11", "cc-2017-04"/*, "cc-2015-11-small-sample", "cc-2017-04-small-sample"*/};
 	
