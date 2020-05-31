@@ -71,13 +71,13 @@ public class SparkCreateIdsToRemove {
 
 	private static String exactDupPath(String corpus) {
 		if("cw09".equals(corpus)) {
-			return "\"cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates";
+			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates";
 		} else if ("cw12".equals(corpus)) {
-			return "\"cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates";
+			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates";
 		} else if ("cc-2015-11".equals(corpus)) {
-			return "\"cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates";
+			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates";
 		} else if ("cc-2017-04".equals(corpus)) {
-			return "\"cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-exact-duplicates";
+			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-exact-duplicates";
 		} else {
 			throw new RuntimeException("Can not handle: " + corpus);
 		}
