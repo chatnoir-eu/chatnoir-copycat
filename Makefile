@@ -52,6 +52,9 @@ create-canonical-link-graph: install
 relevance-transfer: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAggregateKnowledgeTransferBetweenCrawls
 
+crawl-containment: install
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkIdentifyDocumentsInTargetCrawl
+
 enrich-relevance-transfer-dataset: install
 	hdfs dfs -rm -r -f cikm2020/enriched-relevance-transfer-pairs.jsonl && \
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs
