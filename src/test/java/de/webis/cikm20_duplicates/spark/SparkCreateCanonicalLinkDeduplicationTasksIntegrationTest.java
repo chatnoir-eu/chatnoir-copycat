@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.spark.HashPartitioner;
 import org.apache.spark.api.java.JavaRDD;
 import org.approvaltests.Approvals;
 import org.junit.Assert;
@@ -75,7 +76,7 @@ public class SparkCreateCanonicalLinkDeduplicationTasksIntegrationTest extends S
 	
 	private List<String> deduplicationTasks(String...docs) {
 		JavaRDD<String> input = jsc().parallelize(Arrays.asList(docs));
-		JavaRDD<String> output = SparkCreateCanonicalLinkDeduplicationTasks.urlDeduplicationTask(input);
+		JavaRDD<String> output = SparkCreateCanonicalLinkDeduplicationTasks.urlDeduplicationTask(input, new HashPartitioner(1));
 		List<String> ret = new ArrayList<>(output.collect());
 		Collections.sort(ret);
 		

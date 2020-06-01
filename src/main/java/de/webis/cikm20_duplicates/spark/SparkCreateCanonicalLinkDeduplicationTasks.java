@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.spark.Partitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -18,6 +19,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import com.google.common.collect.ImmutableList;
 
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationUnit;
+import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.IntPartitioner;
 import de.webis.cikm20_duplicates.util.ClientLocalDeduplication.DeduplicationTask;
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import lombok.AllArgsConstructor;
@@ -31,7 +33,7 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 			for(String corpus: new String[] {"cw12", "cc-2015-11", "cc-2017-04"}) {
 				JavaRDD<String> input = context.textFile(inputPath(corpus));
 				
-				urlDeduplicationTask(input)
+				urlDeduplicationTask(input, new IntPartitioner(50000))
 					.saveAsTextFile(path(corpus) + "-near-duplicate-tasks");
 			}
 		}
@@ -58,8 +60,8 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 		return new JavaSparkContext(conf);
 	}
 
-	public static JavaRDD<String> urlDeduplicationTask(JavaRDD<String> input) {
-		return hashPartitionToDocument(input).groupByKey()
+	public static JavaRDD<String> urlDeduplicationTask(JavaRDD<String> input, Partitioner partitioner) {
+		return hashPartitionToDocument(input).groupByKey(partitioner)
 				.flatMap(i -> workingPackages2(i._2()));
 	}
 
