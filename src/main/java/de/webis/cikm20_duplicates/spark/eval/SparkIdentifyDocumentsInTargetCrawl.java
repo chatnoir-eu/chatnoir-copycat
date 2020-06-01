@@ -35,7 +35,7 @@ public class SparkIdentifyDocumentsInTargetCrawl {
 	@SneakyThrows
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> nearDuplicatesWithoutExactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-near-duplicates-without-exact-duplicates-csv-distinct")
+			JavaRDD<String> nearDuplicatesWithoutExactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-documents-intarget-crawl")
 					.distinct(100);
 			
 			JavaPairRDD<String, Long> sourceToTarget = nearDuplicatesWithoutExactDuplicates.mapToPair(i -> constructSourceToTargetPair(i));
