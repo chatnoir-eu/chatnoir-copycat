@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -67,16 +68,37 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-ids-to-remove-ATTENTION-NON-DISTINCT");
+//				
+//			toDistinct.distinct()
+//				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-ids-to-remove");
+//
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-ids-to-remove-ATTENTION-NON-DISTINCT");
+			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04"}) {
+				JavaRDD<String> idsToRemove = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove");
 				
-			toDistinct.distinct()
-				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-ids-to-remove");
-
+				idsToRemove.repartition(numPartitions(corpus))
+					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-bzip2", BZip2Codec.class);
+			}
 		}
 	}
-	
+
+	private static int numPartitions(String corpus) {
+		if(Arrays.asList("cw09", "cw12").contains(corpus)) {
+			return 1;
+		} else if(Arrays.asList("cc-2015-11", "cc-2017-04").contains(corpus)) {
+			return 10;
+		}
+
+		throw new RuntimeException("Can not handle: " + corpus);
+	}
+
 	private static KeepId idsToKeep(String corpus) {
 		if("cw09".equals(corpus)) {
 			return CLUEWEB09;
