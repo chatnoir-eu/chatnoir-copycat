@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
@@ -20,17 +21,49 @@ import lombok.SneakyThrows;
 import scala.Tuple2;
 
 public class SparkIdentifyDocumentsInTargetCrawl {
+//	@SneakyThrows
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			JavaRDD<String> nearDuplicatesWithoutExactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-near-duplicates-without-exact-duplicates-csv-distinct");
+//			JavaRDD<String> exactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates");
+//			
+//			JavaRDD<Tuple2<String, String>> data = DocumentsInTargetCrawl(nearDuplicatesWithoutExactDuplicates, exactDuplicates);
+//			data.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-documents-intarget-crawl");
+//		}
+//	}
+	
 	@SneakyThrows
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> nearDuplicatesWithoutExactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-near-duplicates-without-exact-duplicates-csv-distinct");
-			JavaRDD<String> exactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates");
+			JavaRDD<String> nearDuplicatesWithoutExactDuplicates = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-near-duplicates-without-exact-duplicates-csv-distinct")
+					.distinct(100);
 			
-			JavaRDD<Tuple2<String, String>> data = DocumentsInTargetCrawl(nearDuplicatesWithoutExactDuplicates, exactDuplicates);
-			data.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-documents-intarget-crawl");
+			JavaPairRDD<String, Long> sourceToTarget = nearDuplicatesWithoutExactDuplicates.mapToPair(i -> constructSourceToTargetPair(i));
+			Map<String, Long> ret = sourceToTarget.reduceByKey((a,b) -> a+b).collectAsMap();
+			
+			context.parallelize(Arrays.asList(new ObjectMapper().writeValueAsString(ret)))
+				.repartition(1)
+				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-documents-intarget-crawl-aggregation.json");
 		}
 	}
 	
+	private static Tuple2<String, Long> constructSourceToTargetPair(String i) {
+		String target = StringUtils.substringBetween(i, "(", ",");
+		String sourceId = StringUtils.substringBetween(i, ",", ")");
+		
+		String source = null;
+		
+		if(isCw09(sourceId)) {
+			source = "cw09";
+		} else if (isCw12(sourceId)) {
+			source = "cw12";
+		} else {
+			throw new RuntimeException("I can not Handle: '" + i + "'.");
+		}
+		
+		return new Tuple2<>(source + "-to-" + target, 1l);
+	}
+
 	private static JavaRDD<Tuple2<String, String>> DocumentsInTargetCrawl(JavaRDD<String> nearDuplicatesWithoutExactDuplicates, JavaRDD<String> exactDuplicates) {
 		JavaRDD<Tuple2<String, String>> a = nearDuplicatesWithoutExactDuplicates.flatMap(i -> labelsFromNearDuplicates(i));
 		JavaRDD<Tuple2<String, String>> b = exactDuplicates.flatMap(i -> labelsFromExactDuplicates(i));
