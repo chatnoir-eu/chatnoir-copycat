@@ -23,7 +23,7 @@ public class SparkAnalyzeCanonicalLinkGraph {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {/*"cw12", "cw09", */"cc-2015-11", "cc-2017-04"};
+	private static final String[] CORPORA = new String[] {"cw12", "cw09"/*, "cc-2015-11", "cc-2017-04"*/};
 	
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -51,42 +51,42 @@ public class SparkAnalyzeCanonicalLinkGraph {
 //		}
 //	}
 	
-//	public static void main(String[] args) {
-//		try (JavaSparkContext context = context()) {
-//			for(String corpus : CORPORA) {
-//				JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls");
-//				
-//				existingUrlToCount(input)
-//					.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count");
-//			}
-//		}
-//	}
-	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			for(String corpus : CORPORA) {
-				for(String sampleSize: new String[] {"0.05", "0.1", "0.15", "0.2"}) {
-					JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls-to-count")
-							.sample(Boolean.FALSE, Float.parseFloat(sampleSize), 1);
-					
-					input.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count-sample-" + sampleSize);
-					JavaPairRDD<String, Integer> urlToCount = input.mapToPair(i -> toUrlToCount(i));
-					
-					JavaPairRDD<String, Integer> groupSizeToOne = urlToCount.mapToPair(i -> new Tuple2<>(i._2() + "", 1));
-	
-					groupSizeToOne.reduceByKey((a,b) -> a+b)
-							.map(i -> "{\"groupSize\": " + i._1() + ", \"count\": " + i._2() +"}")
-							.saveAsTextFile(DIR + corpus + "-duplicate-group-counts-sample-" + sampleSize);
-					
-					
-					urlToCount.mapToPair(i -> new Tuple2<String, Tuple2<Integer, Integer>>(hostFromUrl(i._1()), new Tuple2<>(i._2(), 1)))
-						.reduceByKey((a,b) -> new Tuple2<Integer, Integer>(a._1() + b._1(), a._2() + b._2()))
-						.map(i -> "{\"domain\":\"" + i._1() + "\",\"groups\":" + i._2()._2() + ",\"documents\":" + i._2()._1() + "}")
-						.saveAsTextFile(DIR + corpus + "-duplicate-group-counts-per-domain-sample-" + sampleSize);
-				}
+				JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls");
+				
+				existingUrlToCount(input)
+					.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count");
 			}
 		}
 	}
+	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				for(String sampleSize: new String[] {"0.05", "0.1", "0.15", "0.2"}) {
+//					JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls-to-count")
+//							.sample(Boolean.FALSE, Float.parseFloat(sampleSize), 1);
+//					
+//					input.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count-sample-" + sampleSize);
+//					JavaPairRDD<String, Integer> urlToCount = input.mapToPair(i -> toUrlToCount(i));
+//					
+//					JavaPairRDD<String, Integer> groupSizeToOne = urlToCount.mapToPair(i -> new Tuple2<>(i._2() + "", 1));
+//	
+//					groupSizeToOne.reduceByKey((a,b) -> a+b)
+//							.map(i -> "{\"groupSize\": " + i._1() + ", \"count\": " + i._2() +"}")
+//							.saveAsTextFile(DIR + corpus + "-duplicate-group-counts-sample-" + sampleSize);
+//					
+//					
+//					urlToCount.mapToPair(i -> new Tuple2<String, Tuple2<Integer, Integer>>(hostFromUrl(i._1()), new Tuple2<>(i._2(), 1)))
+//						.reduceByKey((a,b) -> new Tuple2<Integer, Integer>(a._1() + b._1(), a._2() + b._2()))
+//						.map(i -> "{\"domain\":\"" + i._1() + "\",\"groups\":" + i._2()._2() + ",\"documents\":" + i._2()._1() + "}")
+//						.saveAsTextFile(DIR + corpus + "-duplicate-group-counts-per-domain-sample-" + sampleSize);
+//				}
+//			}
+//		}
+//	}
 	
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
