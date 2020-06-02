@@ -24,7 +24,7 @@ public class SparkAnalyzeDocumentLength {
 		try (JavaSparkContext context = context()) {
 			JavaRDD<String> docs = docs(context, corpus);
 			
-			docs.repartition(1000)
+			docs
 				.saveAsTextFile("cikm2020/document-lengths/" + corpus +"-csv.bzip2", BZip2Codec.class);
 		}
 	}
