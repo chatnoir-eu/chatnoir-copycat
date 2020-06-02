@@ -3,6 +3,7 @@ package de.webis.cikm20_duplicates.spark.eval;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,20 +24,20 @@ public class SparkAnalyzeCanonicalLinkGraph {
 
 	private static final String DIR = "cikm2020/canonical-link-graph/";
 	
-	private static final String[] CORPORA = new String[] {"cw12", "cw09"/*, "cc-2015-11", "cc-2017-04"*/};
+	private static final String[] CORPORA = new String[] {/*"cw12", "cw09",*/ "cc-2015-11", "cc-2017-04"};
 	
-//	public static void main(String[] args) {
-//		try (JavaSparkContext context = context()) {
-//			for(String corpus : CORPORA) {
-//				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
-//				Map<String, Long> edgeToCount = countEdgesAboveThreshold(input);
-//				
-//				context.parallelize(Arrays.asList(edgeToCount), 1)
-//					.map(i -> serialize(i))
-//					.saveAsTextFile(DIR + corpus + "-s3-edge-aggregations");
-//			}
-//		}
-//	}
+	public static void main(String[] args) {
+		try (JavaSparkContext context = context()) {
+			for(String corpus : CORPORA) {
+				JavaRDD<String> input = context.textFile(DIR + corpus + "-calulated-edges-sampled-large-groups");
+				Map<String, Long> edgeToCount = countEdgesAboveThreshold(input);
+				
+				context.parallelize(Arrays.asList(edgeToCount), 1)
+					.map(i -> serialize(i))
+					.saveAsTextFile(DIR + corpus + "-s3-edge-aggregations");
+			}
+		}
+	}
 	
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -51,16 +52,16 @@ public class SparkAnalyzeCanonicalLinkGraph {
 //		}
 //	}
 	
-	public static void main(String[] args) {
-		try (JavaSparkContext context = context()) {
-			for(String corpus : CORPORA) {
-				JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls");
-				
-				existingUrlToCount(input)
-					.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count");
-			}
-		}
-	}
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus : CORPORA) {
+//				JavaRDD<String> input = context.textFile(DIR + corpus + "-canonical-urls");
+//				
+//				existingUrlToCount(input)
+//					.saveAsTextFile(DIR + corpus + "-canonical-urls-to-count");
+//			}
+//		}
+//	}
 	
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
