@@ -22,6 +22,7 @@ public class SparkAnalyzeShortDocuments {
 				
 				input.flatMap(i -> idsOfZeroHash(i))
 					.distinct()
+					.repartition(5)
 					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-short-documents");
 			}
 		}
