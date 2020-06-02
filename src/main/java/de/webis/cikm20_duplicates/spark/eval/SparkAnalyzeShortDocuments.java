@@ -35,6 +35,7 @@ public class SparkAnalyzeShortDocuments {
 		List<String> ids = (List<String>) parsed.get("equivalentDocuments");
 		List<Integer> hash = (List<Integer>) parsed.get("hash");
 		
+		// this is the "empty-document": as all bits remain to zero and they are masked...
 		if(!Arrays.asList(-65536, 65535, 16711935, 16776960).equals(hash)) {
 			return Collections.emptyIterator();
 		}
