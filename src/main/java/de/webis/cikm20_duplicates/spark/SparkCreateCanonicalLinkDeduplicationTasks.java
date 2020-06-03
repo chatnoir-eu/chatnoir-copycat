@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.spark.HashPartitioner;
 import org.apache.spark.Partitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -37,7 +38,7 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 			for(String corpus: new String[] {"cw12"/*, "cc-2015-11", "cc-2017-04"*/}) {
 				JavaRDD<String> input = context.textFile(inputPath(corpus));
 				
-				urlDeduplicationTask(input, new IntPartitioner(50000))
+				urlDeduplicationTask(input, new HashPartitioner(50000))
 					.saveAsTextFile(path(corpus) + "-near-duplicate-tasks");
 			}
 		}
