@@ -5,13 +5,13 @@ import json
 
 infiles = {
     "src/main/resources/canonical-edges-s3-aggregations-cc-2015-11.json":
-    "CommonCrawl 2015/11",
+    "CC 15",
     "src/main/resources/canonical-edges-s3-aggregations-cc-2017-04.json":
-    "CommonCrawl 2017/04",
+    "CC 17",
     "src/main/resources/canonical-edges-s3-aggregations-cw09.json":
-    "Clueweb 09",
+    "CW 09",
     "src/main/resources/canonical-edges-s3-aggregations-cw12.json":
-    "Clueweb 12"
+    "CW 12"
 }
 
 df = []
@@ -67,9 +67,13 @@ sns.set_style({
     'axes.spines.top': False
 })
 
-g = sns.FacetGrid(df, col="Corpus", col_order=[
-    "Clueweb 09", "Clueweb 12", "CommonCrawl 2015/11", "CommonCrawl 2017/04"])
-g = g.map(plt.plot, "S3 Score", "Ratio", color='k')
+kw = {'color': ['k', 'k', 'k', 'k'], 'linestyle': ["-", "--", ":", "-."]}
+
+g = sns.lineplot(data=df, x='S3 Score', y='Ratio', style="Corpus",
+    style_order=["CW 09", "CW 12", "CC 15", "CC 17"], color='k')
+
+
+g.legend(bbox_to_anchor=(.315, .9), loc=1, borderaxespad=0.)
 sns.despine(left=True)
 plt.tight_layout()
-g.savefig('canonical-edges.pdf')
+g.get_figure().savefig('canonical-edges.pdf')
