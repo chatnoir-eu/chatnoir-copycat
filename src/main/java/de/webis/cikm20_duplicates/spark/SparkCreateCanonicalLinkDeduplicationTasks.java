@@ -3,6 +3,8 @@ package de.webis.cikm20_duplicates.spark;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -16,6 +18,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationUnit;
@@ -24,13 +27,14 @@ import de.webis.cikm20_duplicates.util.ClientLocalDeduplication.DeduplicationTas
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.SneakyThrows;
 import scala.Tuple2;
 
 public class SparkCreateCanonicalLinkDeduplicationTasks {
 	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			for(String corpus: new String[] {"cw12", "cc-2015-11", "cc-2017-04"}) {
+			for(String corpus: new String[] {"cw12"/*, "cc-2015-11", "cc-2017-04"*/}) {
 				JavaRDD<String> input = context.textFile(inputPath(corpus));
 				
 				urlDeduplicationTask(input, new IntPartitioner(50000))
@@ -83,11 +87,22 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 				.iterator();
 	}
 
-	private static JavaPairRDD<Integer, DeduplicationUnit2> hashPartitionToDocument(JavaRDD<String> docsWithCanonicalURL) {
+	private static JavaPairRDD<String, DeduplicationUnit2> hashPartitionToDocument(JavaRDD<String> docsWithCanonicalURL) {
 		return docsWithCanonicalURL
-				.flatMapToPair(doc -> extractHashesToDocId(doc));
+				.flatMapToPair(doc -> extractCanonicalUrlToDocId(doc));
 	}
 
+	private static Iterator<Tuple2<String, DeduplicationUnit2>> extractCanonicalUrlToDocId(String src) {
+		DocumentWithFingerprint doc = DocumentWithFingerprint.fromString(src);
+		
+		if(doc == null || doc.getCanonicalURL() == null ||doc.getCanonicalURL().toString().trim().isEmpty()) {
+			return Collections.emptyIterator();
+		}
+		
+		DeduplicationUnit2 dedupUnit = new DeduplicationUnit2(doc.getDocId(), doc.getCanonicalURL(), doc.getFingerprints().get("64BitK3SimHashOneGramms"));
+		return Arrays.asList(new Tuple2<>(doc.getCanonicalURL().toString(), dedupUnit)).iterator();
+	}
+	
 	private static Iterator<Tuple2<Integer, DeduplicationUnit2>> extractHashesToDocId(String src) {
 		DocumentWithFingerprint doc = DocumentWithFingerprint.fromString(src);
 		List<Tuple2<Integer, DeduplicationUnit2>> ret = new ArrayList<>();
@@ -112,5 +127,11 @@ public class SparkCreateCanonicalLinkDeduplicationTasks {
 		private String id;
 		private URL url;
 		private ArrayList<Integer> hashParts;
+		
+		@Override
+		@SneakyThrows
+		public String toString() {
+			return new ObjectMapper().writeValueAsString(this);
+		}
 	}
 }

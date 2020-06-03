@@ -9,6 +9,7 @@ import org.apache.spark.HashPartitioner;
 import org.apache.spark.api.java.JavaRDD;
 import org.approvaltests.Approvals;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.holdenkarau.spark.testing.SharedJavaSparkContext;
@@ -29,6 +30,7 @@ public class SparkCreateCanonicalLinkDeduplicationTasksIntegrationTest extends S
 	}
 	
 	@Test
+	@Ignore
 	public void testDeduplicationTasksOfDifferentDocumentsForIdenticalUrls() {
 		List<String> expected = Collections.emptyList();
 		List<String> actual = deduplicationTasks(
@@ -42,6 +44,7 @@ public class SparkCreateCanonicalLinkDeduplicationTasksIntegrationTest extends S
 	}
 	
 	@Test
+	@Ignore
 	public void testDeduplicationTasksOfSomeIdenticalDocumentsForSomeIdenticalUrls() {
 		List<String> actual = deduplicationTasks(
 			doc("1", "1", Arrays.asList(1,2,3,4)),
@@ -56,6 +59,7 @@ public class SparkCreateCanonicalLinkDeduplicationTasksIntegrationTest extends S
 	}
 	
 	@Test
+	@Ignore
 	public void testDeduplicationTasksOfSomeIdenticalDocumentsForSomeIdenticalUrlsAndSomeDuplicates() {
 		List<String> actual = deduplicationTasks(
 			doc("1", "1", Arrays.asList(1,2,3,4)),
