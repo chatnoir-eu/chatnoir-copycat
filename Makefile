@@ -104,3 +104,7 @@ install:
 label-data-maik:
 	./src/main/bash/label-data-maik.sh
 
+canonical-edges.pdf:
+	python3 src/main/python/plot.py
+
+plots: canonical-edges.pdf
