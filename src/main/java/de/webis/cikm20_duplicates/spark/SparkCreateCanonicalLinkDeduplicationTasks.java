@@ -33,13 +33,25 @@ import scala.Tuple2;
 
 public class SparkCreateCanonicalLinkDeduplicationTasks {
 	
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus: new String[] {"cw12"/*, "cc-2015-11", "cc-2017-04"*/}) {
+//				JavaRDD<String> input = context.textFile(inputPath(corpus));
+//				
+//				urlDeduplicationTask(input, new HashPartitioner(50000))
+//					.saveAsTextFile(path(corpus) + "-near-duplicate-tasks");
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			for(String corpus: new String[] {"cw12"/*, "cc-2015-11", "cc-2017-04"*/}) {
+			for(String corpus: new String[] {"cc-2015-11", "cc-2017-04"}) {
 				JavaRDD<String> input = context.textFile(inputPath(corpus));
 				
-				urlDeduplicationTask(input, new HashPartitioner(50000))
-					.saveAsTextFile(path(corpus) + "-near-duplicate-tasks");
+				hashPartitionToDocument(input).repartitionAndSortWithinPartitions(new HashPartitioner(50000))
+					.map(i -> i._2().toString())
+					.saveAsTextFile(path(corpus) + "-deduplication-units-grouped");
 			}
 		}
 	}
