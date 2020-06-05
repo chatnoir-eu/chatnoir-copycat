@@ -25,16 +25,28 @@ public class SparkDeduplicateCandidates {
 //		}
 //	}
 
+//	public static void main(String[] args) {
+//		//String corpus = "cw09-cw12-cc-2015-11";
+//		String corpus = "cc-2017-04";
+//		try (JavaSparkContext context = context()) {
+//			for(int part=0; part<10; part++) {
+//				context.textFile(inputPath(corpus, part))
+//					.map(i-> DeduplicationTask.fromString(i))
+//					.flatMap(i -> ClientLocalDeduplication.fullDeduplication(i.getEntries()).iterator())
+//					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-near-duplicates-without-exact-duplicates/part-" + part);
+//			}
+//		}
+//	}
+	
 	public static void main(String[] args) {
-		//String corpus = "cw09-cw12-cc-2015-11";
-		String corpus = "cc-2017-04";
+//		String corpus = "cw09";
+		String corpus = "cw12";
+		
 		try (JavaSparkContext context = context()) {
-			for(int part=0; part<10; part++) {
-				context.textFile(inputPath(corpus, part))
-					.map(i-> DeduplicationTask.fromString(i))
-					.flatMap(i -> ClientLocalDeduplication.fullDeduplication(i.getEntries()).iterator())
-					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-near-duplicates-without-exact-duplicates/part-" + part);
-			}
+			context.textFile("cikm2020/deduplication-final/64BitK3SimHashOneGramms-canonical-urls/" + corpus + "-near-duplicate-tasks")
+				.map(i-> DeduplicationTask.fromString(i))
+				.flatMap(i -> ClientLocalDeduplication.fullDeduplication(i.getEntries()).iterator())
+				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashOneGramms-canonical-urls/" + corpus + "-near-duplicates");
 		}
 	}
 	
