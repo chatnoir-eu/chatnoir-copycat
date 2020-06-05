@@ -22,36 +22,36 @@ import lombok.SneakyThrows;
 
 public class SparkAnalyzeAverageS3ScorePerHammingDistance {
 	
-	private static final String[] CORPORA = new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04"};
-	
-//	public static void main(String[] args) {
-//		String corpus = CORPORA[0];
-//		
-//		try(JavaSparkContext jsc = context()) {
-//			for(String feature: featureNames()) {
-//				Fingerprinter<Integer> f = fingerprinter(feature);
-//				JavaRDD<TwoDocsForFeatureWithS3Score> input = jsc.textFile(input(corpus, feature))
-//						.map(src -> TwoDocsForFeatureWithS3Score.fromString(src));
-//				
-//				input.map(i -> calculateHammingDistance(f, i))
-//					.saveAsTextFile("cikm2020/canonical-link-graph/production-tests/" + corpus + "-" + feature + ".jsonl");
-//			}
-//		}
-//	}
+	private static final String[] CORPORA = new String[] {/*"cw09",*/ "cw12", "cc-2015-11", "cc-2017-04"};
 	
 	public static void main(String[] args) {
-	
+		String corpus = CORPORA[0];
+		
 		try(JavaSparkContext jsc = context()) {
-			for(String corpus: CORPORA) {
-				Fingerprinter<Integer> f = fingerprinter("1-gramms");
-				JavaRDD<CanonicalLinkGraphEdge2> input = jsc.textFile("cikm2020/canonical-link-graph/" + corpus + "-calulated-edges-sampled-large-groups")
-						.map(src -> CanonicalLinkGraphEdge2.fromString(src));
+			for(String feature: featureNames()) {
+				Fingerprinter<Integer> f = fingerprinter(feature);
+				JavaRDD<TwoDocsForFeatureWithS3Score> input = jsc.textFile(input(corpus, feature))
+						.map(src -> TwoDocsForFeatureWithS3Score.fromString(src));
 				
 				input.map(i -> calculateHammingDistance(f, i))
-					.saveAsTextFile("cikm2020/canonical-link-graph/production-tests/" + corpus + "-canonical-link-edges-1-gramms.jsonl");
+					.saveAsTextFile("cikm2020/canonical-link-graph/production-tests/" + corpus + "-" + feature + ".jsonl");
 			}
 		}
 	}
+	
+//	public static void main(String[] args) {
+//	
+//		try(JavaSparkContext jsc = context()) {
+//			for(String corpus: CORPORA) {
+//				Fingerprinter<Integer> f = fingerprinter("1-gramms");
+//				JavaRDD<CanonicalLinkGraphEdge2> input = jsc.textFile("cikm2020/canonical-link-graph/" + corpus + "-calulated-edges-sampled-large-groups")
+//						.map(src -> CanonicalLinkGraphEdge2.fromString(src));
+//				
+//				input.map(i -> calculateHammingDistance(f, i))
+//					.saveAsTextFile("cikm2020/canonical-link-graph/production-tests/" + corpus + "-canonical-link-edges-1-gramms.jsonl");
+//			}
+//		}
+//	}
 
 
 	private static Object calculateHammingDistance(Fingerprinter<Integer> f, CanonicalLinkGraphEdge2 i) {
