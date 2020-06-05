@@ -36,6 +36,7 @@ print(df)
 
 df['Cumulative'] = df.loc[:, ['Number', 'Corpus']].groupby('Corpus').cumsum()
 df['Ratio'] = df['Cumulative'] / df['Sum']
+df = df.rename({'S3 Score': '$S_{3}$ Score'}, axis=1)
 
 print(df)
 
@@ -69,7 +70,7 @@ sns.set_style({
 
 kw = {'color': ['k', 'k', 'k', 'k'], 'linestyle': ["-", "--", ":", "-."]}
 
-g = sns.lineplot(data=df, x='S3 Score', y='Ratio', style="Corpus",
+g = sns.lineplot(data=df, x='$S_{3}$ Score', y='Ratio', style="Corpus",
     style_order=["CW 09", "CW 12", "CC 15", "CC 17"], color='k')
 
 
