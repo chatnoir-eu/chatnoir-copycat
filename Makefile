@@ -33,6 +33,9 @@ analize-tmp: install
 
 report-document-lengths: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeDocumentLength
+	
+s3-score-per-hamming: install
+	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeAverageS3ScorePerHammingDistance
 
 analyze-bla: install
 	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cw12-s3-edge-aggregations && \
