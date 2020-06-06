@@ -7,10 +7,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -56,17 +54,17 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 		
-//	public static void main(String[] args) {
-//		try (JavaSparkContext context = context()) {
-//			for(String corpus: new String[] {"cc-2017-04"}) {
-//				JavaRDD<String> nearDuplicates = context.textFile(nearDupPath(corpus));
-//				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
-//					
-//				idsToRemoveNonDistinct(nearDuplicates, exactDuplicates, idsToKeep(corpus))
-//					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-ATTENTION-NON-DISTINCT");
-//			}
-//		}
-//	}
+	public static void main(String[] args) {
+		try (JavaSparkContext context = context()) {
+			for(String corpus: new String[] {"cw09-cw12-cc15"}) {
+				JavaRDD<String> nearDuplicates = context.textFile(nearDupPath(corpus));
+				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
+					
+				idsToRemoveNonDistinct(nearDuplicates, exactDuplicates, idsToKeep(corpus))
+					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-ATTENTION-NON-DISTINCT");
+			}
+		}
+	}
 	
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -78,16 +76,16 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 	
-	public static void main(String[] args) {
-		try (JavaSparkContext context = context()) {
-			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04"}) {
-				JavaRDD<String> idsToRemove = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove");
-				
-				idsToRemove.repartition(numPartitions(corpus))
-					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-bzip2", BZip2Codec.class);
-			}
-		}
-	}
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04"}) {
+//				JavaRDD<String> idsToRemove = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove");
+//				
+//				idsToRemove.repartition(numPartitions(corpus))
+//					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-bzip2", BZip2Codec.class);
+//			}
+//		}
+//	}
 
 	private static int numPartitions(String corpus) {
 		if(Arrays.asList("cw09", "cw12").contains(corpus)) {
@@ -99,6 +97,7 @@ public class SparkCreateIdsToRemove {
 		throw new RuntimeException("Can not handle: " + corpus);
 	}
 
+	@SuppressWarnings("serial")
 	private static KeepId idsToKeep(String corpus) {
 		if("cw09".equals(corpus)) {
 			return CLUEWEB09;
@@ -108,13 +107,22 @@ public class SparkCreateIdsToRemove {
 			return COMMON_CRAWL;
 		} else if ("cc-2017-04".equals(corpus)) {
 			return COMMON_CRAWL;
+		} else if ("cw09-cw12-cc15".equals(corpus)) {
+			return new KeepId() {
+				@Override
+				public boolean keepId(String id) {
+					return true;
+				}
+			};
 		} else {
 			throw new RuntimeException("Can not handle: " + corpus);
 		}
 	}
 
 	private static String exactDupPath(String corpus) {
-		if("cw09".equals(corpus)) {
+		if("cw09-cw12-cc15".equals(corpus)) {
+			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates";
+		} else if("cw09".equals(corpus)) {
 			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates";
 		} else if ("cw12".equals(corpus)) {
 			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-exact-duplicates";
@@ -128,6 +136,9 @@ public class SparkCreateIdsToRemove {
 	}
 	
 	private static String nearDupPath(String corpus) {
+		if("cw09-cw12-cc15".equals(corpus)) {
+			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-near-duplicates-without-exact-duplicates/part*/part*";
+		}
 		if("cw09".equals(corpus)) {
 			return "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc-2015-11-near-duplicates-without-exact-duplicates/part*/part*";
 		} else if ("cw12".equals(corpus)) {
