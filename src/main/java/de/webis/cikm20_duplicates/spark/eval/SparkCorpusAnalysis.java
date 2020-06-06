@@ -18,12 +18,14 @@ public class SparkCorpusAnalysis {
 	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04"}) {
-				CorpusAnalysis ret = context.textFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2")
+			for(String corpus: new String[] {"combined"/*"cw09", "cw12", "cc-2015-11", "cc-2017-04"*/}) {
+//				String input = "cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2";
+				String input = "cikm2020/document-fingerprints-final/{cw,cc-2015}*-jsonl.bzip2";
+				CorpusAnalysis ret = context.textFile(input)
 						.map(src -> CorpusAnalysis.fromDocumentWithFingerprint(src, corpus))
 						.reduce((a, b) -> reduce(a, b));
 				
-				long distinctCanonicalUrlCount = context.textFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl.bzip2")
+				long distinctCanonicalUrlCount = context.textFile(input)
 						.map(src -> DocumentWithFingerprint.fromString(src).getCanonicalURL())
 						.filter(i -> i != null)
 						.map(i -> i.toString())
