@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -54,17 +55,17 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 		
-	public static void main(String[] args) {
-		try (JavaSparkContext context = context()) {
-			for(String corpus: new String[] {"cw09-cw12-cc15"}) {
-				JavaRDD<String> nearDuplicates = context.textFile(nearDupPath(corpus));
-				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
-					
-				idsToRemoveNonDistinct(nearDuplicates, exactDuplicates, idsToKeep(corpus))
-					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-ATTENTION-NON-DISTINCT");
-			}
-		}
-	}
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus: new String[] {"cw09-cw12-cc15"}) {
+//				JavaRDD<String> nearDuplicates = context.textFile(nearDupPath(corpus));
+//				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
+//					
+//				idsToRemoveNonDistinct(nearDuplicates, exactDuplicates, idsToKeep(corpus))
+//					.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/" + corpus + "-ids-to-remove-ATTENTION-NON-DISTINCT");
+//			}
+//		}
+//	}
 	
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -87,6 +88,24 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 
+	@SneakyThrows
+	public static void main(String[] args) {
+		try (JavaSparkContext context = context()) {
+			Map<String, Long> corpusToExactDuplicateGroups = new HashMap<>();
+			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04", "cw09-cw12-cc15"}) {
+				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
+				KeepId keepId = idsToKeep(corpus);
+				
+				long count = exactDuplicates.map(i -> idsInExactDuplicates(i, keepId)).count();
+				
+				corpusToExactDuplicateGroups.put(corpus, count);
+			}
+			
+			context.parallelize(Arrays.asList(new ObjectMapper().writeValueAsString(corpusToExactDuplicateGroups)),1)
+				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/count-of-exact-duplicate-groups-per-corpus");
+		}
+	}
+		
 	private static int numPartitions(String corpus) {
 		if(Arrays.asList("cw09", "cw12").contains(corpus)) {
 			return 1;
@@ -177,7 +196,20 @@ public class SparkCreateIdsToRemove {
 		
 		return idsToRemove(ids, keepId);
 	}
-	
+
+	@SneakyThrows
+	@SuppressWarnings("unchecked")
+	private static int idsInExactDuplicates(String src, KeepId keepId) {
+		Map<String, Object> parsed = new ObjectMapper().readValue(src, Map.class);
+		List<String> ids = (List<String>) parsed.get("equivalentDocuments");
+		ids = ids.stream().filter(id -> keepId.keepId(id)).collect(Collectors.toList());
+		
+		if(ids == null || ids.isEmpty()) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
 	
 	public static JavaRDD<String> idsToRemoveNonDistinct(JavaRDD<String> nearDuplicates, JavaRDD<String> exactDuplicates, KeepId keepId) {
 		nearDuplicates = nearDuplicates.flatMap(i -> docsToRemoveFromNearDuplicates(i, keepId).iterator())
