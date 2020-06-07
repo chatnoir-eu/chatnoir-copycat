@@ -67,15 +67,15 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 	
-//	public static void main(String[] args) {
-//		try (JavaSparkContext context = context()) {
-//			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-ids-to-remove-ATTENTION-NON-DISTINCT");
-//				
-//			toDistinct.distinct()
-//				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cc-2017-04-ids-to-remove");
-//
-//		}
-//	}
+	public static void main(String[] args) {
+		try (JavaSparkContext context = context()) {
+			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove-ATTENTION-NON-DISTINCT");
+				
+			toDistinct.distinct()
+				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove");
+
+		}
+	}
 	
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -88,23 +88,23 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 
-	@SneakyThrows
-	public static void main(String[] args) {
-		try (JavaSparkContext context = context()) {
-			Map<String, Long> corpusToExactDuplicateGroups = new HashMap<>();
-			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04", "cw09-cw12-cc15"}) {
-				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
-				KeepId keepId = idsToKeep(corpus);
-				
-				long count = exactDuplicates.map(i -> idsInExactDuplicates(i, keepId)).filter(i -> i > 0).count();
-				
-				corpusToExactDuplicateGroups.put(corpus, count);
-			}
-			
-			context.parallelize(Arrays.asList(new ObjectMapper().writeValueAsString(corpusToExactDuplicateGroups)),1)
-				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/count-of-exact-duplicate-groups-per-corpus");
-		}
-	}
+//	@SneakyThrows
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			Map<String, Long> corpusToExactDuplicateGroups = new HashMap<>();
+//			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04", "cw09-cw12-cc15"}) {
+//				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
+//				KeepId keepId = idsToKeep(corpus);
+//				
+//				long count = exactDuplicates.map(i -> idsInExactDuplicates(i, keepId)).filter(i -> i > 0).count();
+//				
+//				corpusToExactDuplicateGroups.put(corpus, count);
+//			}
+//			
+//			context.parallelize(Arrays.asList(new ObjectMapper().writeValueAsString(corpusToExactDuplicateGroups)),1)
+//				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/count-of-exact-duplicate-groups-per-corpus");
+//		}
+//	}
 		
 	private static int numPartitions(String corpus) {
 		if(Arrays.asList("cw09", "cw12").contains(corpus)) {
