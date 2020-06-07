@@ -14,7 +14,8 @@ public class SparkRepartitionParts {
 		//String inputDir = "cikm2020/canonical-link-graph/cc-2017-04-canonical-urls";
 		//String inputDir = "cikm2020/canonical-link-graph/cc-2017-04-sample-0.1";
 //		String inputDir = "cikm2020/canonical-link-graph/cc-2015-11-sample-0.1";
-		String inputDir = "cikm2020/document-lengths/cw09-csv.bzip2";
+//		String inputDir = "cikm2020/document-lengths/cw09-csv.bzip2";
+		String inputDir = "cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove-ATTENTION-NON-DISTINCT";
 		
 		try (JavaSparkContext context = context()) {
 			for(String suffix: createPartSuffixes()) {
