@@ -70,7 +70,7 @@ public class SparkCreateIdsToRemove {
 	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove-ATTENTION-NON-DISTINCT");
+			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove-ATTENTION-NON-DISTINCT-new");
 				
 			toDistinct
 				.filter(i -> keepIdsBetweenDifferentCorpora(i))
