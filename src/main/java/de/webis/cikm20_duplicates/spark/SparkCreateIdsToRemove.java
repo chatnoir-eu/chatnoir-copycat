@@ -67,15 +67,15 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 	
-	public static void main(String[] args) {
-		try (JavaSparkContext context = context()) {
-			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove-ATTENTION-NON-DISTINCT");
-				
-			toDistinct.distinct()
-				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove");
-
-		}
-	}
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove-ATTENTION-NON-DISTINCT");
+//				
+//			toDistinct.distinct()
+//				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove");
+//
+//		}
+//	}
 	
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -105,7 +105,25 @@ public class SparkCreateIdsToRemove {
 //				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/count-of-exact-duplicate-groups-per-corpus");
 //		}
 //	}
-		
+
+	@SneakyThrows
+	public static void main(String[] args) {
+		try (JavaSparkContext context = context()) {
+			Map<String, Long> corpusToExactDocsInGroups = new HashMap<>();
+			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04", "cw09-cw12-cc15"}) {
+				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
+				KeepId keepId = idsToKeep(corpus);
+				
+				long sum = exactDuplicates.map(i -> idsInExactDuplicates(i, keepId)).reduce((a,b) -> a+b);
+				
+				corpusToExactDocsInGroups.put(corpus, sum);
+			}
+			
+			context.parallelize(Arrays.asList(new ObjectMapper().writeValueAsString(corpusToExactDocsInGroups)),1)
+				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/docs-in-exact-duplicate-groups-per-corpus");
+		}
+	}
+
 	private static int numPartitions(String corpus) {
 		if(Arrays.asList("cw09", "cw12").contains(corpus)) {
 			return 1;
@@ -207,7 +225,7 @@ public class SparkCreateIdsToRemove {
 		if(ids == null || ids.isEmpty()) {
 			return 0;
 		} else {
-			return 1;
+			return ids.size();
 		}
 	}
 	
