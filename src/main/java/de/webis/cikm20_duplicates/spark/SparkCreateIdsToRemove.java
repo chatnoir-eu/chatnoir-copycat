@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -67,15 +68,17 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 	
-//	public static void main(String[] args) {
-//		try (JavaSparkContext context = context()) {
-//			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove-ATTENTION-NON-DISTINCT");
-//				
-//			toDistinct.distinct()
-//				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove");
-//
-//		}
-//	}
+	public static void main(String[] args) {
+		try (JavaSparkContext context = context()) {
+			JavaRDD<String> toDistinct = context.textFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove-ATTENTION-NON-DISTINCT");
+				
+			toDistinct
+				.filter(i -> keepIdsBetweenDifferentCorpora(i))
+				.distinct()
+				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-cc15-ids-to-remove-between-corpora");
+
+		}
+	}
 	
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
@@ -106,23 +109,45 @@ public class SparkCreateIdsToRemove {
 //		}
 //	}
 
-	@SneakyThrows
-	public static void main(String[] args) {
-		try (JavaSparkContext context = context()) {
-			Map<String, Long> corpusToExactDocsInGroups = new HashMap<>();
-			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04", "cw09-cw12-cc15"}) {
-				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
-				KeepId keepId = idsToKeep(corpus);
-				
-				long sum = exactDuplicates.map(i -> idsInExactDuplicates(i, keepId)).reduce((a,b) -> a+b);
-				
-				corpusToExactDocsInGroups.put(corpus, sum);
-			}
-			
-			context.parallelize(Arrays.asList(new ObjectMapper().writeValueAsString(corpusToExactDocsInGroups)),1)
-				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/docs-in-exact-duplicate-groups-per-corpus");
+	private static boolean keepIdsBetweenDifferentCorpora(String i) {
+		String firstId = StringUtils.substringBefore(i, ",");
+		String secondId = StringUtils.substringAfter(i, ",");
+		boolean withinCw09 = firstId != null && firstId.startsWith("clueweb09") && secondId != null && secondId.startsWith("clueWeb09"); 
+		boolean withinCw12 = firstId != null && firstId.startsWith("clueweb12") && secondId != null && secondId.startsWith("clueWeb12"); 
+		boolean withinCC = firstId != null && !firstId.startsWith("clueweb") && secondId != null && !secondId.startsWith("clueWeb"); 
+		
+		if(withinCw09) {
+			return false;
 		}
+		
+		if(withinCw12) {
+			return false;
+		}
+		
+		if(withinCC) {
+			return false;
+		}
+		
+		return true;
 	}
+
+//	@SneakyThrows
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			Map<String, Long> corpusToExactDocsInGroups = new HashMap<>();
+//			for(String corpus: new String[] {"cw09", "cw12", "cc-2015-11", "cc-2017-04", "cw09-cw12-cc15"}) {
+//				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
+//				KeepId keepId = idsToKeep(corpus);
+//				
+//				long sum = exactDuplicates.map(i -> idsInExactDuplicates(i, keepId)).reduce((a,b) -> a+b);
+//				
+//				corpusToExactDocsInGroups.put(corpus, sum);
+//			}
+//			
+//			context.parallelize(Arrays.asList(new ObjectMapper().writeValueAsString(corpusToExactDocsInGroups)),1)
+//				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashThreeAndFiveGramms/docs-in-exact-duplicate-groups-per-corpus");
+//		}
+//	}
 
 	private static int numPartitions(String corpus) {
 		if(Arrays.asList("cw09", "cw12").contains(corpus)) {
