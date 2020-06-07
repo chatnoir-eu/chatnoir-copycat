@@ -96,7 +96,7 @@ public class SparkCreateIdsToRemove {
 				JavaRDD<String> exactDuplicates = context.textFile(exactDupPath(corpus));
 				KeepId keepId = idsToKeep(corpus);
 				
-				long count = exactDuplicates.map(i -> idsInExactDuplicates(i, keepId)).count();
+				long count = exactDuplicates.map(i -> idsInExactDuplicates(i, keepId)).filter(i -> i > 0).count();
 				
 				corpusToExactDuplicateGroups.put(corpus, count);
 			}
