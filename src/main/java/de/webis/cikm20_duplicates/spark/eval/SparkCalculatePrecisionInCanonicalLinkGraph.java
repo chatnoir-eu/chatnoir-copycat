@@ -226,6 +226,6 @@ public class SparkCalculatePrecisionInCanonicalLinkGraph {
 	}
 
 	public static List<String> featureNames() {
-		return new ArrayList<>(SparkEvaluateSimHashFeatures.allFeatures(new CollectionDocument("", "", "", null, null)).keySet());
+		return new ArrayList<>(SparkEvaluateSimHashFeatures.allFeatures(new CollectionDocument("", "", "", null, null, null)).keySet());
 	}
 }

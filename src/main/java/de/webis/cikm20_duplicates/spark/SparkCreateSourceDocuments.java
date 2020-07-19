@@ -31,6 +31,7 @@ import de.webis.cikm20_duplicates.util.SourceDocuments.CollectionDocumentWithTop
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import de.webis.trec_ndd.util.NGramms;
 import de.webis.trec_ndd.util.S3Files;
 import io.anserini.index.transform.JsoupStringTransform;
 import lombok.SneakyThrows;
@@ -115,7 +116,21 @@ public class SparkCreateSourceDocuments {
 //	public static void main(String[] args) {
 //		try (JavaSparkContext context = context()) {
 //			for(String corpus: CORPORA) {
-//				JavaRDD<CollectionDocument> docs = docs(context, corpus);
+//				JavaRDD<CollectionDocument> docs = //	public static void main(String[] args) {
+//	try (JavaSparkContext context = context()) {
+//	for(String corpus: cc17Collections()) {
+//		if(successExists(context, "cikm2020/document-fingerprints-final/" + corpus +"-jsonl")) {
+//			System.out.println("Exists: " + corpus);
+//		} else {
+//			System.out.println("Does not exists: " + corpus);
+//			JavaRDD<CollectionDocument> docs = docs(context, corpus);
+//			
+//			fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
+//				.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
+//		}				
+//	}
+//}
+//}docs(context, corpus);
 //				
 //				fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
 //					.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
@@ -123,20 +138,30 @@ public class SparkCreateSourceDocuments {
 //		}
 //	}
 	
-	public static void main(String[] args) {
-		try (JavaSparkContext context = context()) {
-			for(String corpus: cc17Collections()) {
-				if(successExists(context, "cikm2020/document-fingerprints-final/" + corpus +"-jsonl")) {
-					System.out.println("Exists: " + corpus);
-				} else {
-					System.out.println("Does not exists: " + corpus);
-					JavaRDD<CollectionDocument> docs = docs(context, corpus);
-					
-					fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
-						.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
-				}				
-			}
-		}
+//	public static void main(String[] args) {
+//		try (JavaSparkContext context = context()) {
+//			for(String corpus: cc17Collections()) {
+//				if(successExists(context, "cikm2020/document-fingerprints-final/" + corpus +"-jsonl")) {
+//					System.out.println("Exists: " + corpus);
+//				} else {
+//					System.out.println("Does not exists: " + corpus);
+//					JavaRDD<CollectionDocument> docs = docs(context, corpus);
+//					
+//					fingerprintAllDocuments(context, docs, PRODUCTION_FINGERPRINTS)
+//						.saveAsTextFile("cikm2020/document-fingerprints-final/" + corpus +"-jsonl");
+//				}				
+//			}
+//		}
+//	}
+	
+//	public static void main(String[] args) {
+//		System.out.println(DOCS_TO_TOPIC.keySet().size());
+//	}
+	
+	public static void main(String args[]) {
+		List<Integer> actual = FingerPrintUtil.productionFingerpringint(64, 3).fingerprint(new CollectionDocument(null, null, "a b", null, null, null));
+		
+		System.out.println(actual);
 	}
 	
 	private static JavaRDD<CollectionDocument> docs(JavaSparkContext context, String corpus) {
@@ -183,7 +208,15 @@ public class SparkCreateSourceDocuments {
 	}
 	
 	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, JavaRDD<CollectionDocument> docs, List<Fingerprinter<Integer>> fingerprinters) {
-		return docs.map(i -> new DocumentWithFingerprint(i.getId(), i.getUrl(), i.getCanonicalUrl(), fp(i, fingerprinters)));
+		return docs.map(i -> new DocumentWithFingerprint(
+			i.getId(),
+			i.getUrl(),
+			i.getCanonicalUrl(),
+			fp(i, fingerprinters),
+			i.getCrawlingTimestamp(),
+			NGramms.tokenize(i.getContent()).size(),
+			NGramms.tokenize(i.getFullyCanonicalizedContent()).size()
+		));
 	}
 	
 	private static LinkedHashMap<String, ArrayList<Integer>> fp(CollectionDocument doc, List<Fingerprinter<Integer>> fingerprinters) {

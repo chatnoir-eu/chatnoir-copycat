@@ -30,24 +30,31 @@ import lombok.SneakyThrows;
 
 public class SparkCanonicalLinkGraphExtraction {
 
-	@SuppressWarnings("unchecked")
-	public static void main(String[] args) {
-//		String corpus = "cc-2017-04";
+//	@SuppressWarnings("unchecked")
+//	public static void main(String[] args) {
+////		String corpus = "cc-2017-04";
+////		String sampleSize = "0.1";
+////		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*/data";
+//		String corpus = "cc-2015-11";
 //		String sampleSize = "0.1";
-//		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2017-04-mapfile/data-r-*/data";
-		String corpus = "cc-2015-11";
-		String sampleSize = "0.1";
-		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-*/data";
-		
+//		String path = "/corpora/corpus-commoncrawl/CC-MAIN-2015-11-mapfile/data-r-*/data";
+//		
+//		try (JavaSparkContext context = context()) {
+//			Set<String> urlsToKeep = canonicalLinksToKeep(context.textFile("cikm2020/canonical-link-graph/" + corpus + "-canonical-urls-to-count-sample-" + sampleSize));
+//			JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);	
+//		
+//			canonicalLinkedges(rdd, urlsToKeep).saveAsTextFile("cikm2020/canonical-link-graph/" + corpus + "-sample-" + sampleSize);
+////			canonicalLinks(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04-canonical-urls");
+//		}
+//	}
+
+	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			Set<String> urlsToKeep = canonicalLinksToKeep(context.textFile("cikm2020/canonical-link-graph/" + corpus + "-canonical-urls-to-count-sample-" + sampleSize));
-			JavaHadoopRDD<Text, Text> rdd = (JavaHadoopRDD<Text, Text>) context.hadoopFile(path, SequenceFileInputFormat.class, Text.class, Text.class);	
-		
-			canonicalLinkedges(rdd, urlsToKeep).saveAsTextFile("cikm2020/canonical-link-graph/" + corpus + "-sample-" + sampleSize);
-//			canonicalLinks(rdd).saveAsTextFile("cikm2020/canonical-link-graph/cc-2017-04-canonical-urls");
+			JavaRDD<String> tmp = context.textFile("s3://corpus-copycat/document-representations/cw09");
+			tmp.sample(false, 0.01).saveAsTextFile("tmp-maik-delete-me.jsonl");
 		}
 	}
-
+	
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
 		conf.setAppName("cikm2020/canonical-link-graph");

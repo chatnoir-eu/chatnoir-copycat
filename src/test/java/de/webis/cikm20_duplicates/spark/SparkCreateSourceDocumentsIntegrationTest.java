@@ -109,7 +109,7 @@ public class SparkCreateSourceDocumentsIntegrationTest extends SharedJavaSparkCo
 	}
 	
 	private static CollectionDocument doc(String id) {
-		return new CollectionDocument(id, "content of " + id, "fullyCanonicalizedContent of " + id, null, null);
+		return new CollectionDocument(id, "content of " + id, "fullyCanonicalizedContent of " + id, null, null, null);
 	}
 	
 	public static List<String> sorted(JavaRDD<?> rdd) {

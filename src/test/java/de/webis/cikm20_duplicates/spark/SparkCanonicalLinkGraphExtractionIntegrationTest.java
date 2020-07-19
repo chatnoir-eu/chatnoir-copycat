@@ -28,7 +28,7 @@ public class SparkCanonicalLinkGraphExtractionIntegrationTest extends SharedJava
 
 	@Test
 	public void approveDocumentWithSingleCanonicalLink() {
-		String expected = "[{\"doc\":{\"id\":\"21\",\"content\":\"Hello World\",\"fullyCanonicalizedContent\":\"hello world\",\"url\":\"http://www.necrohiphop.com/forum/ubbthreads.php?ubb=showflat&Number=244311&page=3353\",\"canonicalUrl\":null},\"canonicalLink\":\"http://example.com/\",\"crawlingTimestamp\":\"2015-03-05T14:33:50Z\"}]";
+		String expected = "[{\"doc\":{\"id\":\"21\",\"content\":\"Hello World\",\"fullyCanonicalizedContent\":\"hello world\",\"crawlingTimestamp\":null,\"url\":\"http://www.necrohiphop.com/forum/ubbthreads.php?ubb=showflat&Number=244311&page=3353\",\"canonicalUrl\":null},\"canonicalLink\":\"http://example.com/\",\"crawlingTimestamp\":\"2015-03-05T14:33:50Z\"}]";
 		List<String> actual = canonicalLinkEdges(rdd(html("21", "<html><head><link rel=\"canonical\" href=\"http://example.com/\"></head><body>Hello World</body></html>")), null);
 
 		Assert.assertEquals(expected, actual.toString());
@@ -36,7 +36,7 @@ public class SparkCanonicalLinkGraphExtractionIntegrationTest extends SharedJava
 	
 	@Test
 	public void approveDocumentWithSingleCanonicalLinkWithoutId() {
-		String expected = "[{\"doc\":{\"id\":\"-1172634332\",\"content\":\"Hello World\",\"fullyCanonicalizedContent\":\"hello world\",\"url\":\"http://www.necrohiphop.com/forum/ubbthreads.php?ubb=showflat&Number=244311&page=3353\",\"canonicalUrl\":null},\"canonicalLink\":\"http://example.com/\",\"crawlingTimestamp\":\"2015-03-05T14:33:50Z\"}]";
+		String expected = "[{\"doc\":{\"id\":\"-1172634332\",\"content\":\"Hello World\",\"fullyCanonicalizedContent\":\"hello world\",\"crawlingTimestamp\":null,\"url\":\"http://www.necrohiphop.com/forum/ubbthreads.php?ubb=showflat&Number=244311&page=3353\",\"canonicalUrl\":null},\"canonicalLink\":\"http://example.com/\",\"crawlingTimestamp\":\"2015-03-05T14:33:50Z\"}]";
 		List<String> actual = canonicalLinkEdges(rdd(htmlWithoutTrecId("<html><head><link rel=\"canonical\" href=\"http://example.com/\"></head><body>Hello World</body></html>")), null);
 
 		Assert.assertEquals(expected, actual.toString());
@@ -55,7 +55,7 @@ public class SparkCanonicalLinkGraphExtractionIntegrationTest extends SharedJava
 		Set<String> urlsToKeep = new HashSet<>();
 		urlsToKeep.add("http://example.com/");
 		
-		String expected = "[{\"doc\":{\"id\":\"-1172634332\",\"content\":\"Hello World\",\"fullyCanonicalizedContent\":\"hello world\",\"url\":\"http://www.necrohiphop.com/forum/ubbthreads.php?ubb=showflat&Number=244311&page=3353\",\"canonicalUrl\":null},\"canonicalLink\":\"http://example.com/\",\"crawlingTimestamp\":\"2015-03-05T14:33:50Z\"}]";
+		String expected = "[{\"doc\":{\"id\":\"-1172634332\",\"content\":\"Hello World\",\"fullyCanonicalizedContent\":\"hello world\",\"crawlingTimestamp\":null,\"url\":\"http://www.necrohiphop.com/forum/ubbthreads.php?ubb=showflat&Number=244311&page=3353\",\"canonicalUrl\":null},\"canonicalLink\":\"http://example.com/\",\"crawlingTimestamp\":\"2015-03-05T14:33:50Z\"}]";
 		List<String> actual = canonicalLinkEdges(rdd(htmlWithoutTrecId("<html><head><link rel=\"canonical\" href=\"http://example.com/\"></head><body>Hello World</body></html>")), urlsToKeep);
 
 		Assert.assertEquals(expected, actual.toString());

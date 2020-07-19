@@ -97,6 +97,9 @@ public final class SourceDocuments {
 		private URL url;
 		private URL canonicalURL;
 		private LinkedHashMap<String, ArrayList<Integer>> fingerprints;
+		private String crawlingTimestamp;
+		private int documentLengthInWords;
+		private int documentLengthInWordsWithoutStopWords;
 		
 		@Override
 		@SneakyThrows
