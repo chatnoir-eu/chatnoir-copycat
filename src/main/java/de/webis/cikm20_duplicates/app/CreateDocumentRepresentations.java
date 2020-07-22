@@ -1,5 +1,7 @@
 package de.webis.cikm20_duplicates.app;
 
+import java.util.Map;
+
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
@@ -28,16 +30,25 @@ public class CreateDocumentRepresentations {
 			
 			JavaPairRDD<LongWritable, WarcRecord> records = context.newAPIHadoopFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT), inputFormat, LongWritable.class, WarcRecord.class, context.hadoopConfiguration());
 			
-			JavaRDD<String> tmp = records.map(i -> 
-				"{\"uri\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-Target-URI") +
-				   "\",\"id\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-TREC-ID") +
-				   "\",\"contentLength\":\"" + i._2().getHeader().getHeaderMetadata().get("Content-Length") +
-				   "\",\"date\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-Date") +
-				   "\", \"headerFields\": " + i._2().getHeader().getHeaderMetadata().keySet() + "}"
-				   
-			);
+			JavaRDD<String> tmp = records.map(i -> bla(i._2()));
 			tmp.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
+			
+			//[Content-Length, Content-Type, WARC-Block-Digest, WARC-Concurrent-To, WARC-Date, WARC-IP-Address, WARC-Payload-Digest, WARC-Record-ID, WARC-Target-URI, WARC-Type, WARC-Warcinfo-ID]
 		}
+	}
+	
+	private static String bla(WarcRecord record) {
+		Map<String, String> header = record.getHeader().getHeaderMetadata();
+		String id = header.get("WARC-TREC-ID");
+		if(id == null || id.isEmpty()) {
+			id = header.get("WARC-Record-ID");
+			
+		}
+		
+		return 	"{\"uri\":\"" + header.get("WARC-Target-URI") +
+				   "\",\"id\":\"" + id +
+				   "\",\"contentLength\":\"" + header.get("Content-Length") +
+				   "\",\"date\":\"" + header.get("WARC-Date") + "\"}";
 	}
 	
 	private static JavaSparkContext context() {
