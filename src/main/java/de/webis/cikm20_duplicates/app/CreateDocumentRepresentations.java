@@ -28,7 +28,13 @@ public class CreateDocumentRepresentations {
 			
 			JavaPairRDD<LongWritable, WarcRecord> records = context.newAPIHadoopFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT), inputFormat, LongWritable.class, WarcRecord.class, context.hadoopConfiguration());
 			
-			JavaRDD<String> tmp = records.map(i -> i._2().getHeader().getHeaderMetadata().get("WARC-Target-URI") + "," + i._2().getHeader().getHeaderMetadata().get("Date"));
+			JavaRDD<String> tmp = records.map(i -> 
+				"{\"uri\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-Target-URI") +
+				   "\",\"id\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-TREC-ID") +
+				   "\",\"contentLength\":\"" + i._2().getHeader().getHeaderMetadata().get("Content-Length") +
+				   "\",\"date\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-Date") +"\"}"
+				   
+			);
 			tmp.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 		}
 	}
