@@ -5,6 +5,13 @@ clueweb09-document-representations: install
 		--input s3a://corpus-clueweb09/parts/ClueWeb09_English_1/en0000/97.warc.gz \
 		--output cikm2020/camera-ready/cw09
 
+clueweb12-document-representations: install
+	hdfs dfs -rm -r -f cikm2020/camera-ready/cw12
+	./src/main/bash/run-document-representation-spark-job.sh \
+		--inputFormat CLUEWEB12 \
+		--input s3a://corpus-clueweb12/parts/Disk1/ClueWeb12_01/0100wb/0100wb-99.warc.gz \
+		--output cikm2020/camera-ready/cw12
+
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
 
