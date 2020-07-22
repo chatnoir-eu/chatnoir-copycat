@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import de.webis.chatnoir2.mapfile_generator.inputformats.ClueWeb09InputFormat;
+import de.webis.chatnoir2.mapfile_generator.inputformats.ClueWeb12InputFormat;
+import de.webis.chatnoir2.mapfile_generator.inputformats.CommonCrawlInputFormat;
 
 @UtilityClass
 class ArgumentParsingUtil {
@@ -22,8 +24,8 @@ class ArgumentParsingUtil {
 	@AllArgsConstructor
 	static enum InputFormats {
 		CLUEWEB09(ClueWeb09InputFormat.class),
-		CLUEWEB12(ClueWeb09InputFormat.class),
-		COMMON_CRAWL(ClueWeb09InputFormat.class);
+		CLUEWEB12(ClueWeb12InputFormat.class),
+		COMMON_CRAWL(CommonCrawlInputFormat.class);
 		
 		private final Class<? extends WarcInputFormat> inputFormat;
 		
