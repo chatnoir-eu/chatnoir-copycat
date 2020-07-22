@@ -32,7 +32,8 @@ public class CreateDocumentRepresentations {
 				"{\"uri\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-Target-URI") +
 				   "\",\"id\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-TREC-ID") +
 				   "\",\"contentLength\":\"" + i._2().getHeader().getHeaderMetadata().get("Content-Length") +
-				   "\",\"date\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-Date") +"\"}"
+				   "\",\"date\":\"" + i._2().getHeader().getHeaderMetadata().get("WARC-Date") +
+				   "\", \"headerFields\": " + i._2().getHeader().getHeaderMetadata().keySet() + "}"
 				   
 			);
 			tmp.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);

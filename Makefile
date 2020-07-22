@@ -12,6 +12,13 @@ clueweb12-document-representations: install
 		--input s3a://corpus-clueweb12/parts/Disk1/ClueWeb12_01/0100wb/0100wb-99.warc.gz \
 		--output cikm2020/camera-ready/cw12
 
+common-crawl15-document-representations: install
+	hdfs dfs -rm -r -f cikm2020/camera-ready/cc15
+	./src/main/bash/run-document-representation-spark-job.sh \
+		--inputFormat COMMON_CRAWL \
+		--input s3a://corpus-commoncrawl-main-2015-11/1424936465069.3/warc/CC-MAIN-20150226074105-00336-ip-10-28-5-156.ec2.internal.warc.gz \
+		--output cikm2020/camera-ready/cc15
+
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
 
