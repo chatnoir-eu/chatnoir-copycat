@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 PARALLELISM=500
+export HADOOP_CONF_DIR=/home/kibi9872/web-search-cikm2020-resource-paper-code/hadoop-conf
 
 spark-submit \
 	--conf "spark.speculation=true" \
