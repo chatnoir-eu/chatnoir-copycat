@@ -42,7 +42,6 @@ public class CreateDocumentRepresentations {
 		String id = header.get("WARC-TREC-ID");
 		if(id == null || id.isEmpty()) {
 			id = header.get("WARC-Record-ID");
-			
 		}
 		
 		return 	"{\"uri\":\"" + header.get("WARC-Target-URI") +
