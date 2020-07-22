@@ -16,14 +16,14 @@ common-crawl15-document-representations: install
 	hdfs dfs -rm -r -f cikm2020/camera-ready/cc15
 	./src/main/bash/run-document-representation-spark-job.sh \
 		--inputFormat COMMON_CRAWL \
-		--input s3a://corpus-commoncrawl-main-2015-11/1424936465069.3/warc/CC-MAIN-20150226074105-00336-ip-10-28-5-156.ec2.internal.warc.gz \
+		--input s3a://corpus-commoncrawl-main-2015-11/*/*/*.warc.gz \
 		--output cikm2020/camera-ready/cc15
 
 common-crawl17-document-representations: install
 	hdfs dfs -rm -r -f cikm2020/camera-ready/cc17
 	./src/main/bash/run-document-representation-spark-job.sh \
 		--inputFormat COMMON_CRAWL \
-		--input s3a://corpus-commoncrawl-main-2017-04/1484560285289.45/warc/CC-MAIN-20170116095125-00576-ip-10-171-10-70.ec2.internal.warc.gz \
+		--input s3a://corpus-commoncrawl-main-2017-04/*/*/*.warc.gz \
 		--output cikm2020/camera-ready/cc17
 
 label-data-daniel:
