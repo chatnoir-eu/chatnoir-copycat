@@ -1,3 +1,10 @@
+clueweb09-document-representations: install
+	hdfs dfs -rm -r -f cikm2020/camera-ready/cw09
+	./src/main/bash/run-document-representation-spark-job.sh \
+		--inputFormat CLUEWEB09 \
+		--input s3a://corpus-clueweb09/parts/ClueWeb09_English_1/en0000/97.warc.gz \
+		--output cikm2020/camera-ready/cw09
+
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
 

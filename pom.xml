@@ -21,6 +21,22 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>net.sourceforge.argparse4j</groupId>
+			<artifactId>argparse4j</artifactId>
+			<version>0.8.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.webis.chatnoir2</groupId>
+			<artifactId>chatnoir2-mapfile-generator</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-client</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>info.debatty</groupId>
 			<artifactId>java-lsh</artifactId>
 			<version>RELEASE</version>
@@ -228,6 +244,10 @@
 		<repository>
 			<id>repo.webis.de</id>
 			<url>https://repo.webis.de/artifactory/libs-release/</url>
+		</repository>
+		<repository>
+			<id>repo.webis-snapshots.de</id>
+			<url>https://repo.webis.de/artifactory/libs-snapshot-webis-gradle/</url>
 		</repository>
 	</repositories>
 
