@@ -9,7 +9,6 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
-import de.webis.chatnoir2.mapfile_generator.inputformats.WarcInputFormat;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -26,10 +25,7 @@ public class CreateDocumentRepresentations {
 		}
 		
 		try(JavaSparkContext context = context()) {
-			Class<? extends WarcInputFormat> inputFormat = ArgumentParsingUtil.InputFormats.valueOf(parsedArgs.get(ArgumentParsingUtil.ARG_FORMAT)).getInputFormat();
-			
-			JavaPairRDD<LongWritable, WarcRecord> records = context.newAPIHadoopFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT), inputFormat, LongWritable.class, WarcRecord.class, context.hadoopConfiguration());
-			
+			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
 			JavaRDD<String> tmp = records.map(i -> bla(i._2()));
 			tmp.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 			
@@ -37,7 +33,7 @@ public class CreateDocumentRepresentations {
 		}
 	}
 	
-	private static String bla(WarcRecord record) {
+	public static String bla(WarcRecord record) {
 		Map<String, String> header = record.getHeader().getHeaderMetadata();
 		String id = header.get("WARC-TREC-ID");
 		if(id == null || id.isEmpty()) {
@@ -57,7 +53,7 @@ public class CreateDocumentRepresentations {
 		return new JavaSparkContext(conf);
 	}
 	
-	private static Namespace validArgumentsOrNull(String[] args) {
+	static Namespace validArgumentsOrNull(String[] args) {
 		ArgumentParser parser = argParser();
 		
 		try {

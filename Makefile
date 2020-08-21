@@ -1,3 +1,10 @@
+cc2020-16-test-web-graph: install
+	hdfs dfs -rm -r -f web-archive-analysis/cc2020-16-test
+	./src/main/bash/run-web-graph-spark-job.sh \
+		--inputFormat COMMON_CRAWL \
+		--input s3a://corpus-commoncrawl-main-2020-16/crawl-data/CC-MAIN-2020-16/segments/1585371896913.98/warc/CC-MAIN-20200410110538-20200410141038-00559.warc.gz \
+		--output web-archive-analysis/cc2020-16-test
+
 clueweb09-document-representations: install
 	hdfs dfs -rm -r -f cikm2020/camera-ready/cw09
 	./src/main/bash/run-document-representation-spark-job.sh \
