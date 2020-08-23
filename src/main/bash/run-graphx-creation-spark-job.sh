@@ -11,7 +11,7 @@ export SPARK_HOME=/home/kibi9872/web-search-cikm2020-resource-paper-code/local-s
         --conf "spark.speculation.quantile=0.90" \
         --conf "spark.dynamicAllocation.maxExecutors=1500" \
         --deploy-mode cluster \
-        --class de.webis.cikm20_duplicates.app.CreateWebGraph \
+        --class de.webis.cikm20_duplicates.app.WebGraphToGraphX \
         --conf spark.default.parallelism=${PARALLELISM}\
         --num-executors ${PARALLELISM}\
         --driver-memory 15G\
