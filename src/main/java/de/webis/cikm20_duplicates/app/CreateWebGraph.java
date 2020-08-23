@@ -1,5 +1,7 @@
 package de.webis.cikm20_duplicates.app;
 
+import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +55,7 @@ public class CreateWebGraph {
 	public static JavaRDD<String> extractWebGraph(JavaPairRDD<LongWritable, WarcRecord> records) {
 		JavaRDD<WebGraphNode> graphLinks = records.map(record -> extractWebGraphLinks(record));
 		
-		return graphLinks.map(i -> i.toString());
+		return graphLinks.filter(i -> i != null).map(i -> i.toString());
 	}
 
 	public static WebGraphNode extractWebGraph(WarcRecord record) {
@@ -61,6 +63,10 @@ public class CreateWebGraph {
 	
 		String sourceURL = warcHeader.getHeaderMetadataItem("WARC-Target-URI");
 		String crawlingTimestamp = warcHeader.getHeaderMetadataItem("WARC-Date");
+		
+		if(sourceURL == null || crawlingTimestamp == null) {
+			return null;
+		}
 		
 		return new WebGraphNode(sourceURL, crawlingTimestamp, anchors(record, sourceURL));
 	}
@@ -70,17 +76,22 @@ public class CreateWebGraph {
 	}
 	
 	private static List<WebGraphAnchor> anchors(WarcRecord record, String sourceURL) {
-		Document parsedDocument = Jsoup.parse(record.getContent(), sourceURL);
-		
-		return parsedDocument.select("a[href]").stream()
-			.map(i -> WebGraphAnchor.fromElement(i))
-			.collect(Collectors.toList());
+		try {
+			Document parsedDocument = Jsoup.parse(record.getContent(), sourceURL);
+			
+			return parsedDocument.select("a[href]").stream()
+				.map(i -> WebGraphAnchor.fromElement(i))
+				.collect(Collectors.toList());
+		} catch(Exception e) {
+			return Collections.emptyList();
+		}
 	}
 
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class WebGraphNode {
+	@SuppressWarnings("serial")
+	public static class WebGraphNode implements Serializable {
 		private String sourceURL, crawlingTimestamp;
 		private List<WebGraphAnchor> anchors;
 		
@@ -89,12 +100,18 @@ public class CreateWebGraph {
 		public String toString() {
 			return new ObjectMapper().writeValueAsString(this);
 		}
+
+		@SneakyThrows
+		public static WebGraphNode fromString(String src) {
+			return new ObjectMapper().readValue(src, WebGraphNode.class);
+		}
 	}
 	
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class WebGraphAnchor {
+	@SuppressWarnings("serial")
+	public static class WebGraphAnchor implements Serializable {
 		private String targetURL, anchorText;
 		
 		public static WebGraphAnchor fromElement(Element element) {
