@@ -26,19 +26,26 @@ public class WebGraphToGraphXTest extends SharedJavaSparkContext {
 	}
 	
 	@Test
+	public void approveFiles2() {
+		List<String> actual = WebGraphToGraphX.intermediateNodesParts();
+		
+		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
 	public void approveSmallSampleGraphWithSingleNodeIds() {
 		// (3)<-(1)->(2)
 		Iterator<JavaRDD<String>> nodeIds = Arrays.asList(jsc().parallelize(Arrays.asList("http://example.com\t2", "https://google.de\t1", "http://facebook.de\t3"))).iterator();
 		JavaRDD<WebGraphNode> nodes = jsc().parallelize(Arrays.asList(
-			new WebGraphNode("http://google.de", "timestamp-1", anchors("https://example.com", "http://facebook.de", "http://example.com")),
-			new WebGraphNode("https://example.com", "timestamp-2", anchors()),
-			new WebGraphNode("http://facebook.de", "timestamp-3", anchors())
+			new WebGraphNode("http://google.de", "2020-03-28T14:46:29Z", anchors("https://example.com", "http://facebook.de", "http://example.com")),
+			new WebGraphNode("https://example.com", "2020-03-28T15:46:29Z", anchors()),
+			new WebGraphNode("http://facebook.de", "2020-03-28T16:46:29Z", anchors())
 		));
 		
 		List<GraphxWebNode> expected = Arrays.asList(
-			new GraphxWebNode(1l, new HashSet<Long>(Arrays.asList(2l, 3l)), "timestamp-1"),
-			new GraphxWebNode(2l, new HashSet<Long>(Arrays.asList()), "timestamp-2"),
-			new GraphxWebNode(3l, new HashSet<Long>(Arrays.asList()), "timestamp-3")
+			new GraphxWebNode(1l, new HashSet<Long>(Arrays.asList(2l, 3l)), 1585403189l /*"2020-03-28T14:46:29Z"*/),
+			new GraphxWebNode(2l, new HashSet<Long>(Arrays.asList()), 1585406789l /*"2020-03-28T15:46:29Z"*/),
+			new GraphxWebNode(3l, new HashSet<Long>(Arrays.asList()), 1585410389l /*"2020-03-28T16:46:29Z"*/)
 		);
 		List<GraphxWebNode> actual = transformToGraphXNodes(nodes, nodeIds);
 		
@@ -54,17 +61,37 @@ public class WebGraphToGraphXTest extends SharedJavaSparkContext {
 			jsc().parallelize(Arrays.asList("http://facebook.de\t3"))
 		).iterator();
 		JavaRDD<WebGraphNode> nodes = jsc().parallelize(Arrays.asList(
-			new WebGraphNode("http://google.de", "timestamp-1", anchors("https://example.com", "http://facebook.de", "http://example.com")),
-			new WebGraphNode("https://example.com", "timestamp-2", anchors()),
-			new WebGraphNode("http://facebook.de", "timestamp-3", anchors())
+			new WebGraphNode("http://google.de", "2020-03-28T14:46:29Z", anchors("https://example.com", "http://facebook.de", "http://example.com")),
+			new WebGraphNode("https://example.com", "2020-03-28T15:46:29Z", anchors()),
+			new WebGraphNode("http://facebook.de", "2020-03-28T16:46:29Z", anchors())
 		));
 		
 		List<GraphxWebNode> expected = Arrays.asList(
-			new GraphxWebNode(1l, new HashSet<Long>(Arrays.asList(2l, 3l)), "timestamp-1"),
-			new GraphxWebNode(2l, new HashSet<Long>(Arrays.asList()), "timestamp-2"),
-			new GraphxWebNode(3l, new HashSet<Long>(Arrays.asList()), "timestamp-3")
+			new GraphxWebNode(1l, new HashSet<Long>(Arrays.asList(2l, 3l)), 1585403189l /*"2020-03-28T14:46:29Z"*/),
+			new GraphxWebNode(2l, new HashSet<Long>(Arrays.asList()), 1585406789l /*"2020-03-28T15:46:29Z"*/),
+			new GraphxWebNode(3l, new HashSet<Long>(Arrays.asList()), 1585410389l /*"2020-03-28T16:46:29Z"*/)
 		);
 		List<GraphxWebNode> actual = transformToGraphXNodes(nodes, nodeIds);
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void approveSmallSampleGraphWithJoinMethod() {
+		// (3)<-(1)->(2)
+		JavaRDD<String> nodeIds = jsc().parallelize(Arrays.asList("http://example.com\t2", "https://google.de\t1", "http://facebook.de\t3"));
+		JavaRDD<WebGraphNode> nodes = jsc().parallelize(Arrays.asList(
+			new WebGraphNode("http://google.de", "2020-03-28T14:46:29Z", anchors("https://example.com", "http://facebook.de", "http://example.com")),
+			new WebGraphNode("https://example.com", "2020-03-28T15:46:29Z", anchors()),
+			new WebGraphNode("http://facebook.de", "2020-03-28T16:46:29Z", anchors())
+		));
+		
+		List<GraphxWebNode> expected = Arrays.asList(
+			new GraphxWebNode(1l, new HashSet<Long>(Arrays.asList(2l, 3l)), 1585403189l /*"2020-03-28T14:46:29Z"*/),
+			new GraphxWebNode(2l, new HashSet<Long>(Arrays.asList()), 1585406789l /*"2020-03-28T15:46:29Z"*/),
+			new GraphxWebNode(3l, new HashSet<Long>(Arrays.asList()), 1585410389l /*"2020-03-28T16:46:29Z"*/)
+		);
+		List<GraphxWebNode> actual = WebGraphToGraphX.transformToGraphXNodesByJoins(nodes, nodeIds).collect();
 		
 		Assert.assertEquals(expected, actual);
 	}
