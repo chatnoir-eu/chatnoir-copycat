@@ -34,7 +34,7 @@ public class CreateDocumentRepresentations {
 		
 		try(JavaSparkContext context = context()) {
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
-			JavaRDD<CollectionDocument> parsedRecords = records.map(i -> transformToCollectionDocument(i._2()));
+			JavaRDD<CollectionDocument> parsedRecords = records.map(i -> transformToCollectionDocument(i._2())).filter(i -> i != null);
 			JavaRDD<DocumentWithFingerprint> fingerprints = SparkCreateSourceDocuments.fingerprintAllDocuments(null, parsedRecords, SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
 			
 			fingerprints
@@ -51,13 +51,28 @@ public class CreateDocumentRepresentations {
 		}
 		
 		Map<String, String> header = lowercasedHeaders(record);
+		String contentBody = record.getContent();
+		
+		try {
+			return transformToCollectionDocument(header, contentBody);
+		} catch(Exception e) {
+			return null;
+		}
+	}
+	
+	@SneakyThrows
+	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, String contentBody) {
+		// ignore large files
+		if (contentBody.getBytes().length > 1024 * 1024) {
+			return null;
+		}
+		
 		String id = header.get("warc-trec-id");
 		if(id == null || id.isEmpty()) {
 			id = header.get("warc-record-id");
 		}
 		
 		String targetUri = header.get("warc-target-uri");
-		String contentBody = record.getContent();
 		
 		CollectionDocument ret = CollectionDocument.collectionDocument(new JsoupStringTransform().apply(contentBody), id);
 		ret.setUrl(new URL(targetUri));
@@ -66,7 +81,7 @@ public class CreateDocumentRepresentations {
 		
 		return ret;
 	}
-	
+
 	private static Map<String, String> lowercasedHeaders(WarcRecord record) {
 		return record.getHeader().getHeaderMetadata().entrySet().stream()
 				.collect(Collectors.toMap(i -> i.getKey().trim().toLowerCase(), i -> i.getValue()));
