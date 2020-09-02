@@ -41,8 +41,6 @@ public class CreateDocumentRepresentations {
 				.filter(i -> i != null)
 				.map(i -> i.toString())
 				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
-			
-			//[Content-Length, Content-Type, WARC-Block-Digest, WARC-Concurrent-To, WARC-Date, WARC-IP-Address, WARC-Payload-Digest, WARC-Record-ID, WARC-Target-URI, WARC-Type, WARC-Warcinfo-ID]
 		}
 	}
 	
