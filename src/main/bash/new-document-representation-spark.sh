@@ -2,8 +2,9 @@
 
 PARALLELISM=500
 export HADOOP_CONF_DIR=/home/kibi9872/web-search-cikm2020-resource-paper-code/hadoop-conf
+export SPARK_HOME=/home/kibi9872/web-search-cikm2020-resource-paper-code/local-spark
 
-spark-submit \
+/home/kibi9872/web-search-cikm2020-resource-paper-code/local-spark/bin/spark-submit \
         --conf "spark.speculation=true" \
         --conf "spark.speculation.interval=5000ms" \
         --conf "spark.speculation.multiplier=5" \
