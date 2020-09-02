@@ -99,7 +99,7 @@ public final class SourceDocuments {
 		private LinkedHashMap<String, ArrayList<Integer>> fingerprints;
 		private String crawlingTimestamp;
 		private int documentLengthInWords;
-		private int documentLengthInWordsOnFullyCanonicalizedContent;
+		private int documentLengthInWordsWithoutStopWords;
 		
 		@Override
 		@SneakyThrows
