@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.spark;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.HashSet;
@@ -7,7 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.InputFormat;
+import org.apache.hadoop.mapred.InputSplit;
+import org.apache.hadoop.mapred.JobConf;
+import org.apache.hadoop.mapred.RecordReader;
+import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.mapred.SequenceFileInputFormat;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaHadoopRDD;
@@ -17,10 +24,13 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.webis.chatnoir2.mapfile_generator.inputformats.ClueWeb09InputFormat;
+import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import io.anserini.index.transform.JsoupStringTransform;
 import lombok.AllArgsConstructor;
@@ -50,7 +60,9 @@ public class SparkCanonicalLinkGraphExtraction {
 
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> tmp = context.textFile("s3://corpus-copycat/document-representations/cw09");
+			JavaRDD<String> tmp = context.textFile("s3a://corpus-copycat/document-representations/cw09");
+			JavaPairRDD<LongWritable, WarcRecord> records = context.newAPIHadoopFile("", ClueWeb09InputFormat.class, LongWritable.class, WarcRecord.class, context.hadoopConfiguration());
+			
 			tmp.sample(false, 0.01).saveAsTextFile("tmp-maik-delete-me.jsonl");
 		}
 	}
@@ -140,7 +152,16 @@ public class SparkCanonicalLinkGraphExtraction {
 	@SneakyThrows
 	public static URL extractCanonicalLinkOrNull(String resolveFrom, String contentBody) {
 		try {
-			Elements canonicals = Jsoup.parse(contentBody).head().select("link[rel=\"canonical\"][href]");
+			return extractCanonicalLinkOrNull(resolveFrom, Jsoup.parse(contentBody));
+		} catch(Exception e) {
+			return null;
+		}
+	}
+	
+	@SneakyThrows
+	public static URL extractCanonicalLinkOrNull(String resolveFrom, Document doc) {
+		try {
+			Elements canonicals = doc.head().select("link[rel=\"canonical\"][href]");
 			if(canonicals.size() == 0) {
 				return null;
 			}

@@ -10,6 +10,8 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction;
@@ -60,13 +62,17 @@ public class CreateDocumentRepresentations {
 		}
 	}
 	
-	@SneakyThrows
 	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, String contentBody) {
-		// ignore large files
 		if (contentBody.getBytes().length > 1024 * 1024) {
+			// ignore large files
 			return null;
 		}
 		
+		return transformToCollectionDocument(header, Jsoup.parse(contentBody));
+	}
+	
+	@SneakyThrows
+	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, Document doc) {
 		String id = header.get("warc-trec-id");
 		if(id == null || id.isEmpty()) {
 			id = header.get("warc-record-id");
@@ -74,9 +80,9 @@ public class CreateDocumentRepresentations {
 		
 		String targetUri = header.get("warc-target-uri");
 		
-		CollectionDocument ret = CollectionDocument.collectionDocument(new JsoupStringTransform().apply(contentBody), id);
+		CollectionDocument ret = CollectionDocument.collectionDocument(doc.text(), id);
 		ret.setUrl(new URL(targetUri));
-		ret.setCanonicalUrl(SparkCanonicalLinkGraphExtraction.extractCanonicalLinkOrNull(targetUri, contentBody));
+		ret.setCanonicalUrl(SparkCanonicalLinkGraphExtraction.extractCanonicalLinkOrNull(targetUri, doc));
 		ret.setCrawlingTimestamp(header.get("warc-date"));
 		
 		return ret;
