@@ -2,7 +2,7 @@ new-doc-representation-on-small-sample: install
 	hdfs dfs -rm -r -f corpus-copycat/document-representations/small-sample && \
 	./src/main/bash/new-document-representation-spark.sh \
 		--inputFormat COMMON_CRAWL \
-		--input s3a://corpus-commoncrawl-main-2020-16/crawl-data/CC-MAIN-2020-16/segments/1585371896913.98/warc/CC-MAIN-20200410110538-20200410141038-0055*.warc.gz \
+		--input s3a://corpus-commoncrawl-main-2020-16/crawl-data/CC-MAIN-2020-16/segments/1585371896913.98/warc/CC-MAIN-20200410110538-20200410141038-005{1,2,3,4,5}*.warc.gz \
 		--output corpus-copycat/document-representations/small-sample
 
 cc2020-16-test-web-graph: install
