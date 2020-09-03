@@ -18,7 +18,6 @@ import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction;
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments;
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
-import io.anserini.index.transform.JsoupStringTransform;
 import lombok.SneakyThrows;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -36,6 +35,10 @@ public class CreateDocumentRepresentations {
 		
 		try(JavaSparkContext context = context()) {
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
+			if(records.getNumPartitions() < 100) {
+				records = records.repartition(1000);
+			}
+			
 			JavaRDD<CollectionDocument> parsedRecords = records.map(i -> transformToCollectionDocument(i._2())).filter(i -> i != null);
 			JavaRDD<DocumentWithFingerprint> fingerprints = SparkCreateSourceDocuments.fingerprintAllDocuments(null, parsedRecords, SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
 			
