@@ -40,7 +40,7 @@ public class CreateDocumentRepresentations {
 			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2())).filter(i -> i != null);
 			
 			if (parsedDocuments.getNumPartitions() < 100) {
-				parsedDocuments = parsedDocuments.repartition(1000);
+				parsedDocuments = parsedDocuments.repartition(parsedDocuments.getNumPartitions()*100);
 			}
 
 			JavaRDD<DocumentWithFingerprint> fingerprints = SparkCreateSourceDocuments.fingerprintAllDocuments(null,
