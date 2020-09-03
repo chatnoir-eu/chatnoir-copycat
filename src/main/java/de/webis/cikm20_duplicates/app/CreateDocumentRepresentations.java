@@ -1,6 +1,7 @@
 package de.webis.cikm20_duplicates.app;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
+import scala.Tuple2;
 
 public class CreateDocumentRepresentations {
 	
@@ -35,12 +37,13 @@ public class CreateDocumentRepresentations {
 		
 		try(JavaSparkContext context = context()) {
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
-			if(records.getNumPartitions() < 100) {
-				records = records.repartition(1000);
+			JavaRDD<Tuple2<Map<String, String>, String>> parsedRecords = records.map(i -> transformToCollectionDocument(i._2()));
+			if(parsedRecords.getNumPartitions() < 100) {
+				parsedRecords = parsedRecords.repartition(1000);
 			}
 			
-			JavaRDD<CollectionDocument> parsedRecords = records.map(i -> transformToCollectionDocument(i._2())).filter(i -> i != null);
-			JavaRDD<DocumentWithFingerprint> fingerprints = SparkCreateSourceDocuments.fingerprintAllDocuments(null, parsedRecords, SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
+			JavaRDD<CollectionDocument> parsedDocuments = parsedRecords.filter(i -> i != null).map(i -> transformToCollectionDocument(i._1(), i._2())).filter(i -> i != null);
+			JavaRDD<DocumentWithFingerprint> fingerprints = SparkCreateSourceDocuments.fingerprintAllDocuments(null, parsedDocuments, SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
 			
 			fingerprints
 				.filter(i -> i != null)
@@ -50,7 +53,7 @@ public class CreateDocumentRepresentations {
 	}
 	
 	@SneakyThrows
-	public static CollectionDocument transformToCollectionDocument(WarcRecord record) {
+	public static Tuple2<Map<String, String>, String> transformToCollectionDocument(WarcRecord record) {
 		if (record == null) {
 			return null;
 		}
@@ -58,20 +61,20 @@ public class CreateDocumentRepresentations {
 		Map<String, String> header = lowercasedHeaders(record);
 		String contentBody = record.getContent();
 		
-		try {
-			return transformToCollectionDocument(header, contentBody);
-		} catch(Exception e) {
-			return null;
-		}
-	}
-	
-	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, String contentBody) {
 		if (contentBody.getBytes().length > 1024 * 1024) {
 			// ignore large files
 			return null;
 		}
-		
-		return transformToCollectionDocument(header, Jsoup.parse(contentBody));
+
+		return new Tuple2<>(header, contentBody);
+	}
+	
+	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, String contentBody) {
+		try {
+			return transformToCollectionDocument(header, Jsoup.parse(contentBody));
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	@SneakyThrows
@@ -92,8 +95,8 @@ public class CreateDocumentRepresentations {
 	}
 
 	private static Map<String, String> lowercasedHeaders(WarcRecord record) {
-		return record.getHeader().getHeaderMetadata().entrySet().stream()
-				.collect(Collectors.toMap(i -> i.getKey().trim().toLowerCase(), i -> i.getValue()));
+		return new HashMap<>(record.getHeader().getHeaderMetadata().entrySet().stream()
+				.collect(Collectors.toMap(i -> i.getKey().trim().toLowerCase(), i -> i.getValue())));
 	}
 
 	private static JavaSparkContext context() {
