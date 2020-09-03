@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcHeader;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import scala.Tuple2;
 
 public class WarcRecordTransformationTest {
 	@Test
@@ -27,7 +28,7 @@ public class WarcRecordTransformationTest {
 		headers.put("WARC-Date", "01.01.1970");
 		WarcRecord record = record(headers, "my-main-content");
 		
-		CollectionDocument actual = CreateDocumentRepresentations.transformToCollectionDocument(record);
+		CollectionDocument actual = transformToCollectionDocument(record);
 		
 		Approvals.verifyAsJson(actual);
 	}
@@ -51,7 +52,7 @@ public class WarcRecordTransformationTest {
 				"  </body>\n" + 
 				"</html>");
 		
-		CollectionDocument actual = CreateDocumentRepresentations.transformToCollectionDocument(record);
+		CollectionDocument actual = transformToCollectionDocument(record);
 		
 		Approvals.verifyAsJson(actual);
 	}
@@ -64,11 +65,16 @@ public class WarcRecordTransformationTest {
 		headers.put("WARC-date", "01.01.1970");
 		WarcRecord record = record(headers, "my-main-content");
 		
-		CollectionDocument actual = CreateDocumentRepresentations.transformToCollectionDocument(record);
+		CollectionDocument actual = transformToCollectionDocument(record);
 		
 		Approvals.verifyAsJson(actual);
 	}
 	
+	private CollectionDocument transformToCollectionDocument(WarcRecord record) {
+		Tuple2<Map<String, String>, String> ret = CreateDocumentRepresentations.transformToCollectionDocument(record);
+		return CreateDocumentRepresentations.transformToCollectionDocument(ret._1(), ret._2());
+	}
+
 	private static WarcRecord record(Map<String, String> headers, String body) {
 		WarcHeader header = Mockito.mock(WarcHeader.class);
 		Mockito.when(header.getHeaderMetadata()).thenReturn(new TreeMap<>(headers));
