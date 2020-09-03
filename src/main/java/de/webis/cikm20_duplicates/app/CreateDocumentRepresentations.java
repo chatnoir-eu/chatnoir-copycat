@@ -37,18 +37,27 @@ public class CreateDocumentRepresentations {
 		
 		try(JavaSparkContext context = context()) {
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
-			JavaRDD<Tuple2<Map<String, String>, String>> parsedRecords = records.map(i -> transformToCollectionDocument(i._2()));
-			if(parsedRecords.getNumPartitions() < 100) {
-				parsedRecords = parsedRecords.repartition(1000);
-			}
+			JavaRDD<CollectionDocument> parsedDocuments = parsedDocuments(records);
 			
-			JavaRDD<CollectionDocument> parsedDocuments = parsedRecords.filter(i -> i != null).map(i -> transformToCollectionDocument(i._1(), i._2())).filter(i -> i != null);
 			JavaRDD<DocumentWithFingerprint> fingerprints = SparkCreateSourceDocuments.fingerprintAllDocuments(null, parsedDocuments, SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
 			
 			fingerprints
 				.filter(i -> i != null)
 				.map(i -> i.toString())
 				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
+		}
+	}
+	
+	private static JavaRDD<CollectionDocument> parsedDocuments(JavaPairRDD<LongWritable, WarcRecord> records) {
+		if(records.getNumPartitions() < 100) {
+			JavaRDD<Tuple2<Map<String, String>, String>> parsedRecords = records.map(i -> transformToCollectionDocument(i._2()));
+			parsedRecords = parsedRecords.filter(i -> i!= null).repartition(1000).cache();
+			return parsedRecords.map(i -> transformToCollectionDocument(i._1(), i._2())).filter(i -> i != null);
+		} else {
+			return records.map(i -> {
+				Tuple2<Map<String, String>, String> r = transformToCollectionDocument(i._2());
+				return transformToCollectionDocument(r._1(), r._2());
+			}).filter(i -> i != null);
 		}
 	}
 	
