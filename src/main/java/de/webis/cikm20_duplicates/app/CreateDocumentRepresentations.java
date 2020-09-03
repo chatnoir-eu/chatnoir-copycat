@@ -69,7 +69,7 @@ public class CreateDocumentRepresentations {
 		return new Tuple2<>(header, contentBody);
 	}
 	
-	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, String contentBody) {
+	public static CollectionDocument transformToCollectionDocument(Map<String, String> header, String contentBody) {
 		try {
 			return transformToCollectionDocument(header, Jsoup.parse(contentBody));
 		} catch (Exception e) {
