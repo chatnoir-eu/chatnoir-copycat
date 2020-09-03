@@ -37,7 +37,8 @@ public class CreateDocumentRepresentations {
 
 		try (JavaSparkContext context = context()) {
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
-			JavaRDD<CollectionDocument> parsedDocuments = parsedDocuments(records);
+			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2())).filter(i -> i != null);
+			
 			if (parsedDocuments.getNumPartitions() < 100) {
 				parsedDocuments = parsedDocuments.repartition(1000);
 			}
@@ -50,15 +51,8 @@ public class CreateDocumentRepresentations {
 		}
 	}
 
-	private static JavaRDD<CollectionDocument> parsedDocuments(JavaPairRDD<LongWritable, WarcRecord> records) {
-		return records.map(i -> {
-			Tuple2<Map<String, String>, String> r = transformToCollectionDocument(i._2());
-			return r == null ? null : transformToCollectionDocument(r._1(), r._2());
-		}).filter(i -> i != null);
-	}
-
 	@SneakyThrows
-	public static Tuple2<Map<String, String>, String> transformToCollectionDocument(WarcRecord record) {
+	public static CollectionDocument transformToCollectionDocument(WarcRecord record) {
 		if (record == null) {
 			return null;
 		}
@@ -71,10 +65,6 @@ public class CreateDocumentRepresentations {
 			return null;
 		}
 
-		return new Tuple2<>(header, contentBody);
-	}
-
-	public static CollectionDocument transformToCollectionDocument(Map<String, String> header, String contentBody) {
 		try {
 			return transformToCollectionDocument(header, Jsoup.parse(contentBody));
 		} catch (Exception e) {

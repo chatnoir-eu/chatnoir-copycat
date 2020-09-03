@@ -70,9 +70,21 @@ public class WarcRecordTransformationTest {
 		Approvals.verifyAsJson(actual);
 	}
 	
+	@Test()
+	public void approveTransformationOfClueWebRecordWithInvalidCaseAndInvalidURL() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Trec-ID", "my-id-1");
+		headers.put("WARC-target-URI", "example.com");
+		headers.put("WARC-date", "01.01.1970");
+		WarcRecord record = record(headers, "my-main-content");
+		
+		CollectionDocument actual = transformToCollectionDocument(record);
+		
+		Assert.assertNull(actual);
+	}
+	
 	private CollectionDocument transformToCollectionDocument(WarcRecord record) {
-		Tuple2<Map<String, String>, String> ret = CreateDocumentRepresentations.transformToCollectionDocument(record);
-		return CreateDocumentRepresentations.transformToCollectionDocument(ret._1(), ret._2());
+		return CreateDocumentRepresentations.transformToCollectionDocument(record);
 	}
 
 	private static WarcRecord record(Map<String, String> headers, String body) {
