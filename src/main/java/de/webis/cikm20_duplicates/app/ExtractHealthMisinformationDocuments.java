@@ -35,7 +35,8 @@ public class ExtractHealthMisinformationDocuments {
 			Set<String> idsToKeep = idsToKeep();
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
 			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> CreateDocumentRepresentations.transformToCollectionDocument(i._2()))
-					.filter(i -> i != null);
+					.filter(i -> i != null)
+					.map(i -> fixId(i));
 			
 			parsedDocuments = parsedDocuments.filter(i -> idsToKeep.contains(i.getId()));
 
