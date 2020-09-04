@@ -3,6 +3,7 @@ package de.webis.cikm20_duplicates.app;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.jsoup.Jsoup;
 
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
@@ -34,7 +36,7 @@ public class ExtractHealthMisinformationDocuments {
 		try (JavaSparkContext context = context()) {
 			Set<String> idsToKeep = idsToKeep();
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
-			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> CreateDocumentRepresentations.transformToCollectionDocument(i._2()))
+			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2()))
 					.filter(i -> i != null)
 					.map(i -> fixId(i));
 			
@@ -44,6 +46,26 @@ public class ExtractHealthMisinformationDocuments {
 					.repartition(50)
 					.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 		}
+	}
+	
+	private static CollectionDocument transformToCollectionDocument(WarcRecord record) {
+		CollectionDocument doc = CreateDocumentRepresentations.transformToCollectionDocument(record);
+		if(doc != null) {
+			return doc;
+		}
+		
+		Map<String, String> header = CreateDocumentRepresentations.lowercasedHeaders(record);
+		String contentBody = record.getContent();
+		
+		String id = header.get("warc-trec-id");
+		if (id == null || id.isEmpty()) {
+			id = header.get("warc-record-id");
+		}
+		
+		CollectionDocument ret = CollectionDocument.collectionDocument(Jsoup.parse(contentBody).text(), id);
+		ret.setCrawlingTimestamp(header.get("warc-date"));
+		
+		return ret;
 	}
 	
 	private static JavaSparkContext context() {
