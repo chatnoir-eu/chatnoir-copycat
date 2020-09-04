@@ -46,4 +46,11 @@ public class ExtractHealthMisinformationDocumentsTest {
 		
 		Approvals.verifyAsJson(actual);
 	}
+	
+	@Test
+	public void approveCcNewsFiles() {
+		List<String> ret = ExtractHealthMisinformationDocuments.ccNewsLinks();
+		
+		Approvals.verifyAsJson(ret);
+	}
 }

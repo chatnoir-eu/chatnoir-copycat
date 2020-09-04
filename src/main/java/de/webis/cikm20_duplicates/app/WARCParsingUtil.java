@@ -14,6 +14,10 @@ public class WARCParsingUtil {
 	public static JavaPairRDD<LongWritable, WarcRecord> records(JavaSparkContext sc, Namespace parsedArgs) {
 		Class<? extends WarcInputFormat> inputFormat = ArgumentParsingUtil.InputFormats.valueOf(parsedArgs.get(ArgumentParsingUtil.ARG_FORMAT)).getInputFormat();
 		
-		return sc.newAPIHadoopFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT), inputFormat, LongWritable.class, WarcRecord.class, sc.hadoopConfiguration());
+		return records(sc, parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT), inputFormat);
+	}
+	
+	public static JavaPairRDD<LongWritable, WarcRecord> records(JavaSparkContext sc, String path, Class<? extends WarcInputFormat> inputFormat) {
+		return sc.newAPIHadoopFile(path, inputFormat, LongWritable.class, WarcRecord.class, sc.hadoopConfiguration());
 	}
 }

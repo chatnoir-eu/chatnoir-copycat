@@ -1,6 +1,8 @@
 package de.webis.cikm20_duplicates.app;
 
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,9 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.jsoup.Jsoup;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import de.webis.chatnoir2.mapfile_generator.inputformats.CommonCrawlInputFormat;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import lombok.SneakyThrows;
@@ -24,8 +29,31 @@ import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
+import scala.Tuple2;
 
 public class ExtractHealthMisinformationDocuments {
+//	public static void main(String[] args) {
+//		Namespace parsedArgs = validArgumentsOrNull(args);
+//		
+//		if(parsedArgs == null) {
+//			return;
+//		}
+//		
+//		try (JavaSparkContext context = context()) {
+//			Set<String> idsToKeep = idsToKeep();
+//			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
+//			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2()))
+//					.filter(i -> i != null)
+//					.map(i -> fixId(i));
+//			
+//			parsedDocuments = parsedDocuments.filter(i -> idsToKeep.contains(i.getId()));
+//
+//			parsedDocuments.filter(i -> i != null).map(i -> i.toString())
+//					.repartition(50)
+//					.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
+//		}
+//	}
+	
 	public static void main(String[] args) {
 		Namespace parsedArgs = validArgumentsOrNull(args);
 		
@@ -35,17 +63,28 @@ public class ExtractHealthMisinformationDocuments {
 		
 		try (JavaSparkContext context = context()) {
 			Set<String> idsToKeep = idsToKeep();
-			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
-			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2()))
-					.filter(i -> i != null)
-					.map(i -> fixId(i));
+			JavaPairRDD<String, CollectionDocument> ret = context.parallelize(new ArrayList<>()).mapToPair(i -> null);
 			
-			parsedDocuments = parsedDocuments.filter(i -> idsToKeep.contains(i.getId()));
+			for(String file: ccNewsLinks()) {
+				JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, file, CommonCrawlInputFormat.class);
+				JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2()))
+						.filter(i -> i != null)
+						.map(i -> fixId(i))
+						.filter(i -> idsToKeep.contains(i.getId()));
+				
+				ret.union(parsedDocuments.mapToPair(i -> new Tuple2<>(file, i)));
+			}
 
-			parsedDocuments.filter(i -> i != null).map(i -> i.toString())
+			ret.filter(i -> i != null)
+					.map(i -> toString(i))
 					.repartition(50)
 					.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 		}
+	}
+	
+	@SneakyThrows
+	private static String toString(Object o) {
+		return new ObjectMapper().writeValueAsString(o);
 	}
 	
 	private static CollectionDocument transformToCollectionDocument(WarcRecord record) {
@@ -113,5 +152,13 @@ public class ExtractHealthMisinformationDocuments {
 				.choices(ArgumentParsingUtil.InputFormats.allInputFormats());
 
 		return ret;
+	}
+	
+	@SneakyThrows
+	public static List<String> ccNewsLinks() {
+		InputStream is = ExtractHealthMisinformationDocuments.class.getResourceAsStream("/cc-news-buckets");
+		
+		return IOUtils.readLines(is, StandardCharsets.UTF_8).stream()
+				.map(i -> i.trim()).sorted().collect(Collectors.toList());
 	}
 }
