@@ -30,6 +30,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import scala.Tuple2;
+import scala.Tuple3;
 
 public class ExtractHealthMisinformationDocuments {
 //	public static void main(String[] args) {
@@ -63,22 +64,17 @@ public class ExtractHealthMisinformationDocuments {
 		
 		try (JavaSparkContext context = context()) {
 			Set<String> idsToKeep = idsToKeep();
-			JavaPairRDD<String, CollectionDocument> ret = context.parallelize(new ArrayList<>()).mapToPair(i -> null);
 			
-			for(String file: ccNewsLinks()) {
-				JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, file, CommonCrawlInputFormat.class);
-				JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2()))
-						.filter(i -> i != null)
-						.map(i -> fixId(i))
-						.filter(i -> idsToKeep.contains(i.getId()));
-				
-				ret.union(parsedDocuments.mapToPair(i -> new Tuple2<>(file, i)));
-			}
+			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
+			JavaRDD<Tuple2<CollectionDocument, String>> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2()))
+				.filter(i -> i != null)
+				.map(i -> new Tuple2<>(fixId(i._1()), i._2()))
+				.filter(i -> idsToKeep.contains(i._1().getId()));
 
-			ret.filter(i -> i != null)
-					.map(i -> toString(i))
-					.repartition(50)
-					.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
+			parsedDocuments.filter(i -> i != null)
+				.map(i -> toString(i))
+				.repartition(50)
+				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 		}
 	}
 	
@@ -87,10 +83,10 @@ public class ExtractHealthMisinformationDocuments {
 		return new ObjectMapper().writeValueAsString(o);
 	}
 	
-	private static CollectionDocument transformToCollectionDocument(WarcRecord record) {
+	private static Tuple2<CollectionDocument, String> transformToCollectionDocument(WarcRecord record) {
 		CollectionDocument doc = CreateDocumentRepresentations.transformToCollectionDocument(record);
 		if(doc != null) {
-			return doc;
+			return new Tuple2<>(doc, record.getRecordType());
 		}
 		
 		Map<String, String> header = CreateDocumentRepresentations.lowercasedHeaders(record);
@@ -104,7 +100,7 @@ public class ExtractHealthMisinformationDocuments {
 		CollectionDocument ret = CollectionDocument.collectionDocument(Jsoup.parse(contentBody).text(), id);
 		ret.setCrawlingTimestamp(header.get("warc-date"));
 		
-		return ret;
+		return new Tuple2<>(ret, record.getRecordType());
 	}
 	
 	private static JavaSparkContext context() {
