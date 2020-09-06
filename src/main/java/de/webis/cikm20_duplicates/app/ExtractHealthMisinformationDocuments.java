@@ -91,6 +91,10 @@ public class ExtractHealthMisinformationDocuments {
 		Map<String, String> header = CreateDocumentRepresentations.lowercasedHeaders(record);
 		String contentBody = record.getContent();
 		
+		if(!"response".equalsIgnoreCase(record.getRecordType())) {
+			return null;
+		}
+		
 		String id = header.get("warc-trec-id");
 		if (id == null || id.isEmpty()) {
 			id = header.get("warc-record-id");
