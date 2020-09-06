@@ -26,7 +26,7 @@ public class WarcRecordTransformationTest {
 		headers.put("WARC-TREC-ID", "my-id-1");
 		headers.put("WARC-Target-URI", "http://example.com");
 		headers.put("WARC-Date", "01.01.1970");
-		WarcRecord record = record(headers, "my-main-content");
+		WarcRecord record = record(headers, "my-main-content", "RESPONSE");
 		
 		CollectionDocument actual = transformToCollectionDocument(record);
 		
@@ -50,7 +50,8 @@ public class WarcRecordTransformationTest {
 				"  <body>Test 1 2 3\n" + 
 				"\n" + 
 				"  </body>\n" + 
-				"</html>");
+				"</html>",
+				"REsponse");
 		
 		CollectionDocument actual = transformToCollectionDocument(record);
 		
@@ -63,11 +64,24 @@ public class WarcRecordTransformationTest {
 		headers.put("WARC-Trec-ID", "my-id-1");
 		headers.put("WARC-target-URI", "http://example.com");
 		headers.put("WARC-date", "01.01.1970");
-		WarcRecord record = record(headers, "my-main-content");
+		WarcRecord record = record(headers, "my-main-content", "response");
 		
 		CollectionDocument actual = transformToCollectionDocument(record);
 		
 		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
+	public void approveTransformationOfClueWebRecordWithResponseTypeRequest() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Trec-ID", "my-id-1");
+		headers.put("WARC-target-URI", "http://example.com");
+		headers.put("WARC-date", "01.01.1970");
+		WarcRecord record = record(headers, "my-main-content", "request");
+		
+		CollectionDocument actual = transformToCollectionDocument(record);
+		
+		Assert.assertNull(actual);
 	}
 	
 	@Test()
@@ -76,7 +90,7 @@ public class WarcRecordTransformationTest {
 		headers.put("WARC-Trec-ID", "my-id-1");
 		headers.put("WARC-target-URI", "example.com");
 		headers.put("WARC-date", "01.01.1970");
-		WarcRecord record = record(headers, "my-main-content");
+		WarcRecord record = record(headers, "my-main-content", "resPonse");
 		
 		CollectionDocument actual = transformToCollectionDocument(record);
 		
@@ -87,13 +101,14 @@ public class WarcRecordTransformationTest {
 		return CreateDocumentRepresentations.transformToCollectionDocument(record);
 	}
 
-	private static WarcRecord record(Map<String, String> headers, String body) {
+	private static WarcRecord record(Map<String, String> headers, String body, String recordType) {
 		WarcHeader header = Mockito.mock(WarcHeader.class);
 		Mockito.when(header.getHeaderMetadata()).thenReturn(new TreeMap<>(headers));
 		
 		WarcRecord ret = Mockito.mock(WarcRecord.class);
 		Mockito.when(ret.getContent()).thenReturn(body);
 		Mockito.when(ret.getHeader()).thenReturn(header);
+		Mockito.when(ret.getRecordType()).thenReturn(recordType);
 		
 		return ret;
 	}

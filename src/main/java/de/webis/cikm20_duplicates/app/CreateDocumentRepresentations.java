@@ -59,8 +59,8 @@ public class CreateDocumentRepresentations {
 		Map<String, String> header = lowercasedHeaders(record);
 		String contentBody = record.getContent();
 
-		if (contentBody.getBytes().length > 1024 * 1024) {
-			// ignore large files
+		if (contentBody.getBytes().length > 1024 * 1024 || !"response".equalsIgnoreCase(record.getRecordType())) {
+			// ignore large files and non-responses
 			return null;
 		}
 
