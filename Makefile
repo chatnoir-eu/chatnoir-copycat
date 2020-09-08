@@ -1,4 +1,4 @@
-cc-small-sample-document-representations: install
+common-crawl-small-sample-document-representations: install
 	hdfs dfs -rm -r -f corpus-copycat/document-representations/small-sample && \
 	./src/main/bash/new-document-representation-spark.sh \
 		--inputFormat COMMON_CRAWL \
