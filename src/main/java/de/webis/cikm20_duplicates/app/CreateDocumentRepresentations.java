@@ -59,7 +59,7 @@ public class CreateDocumentRepresentations {
 		Map<String, String> header = lowercasedHeaders(record);
 		String contentBody = record.getContent();
 
-		if (contentBody.getBytes().length > 1024 * 1024 || !"response".equalsIgnoreCase(record.getRecordType())) {
+		if (contentBody.getBytes().length > 1024 * 1024 || record.getRecordType() == null || !"response".equalsIgnoreCase(record.getRecordType().trim())) {
 			// ignore large files and non-responses
 			return null;
 		}
@@ -81,7 +81,9 @@ public class CreateDocumentRepresentations {
 		String targetUri = header.get("warc-target-uri");
 
 		CollectionDocument ret = CollectionDocument.collectionDocument(doc.text(), id);
-		ret.setUrl(new URL(targetUri));
+		try {
+			ret.setUrl(new URL(targetUri));
+		} catch (Exception e) {}
 		ret.setCanonicalUrl(SparkCanonicalLinkGraphExtraction.extractCanonicalLinkOrNull(targetUri, doc));
 		ret.setCrawlingTimestamp(header.get("warc-date"));
 
