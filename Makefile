@@ -1,4 +1,4 @@
-new-doc-representation-on-small-sample: install
+cc-small-sample-document-representations: install
 	hdfs dfs -rm -r -f corpus-copycat/document-representations/small-sample && \
 	./src/main/bash/new-document-representation-spark.sh \
 		--inputFormat COMMON_CRAWL \
@@ -13,18 +13,18 @@ cc2020-16-test-web-graph: install
 		--output web-archive-analysis/cc2020-16-test
 
 clueweb09-document-representations: install
-	hdfs dfs -rm -r -f cikm2020/camera-ready/cw09
-	./src/main/bash/run-document-representation-spark-job.sh \
+	hdfs dfs -rm -r -f ecir2021/cw09
+	./src/main/bash/new-document-representation-spark.sh \
 		--inputFormat CLUEWEB09 \
 		--input s3a://corpus-clueweb09/parts/*/*/*.warc.gz \
-		--output cikm2020/camera-ready/cw09
+		--output ecir2021/cw09
 
 clueweb12-document-representations: install
-	hdfs dfs -rm -r -f cikm2020/camera-ready/cw12
+	hdfs dfs -rm -r -f ecir2021/cw12
 	./src/main/bash/run-document-representation-spark-job.sh \
 		--inputFormat CLUEWEB12 \
 		--input s3a://corpus-clueweb12/parts/*/*/*/*.warc.gz \
-		--output cikm2020/camera-ready/cw12
+		--output ecir2021/cw12
 
 common-crawl15-document-representations: install
 	hdfs dfs -rm -r -f cikm2020/camera-ready/cc15
