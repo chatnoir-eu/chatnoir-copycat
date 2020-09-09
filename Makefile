@@ -21,24 +21,36 @@ clueweb09-document-representations: install
 
 clueweb12-document-representations: install
 	hdfs dfs -rm -r -f ecir2021/cw12
-	./src/main/bash/run-document-representation-spark-job.sh \
+	./src/main/bash/new-document-representation-spark.sh \
 		--inputFormat CLUEWEB12 \
 		--input s3a://corpus-clueweb12/parts/*/*/*/*.warc.gz \
 		--output ecir2021/cw12
 
 common-crawl15-document-representations: install
-	hdfs dfs -rm -r -f cikm2020/camera-ready/cc15
-	./src/main/bash/run-document-representation-spark-job.sh \
-		--inputFormat COMMON_CRAWL \
-		--input s3a://corpus-commoncrawl-main-2015-11/*/*/*.warc.gz \
-		--output cikm2020/camera-ready/cc15
+	hdfs dfs -rm -r -f ecir2021/cc-2015-11 && \
+	./src/main/bash/cc15-document-representations.sh 0 && \
+	./src/main/bash/cc15-document-representations.sh 1 && \
+	./src/main/bash/cc15-document-representations.sh 2 && \
+	./src/main/bash/cc15-document-representations.sh 3 && \
+	./src/main/bash/cc15-document-representations.sh 4 && \
+	./src/main/bash/cc15-document-representations.sh 5 && \
+	./src/main/bash/cc15-document-representations.sh 6 && \
+	./src/main/bash/cc15-document-representations.sh 7 && \
+	./src/main/bash/cc15-document-representations.sh 8 && \
+	./src/main/bash/cc15-document-representations.sh 9
 
 common-crawl17-document-representations: install
-	hdfs dfs -rm -r -f cikm2020/camera-ready/cc17
-	./src/main/bash/run-document-representation-spark-job.sh \
-		--inputFormat COMMON_CRAWL \
-		--input s3a://corpus-commoncrawl-main-2017-04/*/*/*.warc.gz \
-		--output cikm2020/camera-ready/cc17
+	hdfs dfs -rm -r -f ecir2021/cc-2017-04 && \
+	./src/main/bash/cc17-document-representations.sh 0 && \
+	./src/main/bash/cc17-document-representations.sh 1 && \
+	./src/main/bash/cc17-document-representations.sh 2 && \
+	./src/main/bash/cc17-document-representations.sh 3 && \
+	./src/main/bash/cc17-document-representations.sh 4 && \
+	./src/main/bash/cc17-document-representations.sh 5 && \
+	./src/main/bash/cc17-document-representations.sh 6 && \
+	./src/main/bash/cc17-document-representations.sh 7 && \
+	./src/main/bash/cc17-document-representations.sh 8 && \
+	./src/main/bash/cc17-document-representations.sh 9
 
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
