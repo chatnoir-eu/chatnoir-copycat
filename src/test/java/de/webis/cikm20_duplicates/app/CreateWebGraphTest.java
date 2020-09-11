@@ -70,6 +70,11 @@ public class CreateWebGraphTest extends SharedJavaSparkContext {
 			public String getContent() {
 				return content;
 			}
+			
+			@Override
+			public String getRecordType() {
+				return "response";
+			}
 		};
 	}
 	

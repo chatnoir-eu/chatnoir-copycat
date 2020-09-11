@@ -53,12 +53,18 @@ public class CreateWebGraph {
 	}
 	
 	public static JavaRDD<String> extractWebGraph(JavaPairRDD<LongWritable, WarcRecord> records) {
-		JavaRDD<WebGraphNode> graphLinks = records.map(record -> extractWebGraphLinks(record));
+		JavaRDD<WebGraphNode> graphLinks = records
+				.map(record -> extractWebGraphLinks(record))
+				.filter(i -> i!= null);
 		
 		return graphLinks.filter(i -> i != null).map(i -> i.toString());
 	}
 
 	public static WebGraphNode extractWebGraph(WarcRecord record) {
+		if(!CreateDocumentRepresentations.isWarcResponse(record)) {
+			return null;
+		}
+		
 		WarcHeader warcHeader = record.getHeader();
 	
 		String sourceURL = warcHeader.getHeaderMetadataItem("WARC-Target-URI");
