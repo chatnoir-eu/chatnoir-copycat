@@ -19,6 +19,8 @@ class ArgumentParsingUtil {
 	public static final String ARG_INPUT = "input";
 	public static final String ARG_FORMAT = "inputFormat";
 	public static final String ARG_OUTPUT = "output";
+	public static final String ARG_PARTITIONS = "partitions";
+	
 	
 	@Getter
 	@AllArgsConstructor

@@ -1,3 +1,10 @@
+repartition: install
+	hdfs dfs -rm -r -f ecir2021/cw09-repartitioned
+	src/main/bash/repartition.sh \
+		--input ecir2021/cw09 \
+		--output ecir2021/cw09-repartitioned \
+		--partitions 10000
+
 common-crawl-small-sample-document-representations: install
 	hdfs dfs -rm -r -f corpus-copycat/document-representations/small-sample && \
 	./src/main/bash/new-document-representation-spark.sh \
