@@ -59,7 +59,7 @@ public class CreateDocumentRepresentations {
 		Map<String, String> header = lowercasedHeaders(record);
 		String contentBody = record.getContent();
 
-		if (contentBody.getBytes().length > 1024 * 1024 || record.getRecordType() == null || !"response".equalsIgnoreCase(record.getRecordType().trim())) {
+		if (contentBody.getBytes().length > 1024 * 1024 || !isWarcResponse(record)) {
 			// ignore large files and non-responses
 			return null;
 		}
@@ -69,6 +69,10 @@ public class CreateDocumentRepresentations {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public static boolean isWarcResponse(WarcRecord record) {
+		return record != null && record.getRecordType() != null && "response".equalsIgnoreCase(record.getRecordType().trim());
 	}
 
 	@SneakyThrows
