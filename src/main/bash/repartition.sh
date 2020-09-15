@@ -8,7 +8,7 @@ spark-submit \
 	--conf "spark.speculation.multiplier=5" \
 	--conf "spark.speculation.quantile=0.90" \
 	--deploy-mode cluster \
-	--class de.webis.cikm20_duplicates.spark.app.Repartition \
+	--class de.webis.cikm20_duplicates.app.Repartition \
 	--conf spark.default.parallelism=${PARALLELISM}\
 	--num-executors ${PARALLELISM}\
 	--driver-memory 40G\
