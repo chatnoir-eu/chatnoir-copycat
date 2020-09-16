@@ -1,8 +1,8 @@
 repartition: install
-	hdfs dfs -rm -r -f ecir2021/cw12-repartitioned &&
+	hdfs dfs -rm -r -f ecir2021/cc-2015-11-repartitioned && \
 	src/main/bash/repartition.sh \
-		--input ecir2021/cw12 \
-		--output ecir2021/cw12-repartitioned \
+		--input ecir2021/cc-2015-11/*/ \
+		--output ecir2021/cc-2015-11-repartitioned \
 		--partitions 10000
 
 common-crawl-small-sample-document-representations: install
@@ -33,11 +33,17 @@ clueweb09-document-representations: install
 
 
 clueweb12-document-representations: install
-	hdfs dfs -rm -r -f ecir2021/cw12
+	hdfs dfs -rm -r -f ecir2021/cw12 && \
 	./src/main/bash/new-document-representation-spark.sh \
 		--inputFormat CLUEWEB12 \
 		--input s3a://corpus-clueweb12/parts/*/*/*/*.warc.gz \
-		--output ecir2021/cw12
+		--output ecir2021/cw12 && \
+	hdfs dfs -rm -r -f ecir2021/cw12-repartitioned && \
+	src/main/bash/repartition.sh \
+		--input ecir2021/cw12 \
+		--output ecir2021/cw12-repartitioned \
+		--partitions 10000
+
 
 common-crawl15-document-representations: install
 	hdfs dfs -rm -r -f ecir2021/cc-2015-11 && \
