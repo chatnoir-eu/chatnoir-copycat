@@ -1,10 +1,3 @@
-repartition: install
-	hdfs dfs -rm -r -f ecir2021/cc-2017-04-repartitioned && \
-	src/main/bash/repartition.sh \
-		--input ecir2021/cc-2017-04/*/ \
-		--output ecir2021/cc-2017-04-repartitioned \
-		--partitions 10000
-
 common-crawl-small-sample-document-representations: install
 	hdfs dfs -rm -r -f corpus-copycat/document-representations/small-sample && \
 	./src/main/bash/new-document-representation-spark.sh \
@@ -75,7 +68,13 @@ common-crawl17-document-representations: install
 	./src/main/bash/cc17-document-representations.sh 6 && \
 	./src/main/bash/cc17-document-representations.sh 7 && \
 	./src/main/bash/cc17-document-representations.sh 8 && \
-	./src/main/bash/cc17-document-representations.sh 9
+	./src/main/bash/cc17-document-representations.sh 9 && \
+	hdfs dfs -rm -r -f ecir2021/cc-2017-04-repartitioned && \
+	src/main/bash/repartition.sh \
+		--input ecir2021/cc-2017-04/*/ \
+		--output ecir2021/cc-2017-04-repartitioned \
+		--partitions 10000
+
 
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
