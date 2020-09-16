@@ -1,8 +1,8 @@
 repartition: install
-	hdfs dfs -rm -r -f ecir2021/cc-2015-11-repartitioned && \
+	hdfs dfs -rm -r -f ecir2021/cc-2017-04-repartitioned && \
 	src/main/bash/repartition.sh \
-		--input ecir2021/cc-2015-11/*/ \
-		--output ecir2021/cc-2015-11-repartitioned \
+		--input ecir2021/cc-2017-04/*/ \
+		--output ecir2021/cc-2017-04-repartitioned \
 		--partitions 10000
 
 common-crawl-small-sample-document-representations: install
@@ -56,7 +56,13 @@ common-crawl15-document-representations: install
 	./src/main/bash/cc15-document-representations.sh 6 && \
 	./src/main/bash/cc15-document-representations.sh 7 && \
 	./src/main/bash/cc15-document-representations.sh 8 && \
-	./src/main/bash/cc15-document-representations.sh 9
+	./src/main/bash/cc15-document-representations.sh 9 && \
+	hdfs dfs -rm -r -f ecir2021/cc-2015-11-repartitioned && \
+	src/main/bash/repartition.sh \
+		--input ecir2021/cc-2015-11/*/ \
+		--output ecir2021/cc-2015-11-repartitioned \
+		--partitions 10000
+
 
 common-crawl17-document-representations: install
 	hdfs dfs -rm -r -f ecir2021/cc-2017-04 && \
