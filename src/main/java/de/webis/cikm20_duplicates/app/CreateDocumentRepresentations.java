@@ -96,6 +96,7 @@ public class CreateDocumentRepresentations {
 
 	public static Map<String, String> lowercasedHeaders(WarcRecord record) {
 		return new HashMap<>(record.getHeader().getHeaderMetadata().entrySet().stream()
+				.filter(i -> i != null && i.getKey() != null && i.getValue() != null)
 				.collect(Collectors.toMap(i -> i.getKey().trim().toLowerCase(), i -> i.getValue())));
 	}
 
