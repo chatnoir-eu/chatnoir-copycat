@@ -75,7 +75,7 @@ common-crawl17-document-representations: install
 		--output ecir2021/cc-2017-04-repartitioned \
 		--partitions 10000
 
-report-clueweb-mime-types: install
+report-mime-types: install
 	hdfs dfs -rm -r -f ecir2021/mime-types/cw09 && \
 	./src/main/bash/report-mime-types.sh \
 		--inputFormat CLUEWEB09 \
@@ -85,7 +85,17 @@ report-clueweb-mime-types: install
 	./src/main/bash/report-mime-types.sh \
 		--inputFormat CLUEWEB12 \
 		--input s3a://corpus-clueweb12/parts/*/*/*/*.warc.gz \
-		--output ecir2021/mime-types/cw12
+		--output ecir2021/mime-types/cw12 && \
+	hdfs dfs -rm -r -f ecir2021/mime-types/cc-2015-11 && \
+	./src/main/bash/report-mime-types.sh \
+		--inputFormat COMMON_CRAWL \
+		--input s3a://corpus-commoncrawl-main-2015-11/*/*/*.warc.gz \
+		--output ecir2021/mime-types/cc-2015-11 && \
+	hdfs dfs -rm -r -f ecir2021/mime-types/cc-2017-04 && \
+	./src/main/bash/report-mime-types.sh \
+		--inputFormat COMMON_CRAWL \
+		--input s3a://corpus-commoncrawl-main-2017-04/*/*/*.warc.gz  \
+		--output ecir2021/mime-types/cc-2017-04
 
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
