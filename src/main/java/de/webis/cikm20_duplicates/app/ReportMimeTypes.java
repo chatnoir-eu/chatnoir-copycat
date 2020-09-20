@@ -51,7 +51,7 @@ public class ReportMimeTypes {
 		
 		Map<String, String> ret = new LinkedHashMap<>();
 		ret.put("type", record.getRecordType().toLowerCase().trim());
-		ret.put("contentType", contentType(CreateDocumentRepresentations.lowercasedHeaders(record)));
+		ret.put("contentType", contentType(CreateDocumentRepresentations.lowercasedHeaders(record.getContentHeaders())));
 		
 		return serialize(ret);
 	}

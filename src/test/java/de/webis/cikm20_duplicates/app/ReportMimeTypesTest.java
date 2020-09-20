@@ -89,12 +89,9 @@ public class ReportMimeTypesTest extends SharedJavaSparkContext {
 		Map<String, String> headers = new HashMap<>();
 		headers.put(contentTypeName, contentType);
 
-		WarcHeader header = Mockito.mock(WarcHeader.class);
-		Mockito.when(header.getHeaderMetadata()).thenReturn(new TreeMap<>(headers));
-
 		WarcRecord ret = Mockito.mock(WarcRecord.class);
 		Mockito.when(ret.getRecordType()).thenReturn(type);
-		Mockito.when(ret.getHeader()).thenReturn(header);
+		Mockito.when(ret.getContentHeaders()).thenReturn(new TreeMap<>(headers));
 		
 		return ret;
 	}

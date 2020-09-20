@@ -75,12 +75,17 @@ common-crawl17-document-representations: install
 		--output ecir2021/cc-2017-04-repartitioned \
 		--partitions 10000
 
-report-clueweb09-mime-types: install
+report-clueweb-mime-types: install
 	hdfs dfs -rm -r -f ecir2021/mime-types/cw09 && \
 	./src/main/bash/report-mime-types.sh \
 		--inputFormat CLUEWEB09 \
 		--input s3a://corpus-clueweb09/parts/*/*/*.warc.gz \
-		--output ecir2021/mime-types/cw09
+		--output ecir2021/mime-types/cw09 && \
+	hdfs dfs -rm -r -f ecir2021/mime-types/cw12 && \
+	./src/main/bash/report-mime-types.sh \
+		--inputFormat CLUEWEB12 \
+		--input s3a://corpus-clueweb12/parts/*/*/*/*.warc.gz \
+		--output ecir2021/mime-types/cw12
 
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
