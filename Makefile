@@ -98,6 +98,7 @@ report-mime-types: install
 		--output ecir2021/mime-types/cc-2017-04
 
 arc-url-extraction: install
+	hdfs dfs -rm -r -f internet-archive/analysis-in-progress/cc-2008-urls && \
 	./src/main/bash/arc-url-extraction.sh \
 		--input s3a://corpus-commoncrawl-main-2008/*/*/*/*/*/*.arc.gz \
 		--output internet-archive/analysis-in-progress/cc-2008-urls
