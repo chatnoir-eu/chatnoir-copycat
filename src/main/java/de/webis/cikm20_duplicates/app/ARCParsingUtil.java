@@ -12,9 +12,14 @@ import org.archive.io.arc.ARCReader;
 import org.archive.io.arc.ARCRecord;
 
 import de.webis.cikm20_duplicates.app.ArcInputFormat.MyARCReaderFactory;
+import net.sourceforge.argparse4j.inf.Namespace;
 
 public class ARCParsingUtil {
 
+	public static JavaPairRDD<LongWritable, ARCRecord> records(JavaSparkContext jsc, Namespace parsedArgs) {
+		return records(jsc, parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
+	}
+	
 	public static JavaPairRDD<LongWritable, ARCRecord> records(JavaSparkContext jsc, String input) {
 		return jsc.newAPIHadoopFile(input, ArcInputFormat.class, LongWritable.class, ARCRecord.class, jsc.hadoopConfiguration());
 	}

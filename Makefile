@@ -97,6 +97,11 @@ report-mime-types: install
 		--input s3a://corpus-commoncrawl-main-2017-04/*/*/*.warc.gz  \
 		--output ecir2021/mime-types/cc-2017-04
 
+arc-url-extraction: install
+	./src/main/bash/arc-url-extraction.sh \
+		--input s3a://corpus-commoncrawl-main-2008/*/*/*/*/*/*.arc.gz \
+		--output internet-archive/analysis-in-progress/cc-2008-urls
+
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
 
