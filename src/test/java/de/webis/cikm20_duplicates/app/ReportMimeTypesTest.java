@@ -16,7 +16,6 @@ import org.mockito.Mockito;
 
 import com.holdenkarau.spark.testing.SharedJavaSparkContext;
 
-import de.webis.chatnoir2.mapfile_generator.warc.WarcHeader;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 
 public class ReportMimeTypesTest extends SharedJavaSparkContext {
