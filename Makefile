@@ -98,10 +98,16 @@ report-mime-types: install
 		--output ecir2021/mime-types/cc-2017-04
 
 arc-url-extraction: install
-	hdfs dfs -rm -r -f internet-archive/analysis-in-progress/cc-2008-urls && \
-	./src/main/bash/arc-url-extraction.sh \
-		--input s3a://corpus-commoncrawl-main-2008/*/*/*/*/*/*.arc.gz \
-		--output internet-archive/analysis-in-progress/cc-2008-urls
+	./src/main/bash/part-arc-url-extraction.sh 0 && \
+	./src/main/bash/part-arc-url-extraction.sh 1 && \
+	./src/main/bash/part-arc-url-extraction.sh 2 && \
+	./src/main/bash/part-arc-url-extraction.sh 3 && \
+	./src/main/bash/part-arc-url-extraction.sh 4 && \
+	./src/main/bash/part-arc-url-extraction.sh 5 && \
+	./src/main/bash/part-arc-url-extraction.sh 6 && \
+	./src/main/bash/part-arc-url-extraction.sh 7 && \
+	./src/main/bash/part-arc-url-extraction.sh 8 && \
+	./src/main/bash/part-arc-url-extraction.sh 9
 
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh

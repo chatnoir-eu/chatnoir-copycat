@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-PARALLELISM=500
+PARALLELISM=50
 export HADOOP_CONF_DIR=/home/kibi9872/web-search-cikm2020-resource-paper-code/hadoop-conf
 export SPARK_HOME=/home/kibi9872/web-search-cikm2020-resource-paper-code/local-spark
 
@@ -9,7 +9,7 @@ export SPARK_HOME=/home/kibi9872/web-search-cikm2020-resource-paper-code/local-s
         --conf "spark.speculation.interval=5000ms" \
         --conf "spark.speculation.multiplier=5" \
         --conf "spark.speculation.quantile=0.90" \
-        --conf "spark.dynamicAllocation.maxExecutors=1500" \
+        --conf "spark.dynamicAllocation.maxExecutors=100" \
         --deploy-mode cluster \
         --class de.webis.cikm20_duplicates.app.ArcUrlExtraction \
         --conf spark.default.parallelism=${PARALLELISM}\
