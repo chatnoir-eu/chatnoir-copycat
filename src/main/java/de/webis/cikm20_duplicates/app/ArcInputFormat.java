@@ -88,23 +88,28 @@ public class ArcInputFormat extends FileInputFormat<LongWritable, ARCRecord> {
 
 		@Override
 		public boolean nextKeyValue() throws IOException, InterruptedException {
-			if (!iter.hasNext()) {
-				key = null;
-				value = null;
-
-				return false;
-			} else {
-				value = (ARCRecord) iter.next();
-
-				if (value != null) {
-					if (key == null) {
-						key = new LongWritable();
+			try {
+				if (!iter.hasNext()) {
+					key = null;
+					value = null;
+	
+					return false;
+				} else {
+					value = (ARCRecord) iter.next();
+	
+					if (value != null) {
+						if (key == null) {
+							key = new LongWritable();
+						}
+						key.set(value.getPosition());
 					}
-					key.set(value.getPosition());
+	
+					return true;
+	
 				}
-
-				return true;
-
+			} catch (Exception e) {
+				//FIXME: Remove this: use proper handling
+				return false;
 			}
 		}
 	}
