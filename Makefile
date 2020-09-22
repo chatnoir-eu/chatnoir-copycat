@@ -200,8 +200,13 @@ deduplicate: install
 deduplication-task-sizes: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeDeduplicationTaskSizes
 
-create-candidates: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates
+create-deduplication-candidates-cw09: install
+	src/main/bash/create-deduplication-candidates.sh \
+		--input ecir2021/cw09-repartitioned/ \
+		--output ecir2021/cw09-deduplication/
+
+#create-candidates: install
+#	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates
 
 create-url-candidates: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateCanonicalLinkDeduplicationTasks
