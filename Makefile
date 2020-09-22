@@ -24,7 +24,6 @@ clueweb09-document-representations: install
 		--output ecir2021/cw09-repartitioned \
 		--partitions 10000
 
-
 clueweb12-document-representations: install
 	hdfs dfs -rm -r -f ecir2021/cw12 && \
 	./src/main/bash/new-document-representation-spark.sh \
@@ -36,7 +35,6 @@ clueweb12-document-representations: install
 		--input ecir2021/cw12 \
 		--output ecir2021/cw12-repartitioned \
 		--partitions 10000
-
 
 common-crawl15-document-representations: install
 	hdfs dfs -rm -r -f ecir2021/cc-2015-11 && \
@@ -55,7 +53,6 @@ common-crawl15-document-representations: install
 		--input ecir2021/cc-2015-11/*/ \
 		--output ecir2021/cc-2015-11-repartitioned \
 		--partitions 10000
-
 
 common-crawl17-document-representations: install
 	hdfs dfs -rm -r -f ecir2021/cc-2017-04 && \
@@ -194,8 +191,10 @@ combine-intermediate-results: install
 	hdfs dfs -rm -r -f cikm2020/results/test-01 && \
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCombineIntermediateResults
 
-deduplicate: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkDeduplicateCandidates
+deduplicate-cw09: install
+	src/main/bash/deduplicate.sh \
+		--input ecir2021/cw09-deduplication/near-duplicate-tasks \
+		--output ecir2021/cw09-deduplication/near-duplicates
 
 deduplication-task-sizes: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeDeduplicationTaskSizes
@@ -204,9 +203,6 @@ create-deduplication-candidates-cw09: install
 	src/main/bash/create-deduplication-candidates.sh \
 		--input ecir2021/cw09-repartitioned/ \
 		--output ecir2021/cw09-deduplication/
-
-#create-candidates: install
-#	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates
 
 create-url-candidates: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateCanonicalLinkDeduplicationTasks
@@ -229,4 +225,3 @@ label-data-maik:
 canonical-edges.pdf: src/main/python/plot.py
 	python3 src/main/python/plot.py
 
-plots: canonical-edges.pdf

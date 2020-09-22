@@ -43,11 +43,15 @@ public class SparkDeduplicateCandidates {
 		String corpus = "cw12";
 		
 		try (JavaSparkContext context = context()) {
-			context.textFile("cikm2020/deduplication-final/64BitK3SimHashOneGramms-canonical-urls/" + corpus + "-near-duplicate-tasks")
-				.map(i-> DeduplicationTask.fromString(i))
-				.flatMap(i -> ClientLocalDeduplication.fullDeduplication(i.getEntries()).iterator())
+			JavaRDD<String> input = context.textFile("cikm2020/deduplication-final/64BitK3SimHashOneGramms-canonical-urls/" + corpus + "-near-duplicate-tasks");
+			deduplicateCandidates(input)				
 				.saveAsTextFile("cikm2020/deduplication-final/64BitK3SimHashOneGramms-canonical-urls/" + corpus + "-near-duplicates");
 		}
+	}
+	
+	public static JavaRDD<String> deduplicateCandidates(JavaRDD<String> input) {
+		return input.map(i-> DeduplicationTask.fromString(i))
+				.flatMap(i -> ClientLocalDeduplication.fullDeduplication(i.getEntries()).iterator());
 	}
 	
 //	public static void main(String[] args) {
