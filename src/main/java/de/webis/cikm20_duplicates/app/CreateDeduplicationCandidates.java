@@ -61,7 +61,7 @@ public class CreateDeduplicationCandidates {
 				.addHelp(Boolean.TRUE).build();
 
 		ret.addArgument("-i", "--" + ArgumentParsingUtil.ARG_INPUT).required(Boolean.TRUE).help(
-				"The input path that is passed to JavaSparkContext.hadoopFile to extract Documents from warc files. E.g. 's3a://corpus-clueweb09'.");
+				"The input path that contains all document representations (created with `./src/main/bash/new-document-representation-spark.sh`) that should be considered. (E.g.: hdfs://user/kibi9872/ecir2021/cw09-repartitioned.)");
 
 		ret.addArgument("-o", "--" + ArgumentParsingUtil.ARG_OUTPUT).required(Boolean.TRUE)
 				.help("The resulting document representations are stored under this location.");
