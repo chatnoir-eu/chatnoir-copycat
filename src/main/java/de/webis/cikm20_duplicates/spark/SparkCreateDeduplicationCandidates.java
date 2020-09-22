@@ -401,5 +401,9 @@ public class SparkCreateDeduplicationCandidates {
 		
 		return "{\"equivalentDocuments\": "+ new ObjectMapper().writeValueAsString(ret) +",\"hash\":"+ i._1() +"}";
 	}
+
+	public static JavaRDD<String> removedDocuments(JavaRDD<String> input) {
+		return input.filter(i -> false);
+	}
 	
 }
