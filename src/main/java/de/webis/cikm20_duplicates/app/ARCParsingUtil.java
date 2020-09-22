@@ -2,13 +2,14 @@ package de.webis.cikm20_duplicates.app;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.archive.io.arc.ARCReader;
+import org.archive.io.ArchiveRecord;
 import org.archive.io.arc.ARCRecord;
 
 import de.webis.cikm20_duplicates.app.ArcInputFormat.MyARCReaderFactory;
@@ -44,10 +45,10 @@ public class ARCParsingUtil {
 	}
 
 	public static List<String> extractAllURLs(String file, InputStream is) {
-		ARCReader reader = MyARCReaderFactory.get(new org.apache.hadoop.fs.Path(file), is);
+		Iterator<ArchiveRecord> reader = MyARCReaderFactory.getIteratorOrEmptyIterator(new org.apache.hadoop.fs.Path(file), is);
 		List<String> ret = new ArrayList<>();
 		
-		reader.forEach(i -> ret.add(extractURL((ARCRecord) i)));
+		reader.forEachRemaining(i -> ret.add(extractURL((ARCRecord) i)));
 		
 		return ret;
 	}
