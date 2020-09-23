@@ -204,6 +204,26 @@ create-deduplication-candidates-cw09: install
 		--input ecir2021/cw09-repartitioned/ \
 		--output ecir2021/cw09-deduplication/
 
+create-deduplication-candidates-cw12: install
+	src/main/bash/create-deduplication-candidates.sh \
+		--input ecir2021/cw12-repartitioned/ \
+		--output ecir2021/cw12-deduplication/
+
+create-deduplication-candidates-cc15: install
+	src/main/bash/create-deduplication-candidates.sh \
+		--input ecir2021/cc-2015-11-repartitioned/ \
+		--output ecir2021/cc-2015-11-deduplication/
+
+create-deduplication-candidates-cw09-cw12-cc15: install
+	src/main/bash/create-deduplication-candidates.sh \
+		--input ecir2021/{cw09,cw12,cc-2015-11}-repartitioned/ \
+		--output ecir2021/cw09-cw12-cc15-deduplication/
+
+create-deduplication-candidates-cc17: install
+	src/main/bash/create-deduplication-candidates.sh \
+		--input ecir2021/cc-2017-04-repartitioned/ \
+		--output ecir2021/cc-2017-04-deduplication/
+
 create-url-candidates: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateCanonicalLinkDeduplicationTasks
 
