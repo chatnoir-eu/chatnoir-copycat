@@ -215,6 +215,7 @@ create-deduplication-candidates-cc15: install
 		--output ecir2021/cc-2015-11-deduplication/
 
 create-deduplication-candidates-cw09-cw12-cc15: install
+	hdfs dfs -rm -r -f ecir2021/cw09-cw12-cc15-deduplication &&\
 	src/main/bash/create-deduplication-candidates.sh \
 		--input ecir2021/{cw09,cw12,cc-2015-11}-repartitioned/ \
 		--output ecir2021/cw09-cw12-cc15-deduplication/

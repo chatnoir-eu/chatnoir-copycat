@@ -12,7 +12,7 @@ spark-submit \
 	--conf spark.default.parallelism=${PARALLELISM}\
 	--num-executors ${PARALLELISM}\
 	--executor-cores 5 \
-	--executor-memory 15G\
-	--driver-memory 15G\
+	--executor-memory 25G\
+	--driver-memory 25G\
 	target/cikm20-duplicates-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}
 
