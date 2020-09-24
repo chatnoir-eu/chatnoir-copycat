@@ -26,4 +26,5 @@ ToDo: Easy to use examples: I only have git + docker, and then I can run the fol
    - After the creation of the deduplication jobs, run `./src/main/bash/deduplicate.sh` to produce the pairs of near-duplicates.
    - The following commands produce the document-representations used in the paper:
      - `make deduplicate-cw09`
+     - `make deduplicate-cw09-cw12-cc15`
 

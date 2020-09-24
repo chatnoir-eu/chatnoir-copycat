@@ -196,6 +196,11 @@ deduplicate-cw09: install
 		--input ecir2021/cw09-deduplication/near-duplicate-tasks \
 		--output ecir2021/cw09-deduplication/near-duplicates
 
+deduplicate-cw09-cw12-cc15: install
+	src/main/bash/deduplicate.sh \
+		--input ecir2021/cw09-cw12-cc15-deduplication/near-duplicate-tasks \
+		--output ecir2021/cw09-cw12-cc15-deduplication/near-duplicates
+
 deduplication-task-sizes: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeDeduplicationTaskSizes
 
