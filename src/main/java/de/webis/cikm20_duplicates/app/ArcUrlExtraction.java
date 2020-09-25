@@ -23,7 +23,7 @@ public class ArcUrlExtraction {
 
 		try (JavaSparkContext context = context()) {
 			JavaPairRDD<LongWritable, ARCRecord> records = ARCParsingUtil.records(context, parsedArgs);
-			JavaRDD<String> urls = records.map(i -> ARCParsingUtil.extractURL(i._2())).filter(i -> i != null);
+			JavaRDD<String> urls = records.map(i -> ARCParsingUtil.reportSomeParsingMetaData(i._2())).filter(i -> i != null);
 
 			urls.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT));
 		}

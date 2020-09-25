@@ -23,11 +23,30 @@ public class ArcParsingTest extends SharedJavaSparkContext {
 	}
 
 	@Test
+	public void approveParsedHtmlMessagesWithin2008SampleArcFile() {
+		String input = "src/test/resources/data/cc-arc-sample/small-sample-1213893279526_0.arc";
+		JavaPairRDD<LongWritable, ARCRecord> records = ARCParsingUtil.records(jsc(), input);
+		List<String> actual = records.map(i -> ARCParsingUtil.reportSomeParsingMetaData(i._2())).collect();
+
+		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
 	public void approveUrlsWithin2009SampleArcFile() {
 		String input = "src/test/resources/data/cc-arc-sample/small-sample-1253240302521_8.arc";
 
 		JavaPairRDD<LongWritable, ARCRecord> records = ARCParsingUtil.records(jsc(), input);
 		List<String> actual = records.map(i -> ARCParsingUtil.extractURL(i._2())).collect();
+
+		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
+	public void approveParsedHtmlMessagesWithin2009SampleArcFile() {
+		String input = "src/test/resources/data/cc-arc-sample/small-sample-1253240302521_8.arc";
+
+		JavaPairRDD<LongWritable, ARCRecord> records = ARCParsingUtil.records(jsc(), input);
+		List<String> actual = records.map(i -> ARCParsingUtil.reportSomeParsingMetaData(i._2())).collect();
 
 		Approvals.verifyAsJson(actual);
 	}
