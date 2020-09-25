@@ -6,6 +6,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates;
+import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationDocumentFilter;
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationStrategy;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -23,11 +24,12 @@ public class CreateDeduplicationCandidates {
 
 		try (JavaSparkContext context = context()) {
 			DeduplicationStrategy deduplicationStrategy = DeduplicationStrategy.productionDeduplication(50000);
-			String output = parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT) +"/";
-			
+			deduplicationStrategy.setDocFilter(new DeduplicationDocumentFilter(parsedArgs.getInt(ArgumentParsingUtil.ARG_MINIMUM_DOCUMENT_LENGTH)));
+			String output = output(parsedArgs, deduplicationStrategy);
+
 			JavaRDD<String> input = context.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
 			
-			SparkCreateDeduplicationCandidates.removedDocuments(input)
+			SparkCreateDeduplicationCandidates.removedDocuments(input, deduplicationStrategy)
 				.saveAsTextFile(output + "removed-documents", BZip2Codec.class);
 			
 			SparkCreateDeduplicationCandidates.exactDuplicates(input, deduplicationStrategy)
@@ -36,6 +38,15 @@ public class CreateDeduplicationCandidates {
 			SparkCreateDeduplicationCandidates.createDeduplicationtasks(input, deduplicationStrategy)
 				.saveAsTextFile(output + "near-duplicate-tasks", BZip2Codec.class);
 		}
+	}
+	
+	private static String output(Namespace parsedArgs, DeduplicationStrategy deduplicationStrategy) {
+		String prefix = "";
+		if(deduplicationStrategy.getDocFilter().getMinimumLength() > 0) {
+			prefix = "min-length-" + deduplicationStrategy.getDocFilter().getMinimumLength() +"-";
+		}
+		
+		return parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT) +"/" + prefix;
 	}
 
 	private static JavaSparkContext context() {
@@ -65,6 +76,10 @@ public class CreateDeduplicationCandidates {
 
 		ret.addArgument("-o", "--" + ArgumentParsingUtil.ARG_OUTPUT).required(Boolean.TRUE)
 				.help("The resulting document representations are stored under this location.");
+
+		ret.addArgument("--" + ArgumentParsingUtil.ARG_MINIMUM_DOCUMENT_LENGTH).required(Boolean.TRUE)
+				.type(Integer.class)
+				.help("The minimum document length in terms: documents with fewer terms are removed and stored in removed-documents.");
 
 		return ret;
 	}

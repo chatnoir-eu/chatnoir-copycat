@@ -14,5 +14,6 @@ public class ArgumentParsingUtil {
 	public static final String ARG_FORMAT = "inputFormat";
 	public static final String ARG_OUTPUT = "output";
 	public static final String ARG_PARTITIONS = "partitions";
+	public static final String ARG_MINIMUM_DOCUMENT_LENGTH = "minimumDocumentLength";
 	public static final List<String> ALL_INPUT_FORMATS = Collections.unmodifiableList(InputFormats.allInputFormats());
 }

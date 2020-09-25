@@ -37,6 +37,7 @@ import io.anserini.collection.ClueWeb09Collection.Document;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import scala.Tuple2;
 
@@ -163,6 +164,7 @@ public class SparkCreateDeduplicationCandidates {
 	private static JavaPairRDD<Integer, DeduplicationUnit> hashPartitionToDocument(JavaRDD<String> docsWithFingerprint, DeduplicationStrategy f) {
 		return docsWithFingerprint
 				.map(i -> DocumentWithFingerprint.fromString(i))
+				.filter(i -> f.getDocFilter().keepDocument(i))
 				.flatMapToPair(doc -> extractHashesToDocId(doc, f))
 				.repartitionAndSortWithinPartitions(f.getPartitioner());
 	}
@@ -288,6 +290,9 @@ public class SparkCreateDeduplicationCandidates {
 
 	@SuppressWarnings("serial")
 	public static abstract class DeduplicationStrategy implements Serializable {
+		@Setter
+		private DeduplicationDocumentFilter docFilter;
+		
 		public final List<Integer> extract(DocumentWithFingerprint doc) {
 			return doc.getFingerprints().get(name());
 		}
@@ -317,6 +322,14 @@ public class SparkCreateDeduplicationCandidates {
 				}
 			};
 		}
+		
+		public DeduplicationDocumentFilter getDocFilter() {
+			if(docFilter == null) {
+				return new DeduplicationDocumentFilter(-1);
+			} else {
+				return docFilter;
+			}
+		}
 
 		public static DeduplicationStrategy productionDeduplication(int numPartitions) {
 			return new DeduplicationStrategy() {
@@ -344,6 +357,18 @@ public class SparkCreateDeduplicationCandidates {
 					return numPartitions;
 				}
 			};
+		}
+	}
+	
+	@Data
+	@SuppressWarnings("serial")
+	public static class DeduplicationDocumentFilter implements Serializable {
+		private final int minimumLength;
+		
+		public boolean keepDocument(DocumentWithFingerprint doc) {
+			return doc != null
+					&& minimumLength <= doc.getDocumentLengthInWords()
+					&& minimumLength <= doc.getDocumentLengthInWordsWithoutStopWords();
 		}
 	}
 	
@@ -381,6 +406,7 @@ public class SparkCreateDeduplicationCandidates {
 
 	public static JavaRDD<String> exactDuplicates(JavaRDD<String> input, DeduplicationStrategy dedupStrategy) {
 		JavaPairRDD<String, String> tmp = input.map(i -> DocumentWithFingerprint.fromString(i))
+				.filter(i -> dedupStrategy.getDocFilter().keepDocument(i))
 				.mapToPair(i -> new Tuple2<String, String>(dedupStrategy.extract(i).toString(), i.getDocId()))
 				.repartitionAndSortWithinPartitions(dedupStrategy.getStringPartitioner());
 	
@@ -402,8 +428,13 @@ public class SparkCreateDeduplicationCandidates {
 		return "{\"equivalentDocuments\": "+ new ObjectMapper().writeValueAsString(ret) +",\"hash\":"+ i._1() +"}";
 	}
 
-	public static JavaRDD<String> removedDocuments(JavaRDD<String> input) {
-		return input.filter(i -> false);
+	public static JavaRDD<String> removedDocuments(JavaRDD<String> input, DeduplicationStrategy dedupStrategy) {
+		DeduplicationDocumentFilter docFilter = dedupStrategy.getDocFilter();
+
+		return input
+				.map(i -> DocumentWithFingerprint.fromString(i))
+				.filter(i -> !docFilter.keepDocument(i))
+				.map(i -> i.toString());
 	}
 	
 }
