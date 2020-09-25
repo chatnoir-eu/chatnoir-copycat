@@ -1,4 +1,4 @@
-package de.webis.cikm20_duplicates.app;
+package de.webis.cikm20_duplicates.util.arc;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,7 +12,8 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.archive.io.ArchiveRecord;
 import org.archive.io.arc.ARCRecord;
 
-import de.webis.cikm20_duplicates.app.ArcInputFormat.MyARCReaderFactory;
+import de.webis.cikm20_duplicates.app.ArgumentParsingUtil;
+import de.webis.cikm20_duplicates.util.arc.ArcInputFormat.MyARCReaderFactory;
 import net.sourceforge.argparse4j.inf.Namespace;
 
 public class ARCParsingUtil {

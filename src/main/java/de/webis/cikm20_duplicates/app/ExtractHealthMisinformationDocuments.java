@@ -21,6 +21,7 @@ import org.jsoup.Jsoup;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
+import de.webis.cikm20_duplicates.util.warc.WARCParsingUtil;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import lombok.SneakyThrows;
 import net.sourceforge.argparse4j.ArgumentParsers;
@@ -148,7 +149,7 @@ public class ExtractHealthMisinformationDocuments {
 				.help("The resulting document representations are stored under this location.");
 
 		ret.addArgument("-f", "--" + ArgumentParsingUtil.ARG_FORMAT).required(Boolean.TRUE)
-				.choices(ArgumentParsingUtil.InputFormats.allInputFormats());
+				.choices(ArgumentParsingUtil.ALL_INPUT_FORMATS);
 
 		return ret;
 	}

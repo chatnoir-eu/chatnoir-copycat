@@ -1,4 +1,4 @@
-package de.webis.cikm20_duplicates.app;
+package de.webis.cikm20_duplicates.util.arc;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,8 +20,6 @@ import org.archive.io.ArchiveRecord;
 import org.archive.io.arc.ARCReader;
 import org.archive.io.arc.ARCReaderFactory;
 import org.archive.io.arc.ARCRecord;
-
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 
 import lombok.SneakyThrows;
 

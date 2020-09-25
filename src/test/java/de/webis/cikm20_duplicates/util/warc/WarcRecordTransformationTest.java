@@ -1,4 +1,4 @@
-package de.webis.cikm20_duplicates.app;
+package de.webis.cikm20_duplicates.util.warc;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 import de.webis.chatnoir2.mapfile_generator.warc.WarcHeader;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
+import de.webis.cikm20_duplicates.app.CreateDocumentRepresentations;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 
 public class WarcRecordTransformationTest {

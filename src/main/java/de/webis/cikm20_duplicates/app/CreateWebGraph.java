@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.webis.chatnoir2.mapfile_generator.warc.WarcHeader;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
+import de.webis.cikm20_duplicates.util.warc.WARCParsingUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -151,7 +152,7 @@ public class CreateWebGraph {
 
 		ret.addArgument("-f", "--" + ArgumentParsingUtil.ARG_FORMAT)
 			.required(Boolean.TRUE)
-			.choices(ArgumentParsingUtil.InputFormats.allInputFormats());
+			.choices(ArgumentParsingUtil.ALL_INPUT_FORMATS);
 		
 		return ret;
 	}

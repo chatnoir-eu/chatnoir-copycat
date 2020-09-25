@@ -1,4 +1,4 @@
-package de.webis.cikm20_duplicates.app;
+package de.webis.cikm20_duplicates.util.arc;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import org.archive.io.arc.ARCRecord;
 import org.junit.Test;
 
 import com.holdenkarau.spark.testing.SharedJavaSparkContext;
+
+import de.webis.cikm20_duplicates.util.arc.ARCParsingUtil;
 
 public class ArcParsingTest extends SharedJavaSparkContext {
 	@Test
