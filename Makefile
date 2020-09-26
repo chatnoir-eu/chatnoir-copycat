@@ -193,13 +193,28 @@ combine-intermediate-results: install
 
 deduplicate-cw09: install
 	src/main/bash/deduplicate.sh \
-		--input ecir2021/cw09-deduplication/near-duplicate-tasks \
-		--output ecir2021/cw09-deduplication/near-duplicates
+		--input ecir2021/cw09-deduplication/min-length-10-near-duplicate-tasks \
+		--output ecir2021/cw09-deduplication/min-length-10-near-duplicates
+
+deduplicate-cw12: install
+	src/main/bash/deduplicate.sh \
+		--input ecir2021/cw12-deduplication/min-length-10-near-duplicate-tasks \
+		--output ecir2021/cw12-deduplication/min-length-10-near-duplicates
 
 deduplicate-cw09-cw12-cc15: install
 	src/main/bash/deduplicate.sh \
-		--input ecir2021/cw09-cw12-cc15-deduplication/near-duplicate-tasks \
-		--output ecir2021/cw09-cw12-cc15-deduplication/near-duplicates
+		--input ecir2021/cw09-cw12-cc15-deduplication/min-length-10-near-duplicate-tasks \
+		--output ecir2021/cw09-cw12-cc15-deduplication/min-length-10-near-duplicates
+
+deduplicate-cc15: install
+	src/main/bash/deduplicate.sh \
+		--input ecir2021/cc-2015-11-deduplication/min-length-10-near-duplicate-tasks \
+		--output ecir2021/cc-2015-11-deduplication/min-length-10-near-duplicates
+
+deduplicate-cc17: install
+	src/main/bash/deduplicate.sh \
+		--input ecir2021/cc-2017-04-deduplication/min-length-10-near-duplicate-tasks \
+		--output ecir2021/cc-2017-04-deduplication/min-length-10-near-duplicates
 
 deduplication-task-sizes: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeDeduplicationTaskSizes
