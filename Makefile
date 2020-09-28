@@ -24,6 +24,13 @@ clueweb09-document-representations: install
 		--output ecir2021/cw09-repartitioned \
 		--partitions 10000
 
+clueweb09-main-content-document-representations: install
+	hdfs dfs -rm -r -f ecir2021/cw09 && \
+	./src/main/bash/new-document-representation-spark.sh \
+		--inputFormat CLUEWEB09 \
+		--input s3a://corpus-clueweb09/parts/*/*/*.warc.gz \
+		--output ecir2021/cw09-main-content-extraction
+
 clueweb12-document-representations: install
 	hdfs dfs -rm -r -f ecir2021/cw12 && \
 	./src/main/bash/new-document-representation-spark.sh \

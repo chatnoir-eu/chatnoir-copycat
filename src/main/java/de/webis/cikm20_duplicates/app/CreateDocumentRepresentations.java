@@ -56,8 +56,15 @@ public class CreateDocumentRepresentations {
 	}
 	
 	static DocumentToTextTransformation transformation(Namespace parsedArgs) {
-		//FIXME
-		throw new RuntimeException("FIXME: implement and test this...");
+		if(parsedArgs == null) {
+			throw new RuntimeException("Can not handle null");
+		}
+		
+		if(Boolean.TRUE.equals(parsedArgs.getBoolean("mainContentExtraction"))) {
+			return DocumentToTextTransformation.MAIN_CONTENT_EXTRACTION;
+		}
+		
+		return null;
 	}
 
 	@SneakyThrows
@@ -92,12 +99,6 @@ public class CreateDocumentRepresentations {
 	@SuppressWarnings("serial")
 	public static interface DocumentToTextTransformation extends Serializable {
 		public String transform(Document doc);
-		public static final LangDetector LANG_DETECTOR = langDetector();
-		
-		@SneakyThrows
-		static LangDetector langDetector() {
-			return new LangDetector();
-		}
 		
 		public static final DocumentToTextTransformation DEFAULT = new DocumentToTextTransformation() {
 			@Override
@@ -106,22 +107,31 @@ public class CreateDocumentRepresentations {
 			}
 		};
 		
-		public static final DocumentToTextTransformation MAIN_CONTENT_EXTRACTION = new DocumentToTextTransformation() {
-			
-			@Override
-			@SneakyThrows
-			public String transform(Document doc) {
-				String html = doc.toString();
-				String lang = LANG_DETECTOR.detect(html);
+		public static final DocumentToTextTransformation MAIN_CONTENT_EXTRACTION = new MainContentDocumentToTextTransformation();
+	}
+	
+	@SuppressWarnings("serial")
+	static class MainContentDocumentToTextTransformation implements DocumentToTextTransformation {
+		private static final LangDetector LANG_DETECTOR = langDetector();
+		
+		@SneakyThrows
+		static LangDetector langDetector() {
+			return new LangDetector();
+		}
+		
+		@Override
+		@SneakyThrows
+		public String transform(Document doc) {
+			String html = doc.toString();
+			String lang = LANG_DETECTOR.detect(html);
 
-	            if (lang != null && lang.equalsIgnoreCase("en")) {
-	                return ContentExtractor.extract(html, "en");
-	            } else {
-	                return ContentExtractor.extract(html, lang, "en");
-	            }
+            if (lang != null && lang.equalsIgnoreCase("en")) {
+                return ContentExtractor.extract(html, "en");
+            } else {
+                return ContentExtractor.extract(html, lang, "en");
+            }
 
-			}
-		};
+		}
 	}
 
 	@SneakyThrows
@@ -183,6 +193,11 @@ public class CreateDocumentRepresentations {
 
 		ret.addArgument("-f", "--" + ArgumentParsingUtil.ARG_FORMAT).required(Boolean.TRUE)
 				.choices(ArgumentParsingUtil.ALL_INPUT_FORMATS);
+		
+		ret.addArgument("--mainContentExtraction").required(Boolean.FALSE)
+				.type(Boolean.class)
+				.setDefault(false)
+				.help("Use main-content-extraction?");
 
 		return ret;
 	}
