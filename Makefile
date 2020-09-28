@@ -217,6 +217,7 @@ deduplicate-cc17: install
 		--output ecir2021/cc-2017-04-deduplication/min-length-10-near-duplicates
 
 sample-near-duplicates-cc17: install
+	hdfs dfs -rm -r -f ecir2021/cc-2017-04-deduplication/sample-near-duplicates-min-length-10.jsonl && \
 	src/main/bash/sample-near-duplicates.sh \
 		--input ecir2021/cc-2017-04-deduplication/min-length-10 \
 		--num 200 \
