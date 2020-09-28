@@ -7,14 +7,12 @@ import org.apache.spark.api.java.JavaRDD;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 /**
  * 
  * @author Maik Fröbe
  *
  */
-public class SparkCreateDuplicationCandidatesFromFingerprintsIntegrationTest extends SharedJavaSparkContext {
+public class SparkCreateDuplicationCandidatesFromFingerprintsIntegrationTest extends SparkIntegrationTestBase {
 	
 	@Test
 	public void testEmptyInput() {

@@ -14,11 +14,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 
-public class ReportMimeTypesTest extends SharedJavaSparkContext {
+public class ReportMimeTypesTest extends SparkIntegrationTestBase {
+
 	@Test
 	public void testWarcRecordWithMissingContentType() {
 		WarcRecord record = r("RESPONSE", "CONTENTss-TYPE", null);

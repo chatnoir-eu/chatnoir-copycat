@@ -11,13 +11,12 @@ import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.app.CreateWebGraph.WebGraphAnchor;
 import de.webis.cikm20_duplicates.app.CreateWebGraph.WebGraphNode;
 import de.webis.cikm20_duplicates.app.WebGraphToGraphX.GraphxWebNode;
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 
-public class WebGraphToGraphXTest extends SharedJavaSparkContext {
+public class WebGraphToGraphXTest extends SparkIntegrationTestBase {
 	@Test
 	public void approveFiles() {
 		List<String> actual = WebGraphToGraphX.nodesParts();

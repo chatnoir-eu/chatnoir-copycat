@@ -12,11 +12,9 @@ import org.apache.spark.api.java.JavaRDD;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import scala.Tuple2;
 
-public class SparkCanonicalLinkGraphExtractionIntegrationTest extends SharedJavaSparkContext {
+public class SparkCanonicalLinkGraphExtractionIntegrationTest extends SparkIntegrationTestBase {
 
 	@Test
 	public void checkEmptyDocuments() {

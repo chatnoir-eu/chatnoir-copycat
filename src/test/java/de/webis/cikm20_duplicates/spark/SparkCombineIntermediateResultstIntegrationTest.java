@@ -7,9 +7,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
-public class SparkCombineIntermediateResultstIntegrationTest extends SharedJavaSparkContext {
+public class SparkCombineIntermediateResultstIntegrationTest extends SparkIntegrationTestBase {
 
 	@Test(expected = Exception.class)
 	public void testCheckExceptionIsThrownForMissingFirstId() {

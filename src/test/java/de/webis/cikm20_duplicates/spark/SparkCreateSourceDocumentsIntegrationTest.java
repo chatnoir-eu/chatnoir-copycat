@@ -11,8 +11,6 @@ import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.util.SourceDocuments.CollectionDocumentWithTopics;
 import de.webis.trec_ndd.trec_collections.AnseriniCollectionReader;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
@@ -23,7 +21,7 @@ import io.anserini.collection.ClueWeb09Collection.Document;
  * @author Maik Fröbe
  *
  */
-public class SparkCreateSourceDocumentsIntegrationTest extends SharedJavaSparkContext {
+public class SparkCreateSourceDocumentsIntegrationTest extends SparkIntegrationTestBase {
 	@Test
 	public void testWithEmptyDocuments() {
 		AnseriniCollectionReader<Document> acr = new DummyAnseriniCollectionReader();

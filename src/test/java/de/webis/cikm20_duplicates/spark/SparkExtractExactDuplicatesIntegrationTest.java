@@ -9,11 +9,9 @@ import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationStrategy;
 
-public class SparkExtractExactDuplicatesIntegrationTest extends SharedJavaSparkContext {
+public class SparkExtractExactDuplicatesIntegrationTest extends SparkIntegrationTestBase {
 
 	@Test
 	public void testWithEmptyInput() {

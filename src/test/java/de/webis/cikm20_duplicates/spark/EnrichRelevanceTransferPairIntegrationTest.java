@@ -7,9 +7,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.approvaltests.Approvals;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
-public class EnrichRelevanceTransferPairIntegrationTest extends SharedJavaSparkContext {
+public class EnrichRelevanceTransferPairIntegrationTest extends SparkIntegrationTestBase {
 	@Test
 	public void approveEnrichmentOfExampleRelevanceTransferPair() {
 		JavaRDD<String> input = rdd(

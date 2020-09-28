@@ -7,8 +7,6 @@ import org.apache.spark.api.java.JavaRDD;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationStrategy;
 
 /**
@@ -16,7 +14,7 @@ import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.Dedup
  * @author Maik Fröbe
  *
  */
-public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SharedJavaSparkContext {
+public class SparkCreateDuplicationCandidatePairsIntegrationTest extends SparkIntegrationTestBase {
 
 	@Test
 	public void testEmptyInputForMinHash() {

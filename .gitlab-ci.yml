@@ -2,5 +2,6 @@ image: openjdk:8
 build:
   script:
     - ./mvnw -T8 dependency:resolve > /dev/null
-    - ./mvnw clean install > /dev/null
+    - echo "Dependencies are resolved..."
+    - ./mvnw clean install 2> /dev/null
 

@@ -8,11 +8,10 @@ import org.approvaltests.Approvals;
 import org.archive.io.arc.ARCRecord;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 import de.webis.cikm20_duplicates.util.arc.ARCParsingUtil;
 
-public class ArcParsingTest extends SharedJavaSparkContext {
+public class ArcParsingTest extends SparkIntegrationTestBase {
 	@Test
 	public void approveUrlsWithin2008SampleArcFile() {
 		String input = "src/test/resources/data/cc-arc-sample/small-sample-1213893279526_0.arc";

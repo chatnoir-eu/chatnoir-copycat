@@ -12,15 +12,14 @@ import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.chatnoir2.mapfile_generator.warc.WarcHeader;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcHeader.WarcVersion;
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 import lombok.SneakyThrows;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 import scala.Tuple2;
 
-public class CreateWebGraphTest extends SharedJavaSparkContext {
+public class CreateWebGraphTest extends SparkIntegrationTestBase {
 	@Test
 	public void approveParsingOfEmptyExample() {
 		JavaPairRDD<LongWritable, WarcRecord> records = records();

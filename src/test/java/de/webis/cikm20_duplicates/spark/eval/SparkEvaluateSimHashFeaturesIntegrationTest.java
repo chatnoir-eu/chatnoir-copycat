@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
 
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocumentsIntegrationTest;
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures.FeatureSetCandidate;
 import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures.SimHashDocumentFeatures;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil;
@@ -21,7 +21,7 @@ import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import lombok.SneakyThrows;
 
-public class SparkEvaluateSimHashFeaturesIntegrationTest extends SharedJavaSparkContext {
+public class SparkEvaluateSimHashFeaturesIntegrationTest extends SparkIntegrationTestBase {
 	@Test
 	public void calculateAllNGrammCombinations() {
 		CollectionDocument doc = new CollectionDocument();

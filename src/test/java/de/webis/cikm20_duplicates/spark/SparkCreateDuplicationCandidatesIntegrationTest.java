@@ -11,8 +11,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocumentsIntegrationTest.DummyAnseriniCollectionReader;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
@@ -26,7 +24,7 @@ import scala.Tuple2;
  * @author Maik Fröbe
  *
  */
-public class SparkCreateDuplicationCandidatesIntegrationTest extends SharedJavaSparkContext {
+public class SparkCreateDuplicationCandidatesIntegrationTest extends SparkIntegrationTestBase {
 
 	private Fingerprinter<Integer> fingerprinter;
 	

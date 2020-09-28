@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
 
 import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
@@ -28,7 +27,7 @@ import scala.Tuple2;
  * @author Maik Fröbe
  *
  */
-public class SparkGroupSourceDocumentsByTopicIntegrationTest extends SharedJavaSparkContext {
+public class SparkGroupSourceDocumentsByTopicIntegrationTest extends SparkIntegrationTestBase {
 	
 	private Fingerprinter<Integer> fingerprinter;
 	

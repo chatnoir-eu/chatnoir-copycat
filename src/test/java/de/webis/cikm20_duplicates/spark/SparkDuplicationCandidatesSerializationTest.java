@@ -6,14 +6,12 @@ import java.util.List;
 import org.approvaltests.Approvals;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationUnit;
 import de.webis.cikm20_duplicates.util.ClientLocalDeduplication;
 import de.webis.cikm20_duplicates.util.ClientLocalDeduplicationTest;
 import scala.Tuple2;
 
-public class SparkDuplicationCandidatesSerializationTest extends SharedJavaSparkContext {
+public class SparkDuplicationCandidatesSerializationTest extends SparkIntegrationTestBase {
 
 	@Test
 	public void testWithEmptyDocuments() {

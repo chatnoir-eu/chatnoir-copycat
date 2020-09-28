@@ -9,8 +9,6 @@ import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
@@ -21,7 +19,7 @@ import lombok.SneakyThrows;
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocumentsIntegrationTest.DummyAnseriniCollectionReader;
 import static de.webis.cikm20_duplicates.spark.SparkCreateSourceDocumentsIntegrationTest.sorted;
 
-public class SparkCreateFingerprintsIntegrationTest extends SharedJavaSparkContext {
+public class SparkCreateFingerprintsIntegrationTest extends SparkIntegrationTestBase {
 	private static final List<Fingerprinter<Integer>> FINGERPRINTERS = Arrays.asList(
 			FingerPrintUtil.minHashFingerPrinting(1),
 			FingerPrintUtil.simHashFingerPrinting(64, 3)

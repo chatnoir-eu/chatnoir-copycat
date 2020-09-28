@@ -12,9 +12,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
-public class SparkCreateCanonicalLinkDeduplicationTasksIntegrationTest extends SharedJavaSparkContext {
+public class SparkCreateCanonicalLinkDeduplicationTasksIntegrationTest extends SparkIntegrationTestBase {
 	
 	@Test
 	public void testDeduplicationTasksOfIdenticalDocumentsForDifferentUrls() {

@@ -9,11 +9,10 @@ import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocumentsIntegrationTest;
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 
-public class SparkAnalyzeCanonicalLinkGraphIntegrationTest extends SharedJavaSparkContext {
+public class SparkAnalyzeCanonicalLinkGraphIntegrationTest extends SparkIntegrationTestBase {
 	
 	@Test
 	public void checkDuplicateGroupCountResultForEmptyInput() {

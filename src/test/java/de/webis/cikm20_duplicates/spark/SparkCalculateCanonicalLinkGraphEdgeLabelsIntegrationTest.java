@@ -12,9 +12,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
-public class SparkCalculateCanonicalLinkGraphEdgeLabelsIntegrationTest extends SharedJavaSparkContext {
+public class SparkCalculateCanonicalLinkGraphEdgeLabelsIntegrationTest extends SparkIntegrationTestBase {
 
 	@Test
 	public void checkEdgeLabelsResultForEmptyInput() {

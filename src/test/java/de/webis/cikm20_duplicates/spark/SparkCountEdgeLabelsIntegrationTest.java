@@ -9,9 +9,7 @@ import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
-public class SparkCountEdgeLabelsIntegrationTest extends SharedJavaSparkContext {
+public class SparkCountEdgeLabelsIntegrationTest extends SparkIntegrationTestBase {
 
 	@Test
 	public void testWithEmptyExactDuplicatesAndPairs() {

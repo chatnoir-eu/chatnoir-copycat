@@ -10,11 +10,9 @@ import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.spark.SparkCreateIdsToRemove.KeepId;
 
-public class SparkCreateIdsToRemoveIntegrationTest extends SharedJavaSparkContext {
+public class SparkCreateIdsToRemoveIntegrationTest extends SparkIntegrationTestBase {
 	private List<String> exampleNearDuplicatesWithoutExactDuplicates = Arrays.asList(
 		"{\"firstId\":\"clueweb12-1910wb-90-00004\",\"secondId\":\"clueweb12-1911wb-61-32607\",\"hemmingDistance\":3}",
 		"{\"firstId\":\"clueweb12-1911wb-61-32607\",\"secondId\":\"clueweb12-1911wb-63-21940\",\"hemmingDistance\":3}",

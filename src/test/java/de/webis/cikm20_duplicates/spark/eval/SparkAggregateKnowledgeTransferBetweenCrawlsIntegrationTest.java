@@ -10,9 +10,9 @@ import org.apache.spark.api.java.JavaRDD;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 
-public class SparkAggregateKnowledgeTransferBetweenCrawlsIntegrationTest extends SharedJavaSparkContext {
+public class SparkAggregateKnowledgeTransferBetweenCrawlsIntegrationTest extends SparkIntegrationTestBase {
 	@Test
 	public void checkThatMergingOfCountersWorks() {
 		Map<String, Long> a = new HashMap<>();

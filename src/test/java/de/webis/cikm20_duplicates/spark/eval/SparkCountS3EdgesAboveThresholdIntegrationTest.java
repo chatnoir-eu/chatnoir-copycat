@@ -7,9 +7,9 @@ import org.apache.spark.api.java.JavaRDD;
 import org.approvaltests.Approvals;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 
-public class SparkCountS3EdgesAboveThresholdIntegrationTest extends SharedJavaSparkContext {
+public class SparkCountS3EdgesAboveThresholdIntegrationTest extends SparkIntegrationTestBase {
 	@Test
 	public void nullValue() {
 		Map<String, Long> thresholdToCount = SparkAnalyzeCanonicalLinkGraph.s3thresholdToEdgeCountNullValue();

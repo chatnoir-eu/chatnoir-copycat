@@ -8,11 +8,10 @@ import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.holdenkarau.spark.testing.SharedJavaSparkContext;
-
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocumentsIntegrationTest;
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 
-public class SparkSampleS3EdgesPerBinIntegrationTest extends SharedJavaSparkContext {
+public class SparkSampleS3EdgesPerBinIntegrationTest extends SparkIntegrationTestBase {
 	@Test
 	public void approveAllBins() {
 		List<String> expected = Arrays.asList("0.4000", "0.4500", "0.5000",

@@ -299,7 +299,7 @@ repartition-source-docs-cc17: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.util.SparkRepartitionCommonCrawl2017SourceDocuments
 
 install:
-	./mvnw clean install
+	./mvnw clean install 2> /dev/null
 
 label-data-maik:
 	./src/main/bash/label-data-maik.sh
