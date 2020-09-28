@@ -64,6 +64,10 @@
 					<groupId>org.apache.hadoop</groupId>
 					<artifactId>hadoop-hdfs-client</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>edu.umass.ciir</groupId>
+					<artifactId>RankLib</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
