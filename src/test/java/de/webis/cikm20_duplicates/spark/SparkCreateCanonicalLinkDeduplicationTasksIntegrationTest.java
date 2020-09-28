@@ -30,11 +30,6 @@ public class SparkCreateCanonicalLinkDeduplicationTasksIntegrationTest extends S
 	}
 	
 	@Test
-	public void failUntilOtherTestsAreNotIgnored() {
-		Assert.fail("Remove @Ignore on other tests");
-	}
-	
-	@Test
 	@Ignore
 	public void testDeduplicationTasksOfDifferentDocumentsForIdenticalUrls() {
 		List<String> expected = Collections.emptyList();
