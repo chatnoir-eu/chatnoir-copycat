@@ -44,6 +44,14 @@ clueweb12-document-representations: install
 		--output ecir2021/cw12-repartitioned \
 		--partitions 10000
 
+clueweb12-main-content-document-representations: install
+	hdfs dfs -rm -r -f ecir2021/cw12-main-content-extraction && \
+	./src/main/bash/new-document-representation-spark.sh \
+		--inputFormat CLUEWEB12 \
+		--input s3a://corpus-clueweb12/parts/*/*/*/*.warc.gz \
+		--mainContentExtraction true \
+		--output ecir2021/cw12-main-content-extraction
+
 common-crawl15-document-representations: install
 	hdfs dfs -rm -r -f ecir2021/cc-2015-11 && \
 	./src/main/bash/cc15-document-representations.sh 0 && \
