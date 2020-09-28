@@ -61,6 +61,7 @@ public class CreateDocumentRepresentations {
 		}
 		
 		if(Boolean.TRUE.equals(parsedArgs.getBoolean("mainContentExtraction"))) {
+			System.out.println("I use main-content-extraction.");
 			return DocumentToTextTransformation.MAIN_CONTENT_EXTRACTION;
 		}
 		
