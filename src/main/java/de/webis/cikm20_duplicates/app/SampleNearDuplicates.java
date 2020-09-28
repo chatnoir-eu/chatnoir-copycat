@@ -58,21 +58,44 @@ public class SampleNearDuplicates {
 		ret.put("secondId", i._2());
 		ret.put("hemmingDistance", i._3());
 		
-		URL firstURL = new URL(CollectionDocumentUtil.chatNoirURL(parsedArgs.getString( ArgumentParsingUtil.UUID_PREFIX), i._1(), parsedArgs.getString( ArgumentParsingUtil.UUID_INDEX)));
+		URL firstURL = new URL(CollectionDocumentUtil.chatNoirURL(parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX), i._1(), parsedArgs.getString( ArgumentParsingUtil.UUID_INDEX)));
 		URL secondURL = new URL(CollectionDocumentUtil.chatNoirURL(parsedArgs.getString( ArgumentParsingUtil.UUID_PREFIX), i._2(), parsedArgs.getString( ArgumentParsingUtil.UUID_INDEX)));
 		
 		ret.put("firstURL", firstURL);
 		ret.put("secondURL", secondURL);
 		
-		CollectionDocument firstDocument = CollectionDocumentUtil.loadCollectionDocument(i._1(), firstURL);
-		CollectionDocument secondDocument = CollectionDocumentUtil.loadCollectionDocument(i._2(), secondURL);
-
-		ret.put("firstDocument", firstDocument);
-		ret.put("secondDocument", secondDocument);
-		
-		ret.put("s3Score", SparkEnrichRelevanceTransferPairs.s3Score(firstDocument,secondDocument));
+		try {
+			CollectionDocument firstDocument = CollectionDocumentUtil.loadCollectionDocument(i._1(), firstURL);
+			CollectionDocument secondDocument = CollectionDocumentUtil.loadCollectionDocument(i._2(), secondURL);
+	
+			ret.put("firstDocument", firstDocument);
+			ret.put("secondDocument", secondDocument);
+			
+			ret.put("s3Score", SparkEnrichRelevanceTransferPairs.s3Score(firstDocument,secondDocument));
+		} catch(Exception e) {}
 		
 		return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(ret);
+	}
+	
+	@Data
+	@NoArgsConstructor
+	public static class NdSample {
+		private String firstId, secondId;
+		private int hemmingDistance;
+		private String firstURL, secondURL;
+		private CollectionDocument firstDocument, secondDocument;
+		private float s3Score;
+		
+		@Override
+		@SneakyThrows
+		public String toString() {
+			return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(this);
+		}
+		
+		@SneakyThrows
+		public static NdSample fromString(String src) {
+			return new com.fasterxml.jackson.databind.ObjectMapper().readValue(src, NdSample.class);
+		}
 	}
 	
 	private static JavaRDD<Tuple3<String, String, Integer>> nearDuplicatePairsForK(Namespace parsedArgs,
