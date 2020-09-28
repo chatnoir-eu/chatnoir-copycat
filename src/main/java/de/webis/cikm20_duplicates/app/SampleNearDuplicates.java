@@ -38,7 +38,7 @@ public class SampleNearDuplicates {
 			for(int k=0; k<4; k++) {
 				JavaRDD<Tuple3<String, String, Integer>> nearDuplicatesAtDistanceK = nearDuplicatePairsForK(parsedArgs, context, k);
 				Iterable<Tuple3<String, String, Integer>> iter = () -> nearDuplicatesAtDistanceK.toLocalIterator();
-				List<Tuple3<String, String, Integer>> currentSample = TakeRandom.takeRandomElements(k, iter);
+				List<Tuple3<String, String, Integer>> currentSample = TakeRandom.takeRandomElements(parsedArgs.getInt(ArgumentParsingUtil.ARG_NUM), iter);
 				
 				sample.addAll(currentSample);
 			}
