@@ -66,9 +66,4 @@ public class SourceDocumentsTest {
 
 		Approvals.verifyAsJson(toApprove);
 	}
-	
-	@Test
-	public void addEntityUrlsFromEntityTopics() {
-		Assert.fail("FIXME: Add all entity-urls from the entity 2009-2011 topics (assume around 120 new doc-ids to transfer)");
-	}
 }
