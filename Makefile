@@ -216,6 +216,24 @@ deduplicate-cc17: install
 		--input ecir2021/cc-2017-04-deduplication/min-length-10-near-duplicate-tasks \
 		--output ecir2021/cc-2017-04-deduplication/min-length-10-near-duplicates
 
+sample-near-duplicates-cw09: install
+	hdfs dfs -rm -r -f ecir2021/cw09-deduplication/sample-near-duplicates-min-length-10.jsonl && \
+	src/main/bash/sample-near-duplicates.sh \
+		--input ecir2021/cw09-deduplication/min-length-10 \
+		--num 200 \
+		--output ecir2021/cw09-deduplication/sample-near-duplicates-min-length-10.jsonl \
+		--uuidIndex cw09 \
+		--uuidPrefix clueweb09
+
+sample-near-duplicates-cw12: install
+	hdfs dfs -rm -r -f ecir2021/cw12-deduplication/sample-near-duplicates-min-length-10.jsonl && \
+	src/main/bash/sample-near-duplicates.sh \
+		--input ecir2021/cw12-deduplication/min-length-10 \
+		--num 200 \
+		--output ecir2021/cw12-deduplication/sample-near-duplicates-min-length-10.jsonl \
+		--uuidIndex cw12 \
+		--uuidPrefix clueweb12
+
 sample-near-duplicates-cc17: install
 	hdfs dfs -rm -r -f ecir2021/cc-2017-04-deduplication/sample-near-duplicates-min-length-10.jsonl && \
 	src/main/bash/sample-near-duplicates.sh \

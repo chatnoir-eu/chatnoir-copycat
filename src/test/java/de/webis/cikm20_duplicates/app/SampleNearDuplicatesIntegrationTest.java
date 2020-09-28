@@ -18,7 +18,7 @@ public class SampleNearDuplicatesIntegrationTest {
 		
 		String actual = SampleNearDuplicates.samplePairToString(nearDuplicate, args());
 		
-		Approvals.verifyAsJson(actual);
+		Approvals.verify(actual);
 	}
 	
 	@Test
