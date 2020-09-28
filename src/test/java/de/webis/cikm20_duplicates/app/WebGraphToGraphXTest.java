@@ -92,7 +92,7 @@ public class WebGraphToGraphXTest extends SparkIntegrationTestBase {
 			new GraphxWebNode(2l, new HashSet<Long>(Arrays.asList()), 1585406789l /*"2020-03-28T15:46:29Z"*/),
 			new GraphxWebNode(3l, new HashSet<Long>(Arrays.asList()), 1585410389l /*"2020-03-28T16:46:29Z"*/)
 		);
-		List<GraphxWebNode> actual = WebGraphToGraphX.transformToGraphXNodesByJoins(nodes, nodeIds).collect();
+		List<GraphxWebNode> actual = sorted(WebGraphToGraphX.transformToGraphXNodesByJoins(nodes, nodeIds).collect());
 		
 		Assert.assertEquals(expected, actual);
 	}
