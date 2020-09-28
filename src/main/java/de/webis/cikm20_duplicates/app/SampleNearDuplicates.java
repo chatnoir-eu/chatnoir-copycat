@@ -12,11 +12,12 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
-import co.nstant.in.cbor.model.Map;
 import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.cikm20_duplicates.util.TakeRandom;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -88,34 +89,34 @@ public class SampleNearDuplicates {
 	}
 
 	@SneakyThrows
-	@SuppressWarnings("unchecked")
-	private static Tuple3<String, String, Integer> parseExactDuplicates(String src) {
-		try {
-			java.util.Map<String, Object> ret = (java.util.Map<String, Object>) new com.fasterxml.jackson.databind.ObjectMapper().readValue(src, Map.class);
-			List<String> ids = (List<String>) ret.get("equivalentDocuments");
-
-			return new Tuple3<>(ids.get(0), ids.get(1), 0);
-		} catch(Exception e) {
-			System.out.println("---> '" + src +"'");
-			return null;
-		}
+	static Tuple3<String, String, Integer> parseExactDuplicates(String src) {
+		EquivalentDocs ret = new com.fasterxml.jackson.databind.ObjectMapper().readValue(src, EquivalentDocs.class);
+			
+		return new Tuple3<>(ret.getEquivalentDocuments().get(0), ret.getEquivalentDocuments().get(1), 0);
+	}
+	
+	@Data
+	@NoArgsConstructor
+	public static class EquivalentDocs {
+		private List<String> equivalentDocuments;
+		private List<Integer> hash;
 	}
 
 	@SneakyThrows
-	@SuppressWarnings({ "unchecked", "unused" })
-	private static Tuple3<String, String, Integer> parseNearDuplicates(String src) {
-		try {
-			java.util.Map<String, Object> ret = (java.util.Map<String, Object>) new com.fasterxml.jackson.databind.ObjectMapper()
-					.readValue(src, Map.class);
+	static Tuple3<String, String, Integer> parseNearDuplicates(String src) {
+		NearDuplicate ret = new com.fasterxml.jackson.databind.ObjectMapper().readValue(src, NearDuplicate.class);
 	
-			return new Tuple3<>((String) ret.get("firstId"), (String) ret.get("secondId"),
-					(Integer) ret.get("hemmingDistance"));
-		} catch(Exception e) {
-			System.out.println("---> '" + src +"'");
-			return null;
-		}
+		return new Tuple3<>(ret.getFirstId(), ret.getSecondId(), ret.getHemmingDistance());
 	}
 
+	@Data
+	@NoArgsConstructor
+	public static class NearDuplicate {
+		private String firstId, secondId;
+		private int hemmingDistance;
+	}
+
+	
 	private static JavaSparkContext context() {
 		SparkConf conf = new SparkConf(true);
 		conf.setAppName(ArgumentParsingUtil.TOOL_NAME + ": SampleNearDuplicates");
