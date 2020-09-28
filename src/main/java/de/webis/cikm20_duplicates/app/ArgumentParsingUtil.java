@@ -15,5 +15,8 @@ public class ArgumentParsingUtil {
 	public static final String ARG_OUTPUT = "output";
 	public static final String ARG_PARTITIONS = "partitions";
 	public static final String ARG_MINIMUM_DOCUMENT_LENGTH = "minimumDocumentLength";
+	public static final String ARG_NUM = "num";
+	public static final String UUID_PREFIX = "uuidPrefix";
+	public static final String UUID_INDEX = "uuidIndex";
 	public static final List<String> ALL_INPUT_FORMATS = Collections.unmodifiableList(InputFormats.allInputFormats());
 }

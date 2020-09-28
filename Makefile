@@ -216,6 +216,14 @@ deduplicate-cc17: install
 		--input ecir2021/cc-2017-04-deduplication/min-length-10-near-duplicate-tasks \
 		--output ecir2021/cc-2017-04-deduplication/min-length-10-near-duplicates
 
+sample-near-duplicates-cc17: install
+	src/main/bash/sample-near-duplicates.sh \
+		--input ecir2021/cc-2017-04-deduplication/min-length-10 \
+		--num 200 \
+		--output ecir2021/cc-2017-04-deduplication/sample-near-duplicates-min-length-10.jsonl \
+		--uuidIndex cc1704 \
+		--uuidPrefix commoncrawl
+
 deduplication-task-sizes: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeDeduplicationTaskSizes
 
