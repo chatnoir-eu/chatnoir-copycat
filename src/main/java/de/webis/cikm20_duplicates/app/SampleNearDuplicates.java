@@ -78,7 +78,8 @@ public class SampleNearDuplicates {
 			JavaSparkContext jsc, int k) {
 		if (k == 0) {
 			return jsc.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT) + "-exact-duplicates")
-					.map(i -> parseExactDuplicates(i));
+					.map(i -> parseExactDuplicates(i))
+					.filter(i -> i != null);
 		} else {
 			return jsc.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT) + "-near-duplicates")
 					.map(i -> parseNearDuplicates(i)).filter(i -> i._3() == k);
@@ -88,11 +89,15 @@ public class SampleNearDuplicates {
 	@SneakyThrows
 	@SuppressWarnings("unchecked")
 	private static Tuple3<String, String, Integer> parseExactDuplicates(String src) {
-		java.util.Map<String, Object> ret = (java.util.Map<String, Object>) new com.fasterxml.jackson.databind.ObjectMapper()
-				.readValue(src, Map.class);
-		List<String> ids = (List<String>) ret.get("equivalentDocuments");
+		try {
+			java.util.Map<String, Object> ret = (java.util.Map<String, Object>) new com.fasterxml.jackson.databind.ObjectMapper().readValue(src, Map.class);
+			List<String> ids = (List<String>) ret.get("equivalentDocuments");
 
-		return new Tuple3<>(ids.get(0), ids.get(1), 0);
+			return new Tuple3<>(ids.get(0), ids.get(1), 0);
+		} catch(Exception e) {
+			System.out.println("---> '" + src +"'");
+			return null;
+		}
 	}
 
 	@SneakyThrows
