@@ -82,6 +82,7 @@ public class SampleNearDuplicates {
 					.filter(i -> i != null);
 		} else {
 			return jsc.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT) + "-near-duplicates")
+					.filter(i -> i != null)
 					.map(i -> parseNearDuplicates(i)).filter(i -> i._3() == k);
 		}
 	}
@@ -103,11 +104,16 @@ public class SampleNearDuplicates {
 	@SneakyThrows
 	@SuppressWarnings({ "unchecked", "unused" })
 	private static Tuple3<String, String, Integer> parseNearDuplicates(String src) {
-		java.util.Map<String, Object> ret = (java.util.Map<String, Object>) new com.fasterxml.jackson.databind.ObjectMapper()
-				.readValue(src, Map.class);
-
-		return new Tuple3<>((String) ret.get("firstId"), (String) ret.get("secondId"),
-				(Integer) ret.get("hemmingDistance"));
+		try {
+			java.util.Map<String, Object> ret = (java.util.Map<String, Object>) new com.fasterxml.jackson.databind.ObjectMapper()
+					.readValue(src, Map.class);
+	
+			return new Tuple3<>((String) ret.get("firstId"), (String) ret.get("secondId"),
+					(Integer) ret.get("hemmingDistance"));
+		} catch(Exception e) {
+			System.out.println("---> '" + src +"'");
+			return null;
+		}
 	}
 
 	private static JavaSparkContext context() {
