@@ -91,7 +91,7 @@ public class CollectionDocumentUtil {
 		System.out.println(SparkEnrichRelevanceTransferPairs.s3Score(a,b));
 	}
 	
-	private static final RetryPolicy<String> RETRY_FINAL = new RetryPolicy<String>()
+	public static final RetryPolicy<String> RETRY_FINAL = new RetryPolicy<String>()
 			.handle(Exception.class)
 			.withBackoff(3, 60, ChronoUnit.SECONDS)
 			.withMaxRetries(3);	

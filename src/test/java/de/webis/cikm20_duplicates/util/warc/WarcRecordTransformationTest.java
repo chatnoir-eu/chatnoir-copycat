@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.util.warc;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,12 +13,16 @@ import org.mockito.Mockito;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcHeader;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 import de.webis.cikm20_duplicates.app.CreateDocumentRepresentations;
+import de.webis.cikm20_duplicates.app.CreateDocumentRepresentations.DocumentToTextTransformation;
+import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
+import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import lombok.SneakyThrows;
 
-public class WarcRecordTransformationTest {
+public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 	@Test
 	public void testWithNullInput() {
-		Assert.assertNull(CreateDocumentRepresentations.transformToCollectionDocument(null));
+		Assert.assertNull(CreateDocumentRepresentations.transformToCollectionDocument(null, null));
 	}
 	
 	@Test
@@ -58,35 +63,60 @@ public class WarcRecordTransformationTest {
 		Approvals.verifyAsJson(actual);
 	}
 	
-//	@Test
-//	public void approveTransformationOfCommonCrawlRecordWithHttpHeader() {
-//		Map<String, String> headers = new HashMap<>();
-//		headers.put("WARC-Record-ID", "my-id-2");
-//		headers.put("WARC-Target-URI", "http://example.com");
-//		headers.put("WARC-Date", "01.01.1970");
-//		
-//		//FIXME: This does not happen, since the WARCRecord does already Parse the HTTP-Headers
-//		WarcRecord record = record(headers, "HTTP/1.x 200 OK\n" +
-//				"Transfer-Encoding: foo-bar\n" +
-//				"Vary: Accept-Encoding, Cookie, User-Agent\n\n" +
-//				"<!DOCTYPE html>\n" + 
-//				"<html lang=\"de\">\n" + 
-//				"  <head>\n" + 
-//				"    <meta charset=\"utf-8\">\n" + 
-//				"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" + 
-//				"    <title>Titel</title>\n" + 
-//				"    <link rel=\"canonical\" href=\"https://example.com/test-123/\" />" +
-//				"  </head>\n" + 
-//				"  <body>Test 1 2 3\n" + 
-//				"\n" + 
-//				"  </body>\n" + 
-//				"</html>",
-//				"REsponse");
-//		
-//		CollectionDocument actual = transformToCollectionDocument(record);
-//		
-//		Approvals.verifyAsJson(actual);
-//	}
+	@Test
+	public void approveTransformationOfCommonCrawlRecordWithMainContentExtraction() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Record-ID", "my-id-2");
+		headers.put("WARC-Target-URI", "http://example.com");
+		headers.put("WARC-Date", "01.01.1970");
+		WarcRecord record = record(headers, "<!DOCTYPE html>\n" + 
+				"<html lang=\"de\">\n" + 
+				"  <head>\n" + 
+				"    <meta charset=\"utf-8\">\n" + 
+				"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" + 
+				"    <title>Titel</title>\n" + 
+				"    <link rel=\"canonical\" href=\"https://example.com/test-123/\" />" +
+				"  </head>\n" + 
+				"  <body>Test 1 2 3\n" + 
+				"\n" + 
+				"  </body>\n" + 
+				"</html>",
+				"REsponse");
+		
+		CollectionDocument actual = transformToCollectionDocument(record, DocumentToTextTransformation.MAIN_CONTENT_EXTRACTION);
+		
+		Approvals.verifyAsJson(actual);
+	}
+
+	@Test
+	@SneakyThrows
+	public void approveTransformationOfExistingCommonCrawlRecord() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Record-ID", "my-id-2");
+		headers.put("WARC-Target-URI", "http://example.com");
+		headers.put("WARC-Date", "01.01.1970");
+		String documentContent = CollectionDocumentUtil.loadRawDocumentFromChatnoir(new URL("https://chatnoir.eu/cache?uuid=92105ce9-2938-5b89-a191-7a82fe5d8816&index=cc1704&raw"), CollectionDocumentUtil.RETRY_FINAL);
+		WarcRecord record = record(headers, documentContent, "REsponse");
+		
+		CollectionDocument actual = transformToCollectionDocument(record, DocumentToTextTransformation.DEFAULT);
+		
+		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
+	@SneakyThrows
+	public void approveTransformationOfExistingCommonCrawlRecordWithMainContentExtraction() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Record-ID", "my-id-2");
+		headers.put("WARC-Target-URI", "http://example.com");
+		headers.put("WARC-Date", "01.01.1970");
+		String documentContent = CollectionDocumentUtil.loadRawDocumentFromChatnoir(new URL("https://chatnoir.eu/cache?uuid=92105ce9-2938-5b89-a191-7a82fe5d8816&index=cc1704&raw"), CollectionDocumentUtil.RETRY_FINAL);
+		WarcRecord record = record(headers, documentContent, "REsponse");
+		
+		CollectionDocument actual = transformToCollectionDocument(record, DocumentToTextTransformation.MAIN_CONTENT_EXTRACTION);
+		
+		Approvals.verifyAsJson(actual);
+	}
 	
 	@Test
 	public void approveTransformationOfClueWebRecordWithInvalidCase() {
@@ -128,9 +158,13 @@ public class WarcRecordTransformationTest {
 	}
 	
 	private CollectionDocument transformToCollectionDocument(WarcRecord record) {
-		return CreateDocumentRepresentations.transformToCollectionDocument(record);
+		return transformToCollectionDocument(record, null);
 	}
-
+	
+	private CollectionDocument transformToCollectionDocument(WarcRecord record, DocumentToTextTransformation transformation) {
+		return CreateDocumentRepresentations.transformToCollectionDocument(record, transformation);
+	}
+	
 	private static WarcRecord record(Map<String, String> headers, String body, String recordType) {
 		WarcHeader header = Mockito.mock(WarcHeader.class);
 		Mockito.when(header.getHeaderMetadata()).thenReturn(new TreeMap<>(headers));

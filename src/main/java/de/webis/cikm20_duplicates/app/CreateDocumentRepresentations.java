@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.app;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,8 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import de.webis.chatnoir2.indexer.util.ContentExtractor;
+import de.webis.chatnoir2.indexer.util.LangDetector;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
 import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction;
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments;
@@ -36,8 +39,9 @@ public class CreateDocumentRepresentations {
 		}
 
 		try (JavaSparkContext context = context()) {
+			DocumentToTextTransformation transformation = transformation(parsedArgs);
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
-			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2())).filter(i -> i != null);
+			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2(), transformation)).filter(i -> i != null);
 			
 			if (parsedDocuments.getNumPartitions() < 100) {
 				parsedDocuments = parsedDocuments.repartition(parsedDocuments.getNumPartitions()*100);
@@ -50,9 +54,14 @@ public class CreateDocumentRepresentations {
 					.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 		}
 	}
+	
+	static DocumentToTextTransformation transformation(Namespace parsedArgs) {
+		//FIXME
+		throw new RuntimeException("FIXME: implement and test this...");
+	}
 
 	@SneakyThrows
-	public static CollectionDocument transformToCollectionDocument(WarcRecord record) {
+	public static CollectionDocument transformToCollectionDocument(WarcRecord record, DocumentToTextTransformation transformation) {
 		if (record == null) {
 			return null;
 		}
@@ -65,8 +74,12 @@ public class CreateDocumentRepresentations {
 			return null;
 		}
 
+		if(transformation == null) {
+			transformation = DocumentToTextTransformation.DEFAULT;
+		}
+		
 		try {
-			return transformToCollectionDocument(header, Jsoup.parse(contentBody));
+			return transformToCollectionDocument(header, Jsoup.parse(contentBody), transformation);
 		} catch (Exception e) {
 			return null;
 		}
@@ -76,8 +89,43 @@ public class CreateDocumentRepresentations {
 		return record != null && record.getRecordType() != null && "response".equalsIgnoreCase(record.getRecordType().trim());
 	}
 
+	@SuppressWarnings("serial")
+	public static interface DocumentToTextTransformation extends Serializable {
+		public String transform(Document doc);
+		public static final LangDetector LANG_DETECTOR = langDetector();
+		
+		@SneakyThrows
+		static LangDetector langDetector() {
+			return new LangDetector();
+		}
+		
+		public static final DocumentToTextTransformation DEFAULT = new DocumentToTextTransformation() {
+			@Override
+			public String transform(Document doc) {
+				return doc.text();
+			}
+		};
+		
+		public static final DocumentToTextTransformation MAIN_CONTENT_EXTRACTION = new DocumentToTextTransformation() {
+			
+			@Override
+			@SneakyThrows
+			public String transform(Document doc) {
+				String html = doc.toString();
+				String lang = LANG_DETECTOR.detect(html);
+
+	            if (lang != null && lang.equalsIgnoreCase("en")) {
+	                return ContentExtractor.extract(html, "en");
+	            } else {
+	                return ContentExtractor.extract(html, lang, "en");
+	            }
+
+			}
+		};
+	}
+
 	@SneakyThrows
-	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, Document doc) {
+	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, Document doc, DocumentToTextTransformation transformation) {
 		String id = header.get("warc-trec-id");
 		if (id == null || id.isEmpty()) {
 			id = header.get("warc-record-id");
@@ -85,7 +133,7 @@ public class CreateDocumentRepresentations {
 
 		String targetUri = header.get("warc-target-uri");
 
-		CollectionDocument ret = CollectionDocument.collectionDocument(doc.text(), id);
+		CollectionDocument ret = CollectionDocument.collectionDocument(transformation.transform(doc), id);
 		try {
 			ret.setUrl(new URL(targetUri));
 		} catch (Exception e) {}

@@ -9,13 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.AbstractJavaRDDLike;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -32,31 +32,6 @@ import scala.Tuple2;
 import scala.Tuple3;
 
 public class WebGraphToGraphX {
-//	public static void main(String[] args) {
-//		try(JavaSparkContext context = context()) {
-//			JavaRDD<WebGraphNode> nodes = context.textFile("web-archive-analysis/intermediate-corpus-commoncrawl-main-2020-16-part*/*")
-//					.map(i -> WebGraphNode.fromString(i));
-//			JavaRDD<String> urls = nodes.map(i -> url(i));
-//			urls = urls.distinct();
-//			
-//			urls.zipWithIndex().map(i -> i._1() + "\t" + i._2())
-//				.saveAsTextFile("web-archive-analysis/corpus-commoncrawl-main-2020-16-graphx-nodes.tsv", BZip2Codec.class);
-//		}
-//	}
-	
-//	public static void main(String[] args) {
-//		try(JavaSparkContext context = context()) {
-//			Iterator<JavaRDD<String>> nodeIds = nodesParts().stream().map(i -> context.textFile(i)).iterator();
-//			JavaRDD<WebGraphNode> nodes = context.textFile("web-archive-analysis/intermediate-corpus-commoncrawl-main-2020-16-part*/*")
-//					.map(i -> WebGraphNode.fromString(i));
-//			
-//			JavaRDD<GraphxWebNode> actual = transformToGraphXNodes(nodes, nodeIds);
-//			actual.map(i -> i.toString())
-//				.repartition(5000)
-//				.saveAsTextFile("web-archive-analysis/corpus-commoncrawl-main-2020-16-graphx.jsonl", BZip2Codec.class);
-//		}
-//	}
-
 	public static void main(String[] args) {
 		try(JavaSparkContext context = context()) {
 			JavaRDD<String> nodeIds = context.textFile("web-archive-analysis/corpus-commoncrawl-main-2020-16-graphx-nodes.tsv/part-*");
@@ -173,9 +148,16 @@ public class WebGraphToGraphX {
 	
 	@SneakyThrows
 	private static long unixTime(WebGraphNode node) {
-		Date ret = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(node.getCrawlingTimestamp());
+		Date ret = sdf().parse(node.getCrawlingTimestamp());
 		
 		return ret.getTime() / 1000;
+	}
+	
+	private static SimpleDateFormat sdf() {
+		SimpleDateFormat ret = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		ret.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+		
+		return ret;
 	}
 	
 	private static TmpGraphxWebNode transformAvailableIds(TmpGraphxWebNode ret, Map<String, Long> urlToId) {

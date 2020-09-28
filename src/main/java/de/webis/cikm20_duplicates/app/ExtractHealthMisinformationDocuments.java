@@ -84,7 +84,7 @@ public class ExtractHealthMisinformationDocuments {
 	}
 	
 	private static Tuple2<CollectionDocument, String> transformToCollectionDocument(WarcRecord record) {
-		CollectionDocument doc = CreateDocumentRepresentations.transformToCollectionDocument(record);
+		CollectionDocument doc = CreateDocumentRepresentations.transformToCollectionDocument(record, null);
 		if(doc != null) {
 			return new Tuple2<>(doc, record.getRecordType());
 		}

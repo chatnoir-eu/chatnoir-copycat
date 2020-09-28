@@ -37,6 +37,39 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>de.webis.chatnoir2</groupId>
+			<artifactId>chatnoir2-indexer</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.elasticsearch</groupId>
+					<artifactId>elasticsearch-hadoop</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>de.webis.corpora</groupId>
+					<artifactId>webis-uuid</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>
+						hadoop-mapreduce-client-core
+					</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-common</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jsoup</groupId>
+					<artifactId>jsoup</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-client</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>info.debatty</groupId>
 			<artifactId>java-lsh</artifactId>
 			<version>0.12</version>
