@@ -29,6 +29,7 @@ clueweb09-main-content-document-representations: install
 	./src/main/bash/new-document-representation-spark.sh \
 		--inputFormat CLUEWEB09 \
 		--input s3a://corpus-clueweb09/parts/*/*/*.warc.gz \
+		--mainContentExtraction true \
 		--output ecir2021/cw09-main-content-extraction
 
 clueweb12-document-representations: install
