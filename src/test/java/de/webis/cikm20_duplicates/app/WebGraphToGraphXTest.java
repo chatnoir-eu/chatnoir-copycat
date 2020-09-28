@@ -1,6 +1,8 @@
 package de.webis.cikm20_duplicates.app;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +43,7 @@ public class WebGraphToGraphXTest extends SparkIntegrationTestBase {
 			new WebGraphNode("http://facebook.de", "2020-03-28T16:46:29Z", anchors())
 		));
 		
-		List<GraphxWebNode> expected = Arrays.asList(
+		List<GraphxWebNode> expected = asList(
 			new GraphxWebNode(1l, new HashSet<Long>(Arrays.asList(2l, 3l)), 1585403189l /*"2020-03-28T14:46:29Z"*/),
 			new GraphxWebNode(2l, new HashSet<Long>(Arrays.asList()), 1585406789l /*"2020-03-28T15:46:29Z"*/),
 			new GraphxWebNode(3l, new HashSet<Long>(Arrays.asList()), 1585410389l /*"2020-03-28T16:46:29Z"*/)
@@ -65,7 +67,7 @@ public class WebGraphToGraphXTest extends SparkIntegrationTestBase {
 			new WebGraphNode("http://facebook.de", "2020-03-28T16:46:29Z", anchors())
 		));
 		
-		List<GraphxWebNode> expected = Arrays.asList(
+		List<GraphxWebNode> expected = asList(
 			new GraphxWebNode(1l, new HashSet<Long>(Arrays.asList(2l, 3l)), 1585403189l /*"2020-03-28T14:46:29Z"*/),
 			new GraphxWebNode(2l, new HashSet<Long>(Arrays.asList()), 1585406789l /*"2020-03-28T15:46:29Z"*/),
 			new GraphxWebNode(3l, new HashSet<Long>(Arrays.asList()), 1585410389l /*"2020-03-28T16:46:29Z"*/)
@@ -85,7 +87,7 @@ public class WebGraphToGraphXTest extends SparkIntegrationTestBase {
 			new WebGraphNode("http://facebook.de", "2020-03-28T16:46:29Z", anchors())
 		));
 		
-		List<GraphxWebNode> expected = Arrays.asList(
+		List<GraphxWebNode> expected = asList(
 			new GraphxWebNode(1l, new HashSet<Long>(Arrays.asList(2l, 3l)), 1585403189l /*"2020-03-28T14:46:29Z"*/),
 			new GraphxWebNode(2l, new HashSet<Long>(Arrays.asList()), 1585406789l /*"2020-03-28T15:46:29Z"*/),
 			new GraphxWebNode(3l, new HashSet<Long>(Arrays.asList()), 1585410389l /*"2020-03-28T16:46:29Z"*/)
@@ -102,6 +104,17 @@ public class WebGraphToGraphXTest extends SparkIntegrationTestBase {
 	}
 	
 	private List<GraphxWebNode> transformToGraphXNodes(JavaRDD<WebGraphNode> nodes, Iterator<JavaRDD<String>> nodeIds) {
-		return  WebGraphToGraphX.transformToGraphXNodes(nodes, nodeIds).collect();
+		return sorted(WebGraphToGraphX.transformToGraphXNodes(nodes, nodeIds).collect());
+	}
+	
+	private static List<GraphxWebNode> asList(GraphxWebNode...ret) {
+		return sorted(Arrays.asList(ret));
+	}
+	
+	private static List<GraphxWebNode> sorted(List<GraphxWebNode> ret) {
+		ret = new ArrayList<>(ret);
+		Collections.sort(ret, (a,b) -> a.getSourceId().compareTo(b.getSourceId()));
+		
+		return ret;
 	}
 }
