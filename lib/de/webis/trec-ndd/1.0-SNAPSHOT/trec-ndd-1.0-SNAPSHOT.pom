@@ -143,11 +143,6 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>uk.ac.gla.dcs.terrierteam</groupId>
-			<artifactId>jtreceval</artifactId>
-			<version>0.0.5-SNAPSHOT-MF</version>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
