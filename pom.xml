@@ -49,7 +49,7 @@
 		<dependency>
 			<groupId>de.webis.chatnoir2</groupId>
 			<artifactId>chatnoir2-webclient</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>2.0.0-SNAPSHOT-MAIK</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.hadoop</groupId>
@@ -67,8 +67,6 @@
 					<groupId>io.netty</groupId>
 					<artifactId>netty-all</artifactId>
 				</exclusion>
-				<!--<exclusion> <groupId>org.elasticsearch.client</groupId> <artifactId>transport</artifactId> 
-					</exclusion> -->
 				<exclusion>
 					<groupId>com.vladsch.flexmark</groupId>
 					<artifactId>flexmark</artifactId>
