@@ -146,7 +146,6 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 		
 		Assert.assertNull(doc);
 	}
-	
 
 	@Test
 	@SneakyThrows
@@ -155,7 +154,7 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 		headers.put("WARC-Record-ID", "my-id-2");
 		headers.put("WARC-Target-URI", "http://example.com");
 		headers.put("WARC-Date", "01.01.1970");
-		CollectionDocument doc = new HdfsMapFileDocumentResolver().loadCollectionDocument("clueweb09-en0000-00-00009");
+		CollectionDocument doc = new HdfsMapFileDocumentResolver("cw09", "clueweb09").loadCollectionDocument("clueweb09-en0000-00-00009");
 		WarcRecord record = record(headers, doc.getContent(), "REsponse");
 		
 		CollectionDocument actual = transformToCollectionDocument(record, DocumentToTextTransformation.DEFAULT);
@@ -170,7 +169,7 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 		headers.put("WARC-Record-ID", "my-id-2");
 		headers.put("WARC-Target-URI", "http://example.com");
 		headers.put("WARC-Date", "01.01.1970");
-		CollectionDocument doc = new HdfsMapFileDocumentResolver().loadCollectionDocument("clueweb09-NON-EXISTING-en0000-00-00009");
+		CollectionDocument doc = new HdfsMapFileDocumentResolver("cw09", "clueweb09").loadCollectionDocument("clueweb09-NON-EXISTING-en0000-00-00009");
 		
 		Assert.assertNull(doc);
 	}
