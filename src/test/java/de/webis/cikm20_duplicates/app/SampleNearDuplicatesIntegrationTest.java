@@ -16,7 +16,7 @@ public class SampleNearDuplicatesIntegrationTest {
 		
 		Tuple3<String, String, Integer> nearDuplicate = new Tuple3<>(firstId, secondId, hemmingDistance);
 		
-		String actual = SampleNearDuplicates.samplePairToString(nearDuplicate, args());
+		String actual = SampleNearDuplicates.samplePairToString(nearDuplicate, args().getString("uuidPrefix"), args().getString("uuidIndex"));
 		
 		Approvals.verify(actual);
 	}

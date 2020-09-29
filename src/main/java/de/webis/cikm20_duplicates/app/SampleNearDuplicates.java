@@ -39,7 +39,7 @@ public class SampleNearDuplicates {
 				JavaRDD<Tuple3<String, String, Integer>> nearDuplicatesAtDistanceK = nearDuplicatePairsForK(parsedArgs, context, k);
 				List<Tuple3<String, String, Integer>> iter = nearDuplicatesAtDistanceK.takeSample(false, 3* parsedArgs.getInt(ArgumentParsingUtil.ARG_NUM));
 				List<Tuple3<String, String, Integer>> currentSample = TakeRandom.takeRandomElements(parsedArgs.getInt(ArgumentParsingUtil.ARG_NUM), iter);
-				List<String> currentSampleMapped = context.parallelize(currentSample, currentSample.size()).map(i -> samplePairToString(i, parsedArgs)).collect();
+				List<String> currentSampleMapped = context.parallelize(currentSample, currentSample.size()).map(i -> samplePairToString(i, parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX), parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX))).collect();
 				
 				ret.addAll(currentSampleMapped);
 			}
@@ -50,21 +50,21 @@ public class SampleNearDuplicates {
 	}
 
 	@SneakyThrows
-	static String samplePairToString(Tuple3<String, String, Integer> i, Namespace parsedArgs) {
+	static String samplePairToString(Tuple3<String, String, Integer> i, String uuidPrefix, String uuidIndex) {
 		java.util.Map<String, Object> ret = new LinkedHashMap<>();
 		ret.put("firstId", i._1());
 		ret.put("secondId", i._2());
 		ret.put("hemmingDistance", i._3());
 		
-		URL firstURL = new URL(CollectionDocumentUtil.chatNoirURL(parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX), i._1(), parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX)));
-		URL secondURL = new URL(CollectionDocumentUtil.chatNoirURL(parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX), i._2(), parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX)));
+		URL firstURL = new URL(CollectionDocumentUtil.chatNoirURL(uuidPrefix, i._1(), uuidIndex));
+		URL secondURL = new URL(CollectionDocumentUtil.chatNoirURL(uuidPrefix, i._2(), uuidIndex));
 		
 		ret.put("firstURL", firstURL);
 		ret.put("secondURL", secondURL);
 		
 		try {
-			CollectionDocument firstDocument = new HdfsMapFileDocumentResolver(parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX), parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX)).loadCollectionDocument(i._1());
-			CollectionDocument secondDocument = new HdfsMapFileDocumentResolver(parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX), parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX)).loadCollectionDocument(i._2());
+			CollectionDocument firstDocument = new HdfsMapFileDocumentResolver(uuidIndex, uuidPrefix).loadCollectionDocument(i._1());
+			CollectionDocument secondDocument = new HdfsMapFileDocumentResolver(uuidIndex, uuidPrefix).loadCollectionDocument(i._2());
 	
 			ret.put("firstDocument", firstDocument);
 			ret.put("secondDocument", secondDocument);
