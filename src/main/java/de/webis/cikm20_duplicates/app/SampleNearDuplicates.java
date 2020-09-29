@@ -10,7 +10,10 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
+import de.aitools.ir.fingerprinting.representation.HashVector;
+import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
 import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
+import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.HdfsMapFileDocumentResolver;
 import de.webis.cikm20_duplicates.util.TakeRandom;
@@ -71,7 +74,24 @@ public class SampleNearDuplicates {
 			ret.put("firstDocument", firstDocument);
 			ret.put("secondDocument", secondDocument);
 			
-			ret.put("s3Score", SparkEnrichRelevanceTransferPairs.s3Score(firstDocument,secondDocument));
+			if(firstDocument != null && secondDocument != null) {
+				ret.put("s3Score", SparkEnrichRelevanceTransferPairs.s3Score(firstDocument,secondDocument));
+				
+				HashVector aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.theeAndFiveGramms(firstDocument), 64);
+				HashVector bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.theeAndFiveGramms(secondDocument), 64);
+
+				ret.put("cosineSimilarity(3+5)", aVec.getCosSimilarity(bVec));
+
+				aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(firstDocument, 8), 64);
+				bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(secondDocument, 8), 64);
+
+				ret.put("cosineSimilarity(8)", aVec.getCosSimilarity(bVec));
+				
+				aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(firstDocument, 1), 64);
+				bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(secondDocument, 1), 64);
+
+				ret.put("cosineSimilarity(1)", aVec.getCosSimilarity(bVec));
+			}
 		} catch(Exception e) {}
 		
 		return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(ret);
