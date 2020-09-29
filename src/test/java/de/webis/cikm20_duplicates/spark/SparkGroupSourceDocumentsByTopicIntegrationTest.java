@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.curator.shaded.com.google.common.collect.Iterators;
+import com.google.common.collect.Iterators;
 import org.apache.spark.api.java.JavaRDD;
 import org.approvaltests.Approvals;
 import org.junit.Assert;

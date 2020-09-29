@@ -1,6 +1,7 @@
 package de.webis.cikm20_duplicates.spark.eval;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +17,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.curator.shaded.com.google.common.collect.Iterators;
+import com.google.common.collect.Iterators;
 import org.apache.spark.HashPartitioner;
 import org.apache.spark.Partitioner;
 import org.apache.spark.SparkConf;
@@ -299,7 +300,7 @@ public class SparkEvaluateSimHashFeatures {
 	private static long hashIds(String firstId, String secondId) {
 		String txt = firstId + "---vs---" + secondId;
 		
-		return Hashing.md5().hashString(txt).asLong();
+		return Hashing.md5().hashString(txt, StandardCharsets.UTF_8).asLong();
 	}
 	
 //	public static void main(String[] args) {

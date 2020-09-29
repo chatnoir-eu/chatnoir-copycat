@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.curator.shaded.com.google.common.collect.Iterators;
+import com.google.common.collect.Iterators;
 import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.spark.HashPartitioner;
 import org.apache.spark.Partitioner;

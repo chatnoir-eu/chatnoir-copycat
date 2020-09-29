@@ -17,6 +17,8 @@ import de.webis.cikm20_duplicates.app.CreateDocumentRepresentations.DocumentToTe
 import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.EsDocumentResolver;
+import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.HdfsMapFileDocumentResolver;
 import lombok.SneakyThrows;
 
 public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
@@ -101,6 +103,76 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 		CollectionDocument actual = transformToCollectionDocument(record, DocumentToTextTransformation.DEFAULT);
 		
 		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
+	@SneakyThrows
+	public void approveTransformationOfExistingCommonCrawlRecord2REMOVE() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Record-ID", "my-id-2");
+		headers.put("WARC-Target-URI", "http://example.com");
+		headers.put("WARC-Date", "01.01.1970");
+		String documentContent = CollectionDocumentUtil.loadRawDocumentFromChatnoir(new URL("https://chatnoir.eu/cache?uuid=6336be0b-8971-50a2-9c8d-7a1f19cd1b66&index=cw09&raw"), CollectionDocumentUtil.RETRY_FINAL);
+		WarcRecord record = record(headers, documentContent, "REsponse");
+		
+		CollectionDocument actual = transformToCollectionDocument(record, DocumentToTextTransformation.MAIN_CONTENT_EXTRACTION);
+		
+		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
+	@SneakyThrows
+	public void approveTransformationOfExistinClueWebDocumentWithMainContentFromChatNoir() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Record-ID", "my-id-2");
+		headers.put("WARC-Target-URI", "http://example.com");
+		headers.put("WARC-Date", "01.01.1970");
+		String documentContent = new EsDocumentResolver().loadCollectionDocument("clueweb09-en0000-00-00009").getContent();
+		WarcRecord record = record(headers, documentContent, "REsponse");
+		
+		CollectionDocument actual = transformToCollectionDocument(record, DocumentToTextTransformation.MAIN_CONTENT_EXTRACTION);
+		
+		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
+	@SneakyThrows
+	public void approveTransformationOfNonExistinClueWebDocumentWithMainContentFromChatNoir() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Record-ID", "my-id-2");
+		headers.put("WARC-Target-URI", "http://example.com");
+		headers.put("WARC-Date", "01.01.1970");
+		CollectionDocument doc = new EsDocumentResolver().loadCollectionDocument("clueweb09-NON-EXISTING-en0000-00-00009");
+		
+		Assert.assertNull(doc);
+	}
+	
+
+	@Test
+	@SneakyThrows
+	public void approveTransformationOfExistinClueWebDocumentFromHDFS() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Record-ID", "my-id-2");
+		headers.put("WARC-Target-URI", "http://example.com");
+		headers.put("WARC-Date", "01.01.1970");
+		CollectionDocument doc = new HdfsMapFileDocumentResolver().loadCollectionDocument("clueweb09-en0000-00-00009");
+		WarcRecord record = record(headers, doc.getContent(), "REsponse");
+		
+		CollectionDocument actual = transformToCollectionDocument(record, DocumentToTextTransformation.DEFAULT);
+		
+		Approvals.verifyAsJson(actual);
+	}
+	
+	@Test
+	@SneakyThrows
+	public void approveTransformationOfNonExistinClueWebDocumentClueWebDocumentFromHDFS() {
+		Map<String, String> headers = new HashMap<>();
+		headers.put("WARC-Record-ID", "my-id-2");
+		headers.put("WARC-Target-URI", "http://example.com");
+		headers.put("WARC-Date", "01.01.1970");
+		CollectionDocument doc = new HdfsMapFileDocumentResolver().loadCollectionDocument("clueweb09-NON-EXISTING-en0000-00-00009");
+		
+		Assert.assertNull(doc);
 	}
 	
 	@Test
