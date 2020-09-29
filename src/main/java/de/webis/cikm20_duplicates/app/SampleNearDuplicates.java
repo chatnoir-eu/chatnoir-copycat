@@ -33,13 +33,15 @@ public class SampleNearDuplicates {
 		}
 
 		try (JavaSparkContext context = context()) {
+			String uuidPrefix = parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX);
+			String uuidIndex = parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX);
 			List<String> ret = new ArrayList<>();
 			
 			for(int k=0; k<4; k++) {
 				JavaRDD<Tuple3<String, String, Integer>> nearDuplicatesAtDistanceK = nearDuplicatePairsForK(parsedArgs, context, k);
 				List<Tuple3<String, String, Integer>> iter = nearDuplicatesAtDistanceK.takeSample(false, 3* parsedArgs.getInt(ArgumentParsingUtil.ARG_NUM));
 				List<Tuple3<String, String, Integer>> currentSample = TakeRandom.takeRandomElements(parsedArgs.getInt(ArgumentParsingUtil.ARG_NUM), iter);
-				List<String> currentSampleMapped = context.parallelize(currentSample, currentSample.size()).map(i -> samplePairToString(i, parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX), parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX))).collect();
+				List<String> currentSampleMapped = context.parallelize(currentSample, currentSample.size()).map(i -> samplePairToString(i, uuidPrefix, uuidIndex)).collect();
 				
 				ret.addAll(currentSampleMapped);
 			}
