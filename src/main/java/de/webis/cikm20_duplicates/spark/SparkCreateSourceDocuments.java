@@ -208,15 +208,19 @@ public class SparkCreateSourceDocuments {
 	}
 	
 	public static JavaRDD<DocumentWithFingerprint> fingerprintAllDocuments(JavaSparkContext context, JavaRDD<CollectionDocument> docs, List<Fingerprinter<Integer>> fingerprinters) {
-		return docs.map(i -> new DocumentWithFingerprint(
-			i.getId(),
-			i.getUrl(),
-			i.getCanonicalUrl(),
-			fp(i, fingerprinters),
-			i.getCrawlingTimestamp(),
-			NGramms.tokenize(i.getContent()).size(),
-			NGramms.tokenize(i.getFullyCanonicalizedContent()).size()
-		));
+		return docs.map(i -> fingerprintDocument(i, fingerprinters));
+	}
+	
+	public static DocumentWithFingerprint fingerprintDocument(CollectionDocument doc, List<Fingerprinter<Integer>> fingerprinters) {
+		return new DocumentWithFingerprint(
+			doc.getId(),
+			doc.getUrl(),
+			doc.getCanonicalUrl(),
+			fp(doc, fingerprinters),
+			doc.getCrawlingTimestamp(),
+			NGramms.tokenize(doc.getContent()).size(),
+			NGramms.tokenize(doc.getFullyCanonicalizedContent()).size()
+		);
 	}
 	
 	private static LinkedHashMap<String, ArrayList<Integer>> fp(CollectionDocument doc, List<Fingerprinter<Integer>> fingerprinters) {

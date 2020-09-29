@@ -1,11 +1,9 @@
 package de.webis.cikm20_duplicates.app;
 
 import java.net.URL;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
@@ -14,6 +12,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
+import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.HdfsMapFileDocumentResolver;
 import de.webis.cikm20_duplicates.util.TakeRandom;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import lombok.Data;
@@ -34,17 +33,16 @@ public class SampleNearDuplicates {
 		}
 
 		try (JavaSparkContext context = context()) {
-			Set<Tuple3<String, String, Integer>> sample = new HashSet<>();
+			List<String> ret = new ArrayList<>();
 			
 			for(int k=0; k<4; k++) {
 				JavaRDD<Tuple3<String, String, Integer>> nearDuplicatesAtDistanceK = nearDuplicatePairsForK(parsedArgs, context, k);
 				List<Tuple3<String, String, Integer>> iter = nearDuplicatesAtDistanceK.takeSample(false, 3* parsedArgs.getInt(ArgumentParsingUtil.ARG_NUM));
 				List<Tuple3<String, String, Integer>> currentSample = TakeRandom.takeRandomElements(parsedArgs.getInt(ArgumentParsingUtil.ARG_NUM), iter);
+				List<String> currentSampleMapped = context.parallelize(currentSample, currentSample.size()).map(i -> samplePairToString(i, parsedArgs)).collect();
 				
-				sample.addAll(currentSample);
+				ret.addAll(currentSampleMapped);
 			}
-			
-			List<String> ret = sample.stream().map(i -> samplePairToString(i, parsedArgs)).collect(Collectors.toList());
 			
 			context.parallelize(ret).repartition(1)
 				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
@@ -58,15 +56,15 @@ public class SampleNearDuplicates {
 		ret.put("secondId", i._2());
 		ret.put("hemmingDistance", i._3());
 		
-		URL firstURL = new URL(CollectionDocumentUtil.chatNoirURL(parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX), i._1(), parsedArgs.getString( ArgumentParsingUtil.UUID_INDEX)));
-		URL secondURL = new URL(CollectionDocumentUtil.chatNoirURL(parsedArgs.getString( ArgumentParsingUtil.UUID_PREFIX), i._2(), parsedArgs.getString( ArgumentParsingUtil.UUID_INDEX)));
+		URL firstURL = new URL(CollectionDocumentUtil.chatNoirURL(parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX), i._1(), parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX)));
+		URL secondURL = new URL(CollectionDocumentUtil.chatNoirURL(parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX), i._2(), parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX)));
 		
 		ret.put("firstURL", firstURL);
 		ret.put("secondURL", secondURL);
 		
 		try {
-			CollectionDocument firstDocument = CollectionDocumentUtil.loadCollectionDocument(i._1(), firstURL);
-			CollectionDocument secondDocument = CollectionDocumentUtil.loadCollectionDocument(i._2(), secondURL);
+			CollectionDocument firstDocument = new HdfsMapFileDocumentResolver(parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX), parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX)).loadCollectionDocument(i._1());
+			CollectionDocument secondDocument = new HdfsMapFileDocumentResolver(parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX), parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX)).loadCollectionDocument(i._2());
 	
 			ret.put("firstDocument", firstDocument);
 			ret.put("secondDocument", secondDocument);

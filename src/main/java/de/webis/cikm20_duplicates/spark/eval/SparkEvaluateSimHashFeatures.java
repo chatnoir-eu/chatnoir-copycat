@@ -354,7 +354,7 @@ public class SparkEvaluateSimHashFeatures {
 		return combine(threeGramms, fiveGramms);
 	}
 	
-	private static List<String> nGramms(CollectionDocument doc, int length) {
+	public static List<String> nGramms(CollectionDocument doc, int length) {
 		return Collections.unmodifiableList(new ArrayList<>(NGramms.nGramms(doc.getFullyCanonicalizedContent(), length)));
 	}
 	

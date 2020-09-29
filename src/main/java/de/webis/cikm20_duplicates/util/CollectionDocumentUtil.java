@@ -17,9 +17,15 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpHead;
 import org.json.JSONObject;
 
+import de.aitools.ir.fingerprinting.representation.HashVector;
+import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
 import de.webis.WebisUUID;
 import de.webis.chatnoir2.webclient.search.DocumentRetriever;
 import de.webis.chatnoir2.webclient.search.DocumentRetriever.Document;
+import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments;
+import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
+import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
+import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import io.anserini.index.transform.JsoupStringTransform;
 import lombok.Data;
@@ -105,32 +111,51 @@ public class CollectionDocumentUtil {
 //		String prefix = "commoncrawl";
 //		String index = "cc1704";
 
-		String firstId = "clueweb09-en0000-00-00009";
-		String secondId = "clueweb09-en0000-00-00016";
+		String firstId = "clueweb09-en0122-96-07267";
+		String secondId = "clueweb09-enwp00-42-02646";
 		String prefix = "clueweb09";
 		String index = "cw09";
 
 		System.out.println(chatNoirURL(prefix, firstId, index));
-//		CollectionDocument a = loadCollectionDocument(firstId, new URL(chatNoirURL(prefix, firstId, index)));
+		CollectionDocument a = new HdfsMapFileDocumentResolver(index, prefix).loadCollectionDocument(firstId);
 //		System.out.println(chatNoirURL(prefix, secondId, index));
-//		CollectionDocument b = loadCollectionDocument(secondId, new URL(chatNoirURL(prefix, secondId, index)));
+		CollectionDocument b = new HdfsMapFileDocumentResolver(index, prefix).loadCollectionDocument(secondId);
 
-//		System.out.println(SparkEnrichRelevanceTransferPairs.s3Score(a,b));
+		System.out.println(SparkEnrichRelevanceTransferPairs.s3Score(a,b));
+		
+		DocumentWithFingerprint aFP = SparkCreateSourceDocuments.fingerprintDocument(a, SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
+		DocumentWithFingerprint bFP = SparkCreateSourceDocuments.fingerprintDocument(b, SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
 
-		System.out.println(new HdfsMapFileDocumentResolver().loadCollectionDocument(firstId));
-		System.out.println(new HdfsMapFileDocumentResolver().loadCollectionDocument(secondId));
-		System.out.println(new HdfsMapFileDocumentResolver().loadCollectionDocument("clueweb09-en0000-00-00017c"));
+		
+		HashVector aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.theeAndFiveGramms(a), 64);
+		HashVector bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.theeAndFiveGramms(b), 64);
+		System.out.println("Cosine Similarity (3+5 grams): " + aVec.getCosSimilarity(bVec));
+		System.out.println("Fingerprint Doc a: " + aFP.getFingerprints());
+		System.out.println("Fingerprint Doc b: " + bFP.getFingerprints());
+
+		aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(a, 8), 64);
+		bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(b, 8), 64);
+		
+		System.out.println("Cosine Similarity (8 grams): " + aVec.getCosSimilarity(bVec));
+
+		//FIXME: Check the cosine similarity of those vectors with external tool.
+		aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(a, 1), 64);
+		bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(b, 1), 64);
+		
+		System.out.println("Cosine Similarity (1 grams): " + aVec.getCosSimilarity(bVec));
+		
 //		System.out.println(new EsDocumentResolver().loadCollectionDocument(firstId));
 //		System.out.println(new EsDocumentResolver().loadCollectionDocument(secondId));
 	}
 	
+	@Data
 	public static class HdfsMapFileDocumentResolver {
 		
 		private final DocumentRetriever documentRetriever = new DocumentRetriever();
 		
-		private final String indexName = "cw09";
+		private final String indexName;
 		
-		private final String prefix = "clueweb09";
+		private final String prefix;
 		
 		public CollectionDocument loadCollectionDocument(String id) {
 			long start = System.currentTimeMillis();
