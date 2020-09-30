@@ -7,6 +7,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
 import de.webis.WebisUUID;
 import de.webis.chatnoir2.webclient.search.DocumentRetriever;
 import de.webis.chatnoir2.webclient.search.DocumentRetriever.Document;
+import de.webis.cikm20_duplicates.app.ArgumentParsingUtil;
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments;
 import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
@@ -32,6 +34,7 @@ import lombok.Data;
 import lombok.SneakyThrows;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
+import net.sourceforge.argparse4j.inf.Namespace;
 
 public class CollectionDocumentUtil {
 
@@ -121,12 +124,13 @@ public class CollectionDocumentUtil {
 //		System.out.println(chatNoirURL(prefix, secondId, index));
 		CollectionDocument b = new HdfsMapFileDocumentResolver(index, prefix).loadCollectionDocument(secondId);
 
-		System.out.println(SparkEnrichRelevanceTransferPairs.s3Score(a,b));
-		
-		DocumentWithFingerprint aFP = SparkCreateSourceDocuments.fingerprintDocument(a, SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
-		DocumentWithFingerprint bFP = SparkCreateSourceDocuments.fingerprintDocument(b, SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
+		System.out.println(SparkEnrichRelevanceTransferPairs.s3Score(a, b));
 
-		
+		DocumentWithFingerprint aFP = SparkCreateSourceDocuments.fingerprintDocument(a,
+				SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
+		DocumentWithFingerprint bFP = SparkCreateSourceDocuments.fingerprintDocument(b,
+				SparkCreateSourceDocuments.PRODUCTION_FINGERPRINTS);
+
 		HashVector aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.theeAndFiveGramms(a), 64);
 		HashVector bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.theeAndFiveGramms(b), 64);
 		System.out.println("Cosine Similarity (3+5 grams): " + aVec.getCosSimilarity(bVec));
@@ -135,28 +139,44 @@ public class CollectionDocumentUtil {
 
 		aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(a, 8), 64);
 		bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(b, 8), 64);
-		
+
 		System.out.println("Cosine Similarity (8 grams): " + aVec.getCosSimilarity(bVec));
 
-		//FIXME: Check the cosine similarity of those vectors with external tool.
+		// FIXME: Check the cosine similarity of those vectors with external tool.
 		aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(a, 1), 64);
 		bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(b, 1), 64);
-		
+
 		System.out.println("Cosine Similarity (1 grams): " + aVec.getCosSimilarity(bVec));
-		
+
 //		System.out.println(new EsDocumentResolver().loadCollectionDocument(firstId));
 //		System.out.println(new EsDocumentResolver().loadCollectionDocument(secondId));
 	}
-	
+
+	public static interface DocumentResolver {
+		public CollectionDocument loadCollectionDocument(String id);
+	}
+
 	@Data
-	public static class HdfsMapFileDocumentResolver {
-		
+	public static class HdfsMapFileDocumentResolver implements DocumentResolver {
+
 		private final DocumentRetriever documentRetriever = new DocumentRetriever();
-		
+
 		private final String indexName;
-		
+
 		private final String prefix;
+
+		public static HdfsMapFileDocumentResolver fromArgs(Namespace args) {
+			return fromArgs(args.getAttrs());
+		}
 		
+		public static HdfsMapFileDocumentResolver fromArgs(Map<String, Object> args) {
+			return new HdfsMapFileDocumentResolver(
+				(String) args.get(ArgumentParsingUtil.UUID_INDEX),
+				(String) args.get(ArgumentParsingUtil.UUID_PREFIX)
+			);
+		}
+
+		@Override
 		public CollectionDocument loadCollectionDocument(String id) {
 			long start = System.currentTimeMillis();
 			String raw = raw(id);
@@ -170,20 +190,21 @@ public class CollectionDocumentUtil {
 			System.out.println("Retrieving " + id + " took: " + (System.currentTimeMillis() - start));
 			return ret;
 		}
-		
+
 		private String raw(String id) {
 			UUID docUUID = webisUUID(prefix, id);
 			Document ret = documentRetriever.getByUUID(indexName, docUUID);
-			
+
 			return ret == null ? null : ret.getBody();
 		}
 	}
 
 	@Data
-	public static class EsDocumentResolver {
+	public static class EsDocumentResolver implements DocumentResolver {
 		private final String host = "betaweb023";
 		private final int port = 9200;
 
+		@Override
 		public CollectionDocument loadCollectionDocument(String id) {
 			long start = System.currentTimeMillis();
 			String mainContent = mainContentOfDocument(id);
@@ -200,12 +221,12 @@ public class CollectionDocumentUtil {
 		@SuppressWarnings("unchecked")
 		public String mainContentOfDocument(String id) {
 			String rawDocument = loadEsDocument(id);
-			if(rawDocument == null) {
+			if (rawDocument == null) {
 				return null;
 			}
 			JSONObject json = new JSONObject(rawDocument);
 			JSONObject source = json.getJSONObject("_source");
-			List<String> bodyField = ((Set<String>)source.keySet()).stream().filter(i -> i.contains("body_lang"))
+			List<String> bodyField = ((Set<String>) source.keySet()).stream().filter(i -> i.contains("body_lang"))
 					.collect(Collectors.toList());
 			if (bodyField.size() < 1) {
 				return null;
@@ -222,7 +243,7 @@ public class CollectionDocumentUtil {
 		public String loadEsDocument(String id, RetryPolicy<String> retryPolicy) {
 			id = webisUUID(id);
 			URL url = new URL("http://" + host + ":" + port + "/webis_warc_clueweb09_003/warcrecord/" + id);
-			if(!documentExists(url)) {
+			if (!documentExists(url)) {
 				return null;
 			}
 
@@ -232,23 +253,34 @@ public class CollectionDocumentUtil {
 
 		private static boolean documentExists(URL url) {
 			HttpURLConnection urlConnection = null;
-		    System.setProperty("http.keepAlive", "false");
-		    try {
-		        urlConnection = (HttpURLConnection) url.openConnection();
-		        urlConnection.setRequestMethod("HEAD");
-		        urlConnection.getInputStream().close();
-		        return 200 == urlConnection.getResponseCode();
-		    } catch (IOException e) {
-		    	return false;
-		    }
-		    finally
+			System.setProperty("http.keepAlive", "false");
+			try {
+				urlConnection = (HttpURLConnection) url.openConnection();
+				urlConnection.setRequestMethod("HEAD");
+				urlConnection.getInputStream().close();
+				return 200 == urlConnection.getResponseCode();
+			} catch (IOException e) {
+				return false;
+			} finally
 
-		{
-			if (urlConnection != null) {
-				urlConnection.disconnect();
+			{
+				if (urlConnection != null) {
+					urlConnection.disconnect();
+				}
 			}
 		}
 	}
+	
+	@Data
+	public static class ChatNoirDocumentResolver implements DocumentResolver {
+		private final String indexName, prefix;
+		
+		@Override
+		@SneakyThrows
+		public CollectionDocument loadCollectionDocument(String id) {
+			URL chatNoirUrl = new URL(CollectionDocumentUtil.chatNoirURL(prefix, id, indexName));
+			return CollectionDocumentUtil.loadCollectionDocument(id, chatNoirUrl);
+		}
 	}
 
 	public static final RetryPolicy<String> RETRY_FINAL = new RetryPolicy<String>().handle(Exception.class)
