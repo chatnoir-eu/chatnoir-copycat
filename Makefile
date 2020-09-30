@@ -236,7 +236,7 @@ sample-near-duplicates-cw09: install
 	hdfs dfs -rm -r -f ecir2021/cw09-deduplication/sample-near-duplicates-min-length-10.jsonl && \
 	src/main/bash/sample-near-duplicates.sh \
 		--input ecir2021/cw09-deduplication/min-length-10 \
-		--num 200 \
+		--num 10000 \
 		--output ecir2021/cw09-deduplication/sample-near-duplicates-min-length-10.jsonl \
 		--uuidIndex cw09 \
 		--uuidPrefix clueweb09
@@ -253,7 +253,7 @@ sample-near-duplicates-cw12: install
 	hdfs dfs -rm -r -f ecir2021/cw12-deduplication/sample-near-duplicates-min-length-10.jsonl && \
 	src/main/bash/sample-near-duplicates.sh \
 		--input ecir2021/cw12-deduplication/min-length-10 \
-		--num 200 \
+		--num 10000 \
 		--output ecir2021/cw12-deduplication/sample-near-duplicates-min-length-10.jsonl \
 		--uuidIndex cw12 \
 		--uuidPrefix clueweb12
@@ -262,7 +262,7 @@ sample-near-duplicates-cc17: install
 	hdfs dfs -rm -r -f ecir2021/cc-2017-04-deduplication/sample-near-duplicates-min-length-10.jsonl && \
 	src/main/bash/sample-near-duplicates.sh \
 		--input ecir2021/cc-2017-04-deduplication/min-length-10 \
-		--num 200 \
+		--num 10000 \
 		--output ecir2021/cc-2017-04-deduplication/sample-near-duplicates-min-length-10.jsonl \
 		--uuidIndex cc1704 \
 		--uuidPrefix commoncrawl
@@ -271,7 +271,7 @@ sample-near-duplicates-cc15: install
 	hdfs dfs -rm -r -f ecir2021/cc-2015-11-deduplication/sample-near-duplicates-min-length-10.jsonl && \
 	src/main/bash/sample-near-duplicates.sh \
 		--input ecir2021/cc-2015-11-deduplication/min-length-10 \
-		--num 200 \
+		--num 10000 \
 		--output ecir2021/cc-2015-11-deduplication/sample-near-duplicates-min-length-10.jsonl \
 		--uuidIndex cc1511 \
 		--uuidPrefix commoncrawl
