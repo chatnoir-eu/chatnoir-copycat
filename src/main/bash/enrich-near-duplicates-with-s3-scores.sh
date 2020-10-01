@@ -13,7 +13,7 @@ export SPARK_HOME=/home/kibi9872/web-search-cikm2020-resource-paper-code/local-s
         --class de.webis.cikm20_duplicates.app.EnrichSimHashNearDuplicatesWithS3Similarity \
         --conf spark.default.parallelism=50000\
         --executor-cores 1\
-        --num-executors 500\
+        --num-executors 300\
         --driver-memory 5G\
         target/cikm20-duplicates-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}
 
