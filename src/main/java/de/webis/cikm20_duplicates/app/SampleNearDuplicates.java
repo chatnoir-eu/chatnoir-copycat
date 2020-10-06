@@ -145,9 +145,8 @@ public class SampleNearDuplicates {
 		private List<Integer> hash;
 	}
 
-	@SneakyThrows
 	static Tuple3<String, String, Integer> parseNearDuplicates(String src) {
-		NearDuplicate ret = new com.fasterxml.jackson.databind.ObjectMapper().readValue(src, NearDuplicate.class);
+		NearDuplicate ret = NearDuplicate.fromString(src);
 	
 		return new Tuple3<>(ret.getFirstId(), ret.getSecondId(), ret.getHemmingDistance());
 	}
@@ -157,6 +156,11 @@ public class SampleNearDuplicates {
 	public static class NearDuplicate {
 		private String firstId, secondId;
 		private int hemmingDistance;
+
+		@SneakyThrows
+		public static NearDuplicate fromString(String src) {
+			return new com.fasterxml.jackson.databind.ObjectMapper().readValue(src, NearDuplicate.class);
+		}
 	}
 
 	

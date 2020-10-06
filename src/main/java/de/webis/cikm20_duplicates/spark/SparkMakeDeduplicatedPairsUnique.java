@@ -3,6 +3,7 @@ package de.webis.cikm20_duplicates.spark;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
+import scala.Tuple2;
 
 public class SparkMakeDeduplicatedPairsUnique {
 	@SneakyThrows
@@ -28,6 +30,24 @@ public class SparkMakeDeduplicatedPairsUnique {
 		}
 	}
 	
+	public static JavaRDD<String> distinctNearDuplicatePairs(JavaRDD<String> nearDuplicateJSONL) {
+		return nearDuplicateJSONL
+				.mapToPair(i -> new Tuple2<>(nearDuplicatePair(i), i))
+				.groupByKey().map(i -> combineRedundantNearDuplicateEntries(i));
+	}
+	
+	private static String combineRedundantNearDuplicateEntries(Tuple2<String, Iterable<String>> i) {
+		Iterator<String> values = i._2.iterator(); 
+		String first = values.next();
+		values.forEachRemaining(rem -> {
+			if(rem != null && !rem.equals(first)) {
+				throw new RuntimeException("Could not handle '" + first + "' vs '" + rem + "'.");
+			}
+		});
+		
+		return first;
+	}
+
 	@SneakyThrows
 	@SuppressWarnings("unchecked")
 	private static String nearDuplicatePair(String src) {

@@ -146,6 +146,11 @@ corpus-analysis: install
 distinct-deduplication-pairs: install
 	./src/main/bash/run-spark-job-low-resources-akbnq-new.sh de.webis.cikm20_duplicates.spark.SparkMakeDeduplicatedPairsUnique
 
+distinct-deduplication-pairs-onegramms: install 
+	./src/main/bash/distinct-near-duplicate-pairs.sh \
+		-i ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/near-duplicates \
+		-o ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates
+
 create-ids-to-remove: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateIdsToRemove
 
