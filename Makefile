@@ -151,6 +151,11 @@ distinct-deduplication-pairs-onegramms: install
 		-i ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/near-duplicates \
 		-o ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates
 
+deduplication-pairs-between-corpora-onegramms: install
+	./src/main/bash/deduplication-pairs-between-corpora.sh \
+		-i ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates \
+		-o ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates-between-corpora
+
 create-ids-to-remove: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateIdsToRemove
 
