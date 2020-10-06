@@ -21,7 +21,7 @@ public class MakeNearDuplicatePairsUnique {
 		}
 
 		try (JavaSparkContext context = context()) {
-			JavaRDD<String> input = context.textFile(ArgumentParsingUtil.ARG_INPUT);
+			JavaRDD<String> input = context.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
 			
 			SparkMakeDeduplicatedPairsUnique.distinctNearDuplicatePairs(input)
 				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
