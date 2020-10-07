@@ -14,7 +14,11 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 import com.google.common.collect.Iterators;
 
+import de.aitools.ir.fingerprinting.representation.HashVector;
+import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
+import de.webis.cikm20_duplicates.app.SampleNearDuplicates.NearDuplicate;
 import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
+import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.DocumentResolver;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
@@ -61,28 +65,52 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 	
 	private static String addS3ScoreToCsvLine(CollectionDocument firstDoc, String csvLine, DocumentResolver docResolver) {
 		String secondId = secondId(csvLine);
-		CollectionDocument secondDoc = docResolver.loadCollectionDocument(secondId);
+		String firstId = firstId(csvLine);
+		CollectionDocument secondDoc = docResolver.loadCollectionDocument(secondId); 
+		String  s3Score = "-1",
+				cosineSimilarityOneGramms = "-1",
+				cosineSimilarityEightGramms = "-1",
+				cosineSimilarityThreeAndFiveGramms = "-1";
 		
-		if(firstDoc == null || secondDoc == null) {
-			return csvLine +",-1";
-		} else {
-			double s3Score = SparkEnrichRelevanceTransferPairs.s3Score(firstDoc, secondDoc);
-			return csvLine +"," + String.format( "%.4f", s3Score);
+		
+		if(firstDoc != null && secondDoc != null) {
+			s3Score = String.format("%.4f", SparkEnrichRelevanceTransferPairs.s3Score(firstDoc, secondDoc));
+			
+			HashVector aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.theeAndFiveGramms(firstDoc), 64);
+			HashVector bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.theeAndFiveGramms(secondDoc), 64);
+
+			cosineSimilarityThreeAndFiveGramms = String.format("%.4f", aVec.getCosSimilarity(bVec));
+			
+			aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(firstDoc, 8), 64);
+			bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(secondDoc, 8), 64);
+			
+			cosineSimilarityEightGramms = String.format("%.4f", aVec.getCosSimilarity(bVec));
+			
+			aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(firstDoc, 1), 64);
+			bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(secondDoc, 1), 64);
+
+			cosineSimilarityOneGramms = String.format("%.4f", aVec.getCosSimilarity(bVec));
 		}
+		
+		return "{\"firstId\":\"" + firstId + "\",\"secondId\":\"" + secondId + "\",\"s3Score\":" +
+			s3Score + ",\"cosineSimilarityOneGramms\":" + cosineSimilarityOneGramms + ",\"cosineSimilarityEightGramms\":"
+			+ cosineSimilarityEightGramms +",\"cosineSimilarityThreeAndFiveGramms\":" + cosineSimilarityThreeAndFiveGramms + "}";
 	}
 	
 	private static String firstId(String csvLine) {
-		return StringUtils.substringBefore(csvLine, ",");
+		NearDuplicate nd = NearDuplicate.fromString(csvLine);
+		
+		return nd.getFirstId();
 	}
 	
 	private static String secondId(String csvLine) {
-		return StringUtils.substringBefore(StringUtils.substringAfter(csvLine +",", ","), ",");
+		NearDuplicate nd = NearDuplicate.fromString(csvLine);
+		
+		return nd.getSecondId();
 	}
 	
 	static DocumentResolverFactory docResolver(Namespace args) {
-		Map<String, Object> argsAttributes = new LinkedHashMap<>(args.getAttrs());
-		
-		return () -> CollectionDocumentUtil.HdfsMapFileDocumentResolver.fromArgs(argsAttributes);
+		return () -> CollectionDocumentUtil.HdfsMapFileDocumentResolver.smartDocumentResolver();
 	}
 	
 	public static interface DocumentResolverFactory extends Supplier<DocumentResolver>, Serializable {};
@@ -114,14 +142,6 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 
 		ret.addArgument("-o", "--" + ArgumentParsingUtil.ARG_OUTPUT).required(Boolean.TRUE)
 				.help("The resulting csv enriched with an additional s3Score column is stored under this location.");
-		
-		ret.addArgument("--" + ArgumentParsingUtil.UUID_PREFIX).required(Boolean.TRUE)
-				.type(String.class)
-				.help("The uuid prefix that is used to retrieve the document from chatnoirs mapfiles.");
-		
-		ret.addArgument("--" + ArgumentParsingUtil.UUID_INDEX).required(Boolean.TRUE)
-				.type(String.class)
-				.help("The uuid index that is used to retrieve the document from chatnoirs mapfiles.");
 
 		return ret;
 	}

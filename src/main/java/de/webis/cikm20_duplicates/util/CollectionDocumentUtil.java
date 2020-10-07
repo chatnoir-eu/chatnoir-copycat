@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -197,6 +198,26 @@ public class CollectionDocumentUtil {
 
 			return ret == null ? null : ret.getBody();
 		}
+
+		public static DocumentResolver smartDocumentResolver() {
+			return new DocumentResolver() {
+				@Override
+				public CollectionDocument loadCollectionDocument(String id) {
+					Map<String, Object> config = config(id);
+					
+					return HdfsMapFileDocumentResolver.fromArgs(config).loadCollectionDocument(id);
+				}
+				
+				private Map<String, Object> config(String id) {
+					Map<String, Object> ret = new HashMap<>();
+					
+					ret.put(ArgumentParsingUtil.UUID_INDEX, shortChatNoirId(id));
+					ret.put(ArgumentParsingUtil.UUID_PREFIX, longChatNoirId(id));
+					
+					return ret;
+				}
+			};
+		}
 	}
 
 	@Data
@@ -320,9 +341,9 @@ public class CollectionDocumentUtil {
 			return "clueweb09";
 		} else if (documentId.startsWith("clueweb12")) {
 			return "clueweb12";
+		} else {
+			return "commoncrawl";
 		}
-
-		throw new RuntimeException("ID '" + documentId + "' is not supported.");
 	}
 
 	private static String shortChatNoirId(String documentId) {
@@ -330,9 +351,9 @@ public class CollectionDocumentUtil {
 			return "cw09";
 		} else if (documentId.startsWith("clueweb12")) {
 			return "cw12";
+		} else {
+			return "cc1511";
 		}
-
-		throw new RuntimeException("ID '" + documentId + "' is not supported.");
 	}
 
 	public static String chatNoirURL(String documentId) {
