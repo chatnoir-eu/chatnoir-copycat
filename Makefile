@@ -152,6 +152,7 @@ distinct-deduplication-pairs-onegramms: install
 		-o ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates
 
 deduplication-pairs-between-corpora-onegramms: install
+	hdfs dfs -rm -r -f  ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates-between-corpora && \
 	./src/main/bash/deduplication-pairs-between-corpora.sh \
 		-i ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates \
 		-o ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates-between-corpora

@@ -36,7 +36,7 @@ public class SparkCreateDuplicationCandidatesFromFingerprintsIntegrationTest ext
 	
 	@Test
 	public void testInputIsReflexive() {
-		List<String> expected = Arrays.asList("clueweb09-en0008-02-29970", "clueweb12-1800tw-04-16339");
+		List<String> expected = Arrays.asList("clueweb09-en0008-02-29970");
 		List<String> actual = duplicationCandidates(
 				docWithFingerprint("not-in-corpus-1", 1, 1),
 				docWithFingerprint("clueweb09-en0008-02-29970", 2, 2),
@@ -69,7 +69,6 @@ public class SparkCreateDuplicationCandidatesFromFingerprintsIntegrationTest ext
 	public void testInputsWithDuplicatesInJudgedAndUnJudgedDocuments() {
 		List<String> expected = Arrays.asList(
 				"clueweb09-en0008-02-29970",
-				"clueweb12-1800tw-04-16339",
 				"not-in-corpus-4"
 		);
 		List<String> actual = duplicationCandidates(
@@ -87,10 +86,8 @@ public class SparkCreateDuplicationCandidatesFromFingerprintsIntegrationTest ext
 	public void testInputsWithAllDuplicates() {
 		List<String> expected = Arrays.asList(
 				"clueweb09-en0008-02-29970",
-				"clueweb12-1800tw-04-16339",
 				"not-in-corpus-1",
-				"not-in-corpus-4",
-				"not-in-corpus-5"
+				"not-in-corpus-4"
 		);
 		List<String> actual = duplicationCandidates(
 				docWithFingerprint("not-in-corpus-1", 5, 1),

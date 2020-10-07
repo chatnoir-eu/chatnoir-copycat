@@ -6,6 +6,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
 import de.webis.cikm20_duplicates.app.SampleNearDuplicates.NearDuplicate;
+import de.webis.cikm20_duplicates.spark.SparkRelevanceTransferDataConstruction;
 import de.webis.cikm20_duplicates.spark.eval.SparkAggregateKnowledgeTransferBetweenCrawls;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -24,12 +25,30 @@ public class FilterNearDuplicatesBetweenCorpora {
 			JavaRDD<String> input = context.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
 			
 			keepNearDuplicatesBetweenCorpora(input)
-				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
+				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT) + "/all", BZip2Codec.class);
+			
+			keepNearDuplicatesWithJudgmentInWebTrack(keepNearDuplicatesBetweenCorpora(input))
+				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT) + "/with-judgments-in-web-track", BZip2Codec.class);
 		}
 	}
 	
 	static JavaRDD<String> keepNearDuplicatesBetweenCorpora(JavaRDD<String> ret) {
 		return ret.filter(i -> keepNearDuplicatesBetweenCorpora(i));
+	}
+	
+	static JavaRDD<String> keepNearDuplicatesWithJudgmentInWebTrack(JavaRDD<String> ret) {
+		return ret.filter(i -> keepNearDuplicatesWithJudgmentInWebTrack(i));
+	}
+	
+	private static boolean keepNearDuplicatesWithJudgmentInWebTrack(String i) {
+		NearDuplicate nd = NearDuplicate.fromString(i);
+		
+		return keepNearDuplicatesBetweenCorpora(i) && 
+				(
+						!SparkRelevanceTransferDataConstruction.possibleRelevanceTransfersFromTo(nd.getFirstId(), nd.getSecondId(), 0).isEmpty()
+					||
+						!SparkRelevanceTransferDataConstruction.possibleRelevanceTransfersFromTo(nd.getSecondId(), nd.getFirstId(), 0).isEmpty()
+				);
 	}
 	
 	private static boolean keepNearDuplicatesBetweenCorpora(String i) {

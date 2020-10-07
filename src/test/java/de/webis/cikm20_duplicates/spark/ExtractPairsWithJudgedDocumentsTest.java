@@ -40,11 +40,8 @@ public class ExtractPairsWithJudgedDocumentsTest {
 		List<String> ids = Arrays.asList("clueweb09-2", "clueweb09-3", "clueweb09-en0008-02-29970", "clueweb12-1800tw-04-16339", "clueweb09-1");
 		List<Tuple3<String, String, Integer>> expected = Arrays.asList(
 			new Tuple3<>("clueweb09-1", "clueweb09-en0008-02-29970", 0),
-			new Tuple3<>("clueweb09-1", "clueweb12-1800tw-04-16339", 0),
 			new Tuple3<>("clueweb09-2", "clueweb09-en0008-02-29970", 0),
-			new Tuple3<>("clueweb09-2", "clueweb12-1800tw-04-16339", 0),
 			new Tuple3<>("clueweb09-3", "clueweb09-en0008-02-29970", 0),
-			new Tuple3<>("clueweb09-3", "clueweb12-1800tw-04-16339", 0),
 			new Tuple3<>("clueweb09-en0008-02-29970", "clueweb12-1800tw-04-16339", 0)
 		);
 		List<Tuple3<String, String, Integer>> actual = extractAllPairsWithJudgedDocuments(ids);

@@ -36,15 +36,7 @@ public final class SourceDocuments {
 			TrecSharedTask.WEB_2009, TrecSharedTask.WEB_2010,
 			TrecSharedTask.WEB_2011, TrecSharedTask.WEB_2012,
 
-			TrecSharedTask.WEB_2013, TrecSharedTask.WEB_2014,
-
-			TrecSharedTask.SESSION_2010, TrecSharedTask.SESSION_2011,
-			TrecSharedTask.SESSION_2012,
-
-			TrecSharedTask.SESSION_2013, TrecSharedTask.SESSION_2014,
-			
-			TrecSharedTask.ENTITY_2009, TrecSharedTask.ENTITY_2010,
-			TrecSharedTask.ENTITY_2011
+			TrecSharedTask.WEB_2013, TrecSharedTask.WEB_2014
 	);
 	
 	public static final List<SourceDocument> ALL_DOCS_FOR_WHICH_DUPLICATES_SHOULD_BE_SEARCHED = getAllDocumentsForWhichDuplicatesShouldBeSearched();

@@ -1,7 +1,6 @@
 [
-  "{\"clueweb09(judged)\u003c-\u003eclueweb12(judged) (k\u003d0)\":1}",
+  "{\"clueweb09(judged)\u003c-\u003eclueweb12(unjudged) (k\u003d0)\":1}",
   "{\"clueweb09(unjudged)\u003c-\u003eclueweb09(judged) (k\u003d0)\":2}",
-  "{\"clueweb09(unjudged)\u003c-\u003eclueweb12(judged) (k\u003d0)\":2}",
   "{\"clueweb09\u003c-\u003eclueweb09 (k\u003d0)\":3}",
   "{\"clueweb09\u003c-\u003eclueweb12 (k\u003d0)\":3}"
 ]

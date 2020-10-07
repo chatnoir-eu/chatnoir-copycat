@@ -27,7 +27,7 @@ public class SourceDocumentsTest {
 	
 	@Test
 	public void approveCountOfDocsToTransfer() {
-		int expected = 247032;
+		int expected = 102789;
 		int actual = SourceDocuments.ALL_DOCS_FOR_WHICH_DUPLICATES_SHOULD_BE_SEARCHED.size();
 		
 		Assert.assertEquals(expected, actual);
@@ -35,7 +35,7 @@ public class SourceDocumentsTest {
 	
 	@Test
 	public void approveTaskCount() {
-		int expected = 14;
+		int expected = 6;
 		int actual = SourceDocuments.taskToDocuments().keySet().size();
 
 		Assert.assertEquals(expected, actual);
@@ -43,7 +43,7 @@ public class SourceDocumentsTest {
 	
 	@Test
 	public void approveTopicCount() {
-		int expected = 761;
+		int expected = 298;
 		int actual = SourceDocuments.topicsToDocumentIds().keySet().size();
 		
 		Assert.assertEquals(expected, actual);
