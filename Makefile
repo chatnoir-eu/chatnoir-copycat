@@ -252,13 +252,11 @@ sample-near-duplicates-cw09: install
 		--uuidIndex cw09 \
 		--uuidPrefix clueweb09
 
-enrich-near-duplicate-pairs-cw09: install
+enrich-near-duplicate-pairs-with-judged-documents: install
 	hdfs dfs -rm -r -f ecir2021/cw09-deduplication/tmp-cw09-enriched-near-duplicate-pairs && \
 	src/main/bash/enrich-near-duplicates-with-s3-scores.sh \
-		--input s3a://corpus-copycat/near-duplicates/cw09-cw12/*00 \
-		--output ecir2021/cw09-deduplication/tmp-cw09-enriched-near-duplicate-pairs \
-		--uuidIndex cw09 \
-		--uuidPrefix clueweb09
+		--input ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates-between-corpora/with-judgments-in-web-track \
+		--output ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/relevance-transfer-near-duplicates
 
 sample-near-duplicates-cw12: install
 	hdfs dfs -rm -r -f ecir2021/cw12-deduplication/sample-near-duplicates-min-length-10.jsonl && \

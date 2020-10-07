@@ -2,11 +2,8 @@ package de.webis.cikm20_duplicates.app;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.function.Supplier;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
