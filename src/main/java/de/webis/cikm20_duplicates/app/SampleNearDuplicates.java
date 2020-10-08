@@ -161,6 +161,12 @@ public class SampleNearDuplicates {
 		public static NearDuplicate fromString(String src) {
 			return new com.fasterxml.jackson.databind.ObjectMapper().readValue(src, NearDuplicate.class);
 		}
+		
+		@Override
+		@SneakyThrows
+		public String toString() {
+			return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(this);
+		}
 	}
 
 	
