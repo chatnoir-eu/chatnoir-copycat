@@ -259,7 +259,10 @@ enrich-near-duplicate-pairs-with-judged-documents: install
 		--output ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/relevance-transfer-near-duplicates
 
 exact-duplicates-between-corpora-for-relevance-transfer: install
-	./src/main/bash/exact-duplicates-between-corpora-for-relevance-transfer.sh
+	./src/main/bash/exact-duplicates-between-corpora-for-relevance-transfer.sh && \
+	src/main/bash/enrich-near-duplicates-with-s3-scores.sh \
+		--input ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-exact-duplicates-between-corpora-for-relevance-transfer \
+		--output ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/relevance-transfer-exact-duplicates
 
 sample-near-duplicates-cw12: install
 	hdfs dfs -rm -r -f ecir2021/cw12-deduplication/sample-near-duplicates-min-length-10.jsonl && \
