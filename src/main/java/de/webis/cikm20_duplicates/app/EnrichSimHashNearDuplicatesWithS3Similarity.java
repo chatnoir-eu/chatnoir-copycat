@@ -2,6 +2,7 @@ package de.webis.cikm20_duplicates.app;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.apache.hadoop.io.compress.BZip2Codec;
@@ -18,6 +19,7 @@ import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.DocumentResolver;
+import de.webis.cikm20_duplicates.util.TakeRandom;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -53,9 +55,10 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 		DocumentResolver docResolver = docResolverFactory.get();
 		String firstId = groupForFirstId._1();
 		CollectionDocument firstDoc = docResolver.loadCollectionDocument(firstId);
+		List<String> groups = TakeRandom.takeRandomElements(100000, groupForFirstId._2());
 		
 		return Iterators.transform(
-			groupForFirstId._2().iterator(),
+			groups.iterator(),
 			i -> addS3ScoreToCsvLine(firstDoc, i, docResolver)
 		);
 	}
