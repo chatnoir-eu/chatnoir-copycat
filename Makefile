@@ -259,10 +259,16 @@ enrich-near-duplicate-pairs-with-judged-documents: install
 		--output ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/relevance-transfer-near-duplicates
 
 exact-duplicates-between-corpora-for-relevance-transfer: install
-	./src/main/bash/exact-duplicates-between-corpora-for-relevance-transfer.sh && \
-	src/main/bash/enrich-near-duplicates-with-s3-scores.sh \
-		--input ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-exact-duplicates-between-corpora-for-relevance-transfer \
-		--output ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/relevance-transfer-exact-duplicates
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 0 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 1 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 2 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 3 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 4 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 5 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 6 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 7 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 8 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 9
 
 sample-near-duplicates-cw12: install
 	hdfs dfs -rm -r -f ecir2021/cw12-deduplication/sample-near-duplicates-min-length-10.jsonl && \
