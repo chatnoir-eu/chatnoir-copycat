@@ -1,3 +1,6 @@
+create-documents-for-daniel: install
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.app.InjectRawDocuments
+
 common-crawl-small-sample-document-representations: install
 	hdfs dfs -rm -r -f corpus-copycat/document-representations/small-sample && \
 	./src/main/bash/new-document-representation-spark.sh \
