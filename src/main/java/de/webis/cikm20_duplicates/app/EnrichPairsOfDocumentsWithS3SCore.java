@@ -31,7 +31,7 @@ public class EnrichPairsOfDocumentsWithS3SCore {
 			tmp.flatMap(i -> calculateSimilarity(i))
 				.filter(i -> i != null)
 				.repartition(1)
-				.saveAsTextFile("file:///mnt/ceph/storage/data-in-progress/kibi9872/ecir2021/trec-judgments-in-wayback-machine/");
+				.saveAsTextFile("file:///mnt/ceph/storage/data-in-progress/kibi9872/ecir2021/trec-judgments-in-wayback-machine/redirects-and-snapshots-with-similarity.jsonl");
 		}
 	}
 	
