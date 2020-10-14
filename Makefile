@@ -1,3 +1,6 @@
+ecir2021-enrich-documents-with-s3-score: install
+	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.app.EnrichPairsOfDocumentsWithS3SCore
+
 create-documents-for-daniel: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.app.InjectRawDocuments
 
