@@ -28,3 +28,8 @@ ToDo: Easy to use examples: I only have git + docker, and then I can run the fol
      - `make deduplicate-cw09`
      - `make deduplicate-cw09-cw12-cc15`
 
+## Sampling of Near-Duplicates
+
+Use `./src/main/bash/sample-near-duplicates.sh`. There are several examples in the Makefile, e.g.:
+  - `make sample-near-duplicates-cw09`
+
