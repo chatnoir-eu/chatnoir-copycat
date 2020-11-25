@@ -47,7 +47,7 @@ cluster:
 
 hdfs:
   # Hadoop namenode address
-  defaultFS: hdfs://betaweb020.medien.uni-weimar.de:8020
+  defaultFS: hdfs://nn.hdfs.webis.de:8020
 
   # Document mapfiles for retrieving cached documents
   # For each mapfile the HDFS path, the number of mapfile partitions and the
