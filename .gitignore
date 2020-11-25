@@ -2,4 +2,5 @@
 .classpath
 .project
 .settings/
+conf/hadoop/core-site.xml
 src/main/jupyter/.ipynb_checkpoints/
