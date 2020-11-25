@@ -4,7 +4,7 @@
 <configuration>
     <property>
         <name>yarn.resourcemanager.hostname</name>
-        <value>betaweb020.medien.uni-weimar.de</value>
+        <value>rm.yarn.webis.de</value>
     </property>
     <property>  
         <name>yarn.nodemanager.aux-services</name>
