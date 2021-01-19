@@ -264,6 +264,11 @@ enrich-near-duplicate-pairs-with-judged-documents: install
 		--input ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates-between-corpora/with-judgments-in-web-track \
 		--output ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/relevance-transfer-near-duplicates
 
+small-test-enrich-near-duplicates: install
+	./src/main/bash/enrich-near-duplicates-with-s3-scores.sh \
+		--input /corpora/corpus-copycat/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-near-duplicates-without-exact-duplicates-csv-distinct/*1.bz2 \
+		--output sigir21/enrichment-cw09-cw12-pairs/part-1
+
 exact-duplicates-between-corpora-for-relevance-transfer: install
 	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 0 && \
 	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 1 && \
