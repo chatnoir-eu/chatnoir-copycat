@@ -6,6 +6,7 @@
         --conf "spark.speculation.multiplier=5" \
         --conf "spark.speculation.quantile=0.90" \
         --conf "spark.dynamicAllocation.maxExecutors=450" \
+        --conf "spark.yarn.maxAppAttempts=1" \
         --deploy-mode cluster \
         --class de.webis.cikm20_duplicates.app.EnrichSimHashNearDuplicatesWithS3Similarity \
         --conf spark.default.parallelism=50000\
