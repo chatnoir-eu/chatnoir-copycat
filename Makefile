@@ -265,9 +265,11 @@ enrich-near-duplicate-pairs-with-judged-documents: install
 		--output ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/relevance-transfer-near-duplicates
 
 small-test-enrich-near-duplicates: install
+	./src/main/bash/run-in-docker-container-with-spark.sh hdfs dfs -rm sigir21/enrichment-cw09-cw12-pairs/part-1 && \
 	./src/main/bash/enrich-near-duplicates-with-s3-scores.sh \
-		--input /corpora/corpus-copycat/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-near-duplicates-without-exact-duplicates-csv-distinct/*1.bz2 \
-		--output sigir21/enrichment-cw09-cw12-pairs/part-1
+		--input /corpora/corpus-copycat/deduplication-final/64BitK3SimHashThreeAndFiveGramms/cw09-cw12-near-duplicates-without-exact-duplicates-csv-distinct/*1 \
+		--output sigir21/enrichment-cw09-cw12-pairs/part-1 \
+		--inputFormat csv
 
 exact-duplicates-between-corpora-for-relevance-transfer: install
 	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 0 && \
