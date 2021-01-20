@@ -105,7 +105,7 @@ public class EnrichSimHashNearDuplicatesWithS3SimilarityIntegrationTest extends 
 		Assert.assertEquals(expected, actualList);
 	}
 	
-	private static DocumentResolverFactory cw09Resolver() {
+	static DocumentResolverFactory cw09Resolver() {
 		Namespace args = EnrichSimHashNearDuplicatesWithS3Similarity.validArgumentsOrNull(new String[] {
 			"-i", "foo",
 			"-o", "bar",

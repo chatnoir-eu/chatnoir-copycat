@@ -29,6 +29,13 @@ public class FingerPrintUtil {
 		
 		public double similarity(List<T> a, List<T> b);
 		public String fingerprinterName();
+		
+		public default double similarity(CollectionDocument a, CollectionDocument b) {
+			List<T> fingerprintA = fingerprint(a);
+			List<T> fingerprintB = fingerprint(b);
+			
+			return similarity(fingerprintA, fingerprintB);
+		}
 	}
 
 	@SuppressWarnings("serial")
