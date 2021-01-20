@@ -1,6 +1,9 @@
 package de.webis.cikm20_duplicates.app;
 
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,6 +27,7 @@ import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
 import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.DocumentResolver;
+import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
 import de.webis.trec_ndd.spark.RunLine;
@@ -32,6 +36,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Namespace;
 
 @Data
 public class DeduplicateTrecRunFile {
@@ -42,6 +50,66 @@ public class DeduplicateTrecRunFile {
 	
 	private final SimilarityCalculation similarityCalculation;
 	
+	private static final String ARG_DOC_RESOLVER = "docResolver";
+	private static final String ARG_SIMILARITIES = "similarities";
+	private static final String ARG_THREADS = "threads";
+	
+	@SneakyThrows
+	public static void main(String[] args) {
+		Namespace parsedArgs = parseArgs(args);
+		if(parsedArgs == null) {
+			return;
+		}
+		
+		DocumentResolver docResolver = docResolver(parsedArgs);
+		SimilarityCalculation sim = new DefaultSimilarityCalculation(parsedArgs.getList(ARG_SIMILARITIES));
+		
+		Path inputPath = Paths.get(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
+		String runFileContent = new String(Files.readAllBytes(inputPath));
+		
+		DeduplicateTrecRunFile dedup = new DeduplicateTrecRunFile(parsedArgs.getInt(ARG_THREADS), docResolver, sim);
+		String output = dedup.deduplicate(runFileContent).stream().collect(Collectors.joining("\n"));
+		
+		Path outputPath = Paths.get(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT));
+		Files.write(outputPath, output.getBytes());
+	}
+	
+	private static Namespace parseArgs(String[] args) {
+		ArgumentParser parser = argParser();
+		
+		try {
+			return parser.parseArgs(args);
+		} catch (ArgumentParserException e) {
+			parser.handleError(e);
+			return null;
+		}
+	}
+
+	private static ArgumentParser argParser() {
+		ArgumentParser ret = ArgumentParsers.newFor("CopyCat: Local Deduplication")
+				.build();
+		
+		ret.addArgument("--" + ArgumentParsingUtil.ARG_INPUT)
+			.required(true);
+		ret.addArgument("--" + ArgumentParsingUtil.ARG_OUTPUT)
+			.required(true);
+		ret.addArgument("--" + ARG_SIMILARITIES).choices(DefaultSimilarityCalculation.PREDEFINED_SIMILARITIES.keySet())
+			.nargs("+");
+		ret.addArgument("--" + ARG_DOC_RESOLVER).choices("WebisChatNoirMapfiles")
+			.required(true);
+		ret.addArgument("--" + ARG_THREADS).type(Integer.class).setDefault(1);
+
+		return ret;
+	}
+
+	private static DocumentResolver docResolver(Namespace parsedArgs) {
+		if(!"WebisChatNoirMapfiles".equals(parsedArgs.getString(ARG_DOC_RESOLVER))) {
+			throw new RuntimeException("Unexpected " + ARG_DOC_RESOLVER + ": '" + parsedArgs.getString(ARG_DOC_RESOLVER) + "'.");
+		}
+		
+		return CollectionDocumentUtil.HdfsMapFileDocumentResolver.smartDocumentResolver();
+	}
+
 	@SneakyThrows
 	public List<String> deduplicate(String runFileContent) {
 		Map<String, List<String>> topicToDocs = topicToSortedDocs(runFileContent);
