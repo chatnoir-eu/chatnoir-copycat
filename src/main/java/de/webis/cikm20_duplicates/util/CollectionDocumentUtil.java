@@ -115,12 +115,13 @@ public class CollectionDocumentUtil {
 //		String prefix = "commoncrawl";
 //		String index = "cc1704";
 
-		String firstId = "clueweb09-en0122-96-07267";
-		String secondId = "clueweb09-enwp00-42-02646";
+		String firstId = "clueweb09-en0002-17-16080";
+		String secondId = "clueweb09-en0009-61-13707";
 		String prefix = "clueweb09";
 		String index = "cw09";
 
-		System.out.println(chatNoirURL(prefix, firstId, index));
+		System.out.println(firstId + " --> " + chatNoirURL(prefix, firstId, index));
+		System.out.println(secondId + " --> " + chatNoirURL(prefix, secondId, index));
 		CollectionDocument a = new HdfsMapFileDocumentResolver(index, prefix).loadCollectionDocument(firstId);
 //		System.out.println(chatNoirURL(prefix, secondId, index));
 		CollectionDocument b = new HdfsMapFileDocumentResolver(index, prefix).loadCollectionDocument(secondId);
