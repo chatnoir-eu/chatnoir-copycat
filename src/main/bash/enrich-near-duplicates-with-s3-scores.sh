@@ -12,6 +12,7 @@
         --conf spark.default.parallelism=50000\
         --executor-cores 1\
         --num-executors 300\
-        --driver-memory 5G\
+        --driver-memory 15G\
+        --executor-memory 10G\
         /target/cikm20-duplicates-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}
 
