@@ -1,11 +1,13 @@
 package de.webis.cikm20_duplicates.app;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.io.compress.BZip2Codec;
@@ -65,6 +67,16 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 		Set<Word8Gramm> firstWord8Gramms = firstDoc == null ? null : SparkEnrichRelevanceTransferPairs.word8Gramms(firstDoc);
 		
 		List<String> groups = TakeRandom.takeRandomElements(100000, groupForFirstId._2());
+		
+		if(EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3) {
+			if(firstId.startsWith("clueweb09")) {
+				groups = groups.stream().filter(i -> i.startsWith("clueweb09")).collect(Collectors.toList());
+			} else if(firstId.startsWith("clueweb12")) {
+				groups = groups.stream().filter(i -> i.startsWith("clueweb12")).collect(Collectors.toList());
+			} else {
+				groups = new ArrayList<>();
+			}
+		}
 		
 		if(EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3) {
 			return Iterators.transform(
