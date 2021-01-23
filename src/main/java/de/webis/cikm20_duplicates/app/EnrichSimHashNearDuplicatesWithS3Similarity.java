@@ -1,8 +1,10 @@
 package de.webis.cikm20_duplicates.app;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,7 +23,9 @@ import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.DocumentResolver;
 import de.webis.cikm20_duplicates.util.TakeRandom;
+import de.webis.trec_ndd.spark.DocumentHash;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import de.webis.trec_ndd.util.NGramms.Word8Gramm;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -57,15 +61,39 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 		DocumentResolver docResolver = docResolverFactory.get();
 		String firstId = groupForFirstId._1();
 		CollectionDocument firstDoc = docResolver.loadCollectionDocument(firstId);
+		DocumentHash firstHash = firstDoc == null ? null : new DocumentHash(firstDoc);
+		Set<Word8Gramm> firstWord8Gramms = firstDoc == null ? null : SparkEnrichRelevanceTransferPairs.word8Gramms(firstDoc);
+		
 		List<String> groups = TakeRandom.takeRandomElements(100000, groupForFirstId._2());
 		
-		return Iterators.transform(
-			groups.iterator(),
-			i -> addS3ScoreToCsvLine(firstDoc, i, docResolver, f)
-		);
+		if(EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3) {
+			return Iterators.transform(
+					groups.iterator(),
+					i -> addS3ScoreToCsvLine(firstHash, firstWord8Gramms, i, docResolver, f)
+				);
+		} else {
+			return Iterators.transform(
+				groups.iterator(),
+				i -> addS3ScoreToCsvLine(firstDoc, i, docResolver, f)
+			);
+		}
 	}
 	
-	private static String addS3ScoreToCsvLine(CollectionDocument firstDoc, String csvLine, DocumentResolver docResolver, Format f) {
+	private static String addS3ScoreToCsvLine(DocumentHash firstHash, Set<Word8Gramm> firstWord8Gramms, String csvLine, DocumentResolver docResolver, Format f) {
+		String secondId = f.secondId(csvLine);
+		CollectionDocument secondDoc = docResolver.loadCollectionDocument(secondId); 
+		String  s3Score = "-1";
+		
+		
+		if(firstHash != null && secondDoc != null) {
+			s3Score = String.format("%.4f", SparkEnrichRelevanceTransferPairs.s3Score(firstHash, firstWord8Gramms, secondDoc));
+		}
+		
+		return "{\"firstId\":\"" + f.firstId(csvLine) + "\",\"secondId\":\"" + secondId + "\",\"s3Score\":" +
+			s3Score + "}";
+	}
+	
+	static String addS3ScoreToCsvLine(CollectionDocument firstDoc, String csvLine, DocumentResolver docResolver, Format f) {
 		String secondId = f.secondId(csvLine);
 		String firstId = f.firstId(csvLine);
 		CollectionDocument secondDoc = docResolver.loadCollectionDocument(secondId); 
@@ -98,8 +126,6 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 			s3Score + ",\"cosineSimilarityOneGramms\":" + cosineSimilarityOneGramms + ",\"cosineSimilarityEightGramms\":"
 			+ cosineSimilarityEightGramms +",\"cosineSimilarityThreeAndFiveGramms\":" + cosineSimilarityThreeAndFiveGramms + "}";
 	}
-	
-	
 	
 	static DocumentResolverFactory docResolver(Namespace args) {
 		return () -> CollectionDocumentUtil.HdfsMapFileDocumentResolver.smartDocumentResolver();

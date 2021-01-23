@@ -105,21 +105,33 @@ public class SparkEnrichRelevanceTransferPairs {
 	public static double s3Score(CollectionDocument a, CollectionDocument b) {
 		DocumentHash aHash = new DocumentHash(a);
 		Set<Word8Gramm> aWord8Gramms = word8Gramms(a);
+		
+		return s3Score(aHash, aWord8Gramms, b);
+	}
+	
+	public static double s3Score(DocumentHash aHash, Set<Word8Gramm> aWord8Gramms, CollectionDocument b) {
+		S3ScoreIntermediateResult data = new S3ScoreIntermediateResult();
 		DocumentHash bHash = new DocumentHash(b);
 		Set<Word8Gramm> bWord8Gramms = word8Gramms(b);
-		aWord8Gramms.retainAll(bWord8Gramms);
 		
-		S3ScoreIntermediateResult data = new S3ScoreIntermediateResult();
 		data.setLeftMetadata(aHash);
 		data.setRightMetadata(bHash);
-		data.setCommonNGramms(aWord8Gramms.size());
+		
+		int commonNGrams = 0;
+		for(Word8Gramm gram: bWord8Gramms) {
+			if(aWord8Gramms.contains(gram)) {
+				commonNGrams += 1;
+			}
+		}
+
+		data.setCommonNGramms(commonNGrams);
 		
 		S3Score ret = new S3Score(data);
 		
 		return ret.getS3Score();
 	}
 	
-	private static Set<Word8Gramm> word8Gramms(CollectionDocument doc) {
+	public static Set<Word8Gramm> word8Gramms(CollectionDocument doc) {
 		List<Word8Gramm> tmp = NGramms.build8Gramms(doc.getFullyCanonicalizedContent());
 		
 		return new HashSet<Word8Gramm>(tmp);

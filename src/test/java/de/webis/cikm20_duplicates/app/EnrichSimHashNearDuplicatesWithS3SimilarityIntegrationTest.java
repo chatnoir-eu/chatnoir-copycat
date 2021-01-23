@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.spark.api.java.JavaRDD;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.webis.cikm20_duplicates.app.EnrichSimHashNearDuplicatesWithS3Similarity.DocumentResolverFactory;
@@ -14,6 +16,16 @@ import de.webis.cikm20_duplicates.spark.SparkIntegrationTestBase;
 import net.sourceforge.argparse4j.inf.Namespace;
 
 public class EnrichSimHashNearDuplicatesWithS3SimilarityIntegrationTest extends SparkIntegrationTestBase {
+	@Before
+	public void setup() {
+		EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3 = false;
+	}
+	
+	@After
+	public void tearDown() {
+		EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3 = true;
+	}
+	
 	@Test
 	public void approveEmptyNearDuplicateInput() {
 		JavaRDD<String> simHashNearDuplicates = simHashNearDuplicates();

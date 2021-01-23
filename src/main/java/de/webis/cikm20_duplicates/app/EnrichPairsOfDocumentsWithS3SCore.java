@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.htrace.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.spark.SparkConf;
@@ -15,7 +16,9 @@ import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
 import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
+import de.webis.trec_ndd.spark.DocumentHash;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import de.webis.trec_ndd.util.NGramms.Word8Gramm;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +26,9 @@ import lombok.SneakyThrows;
 import scala.Tuple2;
 
 public class EnrichPairsOfDocumentsWithS3SCore {
+	
+	static boolean CALCULATE_ONLY_S3 = true;
+	
 	public static void main(String[] args) {
 		try (JavaSparkContext context = context()) {
 			JavaRDD<String> input = context.textFile("ecir2021/trec-judgments-in-wayback-machine/redirects-and-snapshots-as-collection-documents.jsonl");
@@ -38,14 +44,31 @@ public class EnrichPairsOfDocumentsWithS3SCore {
 	private static Iterator<String> calculateSimilarity(TmpContent i) {
 		List<String> ret = new ArrayList<>();
 		CollectionDocument firstDoc = doc(i.getTrecDocumentId());
+		DocumentHash firstHash = new DocumentHash(firstDoc);
+		Set<Word8Gramm> firstWord8Gramms = SparkEnrichRelevanceTransferPairs.word8Gramms(firstDoc);
 		
 		for(CollectionDocument secondDoc: i.getDocuments()) {
-			ret.add(calculateSimilarity(firstDoc, secondDoc));
+			if(CALCULATE_ONLY_S3) {
+				ret.add(calculateSimilarity(firstHash, firstWord8Gramms, secondDoc));
+			} else {
+				ret.add(calculateSimilarity(firstDoc, secondDoc));
+			}
 		}
 		
 		return ret.iterator();
 	}
 
+	private static String calculateSimilarity(DocumentHash firstHash, Set<Word8Gramm> firstWord8Gramms, CollectionDocument secondDoc) {
+		String  s3Score = "-1";
+		
+		if(firstHash != null && firstHash.getId() != null && firstWord8Gramms != null && secondDoc != null) {
+			s3Score = String.format("%.4f", SparkEnrichRelevanceTransferPairs.s3Score(firstHash, firstWord8Gramms, secondDoc));
+		}
+		
+		return "{\"firstId\":\"" + firstHash.getId() + "\",\"secondId\":\"" + secondDoc.getId() + "\",\"s3Score\":" +
+			s3Score + "}";
+	}
+	
 	private static String calculateSimilarity(CollectionDocument firstDoc, CollectionDocument secondDoc) {
 		String  s3Score = "-1",
 				cosineSimilarityOneGramms = "-1",

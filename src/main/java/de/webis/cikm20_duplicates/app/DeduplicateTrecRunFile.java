@@ -4,8 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class DeduplicateTrecRunFile {
 		SimilarityCalculation sim = new DefaultSimilarityCalculation(parsedArgs.getList(ARG_SIMILARITIES));
 		
 		Path inputPath = Paths.get(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
-		String runFileContent = new String(Files.readAllBytes(inputPath));
+		InputStream runFileContent = RunLine.openRunFile(inputPath);
 
 		DeduplicateTrecRunFile dedup = new DeduplicateTrecRunFile(parsedArgs.getInt(ARG_THREADS), docResolver, sim, parsedArgs.getDouble(ARG_S3_THRESHOLD));
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
@@ -170,7 +170,16 @@ public class DeduplicateTrecRunFile {
 
 	@SneakyThrows
 	public Stream<String> deduplicate(String runFileContent) {
-		Map<String, List<String>> topicToDocs = topicToSortedDocs(runFileContent);
+		return deduplicate(RunLine.parseRunlines(new StringInputStream(runFileContent)));
+	}
+	
+	public Stream<String> deduplicate(InputStream runFileContent) {
+		return deduplicate(RunLine.parseRunlines(runFileContent));
+	}
+	
+	@SneakyThrows
+	public Stream<String> deduplicate(List<RunLine> lines) {
+		Map<String, List<String>> topicToDocs = topicToSortedDocs(lines);
 		
 		return topicToDocs.keySet().stream().map(i -> processTopic(i, topicToDocs.get(i)));
 	}
@@ -323,11 +332,6 @@ public class DeduplicateTrecRunFile {
 		if(first == null || second == null || first.getId() == null || second.getId() == null || first.getId().compareTo(second.getId()) >= 0) {
 			throw new RuntimeException("The pairs have a wrong order: '" + first.getId() +"' and '" + second.getId() + "'.");
 		}
-	}
-
-	@SneakyThrows
-	private Map<String, List<String>> topicToSortedDocs(String runFileContent) {
-		return topicToSortedDocs(RunLine.parseRunlines(new StringInputStream(runFileContent)));
 	}
 	
 	private Map<String, List<String>> topicToSortedDocs(List<RunLine> runLines) {
