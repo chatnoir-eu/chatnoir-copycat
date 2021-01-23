@@ -271,6 +271,32 @@ small-test-enrich-near-duplicates: install
 		--output sigir21/enrichment-cw09-cw12-pairs/part-1 \
 		--inputFormat csv
 
+sigir21-enrich-near-duplicates-10-20: install
+	for I in $(seq 10 20); do ./src/main/bash/sigir21-enrich.sh ${I}; done
+
+sigir21-enrich-near-duplicates-21-30: install
+	for I in $(seq 21 30); do ./src/main/bash/sigir21-enrich.sh ${I}; done
+
+exact-duplicates-between-corpora-for-relevance-transfer: install
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 0 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 1 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 2 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 3 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 4 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 5 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 6 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 7 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 8 && \
+	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 9
+
+sample-near-duplicates-cw12: install
+	hdfs dfs -rm -r -f ecir2021/cw12-deduplication/sample-near-duplicates-min-length-10.jsonl && \
+	src/main/bash/sample-near-duplicates.sh \
+		--input ecir2021/cw12-deduplication/min-length-10 \
+		--num 10000 \
+		--output ecir2021/cw12-deduplication/sample-near-duplicates-min-length-10.jsonl \
+		--uuidIndex cw12 \
+		--uuidPrefix clueweb12
 exact-duplicates-between-corpora-for-relevance-transfer: install
 	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 0 && \
 	./src/main/bash/part-enrich-near-duplicates-with-s3-scores.sh 1 && \
@@ -364,4 +390,7 @@ label-data-maik:
 
 canonical-edges.pdf: src/main/python/plot.py
 	python3 src/main/python/plot.py
+
+jupyter-notebook:
+	docker run -ti --rm -p 8888:8888 -v ${PWD}:/workdir -w /workdir capreolus:0.2.5 jupyter notebook --no-browser --ip=0.0.0.0 --allow-root
 
