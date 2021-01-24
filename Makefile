@@ -271,6 +271,9 @@ small-test-enrich-near-duplicates: install
 		--output sigir21/enrichment-cw09-cw12-pairs/part-1 \
 		--inputFormat csv
 
+sigir21-enrich-near-duplicates-0-9: install
+	for I in $(seq -f "%02g" 0 9); do ./src/main/bash/sigir21-enrich.sh ${I}; done
+
 sigir21-enrich-near-duplicates-10-20: install
 	for I in $(seq 10 20); do ./src/main/bash/sigir21-enrich.sh ${I}; done
 
