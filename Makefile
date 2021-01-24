@@ -271,6 +271,18 @@ small-test-enrich-near-duplicates: install
 		--output sigir21/enrichment-cw09-cw12-pairs/part-1 \
 		--inputFormat csv
 
+sigir21-cw09-hashes: install
+	hdfs dfs -rm -r -f sigir21/doc-hash-cw09 && \
+	./src/main/bash/document-hashes-spark.sh \
+		--inputFormat CLUEWEB09 \
+		--input s3a://corpus-clueweb09/parts/*/*/*.warc.gz \
+		--output sigir21/doc-hash-cw09 && \
+	hdfs dfs -rm -r -f sigir21/doc-hash-cw09-repartitioned && \
+	src/main/bash/repartition.sh \
+		--input sigir21/doc-hash-cw09 \
+		--output sigir21/doc-hash-cw09-repartitioned \
+		--partitions 10000
+
 sigir21-enrich-near-duplicates-0-9: install
 	for I in $(seq -f "%02g" 0 9); do ./src/main/bash/sigir21-enrich.sh ${I}; done
 
