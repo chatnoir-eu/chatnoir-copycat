@@ -164,6 +164,17 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 	
 	@Test
 	@SneakyThrows
+	public void approveTransformationOfExistinClueWebDocumentFromHDFSWithCanonicalUrl() {
+		CollectionDocument doc = HdfsMapFileDocumentResolver.smartDocumentResolver().loadCollectionDocument("<urn:uuid:da8b10cf-af5d-43c8-8cf1-ae2f1fba994e>");
+		String expectedUrl = "http://en.wikipedia.org/wiki/Canis_lupus_familiaris";
+		String expectedCanonicalUrl = "http://en.wikipedia.org/wiki/Dog";
+		
+		Assert.assertEquals(expectedUrl, doc.getUrl().toString());
+		Assert.assertEquals(expectedCanonicalUrl, doc.getCanonicalUrl().toString());
+	}
+	
+	@Test
+	@SneakyThrows
 	public void approveTransformationOfNonExistinClueWebDocumentClueWebDocumentFromHDFS() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("WARC-Record-ID", "my-id-2");

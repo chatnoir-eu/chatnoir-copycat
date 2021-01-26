@@ -65,10 +65,13 @@ public class DeduplicateTrecRunFile {
 	
 	private final double s3Threshold;
 	
+	private final int maxRank;
+	
 	private static final String ARG_DOC_RESOLVER = "documents";
 	private static final String ARG_SIMILARITIES = "similarities";
 	private static final String ARG_THREADS = "threads";
 	private static final String ARG_S3_THRESHOLD = "s3Threshold";
+	private static final String ARG_RANKS = "ranks";
 	private static final String ARG_STRING_TRANSFORMATION = "stringTransformation";
 	private static final String ARG_ANSERINI_INDEX = "anseriniIndex";
 	
@@ -92,7 +95,10 @@ public class DeduplicateTrecRunFile {
 		Path inputPath = Paths.get(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
 		InputStream runFileContent = RunLine.openRunFile(inputPath);
 
-		DeduplicateTrecRunFile dedup = new DeduplicateTrecRunFile(parsedArgs.getInt(ARG_THREADS), docResolver, sim, parsedArgs.getDouble(ARG_S3_THRESHOLD));
+		DeduplicateTrecRunFile dedup = new DeduplicateTrecRunFile(
+			parsedArgs.getInt(ARG_THREADS),docResolver, sim, 
+			parsedArgs.getDouble(ARG_S3_THRESHOLD), parsedArgs.getInt(ARG_RANKS)
+		);
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
 			dedup.deduplicate(runFileContent).forEach(i -> {
 				try {
@@ -147,6 +153,11 @@ public class DeduplicateTrecRunFile {
 			.setDefault(".")
 			.required(false);
 	
+		ret.addArgument("--" + ARG_RANKS)
+			.help("Include documents up to the specified rank in the deduplication.")
+			.type(Integer.class)
+			.setDefault(1000)
+			.required(false);
 		
 		ret.addArgument("--" + ARG_S3_THRESHOLD)
 			.type(Double.class)
@@ -336,6 +347,7 @@ public class DeduplicateTrecRunFile {
 	
 	private Map<String, List<String>> topicToSortedDocs(List<RunLine> runLines) {
 		Map<String, Set<String>> ret = new LinkedHashMap<>();
+		runLines = runLines.stream().filter(i -> i.getRank() <= maxRank).collect(Collectors.toList());
 		
 		for(RunLine runLine: runLines) {
 			String topic = (runLine.getTopic() + "").trim();

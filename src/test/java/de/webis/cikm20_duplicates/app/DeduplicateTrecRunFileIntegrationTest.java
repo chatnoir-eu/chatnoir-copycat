@@ -66,7 +66,7 @@ public class DeduplicateTrecRunFileIntegrationTest {
 			"s3", "cosine(1-grams)", "cosine(8-grams)", "cosine(3+5-grams)",
 			"url", "simhash(1-grams)", "simhash(3+5-grams)"
 		)); 
-		DeduplicateTrecRunFile rf = new DeduplicateTrecRunFile(1, cw09DocResolver, sim, 0.6);
+		DeduplicateTrecRunFile rf = new DeduplicateTrecRunFile(1, cw09DocResolver, sim, 0.6, 5);
 		
 		return rf.deduplicate(runFileContent)
 			.sorted()

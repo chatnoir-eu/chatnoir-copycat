@@ -13,10 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpHead;
 import org.json.JSONObject;
 
 import de.aitools.ir.fingerprinting.representation.HashVector;
@@ -25,6 +22,7 @@ import de.webis.WebisUUID;
 import de.webis.chatnoir2.webclient.search.DocumentRetriever;
 import de.webis.chatnoir2.webclient.search.DocumentRetriever.Document;
 import de.webis.cikm20_duplicates.app.ArgumentParsingUtil;
+import de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction;
 import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments;
 import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
@@ -181,23 +179,39 @@ public class CollectionDocumentUtil {
 		@Override
 		public CollectionDocument loadCollectionDocument(String id) {
 			long start = System.currentTimeMillis();
-			String raw = raw(id);
-			if (raw == null) {
+			Document doc = doc(id);
+			if (doc == null) {
+				System.out.println("Retrieving " + id + " took: " + (System.currentTimeMillis() - start));
+				return null;
+			}
+			
+			String raw = doc.getBody();
+			
+			if(raw == null) {
 				System.out.println("Retrieving " + id + " took: " + (System.currentTimeMillis() - start));
 				return null;
 			}
 
 			JsoupStringTransform stringTransform = new JsoupStringTransform();
 			CollectionDocument ret = CollectionDocument.collectionDocument(stringTransform.apply(raw), id);
+			ret.setCanonicalUrl(SparkCanonicalLinkGraphExtraction.extractCanonicalLinkOrNull(doc.getTargetURI(), raw));
+			ret.setUrl(urlOrNull(doc.getTargetURI()));
+			
 			System.out.println("Retrieving " + id + " took: " + (System.currentTimeMillis() - start));
 			return ret;
 		}
 
-		private String raw(String id) {
+		private URL urlOrNull(String url) {
+			try {
+				return new URL(url);
+			} catch (MalformedURLException e) {
+				return null;
+			}
+		}
+		
+		private Document doc(String id) {
 			UUID docUUID = webisUUID(prefix, id);
-			Document ret = documentRetriever.getByUUID(indexName, docUUID);
-
-			return ret == null ? null : ret.getBody();
+			return documentRetriever.getByUUID(indexName, docUUID);
 		}
 
 		public static DocumentResolver smartDocumentResolver() {
