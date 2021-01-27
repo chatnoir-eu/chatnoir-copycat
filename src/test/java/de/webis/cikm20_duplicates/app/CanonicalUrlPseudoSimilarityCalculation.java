@@ -99,7 +99,7 @@ public class CanonicalUrlPseudoSimilarityCalculation {
 	
 	private boolean similarAccordingToCanonicalUrls(CollectionDocument a, CollectionDocument b) {
 		DefaultSimilarityCalculation sim = new DefaultSimilarityCalculation(Arrays.asList("url"));
-		SimilarityIntermediateProduct i = new SimilarityIntermediateProduct(null, a, b);
+		SimilarityIntermediateProduct i = new SimilarityIntermediateProduct(null, a, b, null, null);
 		
 		return 0.999 <= sim.calculateSimilarities(i).get("url");
 	}

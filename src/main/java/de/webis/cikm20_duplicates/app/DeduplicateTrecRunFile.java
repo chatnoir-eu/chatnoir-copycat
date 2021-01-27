@@ -229,7 +229,7 @@ public class DeduplicateTrecRunFile {
 		
 		List<S3ScoreIntermediateResult> intermediateResults = sumCoocurrencesOfAllIndexEntries(word8GrammToDocIds, idToHash);
 		List<SimilarityIntermediateProduct> s3Scores = intermediateResults.stream()
-				.map(i -> new SimilarityIntermediateProduct(new S3Score(i), docs))
+				.map(i -> new SimilarityIntermediateProduct(new S3Score(i), docs, idToHash))
 				.filter(i -> i.getS3Score().getS3Score() >= s3Threshold)
 				.collect(Collectors.toList());
 		
@@ -243,11 +243,14 @@ public class DeduplicateTrecRunFile {
 	protected static class SimilarityIntermediateProduct {
 		private final S3Score s3Score;
 		private final CollectionDocument first, second;
+		private final DocumentHash firstHash, secondHash;
 		
-		private SimilarityIntermediateProduct(S3Score s3Score, Map<String, CollectionDocument> docs) {
+		private SimilarityIntermediateProduct(S3Score s3Score, Map<String, CollectionDocument> docs, Map<String, DocumentHash> idToHash) {
 			this.s3Score = s3Score;
 			this.first  = docs.get(s3Score.getIdPair().getLeft());
 			this.second  = docs.get(s3Score.getIdPair().getRight());
+			this.firstHash = idToHash.get(s3Score.getIdPair().getLeft());
+			this.secondHash = idToHash.get(s3Score.getIdPair().getRight());
 		}
 	}
 	
@@ -446,10 +449,28 @@ public class DeduplicateTrecRunFile {
 			ret.put("cosine(1-grams)", i -> cosineSimilarityOneGramms(i.getFirst(), i.getSecond()));
 			ret.put("simhash(1-grams)", i -> (float) oneGramFingerprinter().similarity(i.getFirst(), i.getSecond()));
 			ret.put("simhash(3+5-grams)", i -> (float) threeAndFiveGramGramFingerprinter().similarity(i.getFirst(), i.getSecond()));
+			ret.put("md5", i-> md5Similarity(i));
+			ret.put("text-profile", i-> textProfileSimilarity(i));
 			
 			return ret;
 		}
 		
+		private static Float textProfileSimilarity(SimilarityIntermediateProduct i) {
+			if(i.getFirstHash().getTextProfileSignature().equals(i.getSecondHash().getTextProfileSignature())) {
+				return 1.0f;
+			} else {
+				return 0.0f;
+			}
+		}
+
+		private static Float md5Similarity(SimilarityIntermediateProduct i) {
+			if(i.getFirstHash().getMd5().equals(i.getSecondHash().getMd5())) {
+				return 1.0f;
+			} else {
+				return 0.0f;
+			}
+		}
+
 		private static Float cosineSimilarityOneGramms(CollectionDocument a, CollectionDocument b) {
 			HashVector aVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(a, 1), 64);
 			HashVector bVec = HashVectorSha3.toVector(SparkEvaluateSimHashFeatures.nGramms(b, 1), 64);
