@@ -2,7 +2,6 @@ package de.webis.cikm20_duplicates.app;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -56,7 +55,15 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 		return simHashNearDuplicates
 				.mapToPair(i -> new Tuple2<>(f.firstId(i), i))
 				.groupByKey()
-				.flatMap(i -> enrichS3Score(i, docResolverFactory, f));
+				.flatMap(i -> enrichS3ScoreFailSave(i, docResolverFactory, f));
+	}
+	
+	private static Iterator<String> enrichS3ScoreFailSave(Tuple2<String, Iterable<String>> groupForFirstId, DocumentResolverFactory docResolverFactory, Format f) {
+		try {
+			return enrichS3Score(groupForFirstId, docResolverFactory, f);
+		} catch (Error e) {
+			return Iterators.transform(groupForFirstId._2().iterator(), i -> "{\"firstId\":\"" + f.firstId(i) + "\",\"secondId\":\"" + f.secondId(i) + "\",\"s3Score\":-1}"); 
+		}
 	}
 	
 	private static Iterator<String> enrichS3Score(Tuple2<String, Iterable<String>> groupForFirstId, DocumentResolverFactory docResolverFactory, Format f) {
@@ -137,6 +144,15 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 		return "{\"firstId\":\"" + firstId + "\",\"secondId\":\"" + secondId + "\",\"s3Score\":" +
 			s3Score + ",\"cosineSimilarityOneGramms\":" + cosineSimilarityOneGramms + ",\"cosineSimilarityEightGramms\":"
 			+ cosineSimilarityEightGramms +",\"cosineSimilarityThreeAndFiveGramms\":" + cosineSimilarityThreeAndFiveGramms + "}";
+	}
+	
+	private static void sleepSometimesToPreventNetworkProblems(int i) {
+		//sounds silly, but is true: 
+		if(i % 100 == 0) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
+		}
 	}
 	
 	static DocumentResolverFactory docResolver(Namespace args) {
