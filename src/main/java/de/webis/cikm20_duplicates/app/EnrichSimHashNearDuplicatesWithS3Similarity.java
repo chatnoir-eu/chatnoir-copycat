@@ -66,7 +66,7 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 		}
 	}
 	
-	private static Iterator<String> enrichS3Score(Tuple2<String, Iterable<String>> groupForFirstId, DocumentResolverFactory docResolverFactory, Format f) {
+	static Iterator<String> enrichS3Score(Tuple2<String, Iterable<String>> groupForFirstId, DocumentResolverFactory docResolverFactory, Format f) {
 		DocumentResolver docResolver = docResolverFactory.get();
 		String firstId = groupForFirstId._1();
 		CollectionDocument firstDoc = docResolver.loadCollectionDocument(firstId);
@@ -196,7 +196,7 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 		return ret;
 	}
 	
-	private interface Format extends Serializable {
+	static interface Format extends Serializable {
 		public String firstId(String input);
 		public String secondId(String input);
 		
