@@ -32,10 +32,12 @@ import com.amazonaws.util.StringInputStream;
 import de.aitools.ir.fingerprinting.representation.HashVector;
 import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
 import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
-import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.DocumentResolver;
 import de.webis.cikm20_duplicates.util.CollectionDocumentUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil;
 import de.webis.cikm20_duplicates.util.FingerPrintUtil.Fingerprinter;
+import de.webis.copycat.DocumentPair;
+import de.webis.copycat.DocumentResolver;
+import de.webis.copycat.Similarities;
 import de.webis.trec_ndd.spark.DocumentHash;
 import de.webis.trec_ndd.spark.RunLine;
 import de.webis.trec_ndd.spark.S3ScoreOnWord8GrammIndex.S3Score;
@@ -61,7 +63,7 @@ public class DeduplicateTrecRunFile {
 	
 	private final DocumentResolver docResolver;
 	
-	private final SimilarityCalculation similarityCalculation;
+	private final Similarities similarityCalculation;
 	
 	private final double s3Threshold;
 	
@@ -90,7 +92,7 @@ public class DeduplicateTrecRunFile {
 		}
 		
 		DocumentResolver docResolver = docResolver(parsedArgs);
-		SimilarityCalculation sim = new DefaultSimilarityCalculation(parsedArgs.getList(ARG_SIMILARITIES));
+		Similarities sim = new DefaultSimilarityCalculation(parsedArgs.getList(ARG_SIMILARITIES));
 		
 		Path inputPath = Paths.get(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
 		InputStream runFileContent = RunLine.openRunFile(inputPath);
@@ -228,30 +230,14 @@ public class DeduplicateTrecRunFile {
 		word8GrammToDocIds = pruneEntries(word8GrammToDocIds);
 		
 		List<S3ScoreIntermediateResult> intermediateResults = sumCoocurrencesOfAllIndexEntries(word8GrammToDocIds, idToHash);
-		List<SimilarityIntermediateProduct> s3Scores = intermediateResults.stream()
-				.map(i -> new SimilarityIntermediateProduct(new S3Score(i), docs, idToHash))
+		List<DocumentPair> s3Scores = intermediateResults.stream()
+				.map(i -> new DocumentPair(new S3Score(i), docs, idToHash))
 				.filter(i -> i.getS3Score().getS3Score() >= s3Threshold)
 				.collect(Collectors.toList());
 		
 		List<DocumentPairSimilarity> similarities = parallel(() -> s3Scores.parallelStream().map(p -> similarity(p)).collect(Collectors.toList()));
 		
 		return new AllPairsSimilarities(null, similarities, idToHash.size());
-	}
-	
-	@Data
-	@AllArgsConstructor
-	protected static class SimilarityIntermediateProduct {
-		private final S3Score s3Score;
-		private final CollectionDocument first, second;
-		private final DocumentHash firstHash, secondHash;
-		
-		private SimilarityIntermediateProduct(S3Score s3Score, Map<String, CollectionDocument> docs, Map<String, DocumentHash> idToHash) {
-			this.s3Score = s3Score;
-			this.first  = docs.get(s3Score.getIdPair().getLeft());
-			this.second  = docs.get(s3Score.getIdPair().getRight());
-			this.firstHash = idToHash.get(s3Score.getIdPair().getLeft());
-			this.secondHash = idToHash.get(s3Score.getIdPair().getRight());
-		}
 	}
 	
 	private List<S3ScoreIntermediateResult> sumCoocurrencesOfAllIndexEntries(Map<Word8Gramm, List<String>> word8GrammToDocIds, Map<String, DocumentHash> idToHash) {
@@ -331,7 +317,7 @@ public class DeduplicateTrecRunFile {
 		return ret;
 	}
 	
-	private DocumentPairSimilarity similarity(SimilarityIntermediateProduct i) {
+	private DocumentPairSimilarity similarity(DocumentPair i) {
 		DocumentPairSimilarity ret = new DocumentPairSimilarity();
 		failWhenDocsAreInWrongOrder(i.getFirst(), i.getSecond());
 		
@@ -418,8 +404,8 @@ public class DeduplicateTrecRunFile {
 	}
 	
 	@Data
-	public static class DefaultSimilarityCalculation implements SimilarityCalculation {
-		private final static Map<String, Function<SimilarityIntermediateProduct, Float>> PREDEFINED_SIMILARITIES = predefinedSimilarities();
+	public static class DefaultSimilarityCalculation implements Similarities {
+		private final static Map<String, Function<DocumentPair, Float>> PREDEFINED_SIMILARITIES = predefinedSimilarities();
 		
 		private final List<String> similarities;
 		
@@ -440,8 +426,8 @@ public class DeduplicateTrecRunFile {
 			}
 		}
 
-		private static Map<String, Function<SimilarityIntermediateProduct, Float>> predefinedSimilarities() {
-			Map<String, Function<SimilarityIntermediateProduct, Float>> ret = new LinkedHashMap<>();
+		private static Map<String, Function<DocumentPair, Float>> predefinedSimilarities() {
+			Map<String, Function<DocumentPair, Float>> ret = new LinkedHashMap<>();
 			ret.put("url", i -> canonicalUrlSimilarity(i.getFirst(), i.getSecond()));
 			ret.put("s3", i -> (float) i.getS3Score().getS3Score());
 			ret.put("cosine(3+5-grams)", i -> cosineSimilarityThreeAndFiveGramms(i.getFirst(), i.getSecond()));
@@ -455,7 +441,7 @@ public class DeduplicateTrecRunFile {
 			return ret;
 		}
 		
-		private static Float textProfileSimilarity(SimilarityIntermediateProduct i) {
+		private static Float textProfileSimilarity(DocumentPair i) {
 			if(i.getFirstHash().getTextProfileSignature().equals(i.getSecondHash().getTextProfileSignature())) {
 				return 1.0f;
 			} else {
@@ -463,7 +449,7 @@ public class DeduplicateTrecRunFile {
 			}
 		}
 
-		private static Float md5Similarity(SimilarityIntermediateProduct i) {
+		private static Float md5Similarity(DocumentPair i) {
 			if(i.getFirstHash().getMd5().equals(i.getSecondHash().getMd5())) {
 				return 1.0f;
 			} else {
@@ -515,7 +501,7 @@ public class DeduplicateTrecRunFile {
 		}
 
 		@Override
-		public Map<String, Float> calculateSimilarities(SimilarityIntermediateProduct i) {
+		public Map<String, Float> calculateSimilarities(DocumentPair i) {
 			Map<String, Float> ret = new LinkedHashMap<>();
 			
 			for(String sim: similarities) {
@@ -532,9 +518,5 @@ public class DeduplicateTrecRunFile {
 		private static Fingerprinter<Integer> threeAndFiveGramGramFingerprinter() {
 			return FingerPrintUtil.productionFingerpringint(64, 3);
 		}
-	}
-	
-	public static interface SimilarityCalculation {
-		Map<String, Float> calculateSimilarities(SimilarityIntermediateProduct i);
 	}
 }
