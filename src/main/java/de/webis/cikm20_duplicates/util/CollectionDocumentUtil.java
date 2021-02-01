@@ -27,6 +27,7 @@ import de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments;
 import de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures;
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
+import de.webis.copycat.DocumentResolver;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import io.anserini.index.transform.JsoupStringTransform;
 import lombok.Data;
@@ -150,10 +151,6 @@ public class CollectionDocumentUtil {
 
 //		System.out.println(new EsDocumentResolver().loadCollectionDocument(firstId));
 //		System.out.println(new EsDocumentResolver().loadCollectionDocument(secondId));
-	}
-
-	public static interface DocumentResolver {
-		public CollectionDocument loadCollectionDocument(String id);
 	}
 
 	@Data
