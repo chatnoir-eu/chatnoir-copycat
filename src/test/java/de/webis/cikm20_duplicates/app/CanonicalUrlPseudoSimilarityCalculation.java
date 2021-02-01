@@ -8,7 +8,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import de.webis.cikm20_duplicates.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
-import de.webis.cikm20_duplicates.app.DeduplicateTrecRunFile.SimilarityIntermediateProduct;
+import de.webis.copycat.DocumentPair;
+import de.webis.copycat.Similarities;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import lombok.SneakyThrows;
 
@@ -99,7 +100,7 @@ public class CanonicalUrlPseudoSimilarityCalculation {
 	
 	private boolean similarAccordingToCanonicalUrls(CollectionDocument a, CollectionDocument b) {
 		DefaultSimilarityCalculation sim = new DefaultSimilarityCalculation(Arrays.asList("url"));
-		SimilarityIntermediateProduct i = new SimilarityIntermediateProduct(null, a, b, null, null);
+		DocumentPair i = new DocumentPair(null, a, b, null, null);
 		
 		return 0.999 <= sim.calculateSimilarities(i).get("url");
 	}
