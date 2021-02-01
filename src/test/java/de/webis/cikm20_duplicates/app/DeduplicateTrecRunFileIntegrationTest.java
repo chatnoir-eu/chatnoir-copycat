@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import de.webis.cikm20_duplicates.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
-import de.webis.cikm20_duplicates.util.CollectionDocumentUtil.DocumentResolver;
+import de.webis.copycat.DocumentResolver;
 
 public class DeduplicateTrecRunFileIntegrationTest {
 	@Test
