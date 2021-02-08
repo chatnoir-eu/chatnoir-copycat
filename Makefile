@@ -410,5 +410,10 @@ canonical-edges.pdf: src/main/python/plot.py
 	python3 src/main/python/plot.py
 
 jupyter-notebook:
-	docker run -ti --rm -p 8888:8888 -v ${PWD}:/workdir -w /workdir capreolus:0.2.5 jupyter notebook --no-browser --ip=0.0.0.0 --allow-root
+	docker run -ti --rm -p 8888:8888 \
+		-v ${PWD}:/workdir \
+		-v /mnt/ceph/storage/data-in-progress/data-research/web-search/:/mnt/ceph/storage/data-in-progress/data-research/web-search/ \
+		-w /workdir \
+		capreolus:0.2.5 \
+		jupyter notebook --no-browser --ip=0.0.0.0 --allow-root
 
