@@ -283,6 +283,16 @@ sigir21-cw09-hashes: install
 		--output sigir21/doc-hash-cw09-repartitioned \
 		--partitions 10000
 
+sigir21-cw12-hashes: install
+	./src/main/bash/document-hashes-spark.sh \
+		--inputFormat CLUEWEB12 \
+		--input /corpora/corpora-thirdparty/corpus-clueweb/12/*/*/*.warc.gz \
+		--output sigir21/doc-hash-cw12 && \
+	src/main/bash/repartition.sh \
+		--input sigir21/doc-hash-cw12 \
+		--output sigir21/doc-hash-cw12-repartitioned \
+		--partitions 10000
+
 sigir21-cw09b-hashes:
 	hdfs dfs -rm -r -f sigir21/doc-hash-cw09b && \
 	./src/main/bash/document-hashes-spark.sh \
