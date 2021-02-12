@@ -288,7 +288,7 @@ sigir21-cw09b-hashes:
 	./src/main/bash/document-hashes-spark.sh \
 		--inputFormat CLUEWEB09 \
 		--input /corpora/corpora-thirdparty/corpus-clueweb/09/ClueWeb09_English_1/*/*.warc.gz \
-		--output sigir21/doc-hash-cw09
+		--output sigir21/doc-hash-cw09b
 
 sigir21-enrich-near-duplicates-0-9: install
 	for I in $(seq -f "%02g" 0 9); do ./src/main/bash/sigir21-enrich.sh ${I}; done
