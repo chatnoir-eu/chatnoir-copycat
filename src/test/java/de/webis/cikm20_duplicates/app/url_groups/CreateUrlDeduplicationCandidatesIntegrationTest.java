@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaRDD;
-import org.approvaltests.Approvals;
 import org.junit.Assert;
 import org.junit.Test;
 

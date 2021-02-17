@@ -3,25 +3,32 @@ package de.webis.cikm20_duplicates.app.url_groups;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.HashPartitioner;
+import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 
+import de.webis.cikm20_duplicates.app.ArgumentParsingUtil;
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates;
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationStrategy;
 import de.webis.cikm20_duplicates.spark.SparkCreateDeduplicationCandidates.DeduplicationUnit;
 import de.webis.cikm20_duplicates.util.ClientLocalDeduplication;
 import de.webis.cikm20_duplicates.util.SourceDocuments.DocumentWithFingerprint;
 import de.webis.trec_ndd.similarity.MD5;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Namespace;
 import scala.Tuple2;
 
 /**
@@ -38,6 +45,24 @@ import scala.Tuple2;
 public class CreateUrlDeduplicationCandidates {
 	
 	private static final String PSEUDO_FINGERPRINT_NAME = "pseudo-fingerprint";
+	
+	public static void main(String[] args) {
+		Namespace parsedArgs = validArgumentsOrNull(args);
+
+		if (parsedArgs == null) {
+			return;
+		}
+
+		try (JavaSparkContext context = context()) {
+			JavaRDD<String> input = context.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
+			
+			exactDuplicates(input, parsedArgs.getInt(ArgumentParsingUtil.ARG_PARTITIONS))
+				.saveAsTextFile(parsedArgs.get(ArgumentParsingUtil.ARG_OUTPUT) + "exact-duplicates", BZip2Codec.class);
+			
+			createDeduplicationtasks(input, parsedArgs.getInt(ArgumentParsingUtil.ARG_PARTITIONS))
+				.saveAsTextFile(parsedArgs.get(ArgumentParsingUtil.ARG_OUTPUT) + "near-duplicate-tasks", BZip2Codec.class);
+		}
+	}
 	
 	static JavaRDD<String> exactDuplicates(JavaRDD<String> input, int partitions) {
 		input = input.map(i -> DocumentForUrlDeduplication.fromString(i))
@@ -133,5 +158,39 @@ public class CreateUrlDeduplicationCandidates {
 			MD5.md5hash(ret).hashCode(),
 			MD5.md5hash("bar-foo" + ret + "foo-bar").hashCode()
 		));
+	}
+	
+	private static JavaSparkContext context() {
+		SparkConf conf = new SparkConf(true);
+		conf.setAppName(ArgumentParsingUtil.TOOL_NAME + ": CreateUrlDeduplicationCandidates");
+
+		return new JavaSparkContext(conf);
+	}
+	
+	static Namespace validArgumentsOrNull(String[] args) {
+		ArgumentParser parser = argParser();
+
+		try {
+			return parser.parseArgs(args);
+		} catch (ArgumentParserException e) {
+			parser.handleError(e);
+			return null;
+		}
+	}
+
+	private static ArgumentParser argParser() {
+		ArgumentParser ret = ArgumentParsers.newFor(ArgumentParsingUtil.TOOL_NAME + ": CreateDeduplicationCandidates")
+				.addHelp(Boolean.TRUE).build();
+
+		ret.addArgument("-i", "--" + ArgumentParsingUtil.ARG_INPUT).required(Boolean.TRUE).help(
+				"The input path that contains all document representations.");
+
+		ret.addArgument("-o", "--" + ArgumentParsingUtil.ARG_OUTPUT).required(Boolean.TRUE)
+				.help("The resulting deduplication tasks are stored under this location.");
+
+		ret.addArgument("--" + ArgumentParsingUtil.ARG_PARTITIONS).required(Boolean.TRUE)
+				.type(Integer.class);
+
+		return ret;
 	}
 }

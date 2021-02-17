@@ -410,6 +410,12 @@ repartition-url-candidates-cw09-cw12-cc15: install
 		--input s3a://corpus-copycat/document-representations/{cw09,cw12,cc-2015-11}/*.bz2 \
 		--output sigir21/docs-in-cw09-cw12-cc15-repartitioned-by-url
 
+url-deduplication-candidates: install:
+	./src/main/bash/create-candidates-for-url-candidates.sh \
+		--input sigir21/docs-in-cw09-cw12-cc15-repartitioned-by-url/*0.bz2 \
+		--output sigir21/url-deduplication-cw09-cw12-cc15/part0 \
+		--partitions 1000 
+
 repartition-url-candidates-cc17: install
 	./src/main/bash/repartition-url-candidates.sh \
 		--input s3a://corpus-copycat/document-representations/cc-2017-04/*.bz2 \
