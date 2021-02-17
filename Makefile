@@ -416,6 +416,11 @@ url-deduplication-candidates: install:
 		--output sigir21/url-deduplication-cw09-cw12-cc15/part0 \
 		--partitions 1000 
 
+deduplicate-url-candidates-cw09-cw12-cc15: install
+	src/main/bash/deduplicate.sh \
+		--input sigir21/url-deduplication-cw09-cw12-cc15/part*near-duplicate-tasks/*.bz2 \
+		--output sigir21/near-duplicates/url-simhash-one-grams-cw09-cw12-cc15/
+
 repartition-url-candidates-cc17: install
 	./src/main/bash/repartition-url-candidates.sh \
 		--input s3a://corpus-copycat/document-representations/cc-2017-04/*.bz2 \
