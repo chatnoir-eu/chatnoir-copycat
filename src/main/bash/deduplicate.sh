@@ -2,7 +2,7 @@
 
 PARALLELISM=100
 
-spark-submit \
+./src/main/bash/run-in-docker-container-with-spark.sh spark-submit \
 	--conf "spark.speculation=true" \
 	--conf "spark.speculation.interval=5000ms" \
 	--conf "spark.speculation.multiplier=5" \
