@@ -405,6 +405,11 @@ create-deduplication-candidates-cc17: install
 create-url-candidates: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateCanonicalLinkDeduplicationTasks
 
+repartition-url-candidates-cw09-cw12-cc15: install
+	./src/main/bash/repartition-url-candidates.sh \
+		--input s3a://corpus-copycat/document-representations/{cw09,cw12,cc-2015-11}/*.bz2 \
+		--output sigir21/docs-in-cw09-cw12-cc15-repartitioned-by-url
+
 create-source-docs: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments
 
