@@ -286,7 +286,7 @@ sigir21-cw09-hashes: install
 sigir21-cw12-hashes: install
 	./src/main/bash/document-hashes-spark.sh \
 		--inputFormat CLUEWEB12 \
-		--input /corpora/corpora-thirdparty/corpus-clueweb/12/*/*/*.warc.gz \
+		--input /corpora/corpora-thirdparty/corpus-clueweb/12/*/*/*/*.warc.gz \
 		--output sigir21/doc-hash-cw12 && \
 	src/main/bash/repartition.sh \
 		--input sigir21/doc-hash-cw12 \
@@ -409,6 +409,11 @@ repartition-url-candidates-cw09-cw12-cc15: install
 	./src/main/bash/repartition-url-candidates.sh \
 		--input s3a://corpus-copycat/document-representations/{cw09,cw12,cc-2015-11}/*.bz2 \
 		--output sigir21/docs-in-cw09-cw12-cc15-repartitioned-by-url
+
+repartition-url-candidates-cc17: install
+	./src/main/bash/repartition-url-candidates.sh \
+		--input s3a://corpus-copycat/document-representations/cc-2017-04/*.bz2 \
+		--output sigir21/docs-in-cc17-repartitioned-by-url
 
 create-source-docs: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments
