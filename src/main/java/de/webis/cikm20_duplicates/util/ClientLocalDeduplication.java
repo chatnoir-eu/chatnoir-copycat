@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Iterators;
 import org.apache.htrace.shaded.fasterxml.jackson.databind.ObjectMapper;
@@ -179,7 +180,10 @@ public class ClientLocalDeduplication {
 
 	public static java.util.Iterator<String> workingPackages(Iterable<Tuple2<Integer, DeduplicationUnit>> group) {
 		Map<String, List<Tuple2<Integer, DeduplicationUnit>>> equals = sortedList(group);
-		Collection<List<DeduplicationUnit>> ret = deduplicationPairs(equals);
+		Collection<List<DeduplicationUnit>> tmpRet = deduplicationPairs(equals);
+		List<List<DeduplicationUnit>> ret = tmpRet.stream()
+				.filter(i -> i.size() > 1)
+				.collect(Collectors.toList());
 		
 		return com.google.common.collect.Iterators.transform(
 			ret.iterator(), 

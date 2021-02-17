@@ -65,10 +65,6 @@ public class UrlBasedRepartitioningOfDocumentsIntegrationTest extends SparkInteg
 		Assert.assertEquals(expected, actual);
 	}
 	
-	private JavaRDD<String> asRDD(String...elements) {
-		return jsc().parallelize(Arrays.asList(elements));
-	}
-	
 	private List<String> mapToPartitions(JavaRDD<String> input) {
 		JavaRDD<String> ret = UrlBasedRepartitioningOfDocuments.repartitionDocumentsWithTheSameUrlOrCanonicalUrlToTheSamePart(input, 10);
 		ret = ret.mapPartitions(i -> collectPartition(i));

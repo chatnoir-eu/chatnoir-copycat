@@ -1,7 +1,9 @@
 package de.webis.cikm20_duplicates.spark;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 
+import org.apache.spark.api.java.JavaRDD;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -19,5 +21,10 @@ public class SparkIntegrationTestBase extends SharedJavaSparkContext {
 	@AfterClass
 	public static void after() {
 		System.setOut(originalStout);
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected <T> JavaRDD<T> asRDD(T...elements) {
+		return jsc().parallelize(Arrays.asList(elements));
 	}
 }
