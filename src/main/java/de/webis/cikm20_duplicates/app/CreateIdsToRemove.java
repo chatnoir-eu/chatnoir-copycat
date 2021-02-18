@@ -38,7 +38,7 @@ public class CreateIdsToRemove {
 				JavaRDD<String> nearDuplicates = context.textFile(config.getNearDuplicateInputs().get(i));
 				
 				SparkCreateIdsToRemove.idsToRemove(nearDuplicates, exactDuplicates, keepIds)
-					.repartition(1)
+					.repartition(1000)
 					.saveAsTextFile(config.getOutputs().get(i), BZip2Codec.class);
 			}
 			
@@ -50,7 +50,7 @@ public class CreateIdsToRemove {
 			}
 			
 			combinedInputs.distinct()
-				.repartition(1)
+				.repartition(1000)
 				.saveAsTextFile(config.getOutputs().get(config.getOutputs().size() -1), BZip2Codec.class);
 		}
 	}
