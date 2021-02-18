@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.api.java.JavaRDD;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,12 +51,31 @@ public class SparkCreateIdsToRemove {
 			}
 		};
 
+	private static List<String> docsToRemoveFromNearDuplicates(String src, KeepId keepId) {
+		try {
+			return docsToRemoveFromNearDuplicatesInJsonFormat(src, keepId);
+		} catch(Exception e) {
+			if(StringUtils.countMatches(src, ',') == 1) {
+				return docsToRemoveFromNearDuplicatesInCsvFormat(src, keepId);
+			}
+			
+			throw new RuntimeException(e);
+		}
+	}		
+
 	@SneakyThrows
 	@SuppressWarnings("unchecked")
-	private static List<String> docsToRemoveFromNearDuplicates(String src, KeepId keepId) {
+	private static List<String> docsToRemoveFromNearDuplicatesInJsonFormat(String src, KeepId keepId) {
 		Map<String, Object> parsed = new ObjectMapper().readValue(src, Map.class);
 		String firstId = (String) parsed.get("firstId");
 		String secondId = (String) parsed.get("secondId");
+		
+		return idsToRemove(Arrays.asList(firstId, secondId), keepId);
+	}
+	
+	private static List<String> docsToRemoveFromNearDuplicatesInCsvFormat(String src, KeepId keepId) {
+		String firstId = StringUtils.substringBefore(src, ",");
+		String secondId = StringUtils.substringAfter(src, ",");
 		
 		return idsToRemove(Arrays.asList(firstId, secondId), keepId);
 	}
@@ -117,7 +137,7 @@ public class SparkCreateIdsToRemove {
 	
 	@SneakyThrows
 	@SuppressWarnings("serial")
-	static KeepId idsToKeepFromFile(String file) {
+	public static KeepId idsToKeepFromFile(String file) {
 		Set<String> idsToKeep = new HashSet<>(Files.readAllLines(Paths.get(file)));
 		
 		return new KeepId() {
