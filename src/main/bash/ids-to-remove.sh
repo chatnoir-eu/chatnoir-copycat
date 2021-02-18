@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-PARALLELISM=50
+PARALLELISM=500
 
 ./src/main/bash/run-in-docker-container-with-spark.sh spark-submit \
         --conf "spark.speculation=true" \
@@ -8,12 +8,12 @@ PARALLELISM=50
         --conf "spark.speculation.multiplier=5" \
         --conf "spark.speculation.quantile=0.90" \
 	--conf "spark.yarn.maxAppAttempts=1" \
-        --conf "spark.dynamicAllocation.maxExecutors=100" \
+        --conf "spark.dynamicAllocation.maxExecutors=1000" \
         --deploy-mode cluster \
         --class de.webis.cikm20_duplicates.app.CreateIdsToRemove \
         --conf spark.default.parallelism=${PARALLELISM}\
         --num-executors ${PARALLELISM}\
-        --driver-memory 25G\
+        --driver-memory 45G\
         --executor-memory 15G\
         /target/cikm20-duplicates-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}
 
