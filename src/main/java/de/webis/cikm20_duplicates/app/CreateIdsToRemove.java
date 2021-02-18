@@ -81,7 +81,7 @@ public class CreateIdsToRemove {
 		public IdsToRemoveConfiguration(Namespace parsedArgs) {
 			this(parsedArgs.getList(ARG_EXACT_DUPLICATES), parsedArgs.getList(ARG_NEAR_DUPLICATES), parsedArgs.getList(ArgumentParsingUtil.ARG_OUTPUT), parsedArgs.getString("keepIds"));
 			
-			failWhenConfigurationIsInvalid();
+			failWhenConfigurationIsInvalid(parsedArgs);
 		}
 
 		public KeepId getKeepIds() {
@@ -102,11 +102,11 @@ public class CreateIdsToRemove {
 			throw new RuntimeException("Could not handle " + keepIds);
 		}
 
-		private void failWhenConfigurationIsInvalid() {
+		private void failWhenConfigurationIsInvalid(Namespace parsedArgs) {
 			if(exactDuplicateInputs == null || exactDuplicateInputs.size() < 1 
 					|| nearDuplicateInputs == null || nearDuplicateInputs.size() != exactDuplicateInputs.size() 
 					|| outputs == null || (outputs.size() -1) != nearDuplicateInputs.size()) {
-				throw new RuntimeException("Illegal Configuration");
+				throw new RuntimeException("Illegal Configuration: " + parsedArgs);
 			}
 			
 			Set<String> paths = new HashSet<>(exactDuplicateInputs);
