@@ -135,15 +135,19 @@ public class SparkCreateIdsToRemove {
 		return ids;
 	}
 	
+	public static KeepId idsToKeepFromFile(String file) {
+		return idsToKeepFromFile(null, file);
+	}
+	
 	@SneakyThrows
 	@SuppressWarnings("serial")
-	public static KeepId idsToKeepFromFile(String file) {
+	public static KeepId idsToKeepFromFile(KeepId prefilter, String file) {
 		Set<String> idsToKeep = new HashSet<>(Files.readAllLines(Paths.get(file)));
 		
 		return new KeepId() {
 			@Override
 			public boolean keepId(String id) {
-				return idsToKeep.contains(id);
+				return (prefilter == null || prefilter.keepId(id)) && idsToKeep.contains(id);
 			}
 		};
 	}

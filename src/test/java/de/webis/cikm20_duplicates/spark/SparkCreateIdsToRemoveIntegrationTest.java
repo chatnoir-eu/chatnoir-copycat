@@ -143,6 +143,24 @@ public class SparkCreateIdsToRemoveIntegrationTest extends SparkIntegrationTestB
 		Assert.assertEquals(expected, actual);
 	}
 	
+
+	@Test
+	public void checkIdsFromFileWithCW12Prefilter() {
+		List<String> exampleNearDuplicatesWithoutExactDuplicatesShuffled = Arrays.asList(
+				"{\"firstId\":\"id1\",\"secondId\":\"id2\",\"hemmingDistance\":3}",
+				"{\"firstId\":\"clueweb12-1911wb-63-21940\",\"secondId\":\"clueweb12-1911wb-61-32607\",\"hemmingDistance\":3}",
+				"{\"firstId\":\"id0\",\"secondId\":\"id2\",\"hemmingDistance\":2}"
+			);
+			
+		List<String> exampleExactDuplicatesShuffled = Arrays.asList(
+				"{\"equivalentDocuments\": [\"id30\",\"clueweb12-0308wb-11-17456\",\"id40\"],\"hash\":[-729088000, 64915, 1310914, 3330304]}"
+			); 
+		
+		List<String> expected = Arrays.asList();
+		List<String> actual = idsToRemove(exampleNearDuplicatesWithoutExactDuplicatesShuffled, exampleExactDuplicatesShuffled, SparkCreateIdsToRemove.idsToKeepFromFile(SparkCreateIdsToRemove.CLUEWEB12, "src/test/resources/data/list-with-pseudo-document-ids"));
+		
+		Assert.assertEquals(expected, actual);
+	}
 	
 	private List<String> idsToRemove(List<String> nearDuplicates, List<String> exactDuplicates, KeepId keepId) {
 		JavaRDD<String> a = jsc().parallelize(nearDuplicates);
