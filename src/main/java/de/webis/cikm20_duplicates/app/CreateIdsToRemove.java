@@ -1,5 +1,6 @@
 package de.webis.cikm20_duplicates.app;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -74,7 +75,8 @@ public class CreateIdsToRemove {
 	
 	@Data
 	@AllArgsConstructor
-	static class IdsToRemoveConfiguration {
+	@SuppressWarnings("serial")
+	static class IdsToRemoveConfiguration implements Serializable {
 		private final List<String> exactDuplicateInputs, nearDuplicateInputs, outputs;
 		private final String keepIds;
 		
@@ -84,7 +86,6 @@ public class CreateIdsToRemove {
 			failWhenConfigurationIsInvalid(parsedArgs);
 		}
 
-		@SuppressWarnings("serial")
 		public KeepId getKeepIds() {
 			if("CW09".equals(keepIds)) {
 				return SparkCreateIdsToRemove.CLUEWEB09;
@@ -95,25 +96,15 @@ public class CreateIdsToRemove {
 			} else if ("ALL".equals(keepIds)) {
 				return SparkCreateIdsToRemove.ALL_CRAWLS;
 			} else if ("CW09b".equals(keepIds)) {
-				KeepId internal = SparkCreateIdsToRemove.idsToKeepFromFile("/mnt/ceph/storage/data-in-progress/data-research/web-search/SIGIR-21/sigir21-deduplicate-trec-run-files/third-party/ids-in-clueweb09b");
-				
-				return new KeepId() {
-					@Override
-					public boolean keepId(String id) {
-						//this is much faster in our cluster than only using the ids from the file (due to garbage collection)
-						return SparkCreateIdsToRemove.CLUEWEB09.keepId(id) && internal.keepId(id);
-					}
-				};
+				return SparkCreateIdsToRemove.idsToKeepFromFile(
+					SparkCreateIdsToRemove.CLUEWEB09,
+					"/mnt/ceph/storage/data-in-progress/data-research/web-search/SIGIR-21/sigir21-deduplicate-trec-run-files/third-party/ids-in-clueweb09b"
+				);
 			} else if ("CW12b".equals(keepIds)) {
-				KeepId internal = SparkCreateIdsToRemove.idsToKeepFromFile("/mnt/ceph/storage/data-in-progress/data-research/web-search/SIGIR-21/sigir21-deduplicate-trec-run-files/third-party/ids-in-clueweb12b13");
-				
-				return new KeepId() {
-					@Override
-					public boolean keepId(String id) {
-						//this is much faster in our cluster than only using the ids from the file (due to garbage collection)
-						return SparkCreateIdsToRemove.CLUEWEB12.keepId(id) && internal.keepId(id);
-					}
-				};
+				return SparkCreateIdsToRemove.idsToKeepFromFile(
+					SparkCreateIdsToRemove.CLUEWEB12,
+					"/mnt/ceph/storage/data-in-progress/data-research/web-search/SIGIR-21/sigir21-deduplicate-trec-run-files/third-party/ids-in-clueweb12b13"
+				);
 			}
 
 			throw new RuntimeException("Could not handle " + keepIds);
