@@ -52,16 +52,16 @@ public class SparkCreateIdsToRemove {
 		};
 
 	private static List<String> docsToRemoveFromNearDuplicates(String src, KeepId keepId) {
-		try {
+		if(isInCsvFormat(src)) {
+			return docsToRemoveFromNearDuplicatesInCsvFormat(src, keepId);
+		} else {
 			return docsToRemoveFromNearDuplicatesInJsonFormat(src, keepId);
-		} catch(Exception e) {
-			if(StringUtils.countMatches(src, ',') == 1) {
-				return docsToRemoveFromNearDuplicatesInCsvFormat(src, keepId);
-			}
-			
-			throw new RuntimeException(e);
 		}
 	}		
+
+	private static boolean isInCsvFormat(String src) {
+		return src != null && ! src.trim().startsWith("{") && StringUtils.countMatches(src, ',') == 1;
+	}
 
 	@SneakyThrows
 	@SuppressWarnings("unchecked")
