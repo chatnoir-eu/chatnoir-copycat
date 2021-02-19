@@ -46,7 +46,7 @@ public class CreateIdsToRemove {
 
 			
 			for(int i=0; i<config.getExactDuplicateInputs().size(); i++) {
-				combinedInputs.union(context.textFile(config.getOutputs().get(i)));
+				combinedInputs = combinedInputs.union(context.textFile(config.getOutputs().get(i)));
 			}
 			
 			combinedInputs.distinct()
@@ -84,6 +84,7 @@ public class CreateIdsToRemove {
 			failWhenConfigurationIsInvalid(parsedArgs);
 		}
 
+		@SuppressWarnings("serial")
 		public KeepId getKeepIds() {
 			if("CW09".equals(keepIds)) {
 				return SparkCreateIdsToRemove.CLUEWEB09;
@@ -94,9 +95,25 @@ public class CreateIdsToRemove {
 			} else if ("ALL".equals(keepIds)) {
 				return SparkCreateIdsToRemove.ALL_CRAWLS;
 			} else if ("CW09b".equals(keepIds)) {
-				return SparkCreateIdsToRemove.idsToKeepFromFile("/mnt/ceph/storage/data-in-progress/data-research/web-search/SIGIR-21/sigir21-deduplicate-trec-run-files/third-party/ids-in-clueweb09b");
+				KeepId internal = SparkCreateIdsToRemove.idsToKeepFromFile("/mnt/ceph/storage/data-in-progress/data-research/web-search/SIGIR-21/sigir21-deduplicate-trec-run-files/third-party/ids-in-clueweb09b");
+				
+				return new KeepId() {
+					@Override
+					public boolean keepId(String id) {
+						//this is much faster in our cluster than only using the ids from the file (due to garbage collection)
+						return SparkCreateIdsToRemove.CLUEWEB09.keepId(id) && internal.keepId(id);
+					}
+				};
 			} else if ("CW12b".equals(keepIds)) {
-				return SparkCreateIdsToRemove.idsToKeepFromFile("/mnt/ceph/storage/data-in-progress/data-research/web-search/SIGIR-21/sigir21-deduplicate-trec-run-files/third-party/ids-in-clueweb12b13");
+				KeepId internal = SparkCreateIdsToRemove.idsToKeepFromFile("/mnt/ceph/storage/data-in-progress/data-research/web-search/SIGIR-21/sigir21-deduplicate-trec-run-files/third-party/ids-in-clueweb12b13");
+				
+				return new KeepId() {
+					@Override
+					public boolean keepId(String id) {
+						//this is much faster in our cluster than only using the ids from the file (due to garbage collection)
+						return SparkCreateIdsToRemove.CLUEWEB12.keepId(id) && internal.keepId(id);
+					}
+				};
 			}
 
 			throw new RuntimeException("Could not handle " + keepIds);
