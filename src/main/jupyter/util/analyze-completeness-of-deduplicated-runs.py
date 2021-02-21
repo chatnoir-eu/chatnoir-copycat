@@ -41,14 +41,14 @@ def load_deduplicated_run_file(track, run):
             ret['topics (' + str(size) + ')'] = -1
             ret['mean_docs_per_topic (' + str(size) + ')'] = -1
 
-    return ret
+    return json.dumps(ret)
 
 
 def list_pretty_run_files(run_file_dir):
     return [i.replace('.gz', '').replace('input.', '') for i in listdir(run_file_dir)]
 
 EXPERIMENT_DIR='/mnt/ceph/storage/data-in-progress/data-research/web-search/'
-web_tracks = [18] # the web tracks took place between TREC 18 and TREC 23
+web_tracks = range(18,23) # the web tracks took place between TREC 18 and TREC 23
 
 for web_track in web_tracks:
     run_file_dir=EXPERIMENT_DIR + 'web-search-trec/trec-system-runs/trec' + str(web_track) + '/web.adhoc/'
