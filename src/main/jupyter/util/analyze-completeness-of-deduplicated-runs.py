@@ -4,6 +4,7 @@ import multiprocessing as mp
 from os import listdir
 import json
 
+
 def analyze_jsonl_line(line):
     try:
         j = json.loads(line)
@@ -14,9 +15,11 @@ def analyze_jsonl_line(line):
     except:
         return None
 
+
 def analyze_all_jsonl_lines(file_name):
     with open(file_name) as f:
         return mp.Pool(10).map(analyze_jsonl_line, [i for i in f])
+
 
 def load_deduplicated_run_file(track, run):
     ret = {
@@ -46,6 +49,7 @@ def load_deduplicated_run_file(track, run):
 
 def list_pretty_run_files(run_file_dir):
     return [i.replace('.gz', '').replace('input.', '') for i in listdir(run_file_dir)]
+
 
 EXPERIMENT_DIR='/mnt/ceph/storage/data-in-progress/data-research/web-search/'
 web_tracks = range(18,23) # the web tracks took place between TREC 18 and TREC 23
