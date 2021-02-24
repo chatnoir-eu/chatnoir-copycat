@@ -18,6 +18,7 @@ public interface CliArguments {
 	public static final String ARG_RANKS = "ranks";
 	public static final String ARG_STRING_TRANSFORMATION = "stringTransformation";
 	public static final String ARG_ANSERINI_INDEX = "anseriniIndex";
+	public static final String ARG_RUN_FILE = "runFile";
 	
 	static Namespace parseArgs(String[] args) {
 		ArgumentParser parser = argParser();
@@ -77,6 +78,11 @@ public interface CliArguments {
 			.type(Integer.class)
 			.setDefault(1);
 
+		ret.addArgument("--" + ARG_RUN_FILE)
+			.type(Boolean.class)
+			.setDefault(true)
+			.help("Is the specified a run file (pass true), or a qrels file (pass false)");
+		
 		return ret;
 	}
 

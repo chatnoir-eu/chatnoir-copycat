@@ -2,6 +2,7 @@ package de.webis.cikm20_duplicates.app;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,6 +19,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -37,6 +40,7 @@ import de.webis.trec_ndd.spark.S3ScoreOnWord8GrammIndex.S3Score;
 import de.webis.trec_ndd.spark.S3ScoreOnWord8GrammIndex.S3ScoreIntermediateResult;
 import de.webis.trec_ndd.spark.SparkBuild8GrammIndex.Word8GrammIndexEntry;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import de.webis.trec_ndd.trec_collections.Qrel;
 import de.webis.trec_ndd.util.NGramms;
 import de.webis.trec_ndd.util.NGramms.Word8Gramm;
 import de.webis.trec_ndd.util.SymmetricPairUtil;
@@ -57,16 +61,42 @@ public class DeduplicateTrecRunFile {
 	private final double s3Threshold;
 	
 	private final int maxRank;
+	
+	private final boolean deduplicateRunFile;
+	
+	private final boolean deduplicateQrelFile;
 
 	@SneakyThrows
-	public Stream<String> deduplicate(String runFileContent) {
-		return deduplicate(RunLine.parseRunlines(new StringInputStream(runFileContent)));
+	public Stream<String> deduplicate(String fileContent) {
+		return deduplicate(new StringInputStream(fileContent));
+	}
+
+	public Stream<String> deduplicate(InputStream fileContent) {
+		failIfConfigurationIsInvalid();
+		
+		if(deduplicateRunFile) {
+			return deduplicate(RunLine.parseRunlines(fileContent));
+		} else {
+			System.out.println("Deduplicate qrel file");
+			return deduplicate(parseQrels(fileContent));
+		}
 	}
 	
-	public Stream<String> deduplicate(InputStream runFileContent) {
-		return deduplicate(RunLine.parseRunlines(runFileContent));
+	@SneakyThrows
+	private List<RunLine> parseQrels(InputStream stream) {
+		return Collections.unmodifiableList(IOUtils.readLines(stream, StandardCharsets.UTF_8).stream()
+			.filter(StringUtils::isNotEmpty)
+			.map(Qrel::new)
+			.map(i -> new RunLine(i.getTopicNumber() + " Q0 " + i.getDocumentID() + " 0"))
+			.collect(Collectors.toList()));
 	}
-	
+
+	private void failIfConfigurationIsInvalid() {
+		if((deduplicateRunFile && deduplicateQrelFile) || (!deduplicateRunFile && !deduplicateQrelFile)) {
+			throw new RuntimeException("Configuration is invalid. Exact one from deduplicateRunFile and deduplicateQrelFile must be true, but I got: " + deduplicateRunFile + " and " + deduplicateQrelFile);
+		}
+	}
+
 	@SneakyThrows
 	public Stream<String> deduplicate(List<RunLine> lines) {
 		Map<String, List<String>> topicToDocs = topicToSortedDocs(lines);

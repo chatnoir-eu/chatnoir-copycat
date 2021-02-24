@@ -44,7 +44,9 @@ public class App implements CliArguments {
 
 		DeduplicateTrecRunFile dedup = new DeduplicateTrecRunFile(
 			parsedArgs.getInt(ARG_THREADS),docResolver, sim, 
-			parsedArgs.getDouble(ARG_S3_THRESHOLD), parsedArgs.getInt(ARG_RANKS)
+			parsedArgs.getDouble(ARG_S3_THRESHOLD), parsedArgs.getInt(ARG_RANKS),
+			parsedArgs.getBoolean(ARG_RUN_FILE), !parsedArgs.getBoolean(ARG_RUN_FILE)
+			
 		);
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
 			dedup.deduplicate(runFileContent).forEach(i -> {
