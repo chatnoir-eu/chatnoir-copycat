@@ -190,7 +190,14 @@ public class CollectionDocumentUtil {
 			}
 
 			JsoupStringTransform stringTransform = new JsoupStringTransform();
-			CollectionDocument ret = CollectionDocument.collectionDocument(stringTransform.apply(raw), id);
+			CollectionDocument ret = null;
+			try {
+				ret = CollectionDocument.collectionDocument(stringTransform.apply(raw), id);
+			} catch(Exception e) {
+				System.out.println("Retrieving " + id + " took: " + (System.currentTimeMillis() - start));
+				return null;
+			}
+			
 			ret.setCanonicalUrl(SparkCanonicalLinkGraphExtraction.extractCanonicalLinkOrNull(doc.getTargetURI(), raw));
 			ret.setUrl(urlOrNull(doc.getTargetURI()));
 			
