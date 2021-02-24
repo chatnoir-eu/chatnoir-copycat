@@ -184,7 +184,7 @@ public class CollectionDocumentUtil {
 			
 			String raw = doc.getBody();
 			
-			if(raw == null) {
+			if(raw == null || raw.trim().isEmpty()) {
 				System.out.println("Retrieving " + id + " took: " + (System.currentTimeMillis() - start));
 				return null;
 			}

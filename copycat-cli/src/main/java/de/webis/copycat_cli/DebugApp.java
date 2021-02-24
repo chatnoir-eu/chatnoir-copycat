@@ -29,7 +29,6 @@ public class DebugApp {
 
 	private static void printHdfsSchemaClass() {
 		try {
-//			org.apache.hadoop.hdfs.DistributedFileSystem
 			System.out.println("----> " + FileSystem.getFileSystemClass("hdfs", null));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
