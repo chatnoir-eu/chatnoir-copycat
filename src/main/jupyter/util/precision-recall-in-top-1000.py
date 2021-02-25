@@ -20,7 +20,8 @@ TRACK_TO_QRELS={
 def analyze_line(line):
     dedup_data = json.loads(line)
     topic = dedup_data['topic']
-    judged_docs = qrels.get_document_names_for_topic(int(topic))
+    judged_docs = set(qrels.qrels_data[(qrels.qrels_data['query'] == int(topic))]['docid'])
+    irrelevant_docs = set(qrels.qrels_data[(qrels.qrels_data['query'] == int(topic)) & (qrels.qrels_data['rel'] <= 0)]['docid'])
     ret = []
     for sim in dedup_data['similarities']:
         is_judged = sim['firstId'] in judged_docs or sim['secondId'] in judged_docs
@@ -28,11 +29,9 @@ def analyze_line(line):
         is_irrelevant = False
                 
         if is_judged:
-            judgment_a = qrels.get_judgement(sim['firstId'], int(topic))
-            judgment_b = qrels.get_judgement(sim['secondId'], int(topic))
-            is_irrelevant = judgment_a == 0 or judgment_b == 0
+            is_irrelevant = sim['firstId'] in irrelevant_docs or sim['secondId'] in irrelevant_docs
             is_relevant = not is_irrelevant
-                
+
         ret += [{
             'topic': topic,
             'judged': is_judged,
