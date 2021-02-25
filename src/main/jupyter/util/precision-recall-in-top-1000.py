@@ -21,7 +21,7 @@ def analyze_line(line):
     dedup_data = json.loads(line)
     topic = dedup_data['topic']
     judged_docs = qrels.get_document_names_for_topic(int(topic))
-            
+    ret = []
     for sim in dedup_data['similarities']:
         is_judged = sim['firstId'] in judged_docs or sim['secondId'] in judged_docs
         is_relevant = False
@@ -33,7 +33,7 @@ def analyze_line(line):
             is_irrelevant = judgment_a == 0 or judgment_b == 0
             is_relevant = not is_irrelevant
                 
-        return {
+        ret += [{
             'topic': topic,
             'judged': is_judged,
             'relevant': is_relevant,
@@ -46,7 +46,8 @@ def analyze_line(line):
             'md5': sim['similarities']['md5'] > 0.5,
             'copy-cat': ((sim['similarities']['simhash(3+5-grams)'] > 0.94) or ((sim['similarities']['url'] > 0.5) and (sim['similarities']['simhash(1-grams)'] > 0.94))),
             'copy-cat-tp': ((sim['similarities']['simhash(3+5-grams)'] > 0.94) or (sim['similarities']['text-profile'] > 0.5) or ((sim['similarities']['url'] > 0.5) and (sim['similarities']['simhash(1-grams)'] > 0.94)))
-        }
+        }]
+    return ret
 
 def eval_with_threshold(run_file_name, web_track):
     with open(run_file_name) as f:
@@ -66,7 +67,8 @@ for web_track in web_tracks:
 
     for run_file in list_pretty_run_files(run_file_dir):
         run_file = '/mnt/ceph/storage/data-in-progress/data-research/web-search/SIGIR-21/sigir21-deduplicate-trec-run-files/trec' + str(web_track) + '-web.adhoc-top1000/' + run_file + '.jsonl'
-        rows += [eval_with_threshold(run_file, web_track)]
+        for row in eval_with_threshold(run_file, web_track):
+            rows += row
 
     df = pd.DataFrame(rows)
     df.to_json(DIR + 'metadata/web-track-' + str(web_track) + '-precision-recall.jsonl', lines=True, orient='records')
