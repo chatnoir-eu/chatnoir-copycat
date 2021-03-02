@@ -1,0 +1,15 @@
+[
+    "clueweb09-en0004-72-27126",
+    "clueweb09-en0005-61-23474",
+    "clueweb09-en0006-48-12486",
+    "clueweb09-en0006-84-32964",
+    "clueweb09-en0006-84-32967",
+    "clueweb09-en0006-84-32969",
+    "clueweb09-en0006-84-32970",
+    "clueweb09-en0010-84-10531",
+    "clueweb09-en0042-40-07717",
+    "clueweb09-enwp01-30-11709",
+    "clueweb09-enwp01-79-14041",
+    "clueweb09-enwp02-22-06921",
+    "clueweb09-enwp03-03-17640"
+]

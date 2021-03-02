@@ -1,0 +1,6 @@
+org,wikipedia,en)/wiki/ruth_ndesandjo 20110714121532 http://en.wikipedia.org:80/wiki/Ruth_Ndesandjo text/html 200 CHFP7AJCZPRIT66IBASQNSYVX3BVTPHU 67131
+org,wikipedia,en)/wiki/ruth_ndesandjo 20111125170850 http://en.wikipedia.org/wiki/Ruth_Ndesandjo text/html 200 6XP7KMVO7KR4IJA3VNHAG2EEBMYTIOI2 71176
+org,wikipedia,en)/wiki/ruth_ndesandjo 20111130172853 http://en.wikipedia.org/wiki/Ruth_Ndesandjo text/html 200 7745MVKHFWFUXZ5J2FY53SLV55JFSZOL 71180
+org,wikipedia,en)/wiki/ruth_ndesandjo 20111130184907 http://en.wikipedia.org/wiki/Ruth_Ndesandjo text/html 200 7745MVKHFWFUXZ5J2FY53SLV55JFSZOL 71181
+org,wikipedia,en)/wiki/ruth_ndesandjo 20120315144017 http://en.wikipedia.org:80/wiki/Ruth_Ndesandjo text/html 200 6GYMDNUDRFTIPSHSPIYIOPJAGODHSZXA 71883
+org,wikipedia,en)/wiki/ruth_ndesandjo 20120911054856 http://en.wikipedia.org/wiki/Ruth_Ndesandjo text/html 200 4RDOWM6HTAUHE65WHNF4GVCTCAQ6XFML 73325

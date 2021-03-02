@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Sun Jul 19 14:16:51 CEST 2020
+trec-ndd-1.0-SNAPSHOT.pom>=
+trec-ndd-1.0-SNAPSHOT-jar-with-dependencies.jar>=
+trec-ndd-1.0-SNAPSHOT.jar>=
+trec-ndd-1.0-SNAPSHOT-sources.jar>=

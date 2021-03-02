@@ -1,0 +1,6 @@
+23 Q0 clueweb12-1308wb-87-17434 1 2.000000 webis_warc_clueweb12_011-body_lang.en^0.0-title_lang.en^0.0-meta_desc_lang.en^1.0
+23 Q0 clueweb12-1310wb-04-20329 2 0.000000 webis_warc_clueweb12_011-body_lang.en^0.0-title_lang.en^0.0-meta_desc_lang.en^1.0
+23 Q0 clueweb12-0000wb-70-08228 3 -0.000001 webis_warc_clueweb12_011-body_lang.en^0.0-title_lang.en^0.0-meta_desc_lang.en^1.0
+131 Q0 clueweb12-0403wb-55-25772 1 0.000000 webis_warc_clueweb12_011-body_lang.en^0.0-title_lang.en^0.0-meta_desc_lang.en^1.0
+131 Q0 clueweb12-0110wb-61-03700 2 -0.000001 webis_warc_clueweb12_011-body_lang.en^0.0-title_lang.en^0.0-meta_desc_lang.en^1.0
+131 Q0 clueweb12-0108wb-19-02294 3 -0.000002 webis_warc_clueweb12_011-body_lang.en^0.0-title_lang.en^0.0-meta_desc_lang.en^1.0

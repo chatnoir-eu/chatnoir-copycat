@@ -1,0 +1,4 @@
+1 0 clueweb09-enwp00-64-03709 1
+1 0 clueweb09-en0005-76-03988 0
+1 0 clueweb09-en0004-12-24980 0
+1 0 clueweb09-enwp01-31-11362 2

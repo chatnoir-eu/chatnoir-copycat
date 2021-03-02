@@ -1,0 +1,7 @@
+org,wikipedia,en)/wiki/dog_breeds 20100411234108 http://en.wikipedia.org:80/wiki/Dog_breeds text/html 200 PPCNXTCELCFLTX36VJF7RGEHTKM7ZKXR 25834
+org,wikipedia,en)/wiki/dog_breeds 20100411234108 http://en.wikipedia.org:80/wiki/Dog_breeds text/html 200 PPCNXTCELCFLTX36VJF7RGEHTKM7ZKXR 25834
+org,wikipedia,en)/wiki/dog_breeds 20110915093057 http://en.wikipedia.org:80/wiki/Dog_breeds text/html 200 M2N4EYTK337XRSD5ULX3XP7W3D2PQWAP 27355
+org,wikipedia,en)/wiki/dog_breeds 20120110162557 http://en.wikipedia.org:80/wiki/Dog_breeds text/html 200 K2224YHWLHNIF44WLJV2Z7BQERBMMIR2 27457
+org,wikipedia,en)/wiki/dog_breeds 20120829065757 http://en.wikipedia.org/wiki/Dog_breeds text/html 200 KVY3TT2UGOF3EGEEP2CPSUZMD6D3ZVZM 53670
+org,wikipedia,en)/wiki/dog_breeds 20130814191547 http://en.wikipedia.org/wiki/Dog_breeds text/html 200 UQVR2T5EISCJ5OCZ24UKX3UIA6XIUYDN 61246
+org,wikipedia,en)/wiki/dog_breeds 20131005023507 http://en.wikipedia.org/wiki/Dog_breeds text/html 200 7N35QFLX4M3YUK7DL2Q7WTCLK2VEB4EO 61348

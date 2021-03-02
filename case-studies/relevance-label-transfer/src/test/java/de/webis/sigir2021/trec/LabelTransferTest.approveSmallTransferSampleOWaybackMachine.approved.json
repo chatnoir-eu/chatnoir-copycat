@@ -1,0 +1,14 @@
+{
+  "clueweb09-en0005-60-37250": [
+    {
+      "targetId": "\u003curn:uuid:f7166af4-b9e6-4997-ac1c-8580580290c4\u003e",
+      "s3Score": 0.9282
+    }
+  ],
+  "clueweb09-en0000-08-20420": [
+    {
+      "targetId": "\u003curn:uuid:d0d33715-b123-4f36-8896-b3480088a2da\u003e",
+      "s3Score": 1.0
+    }
+  ]
+}

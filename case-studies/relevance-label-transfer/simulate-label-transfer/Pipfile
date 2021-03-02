@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+nose = "*"
+pipfile-requirements = "*"
+pandas = "1.0.2"
+approvaltests = "*"
+
+[packages]
+trectools = "<0.0.38" # trectools installation is broken in latest version
+tqdm = "*"
+pandas = "1.0.2"
+
+[requires]
+python_version = "3.6"
+

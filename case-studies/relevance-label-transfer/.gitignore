@@ -1,0 +1,12 @@
+/target/
+.project
+.settings/
+.classpath
+test-output/
+**/.idea
+**/.ipynb_checkpoints
+**/__pycache__
+ranking/index-wayback-snapshots/chatnoir-mapfile-generator/
+ranking/index-wayback-snapshots/chatnoir-indexer/
+ranking/index-wayback-snapshots/job.log
+

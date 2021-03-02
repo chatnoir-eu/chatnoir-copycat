@@ -1,0 +1,1559 @@
+ html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" dir="ltr" class="client-nojs" xmlns="http://www.w3.org/1999/xhtml">
+<head><script src="//archive.org/includes/analytics.js?v=cf34f82" type="text/javascript"></script>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app100.us.archive.org';v.server_ms=3051;archive_analytics.send_pageview({});});</script><script type="text/javascript" src="/_static/js/playback.bundle.js?v=BsQ6byDz" charset="utf-8"></script>
+<script type="text/javascript" src="/_static/js/wombat.js?v=cRqOKCOw" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("http://web.archive.org/web");
+  __wm.wombat("http://en.wikipedia.org/wiki/Biloxi,_Mississippi","20120111123446","http://web.archive.org/","web","/_static/",
+	      "1326285286");
+</script>
+<link rel="stylesheet" type="text/css" href="/_static/css/banner-styles.css?v=NHuXCfBH" />
+<link rel="stylesheet" type="text/css" href="/_static/css/iconochive.css?v=qtvMKcIJ" />
+<!-- End Wayback Rewrite JS Include -->
+
+<title>Biloxi, Mississippi - Wikipedia, the free encyclopedia</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<meta name="generator" content="MediaWiki 1.18wmf1"/>
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit"/>
+<link rel="edit" title="Edit this page" href="/w/index.php?title=Biloxi,_Mississippi&amp;action=edit"/>
+<link rel="apple-touch-icon" href="//web.archive.org/web/20120111123446im_/http://en.wikipedia.org/apple-touch-icon.png"/>
+<link rel="shortcut icon" href="/web/20120111123446im_/http://en.wikipedia.org/favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/web/20120111123446/http://en.wikipedia.org/w/opensearch_desc.php" title="Wikipedia (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href="//en.wikipedia.org/w/api.php?action=rsd"/>
+<link rel="copyright" href="//creativecommons.org/licenses/by-sa/3.0/"/>
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+<link rel="stylesheet" href="//web.archive.org/web/20120111123446cs_/http://bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.wikihiero%7Cmediawiki.legacy.commonPrint%2Cshared%7Cskins.vector&amp;only=styles&amp;skin=vector&amp;*" type="text/css" media="all"/>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<link rel="stylesheet" href="//web.archive.org/web/20120111123446cs_/http://bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=vector&amp;*" type="text/css" media="all"/>
+<style type="text/css" media="all">a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: enwiki:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */</style>
+<script src="//web.archive.org/web/20120111123446js_/http://bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "Biloxi,_Mississippi", "wgTitle": "Biloxi, Mississippi", "wgCurRevisionId": 468852769, "wgArticleId": 122281, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["Infobox Settlement US maintenance", "Populated places established in 1699", "Cities in Mississippi", "Biloxi, Mississippi", "Populated places in Harrison County, Mississippi", "Gambling in the United States", "Places affected by Hurricane Katrina", "United States colonial and territorial capitals", "County seats in Mississippi", "Gulfport–Biloxi metropolitan area"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": [], "wgSearchNamespaces": [0], "wgFlaggedRevsParams": {"tags": {"status": {"levels": 1, "quality": 2, "pristine": 3}}}, "wgStableRevisionId": null, "wgVectorEnabledModules": {"collapsiblenav": true, "collapsibletabs": true, "editwarning": true, "expandablesearch": false, "footercleanup": false, "sectioneditlinks": false, "simplesearch": true, "experiments": true}, "wgWikiEditorEnabledModules": {"toolbar": true, "dialogs": true, "hidesig": true, "templateEditor": false, "templates": false, "preview": false, "previewDialog": false, "publish": false, "toc": false}, "wgTrackingToken": "fb319b4b659eda7f8b736d2c78cbddda", "wikilove-recipient": "", "wikilove-edittoken": "+\\", "wikilove-anon": 0, "mahEditToken": "+\\", "mbEditToken": "+\\", "mbEmailEnabled": true, "mbUserEmail": false, "mbIsEmailConfirmationPending": false, "Geo": {"city": "", "country": ""}, "wgNoticeProject": "wikipedia"});
+}
+</script><script type="text/javascript">if ( window.mediaWiki ) {
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/w/skins-1.18/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Biloxi_Mississippi action-view skin-vector"><!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<style type="text/css">
+body {
+  margin-top:0 !important;
+  padding-top:0 !important;
+  /*min-width:800px !important;*/
+}
+</style>
+<script>__wm.rw(0);</script>
+<div id="wm-ipp-base" lang="en" style="display:none;direction:ltr;">
+<div id="wm-ipp" style="position:fixed;left:0;top:0;right:0;">
+<div id="wm-ipp-inside">
+  <div style="position:relative;">
+    <div id="wm-logo" style="float:left;width:110px;padding-top:12px;">
+      <a href="/web/" title="Wayback Machine home page"><img src="/_static/images/toolbar/wayback-toolbar-logo-200.png" srcset="/_static/images/toolbar/wayback-toolbar-logo-100.png, /_static/images/toolbar/wayback-toolbar-logo-150.png 1.5x, /_static/images/toolbar/wayback-toolbar-logo-200.png 2x" alt="Wayback Machine" style="width:100px" border="0" /></a>
+    </div>
+    <div class="r" style="float:right;">
+      <div id="wm-btns" style="text-align:right;height:25px;">
+                  <div id="wm-save-snapshot-success">success</div>
+          <div id="wm-save-snapshot-fail">fail</div>
+          <a id="wm-save-snapshot-open" href="#"
+	     title="Share via My Web Archive" >
+            <span class="iconochive-web"></span>
+          </a>
+          <a href="https://archive.org/account/login.php"
+             title="Sign In"
+             id="wm-sign-in"
+          >
+            <span class="iconochive-person"></span>
+          </a>
+          <span id="wm-save-snapshot-in-progress" class="iconochive-web"></span>
+        	<a href="http://faq.web.archive.org/" title="Get some help using the Wayback Machine" style="top:-6px;"><span class="iconochive-question" style="color:rgb(87,186,244);font-size:160%;"></span></a>
+	<a id="wm-tb-close" href="#close" onclick="__wm.h(event);return false;" style="top:-2px;" title="Close the toolbar"><span class="iconochive-remove-circle" style="color:#888888;font-size:240%;"></span></a>
+      </div>
+      <div id="wm-share">
+          <a href="/web/20120111123446/http://web.archive.org/screenshot/http://en.wikipedia.org/wiki/Biloxi,_Mississippi"
+             id="wm-screenshot"
+             title="screenshot">
+            <span class="wm-icon-screen-shot"></span>
+          </a>
+	<a id="wm-share-facebook" href="#" data-url="http://web.archive.org/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi,_Mississippi" title="Share on Facebook" style="margin-right:5px;" target="_blank"><span class="iconochive-facebook" style="color:#3b5998;font-size:160%;"></span></a>
+	<a id="wm-share-twitter" href="#" data-url="http://web.archive.org/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi,_Mississippi" title="Share on Twitter" style="margin-right:5px;" target="_blank"><span class="iconochive-twitter" style="color:#1dcaff;font-size:160%;"></span></a>
+      </div>
+    </div>
+    <table class="c" style="">
+      <tbody>
+	<tr>
+	  <td class="u" colspan="2">
+	    <form target="_top" method="get" action="/web/submit" name="wmtb" id="wmtb"><input type="text" name="url" id="wmtbURL" value="http://en.wikipedia.org/wiki/Biloxi,_Mississippi" onfocus="this.focus();this.select();" /><input type="hidden" name="type" value="replay" /><input type="hidden" name="date" value="20120111123446" /><input type="submit" value="Go" /></form>
+	  </td>
+	  <td class="n" rowspan="2" style="width:110px;">
+	    <table>
+	      <tbody>
+		<!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+		<tr class="m">
+		  <td class="b" nowrap="nowrap"><a href="http://web.archive.org/web/20111124094713/http://en.wikipedia.org/wiki/Biloxi,_Mississippi" title="24 Nov 2011"><strong>Nov</strong></a></td>
+		  <td class="c" id="displayMonthEl" title="You are here: 12:34:46 Jan 11, 2012">JAN</td>
+		  <td class="f" nowrap="nowrap"><a href="http://web.archive.org/web/20120222005302/http://en.wikipedia.org/wiki/Biloxi,_Mississippi" title="22 Feb 2012"><strong>Feb</strong></a></td>
+		</tr>
+		<!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+		<tr class="d">
+		  <td class="b" nowrap="nowrap"><a href="http://web.archive.org/web/20120109130836/http://en.wikipedia.org/wiki/Biloxi,_Mississippi" title="13:08:36 Jan 09, 2012"><img src="/_static/images/toolbar/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0" /></a></td>
+		  <td class="c" id="displayDayEl" style="width:34px;font-size:24px;white-space:nowrap;" title="You are here: 12:34:46 Jan 11, 2012">11</td>
+		  <td class="f" nowrap="nowrap"><a href="http://web.archive.org/web/20120114131027/http://en.wikipedia.org/wiki/Biloxi,_Mississippi" title="13:10:27 Jan 14, 2012"><img src="/_static/images/toolbar/wm_tb_nxt_on.png" alt="Next capture" width="14" height="16" border="0" /></a></td>
+		</tr>
+		<!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+		<tr class="y">
+		  <td class="b" nowrap="nowrap"><a href="http://web.archive.org/web/20110110103922/http://en.wikipedia.org/wiki/Biloxi%2C_Mississippi" title="10 Jan 2011"><strong>2011</strong></a></td>
+		  <td class="c" id="displayYearEl" title="You are here: 12:34:46 Jan 11, 2012">2012</td>
+		  <td class="f" nowrap="nowrap"><a href="http://web.archive.org/web/20130120231242/http://en.wikipedia.org/wiki/Biloxi,_Mississippi" title="20 Jan 2013"><strong>2013</strong></a></td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </td>
+	</tr>
+	<tr>
+	  <td class="s">
+	    	    <div id="wm-nav-captures">
+	      	      <a class="t" href="/web/20120111123446*/http://en.wikipedia.org/wiki/Biloxi,_Mississippi" title="See a list of every capture for this URL">368 captures</a>
+	      <div class="r" title="Timespan for captures of this URL">04 Dec 2003 - 06 Oct 2020</div>
+	      </div>
+	  </td>
+	  <td class="k">
+	    <a href="" id="wm-graph-anchor">
+	      <div id="wm-ipp-sparkline" title="Explore captures for this URL" style="position: relative">
+		<canvas id="wm-sparkline-canvas" width="625" height="27" border="0"></canvas>
+	      </div>
+	    </a>
+	  </td>
+	</tr>
+      </tbody>
+    </table>
+    <div style="position:absolute;bottom:0;right:2px;text-align:right;">
+      <a id="wm-expand" class="wm-btn wm-closed" href="#expand" onclick="__wm.ex(event);return false;"><span id="wm-expand-icon" class="iconochive-down-solid"></span> <span style="font-size:80%">About this capture</span></a>
+    </div>
+  </div>
+    <div id="wm-capinfo" style="border-top:1px solid #777;display:none; overflow: hidden">
+                    <div id="wm-capinfo-collected-by">
+    <div style="background-color:#666;color:#fff;font-weight:bold;text-align:center">COLLECTED BY</div>
+    <div style="padding:3px;position:relative" id="wm-collected-by-content">
+            <div style="display:inline-block;vertical-align:top;width:50%;">
+			<span class="c-logo" style="background-image:url(https://archive.org/services/img/ArchiveIt-Partner-398);"></span>
+		Organization: <a style="color:#33f;" href="https://archive.org/details/ArchiveIt-Partner-398" target="_new"><span class="wm-title">University of New Mexico</span></a>
+		<div style="max-height:75px;overflow:hidden;position:relative;">
+	  <div style="position:absolute;top:0;left:0;width:100%;height:75px;background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 90%,rgba(255,255,255,255) 100%);"></div>
+	  University of New Mexico<br /><br />Archive-It Partner Since: Nov, 2009<br />Organization Type: Colleges & Universities<br />Organization URL:<a href="http://www.unm.edu">http://www.unm.edu</a><br /><br />
+	</div>
+	      </div>
+      <div style="display:inline-block;vertical-align:top;width:49%;">
+			<span class="c-logo" style="background-image:url(https://archive.org/services/img/ArchiveIt-Collection-2003)"></span>
+		<div>Collection: <a style="color:#33f;" href="https://archive.org/details/ArchiveIt-Collection-2003" target="_new"><span class="wm-title">UNM Web Archive</span></a></div>
+		<div style="max-height:75px;overflow:hidden;position:relative;">
+	  <div style="position:absolute;top:0;left:0;width:100%;height:75px;background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 90%,rgba(255,255,255,255) 100%);"></div>
+	  University of New Mexico web archives
+	</div>
+	      </div>
+    </div>
+    </div>
+    <div id="wm-capinfo-timestamps">
+    <div style="background-color:#666;color:#fff;font-weight:bold;text-align:center" title="Timestamps for the elements of this page">TIMESTAMPS</div>
+    <div>
+      <div id="wm-capresources" style="margin:0 5px 5px 5px;max-height:250px;overflow-y:scroll !important"></div>
+      <div id="wm-capresources-loading" style="text-align:left;margin:0 20px 5px 5px;display:none"><img src="/_static/images/loading.gif" alt="loading" /></div>
+    </div>
+    </div>
+  </div></div></div></div><div id="donato" style="position:relative;width:100%;">
+  <div id="donato-base">
+    <iframe id="donato-if" src="https://archive.org/includes/donate.php?as_page=1&amp;transpiled=0&amp;referer=http%3A//web.archive.org/web/20120111123446/http%3A//en.wikipedia.org/wiki/Biloxi%252C_Mississippi"
+	    scrolling="no" frameborder="0" style="width:100%; height:100%">
+    </iframe>
+  </div>
+</div><script type="text/javascript">
+__wm.bt(625,27,25,2,"web","http://en.wikipedia.org/wiki/Biloxi,_Mississippi","20120111123446",1996,"/_static/",["/_static/css/banner-styles.css?v=NHuXCfBH","/_static/css/iconochive.css?v=qtvMKcIJ"]);
+  __wm.rw(1);
+</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div id="mw-js-message" style="display:none;"></div>
+						<!-- sitenotice -->
+			<div id="siteNotice"><!-- centralNotice loads here --></div>
+			<!-- /sitenotice -->
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">Biloxi, Mississippi</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From Wikipedia, the free encyclopedia</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div lang="en" dir="ltr" class="mw-content-ltr"><div class="dablink">"Biloxi " redirects here. For other uses, see <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi_(disambiguation)" title="Biloxi (disambiguation)">Biloxi (disambiguation)</a>.</div>
+<table class="infobox geography vcard" style="width:23em; text-align:left">
+<tr>
+<th colspan="2" style="width:100%; text-align:center; font-size:1.25em; white-space:nowrap"><span class="fn org">Biloxi, Mississippi</span></th>
+</tr>
+<tr class="mergedtoprow">
+<td colspan="2" style="text-align:center; background-color:#cddeff">—&#160;&#160;<b><span class="category"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/City" title="City">City</a></span></b>&#160;&#160;—</td>
+</tr>
+<tr>
+<td colspan="2" style="text-align:center; padding:0.7em 0.8em">
+<div class="floatnone"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:The_Beau_Rivage_Hotel_in_Biloxi,_Mississippi.jpg" class="image" title="The Beau Rivage Hotel in Biloxi, Mississippi"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/b/be/The_Beau_Rivage_Hotel_in_Biloxi%2C_Mississippi.jpg/220px-The_Beau_Rivage_Hotel_in_Biloxi%2C_Mississippi.jpg" width="220" height="165"/></a></div>
+<small>The Beau Rivage Hotel in Biloxi, Mississippi</small></td>
+</tr>
+<tr class="mergedrow">
+<td colspan="2" style="text-align:center">Nickname(s): <span class="nickname">The Playground of the South, Buck City, The Promiseland</span></td>
+</tr>
+<tr class="mergedrow">
+<td colspan="2" style="text-align:center" align="center">
+<center>
+<div style="width:250px; float: none; clear: none">
+<div>
+<div style="position: relative;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:USA_Mississippi_location_map.svg" class="image" title="Biloxi, Mississippi is located in Mississippi"><img alt="Biloxi, Mississippi is located in Mississippi" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/USA_Mississippi_location_map.svg/250px-USA_Mississippi_location_map.svg.png" width="250" height="398"/></a>
+<div style="position: absolute; z-index: 2; top: 90.3%; left: 74.3%; height: 0; width: 0; margin: 0; padding: 0;">
+<div style="position: relative; text-align: center; left: -3px; top: -3px; width: 6px; font-size: 6px;"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Red_pog.svg/6px-Red_pog.svg.png" width="6" height="6"/></div>
+<div style="font-size: %; line-height: 110%; z-index:90; position: relative; top: -1.5em; width: 6em; left: -6.5em; text-align: right;"><span style="padding: 1px;">Biloxi, Mississippi</span></div>
+</div>
+</div>
+<div style="font-size: 90%; padding-top:3px;"></div>
+</div>
+</div>
+</center>
+</td>
+</tr>
+<tr class="mergedbottomrow">
+<td colspan="2" style="text-align:center; padding-bottom:0.7em">Coordinates: <span style="white-space: nowrap;"><span class="plainlinks nourlexpansion"><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://toolserver.org/~geohack/geohack.php?pagename=Biloxi,_Mississippi&amp;params=30_24_43_N_88_55_40_W_type:city(45670)_region:US-MS"><span class="geo-default"><span class="geo-dms" title="Maps, aerial photos, and other data for this location"><span class="latitude">30°24′43″N</span> <span class="longitude">88°55′40″W</span></span></span><span class="geo-multi-punct">﻿ / ﻿</span><span class="geo-nondefault"><span class="geo-dec" title="Maps, aerial photos, and other data for this location">30.41194°N 88.92778°W</span><span style="display:none">﻿ / <span class="geo">30.41194; -88.92778</span></span></span></a></span><span style="font-size: small;"><span id="coordinates"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Geographic_coordinate_system" title="Geographic coordinate system">Coordinates</a>: <span class="plainlinks nourlexpansion"><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://toolserver.org/~geohack/geohack.php?pagename=Biloxi,_Mississippi&amp;params=30_24_43_N_88_55_40_W_type:city(45670)_region:US-MS"><span class="geo-default"><span class="geo-dms" title="Maps, aerial photos, and other data for this location"><span class="latitude">30°24′43″N</span> <span class="longitude">88°55′40″W</span></span></span><span class="geo-multi-punct">﻿ / ﻿</span><span class="geo-nondefault"><span class="geo-dec" title="Maps, aerial photos, and other data for this location">30.41194°N 88.92778°W</span><span style="display:none">﻿ / <span class="geo">30.41194; -88.92778</span></span></span></a></span></span></span></span></td>
+</tr>
+<tr class="mergedtoprow">
+<th><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_countries" title="List of countries" class="mw-redirect">Country</a></th>
+<td><a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States" title="United States">United States</a></td>
+</tr>
+<tr class="mergedrow">
+<th><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Political_divisions_of_the_United_States" title="Political divisions of the United States">State</a></th>
+<td><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi" title="Mississippi">Mississippi</a></td>
+</tr>
+<tr class="mergedrow">
+<th><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_counties_in_Mississippi" title="List of counties in Mississippi">County</a></th>
+<td><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Harrison_County,_Mississippi" title="Harrison County, Mississippi">Harrison</a></td>
+</tr>
+<tr class="mergedrow">
+<th><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Municipal_corporation" title="Municipal corporation">Incorporated</a></th>
+<td>in 1838 as a township.</td>
+</tr>
+<tr class="mergedtoprow">
+<td colspan="2"><b>Government</b></td>
+</tr>
+<tr class="mergedrow">
+<th>&#160;•&#160;<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mayor" title="Mayor">Mayor</a></th>
+<td><a href="/web/20120111123446/http://en.wikipedia.org/wiki/A.J._Holloway" title="A.J. Holloway" class="mw-redirect">A.J. Holloway</a></td>
+</tr>
+<tr class="mergedtoprow">
+<td colspan="2"><b>Area</b></td>
+</tr>
+<tr class="mergedrow">
+<th>&#160;•&#160;<a href="/web/20120111123446/http://en.wikipedia.org/wiki/City" title="City">City</a></th>
+<td>46.5&#160;sq&#160;mi&#160;(120.5&#160;km<sup>2</sup>)</td>
+</tr>
+<tr class="mergedrow">
+<th>&#160;•&#160;Land</th>
+<td>38.0&#160;sq&#160;mi&#160;(98.5&#160;km<sup>2</sup>)</td>
+</tr>
+<tr class="mergedrow">
+<th>&#160;•&#160;Water</th>
+<td>8.5&#160;sq&#160;mi&#160;(22.0&#160;km<sup>2</sup>)</td>
+</tr>
+<tr class="mergedtoprow">
+<td><b>Elevation</b></td>
+<td>20&#160;ft (6&#160;m)</td>
+</tr>
+<tr class="mergedtoprow">
+<td colspan="2"><b>Population</b> (2008)</td>
+</tr>
+<tr class="mergedrow">
+<th>&#160;•&#160;<a href="/web/20120111123446/http://en.wikipedia.org/wiki/City" title="City">City</a></th>
+<td>45,670</td>
+</tr>
+<tr class="mergedrow">
+<td>&#160;<b>•&#160;Density</b></td>
+<td>1,165.5/sq&#160;mi&#160;(450/km<sup>2</sup>)</td>
+</tr>
+<tr class="mergedrow">
+<td>&#160;<b>•&#160;<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Metropolitan_area" title="Metropolitan area">Metro</a></b></td>
+<td>234,625</td>
+</tr>
+<tr class="mergedtoprow">
+<th><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Time_zone" title="Time zone">Time zone</a></th>
+<td><a href="/web/20120111123446/http://en.wikipedia.org/wiki/North_American_Central_Time_Zone" title="North American Central Time Zone" class="mw-redirect">CST</a> (<a href="/web/20120111123446/http://en.wikipedia.org/wiki/UTC-6" title="UTC-6" class="mw-redirect">UTC-6</a>)</td>
+</tr>
+<tr class="mergedrow">
+<th style="white-space:nowrap">&#160;•&#160;Summer&#160;(<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Daylight_saving_time" title="Daylight saving time">DST</a>)</th>
+<td><a href="/web/20120111123446/http://en.wikipedia.org/wiki/North_American_Central_Time_Zone" title="North American Central Time Zone" class="mw-redirect">CDT</a> (<a href="/web/20120111123446/http://en.wikipedia.org/wiki/UTC-5" title="UTC-5" class="mw-redirect">UTC-5</a>)</td>
+</tr>
+<tr class="mergedtoprow">
+<th><a href="/web/20120111123446/http://en.wikipedia.org/wiki/ZIP_code" title="ZIP code">ZIP code</a></th>
+<td class="adr"><span class="postal-code">39530-39535, 39540, 39532</span></td>
+</tr>
+<tr class="mergedrow">
+<th><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Telephone_numbering_plan" title="Telephone numbering plan">Area code(s)</a></th>
+<td><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Area_code_228" title="Area code 228">228</a></td>
+</tr>
+<tr class="mergedtoprow">
+<th><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Federal_Information_Processing_Standard" title="Federal Information Processing Standard">FIPS code</a></th>
+<td>28-06220</td>
+</tr>
+<tr class="mergedrow">
+<th><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Geographic_Names_Information_System" title="Geographic Names Information System">GNIS</a> feature ID</th>
+<td>0667173</td>
+</tr>
+<tr class="mergedtoprow">
+<th>Website</th>
+<td><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.biloxi.ms.us/">www.biloxi.ms.us</a></td>
+</tr>
+</table>
+<p><b>Biloxi</b> (<span class="nowrap"><span title="pronunciation:"><img alt="play" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Loudspeaker.svg/11px-Loudspeaker.svg.png" width="11" height="11"/></span>&#160;<span title="Representation in the International Phonetic Alphabet (IPA)" class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English" title="Wikipedia:IPA for English">/</a></span><span class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English#Key" title="Wikipedia:IPA for English"><span title="'b' in 'buy'" style="border-bottom:1px dotted">b</span></a></span><span class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English#Key" title="Wikipedia:IPA for English"><span title="schwa 'a' in 'about'" style="border-bottom:1px dotted">ə</span></a></span><span class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English#Key" title="Wikipedia:IPA for English"><span title="primary stress" style="border-bottom:1px dotted">ˈ</span></a></span><span class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English#Key" title="Wikipedia:IPA for English"><span title="'l' in 'lie'" style="border-bottom:1px dotted">l</span></a></span><span class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English#Key" title="Wikipedia:IPA for English"><span title="short 'u' in 'bud'" style="border-bottom:1px dotted">ʌ</span></a></span><span class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English#Key" title="Wikipedia:IPA for English"><span title="'k' in 'kind'" style="border-bottom:1px dotted">k</span></a></span><span class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English#Key" title="Wikipedia:IPA for English"><span title="'s' in 'sigh'" style="border-bottom:1px dotted">s</span></a></span><span class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English#Key" title="Wikipedia:IPA for English"><span title="'y' in 'happy'" style="border-bottom:1px dotted">i</span></a></span><span title="Representation in the International Phonetic Alphabet (IPA)" class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:IPA_for_English" title="Wikipedia:IPA for English">/</a></span></span> <span title="English pronunciation respelling" class="IPA"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:Pronunciation_respelling_key" title="Wikipedia:Pronunciation respelling key"><i>bə-<b><span style="font-variant:small-caps;">luk</span></b>-see</i></a></span>) is a city in <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Harrison_County,_Mississippi" title="Harrison County, Mississippi">Harrison County, Mississippi</a>, in the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States" title="United States">United States</a>. The 2010 <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States_Census" title="United States Census">census</a> recorded the population as 44,054. Along with <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport,_Mississippi" title="Gulfport, Mississippi">Gulfport</a>, Biloxi is a county seat of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Harrison_County,_Mississippi" title="Harrison County, Mississippi">Harrison County</a>.</p>
+<p>The city is part of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport-Biloxi_metropolitan_area" title="Gulfport-Biloxi metropolitan area" class="mw-redirect">Gulfport-Biloxi metropolitan area</a> and the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport-Biloxi-Pascagoula,_Mississippi_Combined_Statistical_Area" title="Gulfport-Biloxi-Pascagoula, Mississippi Combined Statistical Area" class="mw-redirect">Gulfport-Biloxi-Pascagoula, Mississippi Combined Statistical Area</a>. Pre-<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hurricane_Katrina" title="Hurricane Katrina">Katrina</a>, Biloxi was the third largest city in Mississippi; but with its population losses following that storm, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hattiesburg,_Mississippi" title="Hattiesburg, Mississippi">Hattiesburg</a> now has that distinction.</p>
+<p>The beachfront of Biloxi lies directly on the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Sound" title="Mississippi Sound">Mississippi Sound</a>, with <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Barrier_island" title="Barrier island">barrier islands</a> scattered off the coast and into the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulf_of_Mexico" title="Gulf of Mexico">Gulf of Mexico</a>.</p>
+<p><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Keesler_Air_Force_Base" title="Keesler Air Force Base">Keesler Air Force Base</a> lies within the city and is home to the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/81st_Training_Wing" title="81st Training Wing">81st Training Wing</a> and the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/403d_Wing" title="403d Wing">403d Wing</a> of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States" title="United States">U.S. Air Force</a> Reserve.</p>
+<table id="toc" class="toc">
+<tr>
+<td>
+<div id="toctitle">
+<h2>Contents</h2>
+</div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Geography_and_climate"><span class="tocnumber">1</span> <span class="toctext">Geography and climate</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Colonial_era"><span class="tocnumber">2</span> <span class="toctext">Colonial era</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Subsequent_history"><span class="tocnumber">3</span> <span class="toctext">Subsequent history</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#Hurricanes"><span class="tocnumber">4</span> <span class="toctext">Hurricanes</span></a>
+<ul>
+<li class="toclevel-2 tocsection-5"><a href="#Hurricane_Katrina"><span class="tocnumber">4.1</span> <span class="toctext">Hurricane Katrina</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-6"><a href="#Demographics"><span class="tocnumber">5</span> <span class="toctext">Demographics</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#Education"><span class="tocnumber">6</span> <span class="toctext">Education</span></a></li>
+<li class="toclevel-1 tocsection-8"><a href="#Government_and_infrastructure"><span class="tocnumber">7</span> <span class="toctext">Government and infrastructure</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="#Culture"><span class="tocnumber">8</span> <span class="toctext">Culture</span></a></li>
+<li class="toclevel-1 tocsection-10"><a href="#Casinos"><span class="tocnumber">9</span> <span class="toctext">Casinos</span></a></li>
+<li class="toclevel-1 tocsection-11"><a href="#Transportation"><span class="tocnumber">10</span> <span class="toctext">Transportation</span></a></li>
+<li class="toclevel-1 tocsection-12"><a href="#Sports"><span class="tocnumber">11</span> <span class="toctext">Sports</span></a></li>
+<li class="toclevel-1 tocsection-13"><a href="#Notable_residents"><span class="tocnumber">12</span> <span class="toctext">Notable residents</span></a></li>
+<li class="toclevel-1 tocsection-14"><a href="#In_the_Arts"><span class="tocnumber">13</span> <span class="toctext">In the Arts</span></a></li>
+<li class="toclevel-1 tocsection-15"><a href="#Notes"><span class="tocnumber">14</span> <span class="toctext">Notes</span></a></li>
+<li class="toclevel-1 tocsection-16"><a href="#External_links"><span class="tocnumber">15</span> <span class="toctext">External links</span></a></li>
+</ul>
+</td>
+</tr>
+</table>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=1" title="Edit section: Geography and climate">edit</a>]</span> <span class="mw-headline" id="Geography_and_climate">Geography and climate</span></h2>
+<p>Biloxi is located at <span class="plainlinks nourlexpansion"><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://toolserver.org/~geohack/geohack.php?pagename=Biloxi,_Mississippi&amp;params=30_24_43_N_88_55_40_W_type:city"><span class="geo-default"><span class="geo-dms" title="Maps, aerial photos, and other data for this location"><span class="latitude">30°24′43″N</span> <span class="longitude">88°55′40″W</span></span></span><span class="geo-multi-punct">﻿ / ﻿</span><span class="geo-nondefault"><span class="geo-dec" title="Maps, aerial photos, and other data for this location">30.41194°N 88.92778°W</span><span style="display:none">﻿ / <span class="geo">30.41194; -88.92778</span></span></span></a></span> (30.412029, -88.927829)<sup id="cite_ref-GR1_0-0" class="reference"><a href="#cite_note-GR1-0"><span>[</span>1<span>]</span></a></sup> and has an elevation of 20 feet (6.1&#160;m).<sup id="cite_ref-GR3_1-0" class="reference"><a href="#cite_note-GR3-1"><span>[</span>2<span>]</span></a></sup></p>
+<p>According to the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States_Census_Bureau" title="United States Census Bureau">United States Census Bureau</a>, the city has a total area of 46.5&#160;square miles (120.5&#160;km² ). 38.0&#160;square miles (98.5&#160;km²) of it is land and 8.5&#160;square miles (22.0&#160;km²) of it is water. The total area is 18.27% water.</p>
+<div class="center">
+<div class="thumb tnone">
+<div class="thumbinner" style="width:432px;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Mississippi-Coast-towns-NOAA.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Mississippi-Coast-towns-NOAA.jpg/430px-Mississippi-Coast-towns-NOAA.jpg" width="430" height="219" class="thumbimage"/></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Mississippi-Coast-towns-NOAA.jpg" class="internal" title="Enlarge"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/magnify-clip.png" width="15" height="11" alt=""/></a></div>
+Location of <b>Biloxi</b>, Mississippi, east of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport,_Mississippi" title="Gulfport, Mississippi">Gulfport</a> (center), on <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulf_of_Mexico" title="Gulf of Mexico">Gulf of Mexico</a>.</div>
+</div>
+</div>
+</div>
+<p>Biloxi has a subtropical climate that is heavily influenced by the Gulf of Mexico. Winter days are mild and wet. Snow is extremely rare in Biloxi. Summers are hot and humid, bearing the brunt of tropical storms during the late summer to fall. Biloxi's record low of 10°F (-12.2°C) was recorded on January 24, 1963, and the record high of 104°F (40°C) was recorded on August 29, 2000.</p>
+<table class="wikitable collapsible" style="width:90%; text-align:center; font-size:90%; line-height: 1.1em; margin:auto;">
+<tr>
+<th colspan="14">Climate data for Biloxi, Mississippi</th>
+</tr>
+<tr>
+<th>Month</th>
+<th><abbr class="abbr" title="January">Jan</abbr></th>
+<th><abbr class="abbr" title="February">Feb</abbr></th>
+<th><abbr class="abbr" title="March">Mar</abbr></th>
+<th><abbr class="abbr" title="April">Apr</abbr></th>
+<th>May</th>
+<th><abbr class="abbr" title="June">Jun</abbr></th>
+<th><abbr class="abbr" title="July">Jul</abbr></th>
+<th><abbr class="abbr" title="August">Aug</abbr></th>
+<th><abbr class="abbr" title="September">Sep</abbr></th>
+<th><abbr class="abbr" title="October">Oct</abbr></th>
+<th><abbr class="abbr" title="November">Nov</abbr></th>
+<th><abbr class="abbr" title="December">Dec</abbr></th>
+<th style="border-left-width:medium">Year</th>
+</tr>
+<tr>
+<th height="16">Record high °F (°C)</th>
+<td style="background:#FF5D00;color:#000000; font-size:85%;text-align:center;">82<br/>
+(28)</td>
+<td style="background:#FF6300;color:#000000; font-size:85%;text-align:center;">80<br/>
+(27)</td>
+<td style="background:#FF5600;color:#000000; font-size:85%;text-align:center;">85<br/>
+(29)</td>
+<td style="background:#FF3A00;color:#000000; font-size:85%;text-align:center;">91<br/>
+(33)</td>
+<td style="background:#FF1F00;color:#000000; font-size:85%;text-align:center;">98<br/>
+(37)</td>
+<td style="background:#FF1100;color:#FFFFFF; font-size:85%;text-align:center;">102<br/>
+(39)</td>
+<td style="background:#FF1100;color:#FFFFFF; font-size:85%;text-align:center;">103<br/>
+(39)</td>
+<td style="background:#FF0A00;color:#FFFFFF; font-size:85%;text-align:center;">104<br/>
+(40)</td>
+<td style="background:#FF1800;color:#FFFFFF; font-size:85%;text-align:center;">101<br/>
+(38)</td>
+<td style="background:#FF3300;color:#000000; font-size:85%;text-align:center;">94<br/>
+(34)</td>
+<td style="background:#FF4F00;color:#000000; font-size:85%;text-align:center;">86<br/>
+(30)</td>
+<td style="background:#FF6300;color:#000000; font-size:85%;text-align:center;">80<br/>
+(27)</td>
+<td style="background:#FF0A00;color:#FFFFFF; font-size:85%;text-align:center; border-left-width:medium">104<br/>
+(40)</td>
+</tr>
+<tr>
+<th height="16">Average high °F (°C)</th>
+<td style="background:#FFBD7C;color:#000000; font-size:85%;text-align:center;">58<br/>
+(14)</td>
+<td style="background:#FFA852;color:#000000; font-size:85%;text-align:center;">62<br/>
+(17)</td>
+<td style="background:#FF9B37;color:#000000; font-size:85%;text-align:center;">67<br/>
+(19)</td>
+<td style="background:#FF7F00;color:#000000; font-size:85%;text-align:center;">74<br/>
+(23)</td>
+<td style="background:#FF6300;color:#000000; font-size:85%;text-align:center;">81<br/>
+(27)</td>
+<td style="background:#FF4F00;color:#000000; font-size:85%;text-align:center;">86<br/>
+(30)</td>
+<td style="background:#FF4100;color:#000000; font-size:85%;text-align:center;">89<br/>
+(32)</td>
+<td style="background:#FF4800;color:#000000; font-size:85%;text-align:center;">88<br/>
+(31)</td>
+<td style="background:#FF5600;color:#000000; font-size:85%;text-align:center;">85<br/>
+(29)</td>
+<td style="background:#FF7100;color:#000000; font-size:85%;text-align:center;">77<br/>
+(25)</td>
+<td style="background:#FF9429;color:#000000; font-size:85%;text-align:center;">68<br/>
+(20)</td>
+<td style="background:#FFAF60;color:#000000; font-size:85%;text-align:center;">61<br/>
+(16)</td>
+<td style="background:#FF7F00;color:#000000; font-size:85%;text-align:center; border-left-width:medium">74<br/>
+(23)</td>
+</tr>
+<tr>
+<th height="16">Average low °F (°C)</th>
+<td style="background:#FFF4EA;color:#000000; font-size:85%;text-align:center;">43<br/>
+(6)</td>
+<td style="background:#FFE6CE;color:#000000; font-size:85%;text-align:center;">47<br/>
+(8)</td>
+<td style="background:#FFCB97;color:#000000; font-size:85%;text-align:center;">53<br/>
+(12)</td>
+<td style="background:#FFB66E;color:#000000; font-size:85%;text-align:center;">59<br/>
+(15)</td>
+<td style="background:#FF9B37;color:#000000; font-size:85%;text-align:center;">67<br/>
+(19)</td>
+<td style="background:#FF7F00;color:#000000; font-size:85%;text-align:center;">73<br/>
+(23)</td>
+<td style="background:#FF7800;color:#000000; font-size:85%;text-align:center;">75<br/>
+(24)</td>
+<td style="background:#FF7800;color:#000000; font-size:85%;text-align:center;">75<br/>
+(24)</td>
+<td style="background:#FF860D;color:#000000; font-size:85%;text-align:center;">71<br/>
+(22)</td>
+<td style="background:#FFAF60;color:#000000; font-size:85%;text-align:center;">60<br/>
+(16)</td>
+<td style="background:#FFD2A5;color:#000000; font-size:85%;text-align:center;">52<br/>
+(11)</td>
+<td style="background:#FFE6CE;color:#000000; font-size:85%;text-align:center;">46<br/>
+(8)</td>
+<td style="background:#FFAF60;color:#000000; font-size:85%;text-align:center; border-left-width:medium">60<br/>
+(16)</td>
+</tr>
+<tr>
+<th height="16">Record low °F (°C)</th>
+<td style="background:#A6A6FF;color:#000000; font-size:85%;text-align:center;">10<br/>
+(−12)</td>
+<td style="background:#B0B0FF;color:#000000; font-size:85%;text-align:center;">14<br/>
+(−10)</td>
+<td style="background:#C6C6FF;color:#000000; font-size:85%;text-align:center;">22<br/>
+(−6)</td>
+<td style="background:#E1E1FF;color:#000000; font-size:85%;text-align:center;">30<br/>
+(−1)</td>
+<td style="background:#FFEDDC;color:#000000; font-size:85%;text-align:center;">45<br/>
+(7)</td>
+<td style="background:#FFC489;color:#000000; font-size:85%;text-align:center;">55<br/>
+(13)</td>
+<td style="background:#FFAF60;color:#000000; font-size:85%;text-align:center;">60<br/>
+(16)</td>
+<td style="background:#FFAF60;color:#000000; font-size:85%;text-align:center;">61<br/>
+(16)</td>
+<td style="background:#FFEDDC;color:#000000; font-size:85%;text-align:center;">45<br/>
+(7)</td>
+<td style="background:#E6E6FF;color:#000000; font-size:85%;text-align:center;">32<br/>
+(0)</td>
+<td style="background:#D1D1FF;color:#000000; font-size:85%;text-align:center;">25<br/>
+(−4)</td>
+<td style="background:#A0A0FF;color:#000000; font-size:85%;text-align:center;">9<br/>
+(−13)</td>
+<td style="background:#A0A0FF;color:#000000; font-size:85%;text-align:center; border-left-width:medium">9<br/>
+(−13)</td>
+</tr>
+<tr>
+<th height="16"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Precipitation_(meteorology)" title="Precipitation (meteorology)">Precipitation</a> inches (mm)</th>
+<td style="background:#1818FF;color:#FFFFFF; font-size:85%;text-align:center;">6.08<br/>
+(154.4)</td>
+<td style="background:#1B1BFF;color:#FFFFFF; font-size:85%;text-align:center;">5.48<br/>
+(139.2)</td>
+<td style="background:#1515FF;color:#FFFFFF; font-size:85%;text-align:center;">6.16<br/>
+(156.5)</td>
+<td style="background:#4242FF;color:#FFFFFF; font-size:85%;text-align:center;">4.82<br/>
+(122.4)</td>
+<td style="background:#3333FF;color:#FFFFFF; font-size:85%;text-align:center;">5.37<br/>
+(136.4)</td>
+<td style="background:#3A3AFF;color:#FFFFFF; font-size:85%;text-align:center;">5.03<br/>
+(127.8)</td>
+<td style="background:#0000E5;color:#FFFFFF; font-size:85%;text-align:center;">7.40<br/>
+(188)</td>
+<td style="background:#2323FF;color:#FFFFFF; font-size:85%;text-align:center;">5.80<br/>
+(147.3)</td>
+<td style="background:#2121FF;color:#FFFFFF; font-size:85%;text-align:center;">5.67<br/>
+(144)</td>
+<td style="background:#8282FF;color:#000000; font-size:85%;text-align:center;">3.30<br/>
+(83.8)</td>
+<td style="background:#4141FF;color:#FFFFFF; font-size:85%;text-align:center;">4.84<br/>
+(122.9)</td>
+<td style="background:#4545FF;color:#FFFFFF; font-size:85%;text-align:center;">4.89<br/>
+(124.2)</td>
+<td style="background:#2E2EFF;color:#FFFFFF; font-size:85%;text-align:center; border-left-width:medium">64.84<br/>
+(1,646.9)</td>
+</tr>
+<tr>
+<td colspan="14" style="text-align:center;font-size:85%"><i>Source: <sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>3<span>]</span></a></sup></i></td>
+</tr>
+</table>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=2" title="Edit section: Colonial era">edit</a>]</span> <span class="mw-headline" id="Colonial_era">Colonial era</span></h2>
+<p>The history of Biloxi, Mississippi, spans more than 300 years.</p>
+<p>The first permanent settlement in <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Louisiana_(New_France)" title="Louisiana (New France)">French Louisiana</a> was founded at <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Fort_Maurepas" title="Fort Maurepas">Fort Maurepas</a>, now in <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ocean_Springs,_Mississippi" title="Ocean Springs, Mississippi">Ocean Springs, Mississippi</a> and referred to as Old Biloxi, in 1699 under the direction of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pierre_Le_Moyne_d%27Iberville" title="Pierre Le Moyne d'Iberville">Pierre Le Moyne d'Iberville</a>, with Louisiana separated from <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Spanish_Florida" title="Spanish Florida">Spanish Florida</a> at the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Perdido_River" title="Perdido River">Perdido River</a> near <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pensacola,_Florida" title="Pensacola, Florida">Pensacola</a> (founded 1559 and again in 1698).</p>
+<p>The name of Biloxi in French was <i>"Bilocci"</i> (with <i>"fort Maurepas"</i>),<sup id="cite_ref-enquete_3-0" class="reference"><a href="#cite_note-enquete-3"><span>[</span>4<span>]</span></a></sup> and the name was sometimes translated into English as "Fort Bilocci" on maps updated circa year 1710/1725.<sup id="cite_ref-rmaps1_4-0" class="reference"><a href="#cite_note-rmaps1-4"><span>[</span>5<span>]</span></a></sup><sup id="cite_ref-rmaps2_5-0" class="reference"><a href="#cite_note-rmaps2-5"><span>[</span>6<span>]</span></a></sup></p>
+<p>In 1720, the administrative capital of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Louisiana_(New_France)" title="Louisiana (New France)">French Louisiana</a> was moved to Biloxi (or Bilocci) from <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mobile,_Alabama" title="Mobile, Alabama">Mobile</a> (or <i>Mobille</i>). French Louisiana (part of New France) was known in French as <i>La Louisiane</i> in colonial times, but in modern times is called <i>"La Louisiane française"</i> to distinguish from the modern state of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Louisiana" title="Louisiana">Louisiana</a> (also <i>"Louisiane"</i> in French).<sup id="cite_ref-enquete_3-1" class="reference"><a href="#cite_note-enquete-3"><span>[</span>4<span>]</span></a></sup></p>
+<p>Due to fears of tides and hurricanes in the 18th century, the capital of French Louisiana was later moved by colonial governor <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jean-Baptiste_Le_Moyne_de_Bienville" title="Jean-Baptiste Le Moyne de Bienville" class="mw-redirect">Bienville</a>, in 1723, from Biloxi to a new inland harbor town named <i>La Nouvelle-Orléans</i> (<a href="/web/20120111123446/http://en.wikipedia.org/wiki/New_Orleans" title="New Orleans">New Orleans</a>), built for the purpose in 1718-1720.</p>
+<p>In 1763, following Great Britain's victory in the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Seven_Years_War" title="Seven Years War" class="mw-redirect">Seven Years War</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/France" title="France">France</a> had to cede French Louisiana east of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_River" title="Mississippi River">Mississippi River</a>, except for New Orleans, to <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Great_Britain" title="Great Britain">Great Britain</a>, as part of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Treaty_of_Paris_(1763)" title="Treaty of Paris (1763)">Treaty of Paris</a>. At that same time, Louisiana west of the Mississippi, including New Orleans, was ceded to <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Spain" title="Spain">Spain</a> as part of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Treaty_of_Fontainebleau_(1762)" title="Treaty of Fontainebleau (1762)">Treaty of Fontainebleau</a>.</p>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=3" title="Edit section: Subsequent history">edit</a>]</span> <span class="mw-headline" id="Subsequent_history">Subsequent history</span></h2>
+<div class="thumb tleft">
+<div class="thumbinner" style="width:252px;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Howard_Street_Biloxi_Mississippi_1906.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Howard_Street_Biloxi_Mississippi_1906.jpg/250px-Howard_Street_Biloxi_Mississippi_1906.jpg" width="250" height="121" class="thumbimage"/></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Howard_Street_Biloxi_Mississippi_1906.jpg" class="internal" title="Enlarge"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/magnify-clip.png" width="15" height="11" alt=""/></a></div>
+Looking West down Howard Avenue at Lameuse Street in Biloxi in 1906</div>
+</div>
+</div>
+<p>British rule persisted from 1763 to 1779, and then Spanish rule from 1779 to 1798. Despite this, the character of Biloxi remained mostly French.<sup id="cite_ref-hco_6-0" class="reference"><a href="#cite_note-hco-6"><span>[</span>7<span>]</span></a></sup> In 1811, Biloxi came under United States of America control as part of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Territory" title="Mississippi Territory">Mississippi Territory</a>. Mississippi, and Biloxi with it, were then admitted to the union in 1817.</p>
+<p>Now that ownership was settled, Biloxi began to grow. It became a summer resort, with the advantages of close proximity to New Orleans and ease of access via water. Summer homes were built by well-to-do farmers and commercial figures. Hotels and rental cottages came into existence to serve those who could not afford their own homes.<sup id="cite_ref-hco_6-1" class="reference"><a href="#cite_note-hco-6"><span>[</span>7<span>]</span></a></sup></p>
+<div class="thumb tright">
+<div class="thumbinner" style="width:252px;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Biloxi_Lighthouse_2010.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Biloxi_Lighthouse_2010.jpg/250px-Biloxi_Lighthouse_2010.jpg" width="250" height="333" class="thumbimage"/></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Biloxi_Lighthouse_2010.jpg" class="internal" title="Enlarge"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/magnify-clip.png" width="15" height="11" alt=""/></a></div>
+<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi_Lighthouse" title="Biloxi Lighthouse" class="mw-redirect">Biloxi Lighthouse</a>, built in 1848 and reputed to be one of the most photographed objects in the American South.<sup id="cite_ref-blh_7-0" class="reference"><a href="#cite_note-blh-7"><span>[</span>8<span>]</span></a></sup></div>
+</div>
+</div>
+<p>One of Biloxi's most known features has been the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi_Lighthouse" title="Biloxi Lighthouse" class="mw-redirect">Biloxi Lighthouse</a>, which was built in <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Baltimore" title="Baltimore">Baltimore</a> and then shipped south and completed in May 1848.<sup id="cite_ref-blh_7-1" class="reference"><a href="#cite_note-blh-7"><span>[</span>8<span>]</span></a></sup> (It and another are the only surviving lighthouses of twelve that once dotted the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Gulf_Coast" title="Mississippi Gulf Coast">Mississippi Gulf Coast</a>.<sup id="cite_ref-blh_7-2" class="reference"><a href="#cite_note-blh-7"><span>[</span>8<span>]</span></a></sup>)</p>
+<p>In the early stages of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/American_Civil_War" title="American Civil War">Civil War</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ship_Island_(Mississippi)" title="Ship Island (Mississippi)">Ship Island</a> was captured by <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Union_Army" title="Union Army">Union forces</a>, which led to the effective Union capture of Biloxi as well. No major battles were fought in the area, and Biloxi did not suffer direct damage from the war.<sup id="cite_ref-hco_6-2" class="reference"><a href="#cite_note-hco-6"><span>[</span>7<span>]</span></a></sup> Some local Union sentiment could be discerned following the war's conclusion.<sup id="cite_ref-blh_7-3" class="reference"><a href="#cite_note-blh-7"><span>[</span>8<span>]</span></a></sup></p>
+<p>In the postbellum period, Biloxi again emerged as a vacation spot. Its popularity as a destination increased with railroad access. In 1881, the first <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Cannery" title="Cannery" class="mw-redirect">cannery</a> was built in the town, leading to others soon joining the location. Biloxi grew again, and as different <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ethnic_group" title="Ethnic group">ethnic groups</a> came to work in the seafood factories, Biloxi gained a more heterogeneous population.<sup id="cite_ref-hco_6-3" class="reference"><a href="#cite_note-hco-6"><span>[</span>7<span>]</span></a></sup></p>
+<p>During <a href="/web/20120111123446/http://en.wikipedia.org/wiki/World_War_II" title="World War II">World War II</a>, the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States_Army_Air_Forces" title="United States Army Air Forces">United States Army Air Forces</a> built Keesler Field, now <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Keesler_Air_Force_Base" title="Keesler Air Force Base">Keesler Air Force Base</a>, which became a major <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Basic_training" title="Basic training" class="mw-redirect">basic training</a> site and site for aircraft maintenance. The Biloxi economy boomed as a result,<sup id="cite_ref-isjl_8-0" class="reference"><a href="#cite_note-isjl-8"><span>[</span>9<span>]</span></a></sup> again bringing more diverse groups to the area. By 1958, the first <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Synagogue" title="Synagogue">Jewish synagogue</a> had been built in the town.<sup id="cite_ref-isjl_8-1" class="reference"><a href="#cite_note-isjl-8"><span>[</span>9<span>]</span></a></sup></p>
+<p>Biloxi's <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Casino" title="Casino">casino</a> history dates back to a period in the 1940s, when open, if technically illegal, gambling took place in a casino within the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Broadwater_Beach_Resort" title="Broadwater Beach Resort" class="mw-redirect">Broadwater Beach Resort</a>.<sup id="cite_ref-sh-landmark_9-0" class="reference"><a href="#cite_note-sh-landmark-9"><span>[</span>10<span>]</span></a></sup> Open gambling ended during the 1950s.<sup id="cite_ref-sh-before_10-0" class="reference"><a href="#cite_note-sh-before-10"><span>[</span>11<span>]</span></a></sup> The <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Gulf_Coast" title="Mississippi Gulf Coast">Mississippi Gulf Coast</a> became known as the "Poor Man's Riviera", and was frequented by <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Southern_United_States" title="Southern United States">Southern</a> families interested in fishing expeditions during the summer.<sup id="cite_ref-nyt-1963_11-0" class="reference"><a href="#cite_note-nyt-1963-11"><span>[</span>12<span>]</span></a></sup> Commercially, Biloxi was dominated by shrimp boats and oyster luggers.<sup id="cite_ref-nyt-1963_11-1" class="reference"><a href="#cite_note-nyt-1963-11"><span>[</span>12<span>]</span></a></sup></p>
+<p>In the early 1960s, the Gulf Coast again emerged as a prime alternative to <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Florida" title="Florida">Florida</a> as a southern vacation destination among <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Northern_United_States" title="Northern United States">Northerners</a>, with Biloxi a center of the focus.<sup id="cite_ref-nyt-1963_11-2" class="reference"><a href="#cite_note-nyt-1963-11"><span>[</span>12<span>]</span></a></sup> Biloxi hotels upgraded their amenities and hired chefs from France and Switzerland in an effort to provide some of the best seafood cuisine in the country.<sup id="cite_ref-nyt-1963_11-3" class="reference"><a href="#cite_note-nyt-1963-11"><span>[</span>12<span>]</span></a></sup></p>
+<p>With the introduction of legal gambling in Mississippi in the 1990s, Biloxi was again transformed.<sup id="cite_ref-isjl_8-2" class="reference"><a href="#cite_note-isjl-8"><span>[</span>9<span>]</span></a></sup> It became an important center for casinos, and the hotels and complexes brought millions of dollars in tourism revenue to the city. The more famous casino complexes were the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Beau_Rivage_(Mississippi)" title="Beau Rivage (Mississippi)">Beau Rivage</a> casino resort, the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hard_Rock_Hotel_and_Casino_(Biloxi)" title="Hard Rock Hotel and Casino (Biloxi)">Hard Rock Hotel and Casino (Biloxi)</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Casino_Magic_Biloxi_Casino_%26_Hotel" title="Casino Magic Biloxi Casino &amp; Hotel">Casino Magic</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Grand_Casino_Biloxi" title="Grand Casino Biloxi">Grand Casino</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Isle_of_Capri_Casinos" title="Isle of Capri Casinos">Isle of Capri Casino Resort Biloxi</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Penn_National_Gaming" title="Penn National Gaming">Boomtown Casino</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/President_Casino_Broadwater_Resort" title="President Casino Broadwater Resort">President Casino Broadwater Resort</a>, and <a href="/web/20120111123446/http://en.wikipedia.org/wiki/IP_Hotel_and_Casino" title="IP Hotel and Casino" class="mw-redirect">Imperial Palace</a>. Like <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tunica_County,_Mississippi" title="Tunica County, Mississippi">Tunica County</a> in the northern part of the state, Biloxi and the surrounding Gulf Coast region was considered a leading gambling center in the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Southern_United_States" title="Southern United States">Southern United States</a>.</p>
+<p>To celebrate the area's Tricentennial in 1998/99, the city's tourism promotion agency invited the nationally-syndicated Travel World Radio Show to broadcast live from Biloxi, with co-host Willem Bagchus in attendance.</p>
+<p>By the early 21st century, Biloxi's economy rested on the three prongs of seafood, tourism and gaming.<sup id="cite_ref-hco_6-4" class="reference"><a href="#cite_note-hco-6"><span>[</span>7<span>]</span></a></sup></p>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=4" title="Edit section: Hurricanes">edit</a>]</span> <span class="mw-headline" id="Hurricanes">Hurricanes</span></h2>
+<p>Scores of hurricanes have hit the Mississippi Gulf Coast, but the most destructive, as measured by storm surge levels in the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi_Light" title="Biloxi Light">Biloxi Lighthouse</a>, occurred in 1855, 1906, 1909, 1947, 1969 (<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hurricane_Camille" title="Hurricane Camille">Hurricane Camille</a>), and 2005 (<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hurricane_Katrina" title="Hurricane Katrina">Hurricane Katrina</a>)<sup id="cite_ref-12" class="reference"><a href="#cite_note-12"><span>[</span>13<span>]</span></a></sup></p>
+<h3><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=5" title="Edit section: Hurricane Katrina">edit</a>]</span> <span class="mw-headline" id="Hurricane_Katrina">Hurricane Katrina</span></h3>
+<div class="rellink relarticle mainarticle">Main articles: <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hurricane_Katrina" title="Hurricane Katrina">Hurricane Katrina</a> and <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Effect_of_Hurricane_Katrina_on_Mississippi" title="Effect of Hurricane Katrina on Mississippi" class="mw-redirect">Effect of Hurricane Katrina on Mississippi</a></div>
+<div class="thumb tleft">
+<div class="thumbinner" style="width:152px;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Katrina-14629.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Katrina-14629.jpg/150px-Katrina-14629.jpg" width="150" height="226" class="thumbimage"/></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Katrina-14629.jpg" class="internal" title="Enlarge"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/magnify-clip.png" width="15" height="11" alt=""/></a></div>
+Biloxi beach near casinos, before cleanup</div>
+</div>
+</div>
+<div class="thumb tright">
+<div class="thumbinner" style="width:202px;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Hurricane-Katrina-Grand-Casino-Biloxi-NOAA.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Hurricane-Katrina-Grand-Casino-Biloxi-NOAA.jpg/200px-Hurricane-Katrina-Grand-Casino-Biloxi-NOAA.jpg" width="200" height="150" class="thumbimage"/></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Hurricane-Katrina-Grand-Casino-Biloxi-NOAA.jpg" class="internal" title="Enlarge"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/magnify-clip.png" width="15" height="11" alt=""/></a></div>
+St. Michael's Church in Biloxi (before clean-up)</div>
+</div>
+</div>
+<div class="thumb tright">
+<div class="thumbinner" style="width:202px;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:BiloxiMS_Katrina_Sharkheads.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/BiloxiMS_Katrina_Sharkheads.jpg/200px-BiloxiMS_Katrina_Sharkheads.jpg" width="200" height="149" class="thumbimage"/></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:BiloxiMS_Katrina_Sharkheads.jpg" class="internal" title="Enlarge"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/magnify-clip.png" width="15" height="11" alt=""/></a></div>
+<i>Sharkheads</i> shop: <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hurricane_Katrina" title="Hurricane Katrina">Katrina</a> example for over 2 years</div>
+</div>
+</div>
+<p>On August 29, 2005, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hurricane_Katrina" title="Hurricane Katrina">Hurricane Katrina</a> hit the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Gulf_Coast" title="Mississippi Gulf Coast">Mississippi Gulf Coast</a> with high winds, heavy rains and a 27-foot (8.2&#160;m) storm surge, causing massive damage to the area. Katrina came ashore during the high tide of 6:56AM, +2.3&#160;feet more.<sup id="cite_ref-13" class="reference"><a href="#cite_note-13"><span>[</span>14<span>]</span></a></sup> Commenting on the&#160;power of the storm and the damage, Mayor <a href="/web/20120111123446/http://en.wikipedia.org/wiki/A.J._Holloway" title="A.J. Holloway" class="mw-redirect">A.J. Holloway</a> said, "This is our <a href="/web/20120111123446/http://en.wikipedia.org/wiki/2004_Indian_Ocean_earthquake" title="2004 Indian Ocean earthquake" class="mw-redirect">tsunami</a>."<sup id="cite_ref-14" class="reference"><a href="#cite_note-14"><span>[</span>15<span>]</span></a></sup> Mississippi Governor <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Haley_Barbour" title="Haley Barbour">Haley Barbour</a> was quoted as saying the destruction of the Mississippi coastline by <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hurricane_Katrina" title="Hurricane Katrina">Hurricane Katrina</a> looked like an American <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hiroshima" title="Hiroshima">Hiroshima</a>.</p>
+<p>On the morning of August 31, 2005, in an interview on <a href="/web/20120111123446/http://en.wikipedia.org/wiki/MSNBC" title="MSNBC">MSNBC</a>, Governor Barbour stated that 90% of the buildings along the coast in Biloxi and neighboring <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport,_Mississippi" title="Gulfport, Mississippi">Gulfport</a> had been destroyed by the hurricane. Several of the "floating" casinos were torn off their supports and thrown inland, contributing to the damage.</p>
+<p>Many churches were destroyed or severely damaged, including St. Michael's Catholic Church (see photo at right), which was gutted by the storm surge, breaking the entry doors and stained-glass windows along the first floor; however, the interior was later removed, and the structure was still solid enough to allow repairing the church.</p>
+<p>Hurricane Katrina damaged over 40 Mississippi libraries, flooding several feet in the Biloxi Public Library and breaking windows, beyond repair, requiring a total rebuild.<sup id="cite_ref-15" class="reference"><a href="#cite_note-15"><span>[</span>16<span>]</span></a></sup></p>
+<p>Hurricane-force winds persisted for 17 hours and tore the branches off many coastal oak trees, but the tree trunks survived the 30-foot (9.1&#160;m) flood and many have since regrown smaller branches. Some reconstructed homes still have the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Antebellum_architecture" title="Antebellum architecture">antebellum</a> appearance, and miles inland, with less flooding, shopping centers have re-opened.</p>
+<p>Harrison County <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Coroner" title="Coroner">Coroner</a> Gary T. Hargrove told the mayor and City Council that Hurricane Katrina had claimed 53 victims in Biloxi, as of January 30, 2006. Of the 53 confirmed fatalities in Biloxi, a figure that includes one unidentified male, Hargrove said the average age was 58, with the youngest being 22 and the oldest 90; 14 were female and 39 were male.</p>
+<p>Biloxi is also the site of a well-known memorial to the Katrina victims, built by the crew and volunteers of <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Extreme_Makeover:_Home_Edition" title="Extreme Makeover: Home Edition">Extreme Makeover: Home Edition</a></i>.<sup id="cite_ref-16" class="reference"><a href="#cite_note-16"><span>[</span>17<span>]</span></a></sup></p>
+<p>Many casinos were damaged or destroyed by Hurricane Katrina. Of the casinos that were located in Biloxi, eight have reopened since Katrina. They are: the Grand Biloxi Casino Hotel Spa(formerly known as Grand Casino Biloxi), the Hard Rock Hotel &amp; Casino, the Isle of Capri Casino and Resort, the Palace Casino Resort, the IP Casino Resort Spa (formerly known as Imperial Palace), Treasure Bay Casino, Boomtown Casino, and the Beau Rivage, which reopened on the first anniversary of Hurricane Katrina.<sup id="cite_ref-BixCasinos_17-0" class="reference"><a href="#cite_note-BixCasinos-17"><span>[</span>18<span>]</span></a></sup></p>
+<p>Multiple plans have been laid out to rebuild the waterfront areas of Biloxi, and the federal government has recently announced that it is considering giving up to 17,000 Mississippi coast homeowners the option to sell their properties so that a vast hurricane-protection zone can be implemented.<sup id="cite_ref-18" class="reference"><a href="#cite_note-18"><span>[</span>19<span>]</span></a></sup> Meanwhile, the city of Biloxi is rapidly implementing plans to allow the redevelopment of commercial properties south of highway 90.<sup id="cite_ref-19" class="reference"><a href="#cite_note-19"><span>[</span>20<span>]</span></a></sup></p>
+<ul class="gallery" style="max-width: 978px;_width: 978px;">
+<li class="gallerybox" style="width: 155px">
+<div style="width: 155px">
+<div class="thumb" style="width: 150px;">
+<div style="margin:35px auto;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Katrina-14588.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Katrina-14588.jpg/120px-Katrina-14588.jpg" width="120" height="80"/></a></div>
+</div>
+<div class="gallerytext">
+<p>Hurricane Katrina pushed houses inland along the Mississippi Gulf Coast, including at Biloxi.</p>
+</div>
+</div>
+</li>
+<li class="gallerybox" style="width: 155px">
+<div style="width: 155px">
+<div class="thumb" style="width: 150px;">
+<div style="margin:30px auto;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Katrina-biloxi-miss-grand-casino2-2005.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Katrina-biloxi-miss-grand-casino2-2005.jpg/120px-Katrina-biloxi-miss-grand-casino2-2005.jpg" width="120" height="90"/></a></div>
+</div>
+<div class="gallerytext">
+<p>Casino barges floated ashore in Biloxi during Hurricane Katrina's storm surge.</p>
+</div>
+</div>
+</li>
+<li class="gallerybox" style="width: 155px">
+<div style="width: 155px">
+<div class="thumb" style="width: 150px;">
+<div style="margin:15px auto;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:US_Navy_050905-N-0000X-003_U.S._Navy_Sailors,_assigned_to_the_amphibious_transport_dock_USS_Shreveport_(LPD_12),_perform_a_search_and_rescue_mission_following_Hurricane_Katrina_in_Biloxi,_Miss.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/0/09/US_Navy_050905-N-0000X-003_U.S._Navy_Sailors%2C_assigned_to_the_amphibious_transport_dock_USS_Shreveport_%28LPD_12%29%2C_perform_a_search_and_rescue_mission_following_Hurricane_Katrina_in_Biloxi%2C_Miss.jpg/80px-US_Navy_050905-N-0000X-003_U.S._Navy_Sailors%2C_assigned_to_the_amphibious_transport_dock_USS_Shreveport_%28LPD_12%29%2C_perform_a_search_and_rescue_mission_following_Hurricane_Katrina_in_Biloxi%2C_Miss.jpg" width="80" height="120"/></a></div>
+</div>
+<div class="gallerytext">
+<p><a href="/web/20120111123446/http://en.wikipedia.org/wiki/U.S._Navy" title="U.S. Navy" class="mw-redirect">U.S. Navy</a> personnel perform a search and rescue mission in Biloxi after Hurricane Katrina.</p>
+</div>
+</div>
+</li>
+<li class="gallerybox" style="width: 155px">
+<div style="width: 155px">
+<div class="thumb" style="width: 150px;">
+<div style="margin:32px auto;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Beach_Cleanup_060302-N-9246W-0061.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Beach_Cleanup_060302-N-9246W-0061.jpg/120px-Beach_Cleanup_060302-N-9246W-0061.jpg" width="120" height="86"/></a></div>
+</div>
+<div class="gallerytext">
+<p><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Effects_of_Hurricane_Katrina_in_Mississippi" title="Effects of Hurricane Katrina in Mississippi">Biloxi beach</a> during cleanup of storm debris.</p>
+</div>
+</div>
+</li>
+<li class="gallerybox" style="width: 155px">
+<div style="width: 155px">
+<div class="thumb" style="width: 150px;">
+<div style="margin:34px auto;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Beauvoir-Biloxi-Mississippi-Hurricane-Katrina-FEMA-2006-585px.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Beauvoir-Biloxi-Mississippi-Hurricane-Katrina-FEMA-2006-585px.jpg/120px-Beauvoir-Biloxi-Mississippi-Hurricane-Katrina-FEMA-2006-585px.jpg" width="120" height="82"/></a></div>
+</div>
+<div class="gallerytext">
+<p>Front view of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Beauvoir_(Biloxi,_Mississippi)" title="Beauvoir (Biloxi, Mississippi)">Beauvoir</a>, once home of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Confederate_States_of_America" title="Confederate States of America">Confederate</a> President <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jefferson_Davis" title="Jefferson Davis">Jefferson Davis</a>, in Biloxi, 7 months after Hurricane Katrina.</p>
+</div>
+</div>
+</li>
+<li class="gallerybox" style="width: 155px">
+<div style="width: 155px">
+<div class="thumb" style="width: 150px;">
+<div style="margin:35px auto;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:FEMA_-_37532_-_Restored_Jefferson_Davis_home_%5Equot,Beauvoir%5Equot,_in_Mississippi.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/0/01/FEMA_-_37532_-_Restored_Jefferson_Davis_home_%5Equot%2CBeauvoir%5Equot%2C_in_Mississippi.jpg/120px-FEMA_-_37532_-_Restored_Jefferson_Davis_home_%5Equot%2CBeauvoir%5Equot%2C_in_Mississippi.jpg" width="120" height="80"/></a></div>
+</div>
+<div class="gallerytext">
+<p>Beauvoir in 2008, after extensive restoration.</p>
+</div>
+</div>
+</li>
+</ul>
+<p><br style="clear:both;"/></p>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=6" title="Edit section: Demographics">edit</a>]</span> <span class="mw-headline" id="Demographics">Demographics</span></h2>
+<table class="toccolours" cellpadding="1" cellspacing="0" style="float: right; clear: right; margin: 0 0 1em 1em; text-align:right">
+<tr>
+<th colspan="4" bgcolor="#CCCCFF" style="background-color:#ccccff; padding-right:3px; padding-left:3px; font-size:110%; text-align:center">Historical populations</th>
+</tr>
+<tr style="font-size:95%">
+<th style="text-align:center; border-bottom:1px solid black">Census</th>
+<th style="text-align:center; border-bottom:1px solid black"><abbr title="Population">Pop.</abbr></th>
+<th style="text-align:center; border-bottom:1px solid black"></th>
+<th style="text-align:center; border-bottom:1px solid black"><abbr title="Percent change">%±</abbr></th>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1870_United_States_Census" title="1870 United States Census">1870</a></b></td>
+<td style="padding-left:8px">954</td>
+<td></td>
+<td style="padding-left:8px">
+<center>—</center>
+</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1880_United_States_Census" title="1880 United States Census">1880</a></b></td>
+<td style="padding-left:8px">1,540</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">61.4</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1890_United_States_Census" title="1890 United States Census">1890</a></b></td>
+<td style="padding-left:8px">3,234</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">110.0</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1900_United_States_Census" title="1900 United States Census">1900</a></b></td>
+<td style="padding-left:8px">5,457</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">68.7</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1910_United_States_Census" title="1910 United States Census">1910</a></b></td>
+<td style="padding-left:8px">8,049</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">47.5</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1920_United_States_Census" title="1920 United States Census">1920</a></b></td>
+<td style="padding-left:8px">10,937</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">35.9</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1930_United_States_Census" title="1930 United States Census">1930</a></b></td>
+<td style="padding-left:8px">14,850</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">35.8</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1940_United_States_Census" title="1940 United States Census">1940</a></b></td>
+<td style="padding-left:8px">17,475</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">17.7</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1950_United_States_Census" title="1950 United States Census">1950</a></b></td>
+<td style="padding-left:8px">37,425</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">114.2</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1960_United_States_Census" title="1960 United States Census">1960</a></b></td>
+<td style="padding-left:8px">44,035</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">17.7</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1970_United_States_Census" title="1970 United States Census">1970</a></b></td>
+<td style="padding-left:8px">48,486</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">10.1</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1980_United_States_Census" title="1980 United States Census">1980</a></b></td>
+<td style="padding-left:8px">49,311</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">1.7</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/1990_United_States_Census" title="1990 United States Census">1990</a></b></td>
+<td style="padding-left:8px">46,319</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">−6.1</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/2000_United_States_Census" title="2000 United States Census">2000</a></b></td>
+<td style="padding-left:8px">50,644</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">9.3</span>%</td>
+</tr>
+<tr>
+<td style="text-align:center"><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/2010_United_States_Census" title="2010 United States Census">2010</a></b></td>
+<td style="padding-left:8px">44,054</td>
+<td></td>
+<td style="padding-left:8px"><span style="white-space:nowrap">−13.0</span>%</td>
+</tr>
+</table>
+<p>Biloxi is the smaller of two principal cities of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport,_Mississippi" title="Gulfport, Mississippi">Gulfport</a>-Biloxi, Mississippi <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Metropolitan_Statistical_Area" title="Metropolitan Statistical Area">Metropolitan Statistical Area</a>, which is included in the Gulport-Biloxi-Pascagoula <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Combined_Statistical_Area" title="Combined Statistical Area" class="mw-redirect">Combined Statistical Area</a>.</p>
+<p>As of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Census" title="Census">census</a><sup id="cite_ref-GR2_20-0" class="reference"><a href="#cite_note-GR2-20"><span>[</span>21<span>]</span></a></sup> of 2000, there were 50,644&#160;people, 19,588 households, and 12,379 families residing in the city. The <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Population_density" title="Population density">population density</a> was 1,331.8 per square mile (514.2/km²). There were 22,115 housing units at an average density of 581.6 per square mile (224.5/km²). The racial makeup of the city was 71.43% <a href="/web/20120111123446/http://en.wikipedia.org/wiki/White_(U.S._Census)" title="White (U.S. Census)" class="mw-redirect">European American</a>, 19.04% <a href="/web/20120111123446/http://en.wikipedia.org/wiki/African_American_(U.S._Census)" title="African American (U.S. Census)" class="mw-redirect">African American</a>, 0.49% <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Native_American_(U.S._Census)" title="Native American (U.S. Census)" class="mw-redirect">Native American</a>, 5.11% <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Asian_(U.S._Census)" title="Asian (U.S. Census)" class="mw-redirect">Asian</a>, 0.11% <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pacific_Islander_(U.S._Census)" title="Pacific Islander (U.S. Census)" class="mw-redirect">Pacific Islander</a>, 1.43% from <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Race_(U.S._Census)" title="Race (U.S. Census)" class="mw-redirect">other races</a>, and 2.38% from two or more races. 3.65% of the population are <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hispanic_(U.S._Census)" title="Hispanic (U.S. Census)" class="mw-redirect">Hispanic</a> or <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Latino_(U.S._Census)" title="Latino (U.S. Census)" class="mw-redirect">Latino</a> of any race.</p>
+<p>There were 19,588 households, out of which 31.4% have children under the age of 18 living with them, 44.6% were <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Marriage" title="Marriage">married couples</a> living together, 14.0% had a female householder with no husband present, and 36.8% are non-families. 30.1% of all households were made up of individuals and 10.6% had someone living alone who is 65 years of age or older. The average household size was 2.42 and the average family size is 3.02.</p>
+<p>In the city the population dispersal was 24.2% under the age of 18, 14.3% from 18 to 24, 30.3% from 25 to 44, 19.2% from 45 to 64, and 12.0% who were 65 years of age or older. The median age was 32 years. For every 100 females there were 101.9 males. For every 100 females age 18 and over, there were 101.6 males. The median income for a household in the city was $34,106, and the median income for a family was $40,685. Males had a median income of $28,046 versus $21,267 for females. The <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Per_capita_income" title="Per capita income">per capita income</a> for the city was $17,809. 14.6% of the population and 11.2% of families lived below the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Poverty_line" title="Poverty line" class="mw-redirect">poverty line</a>. Out of the total population, 19.6% of those under the age of 18 and 11.7% of those 65 and older were living below the poverty line.</p>
+<p>In 2005, as a result of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hurricane_Katrina" title="Hurricane Katrina">Hurricane Katrina</a>, many <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Vietnamese_American" title="Vietnamese American">Vietnamese Americans</a> left Biloxi. In 2009 members of the Vietnamese community in Biloxi said that Vietnamese are coming back to Biloxi due to a poor economic scenario in other parts of the United States.<sup id="cite_ref-21" class="reference"><a href="#cite_note-21"><span>[</span>22<span>]</span></a></sup></p>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=7" title="Edit section: Education">edit</a>]</span> <span class="mw-headline" id="Education">Education</span></h2>
+<p>The City of Biloxi is served by the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi_Public_School_District" title="Biloxi Public School District">Biloxi Public School District</a> and the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Harrison_County_School_District" title="Harrison County School District">Harrison County School District</a>.</p>
+<p>The Gulf Coast has a large Catholic school system, with which Biloxi hosts 15 of their schools.<sup id="cite_ref-22" class="reference"><a href="#cite_note-22"><span>[</span>23<span>]</span></a></sup></p>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=8" title="Edit section: Government and infrastructure">edit</a>]</span> <span class="mw-headline" id="Government_and_infrastructure">Government and infrastructure</span></h2>
+<p>The Bolton State Office Building in Biloxi includes the headquarters of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Department_of_Marine_Resources" title="Mississippi Department of Marine Resources">Mississippi Department of Marine Resources</a> and the South Regional Office of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Department_of_Environmental_Quality" title="Mississippi Department of Environmental Quality">Mississippi Department of Environmental Quality</a>.<sup id="cite_ref-23" class="reference"><a href="#cite_note-23"><span>[</span>24<span>]</span></a></sup><sup id="cite_ref-24" class="reference"><a href="#cite_note-24"><span>[</span>25<span>]</span></a></sup><sup id="cite_ref-25" class="reference"><a href="#cite_note-25"><span>[</span>26<span>]</span></a></sup></p>
+<p>The <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States_Postal_Service" title="United States Postal Service">United States Postal Service</a> operates the Biloxi Post Office and other area post offices.<sup id="cite_ref-26" class="reference"><a href="#cite_note-26"><span>[</span>27<span>]</span></a></sup></p>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=9" title="Edit section: Culture">edit</a>]</span> <span class="mw-headline" id="Culture">Culture</span></h2>
+<p>Dean M. Shapiro, author of the article "Biloxi Confidential" on the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Crime_Library" title="Crime Library">Crime Library</a>, said that Biloxi, "like most mid-sized Southern cities," "was essentially a small town, and its ethnic urban neighborhoods were even smaller and more tightly knit."<sup id="cite_ref-27" class="reference"><a href="#cite_note-27"><span>[</span>28<span>]</span></a></sup></p>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=10" title="Edit section: Casinos">edit</a>]</span> <span class="mw-headline" id="Casinos">Casinos</span></h2>
+<p>Biloxi is home to several <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Casino" title="Casino">casino</a> resort <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hotel" title="Hotel">hotels</a>, with 24-hour <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gambling" title="Gambling">gambling</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Concert" title="Concert">concert</a> entertainment shows, and several <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Restaurant" title="Restaurant">restaurants</a>. Some of the casino resorts include the following (dates reflect business status after Hurricane Katrina):<sup id="cite_ref-BixCasinos_17-1" class="reference"><a href="#cite_note-BixCasinos-17"><span>[</span>18<span>]</span></a></sup></p>
+<div class="thumb tright">
+<div class="thumbinner" style="width:222px;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Biloxi123.JPG" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Biloxi123.JPG/220px-Biloxi123.JPG" width="220" height="165" class="thumbimage"/></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Biloxi123.JPG" class="internal" title="Enlarge"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/magnify-clip.png" width="15" height="11" alt=""/></a></div>
+Isle of Capri casino in Biloxi</div>
+</div>
+</div>
+<div class="thumb tright">
+<div class="thumbinner" style="width:222px;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Biloxi_Casinos.JPG" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Biloxi_Casinos.JPG/220px-Biloxi_Casinos.JPG" width="220" height="165" class="thumbimage"/></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Biloxi_Casinos.JPG" class="internal" title="Enlarge"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/magnify-clip.png" width="15" height="11" alt=""/></a></div>
+Biloxi Casinos</div>
+</div>
+</div>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/IP_Casino_Resort_Spa" title="IP Casino Resort Spa" class="mw-redirect">IP Casino Resort Spa</a> reopened on December 22, 2005, formerly <a href="/web/20120111123446/http://en.wikipedia.org/wiki/IP_Hotel_and_Casino" title="IP Hotel and Casino" class="mw-redirect">Imperial Palace</a>.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Isle_of_Capri_Casinos" title="Isle of Capri Casinos">Isle of Capri Casino Resort</a> reopened in late December 2005.</li>
+<li>Palace Casino Resort reopened in late December 2005.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Beau_Rivage_(Mississippi)" title="Beau Rivage (Mississippi)">Beau Rivage</a> Resort &amp; Casino reopened August 29, 2006, on the first anniversary of Hurricane Katrina.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Penn_National_Gaming" title="Penn National Gaming">Boomtown Casino</a> reopened in 2006.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hard_Rock_Hotel_and_Casino_(Biloxi)" title="Hard Rock Hotel and Casino (Biloxi)">Hard Rock Hotel &amp; Casino</a>, opened in June 2007.</li>
+<li>Treasure Bay Casino Resort reopened in summer 2006.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Grand_Casino_Biloxi" title="Grand Casino Biloxi">Grand Biloxi</a> reopened in its formerly named Bayview Hotel.</li>
+<li>Bacaran Bay Resort is to be constructed on Caillavet Street between <a href="/web/20120111123446/http://en.wikipedia.org/wiki/IP_Hotel_and_Casino" title="IP Hotel and Casino" class="mw-redirect">IP Hotel and Casino</a> and <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Beau_Rivage_(Mississippi)" title="Beau Rivage (Mississippi)">Beau Rivage</a>.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jimmy_Buffett%27s_Margaritaville" title="Jimmy Buffett's Margaritaville">Jimmy Buffett's</a> <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Margaritaville_Casino_and_Resort" title="Margaritaville Casino and Resort" class="mw-redirect">Margaritaville Casino and Resort</a>, announced by Harrah's to be built on the site of the old <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Grand_Casino_Biloxi" title="Grand Casino Biloxi">Grand Casino Biloxi</a> and <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Casino_Magic_Biloxi_Casino_%26_Hotel" title="Casino Magic Biloxi Casino &amp; Hotel">Casino Magic</a> properties. This was started, but stopped indefinitely due to the economic downturn.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Island_View_Casino" title="Island View Casino">Island View Casino Resort</a> is the only casino in <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport,_Mississippi" title="Gulfport, Mississippi">Gulfport</a>, west of Biloxi.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hollywood_Casino_Bay_St._Louis" title="Hollywood Casino Bay St. Louis">Hollywood Casino</a> is located in <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Bay_St._Louis,_Mississippi" title="Bay St. Louis, Mississippi">Bay St. Louis</a> and includes an on-site golf course and movie cinema decor.</li>
+<li>The <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Silver_Slipper_Casino_(Waveland)" title="Silver Slipper Casino (Waveland)">Silver Slipper</a> opened in November 2006. This beachfront resort is located west of Biloxi, in Waveland, Mississippi.</li>
+<li>Bayview Casino Resort is scheduled for construction on the Back Bay of Biloxi.</li>
+<li>Vue Crescente Resort has begun its application to house a casino within twin 30–floor condo towers on the Back Bay of Biloxi.</li>
+<li>Tivoli Resort, The Ocean Club, and a Long Beach project are recently proposed casino additions to the metro area.</li>
+</ul>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=11" title="Edit section: Transportation">edit</a>]</span> <span class="mw-headline" id="Transportation">Transportation</span></h2>
+<p>Biloxi is served by the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport-Biloxi_International_Airport" title="Gulfport-Biloxi International Airport">Gulfport-Biloxi International Airport</a> in <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport,_Mississippi" title="Gulfport, Mississippi">Gulfport, Mississippi</a>.</p>
+<p>Biloxi's main highway is <a href="/web/20120111123446/http://en.wikipedia.org/wiki/U.S._Highway_90" title="U.S. Highway 90" class="mw-redirect">U.S. Highway 90</a> (Beach Boulevard), which runs along the beach and by the casinos. It connects the city to Gulfport and points westward and to <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ocean_Springs,_Mississippi" title="Ocean Springs, Mississippi">Ocean Springs</a> and <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pascagoula,_Mississippi" title="Pascagoula, Mississippi">Pascagoula</a> to the east. The Biloxi Bay Bridge, connecting Biloxi and Ocean Springs, was rebuilt after Hurricane Katrina, and was fully reopened in April 2008.</p>
+<p><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Interstate_10" title="Interstate 10">Interstate 10</a> passes through the northern sections of the city, connecting the city to <a href="/web/20120111123446/http://en.wikipedia.org/wiki/New_Orleans" title="New Orleans">New Orleans</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Houston" title="Houston">Houston</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mobile,_Alabama" title="Mobile, Alabama">Mobile</a> and <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jacksonville,_Florida" title="Jacksonville, Florida">Jacksonville</a>. <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Interstate_110_(Mississippi)" title="Interstate 110 (Mississippi)">Interstate 110</a> splits off from I-10 at <a href="/web/20120111123446/http://en.wikipedia.org/wiki/D%27Iberville,_Mississippi" title="D'Iberville, Mississippi">D'Iberville</a> and heads south across the Back Bay of Biloxi to U.S. 90 near Beau Rivage, providing the city with an important hurricane evacuation route.</p>
+<p>Other highways serving the area include:</p>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Highway_15" title="Mississippi Highway 15">Mississippi Highway 15</a> (Runs concurrent with I-110 for the first few miles)</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Highway_67" title="Mississippi Highway 67">Mississippi Highway 67</a></li>
+</ul>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=12" title="Edit section: Sports">edit</a>]</span> <span class="mw-headline" id="Sports">Sports</span></h2>
+<p>In the center of what fisheries biologists term "The Fertile Fisheries Crescent", Biloxi offers some of the finest sportsfishing along the entire northern coast of the Gulf of Mexico. <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Spotted_seatrout" title="Spotted seatrout" class="mw-redirect">Spotted seatrout</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Red_drum" title="Red drum">red drum</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Atlantic_Spanish_mackerel" title="Atlantic Spanish mackerel">Spanish</a> and <a href="/web/20120111123446/http://en.wikipedia.org/wiki/King_mackerel" title="King mackerel">king mackerel</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Flounder" title="Flounder">flounder</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lutjanidae" title="Lutjanidae">snapper</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Grouper" title="Grouper">grouper</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Shark" title="Shark">sharks</a>, and more are all available to anglers during the fishing season. It is not known how Hurricane Katrina affected this <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ecosystem" title="Ecosystem">ecosystem</a>.</p>
+<p>The city is home to the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Surge" title="Mississippi Surge">Mississippi Surge</a>, a minor league hockey team playing in the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Southern_Professional_Hockey_League" title="Southern Professional Hockey League">Southern Professional Hockey League</a>. Home games are played at the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Coast_Coliseum" title="Mississippi Coast Coliseum">Mississippi Coast Coliseum</a>.</p>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=13" title="Edit section: Notable residents">edit</a>]</span> <span class="mw-headline" id="Notable_residents">Notable residents</span></h2>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jessica_Alba" title="Jessica Alba">Jessica Alba</a>, actress</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Matt_Barlow" title="Matt Barlow">Matt Barlow</a>, heavy metal singer</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Barq%27s" title="Barq's">Edward Charles Edmond Barq</a>, entrepreneur and co-creator of Barq's Root Beer</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Alan_Belcher" title="Alan Belcher">Alan Belcher</a>, MMA fighter currently fighting for UFC</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jimmy_Bertrand" title="Jimmy Bertrand">Jimmy Bertrand</a>, jazz drummer</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jimmy_Buffett" title="Jimmy Buffett">Jimmy Buffett</a>, singer, writer and business entrepreneur</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hector_Camacho" title="Hector Camacho" class="mw-redirect">Hector Camacho</a>, former world champion boxer</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gary_Collins_(actor)" title="Gary Collins (actor)">Gary Collins</a>, actor</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jefferson_Davis" title="Jefferson Davis">Jefferson Davis</a>, US Army General and West Point graduate; U.S. Secretary of War (Defense); first and only President of the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Confederate_States_of_America" title="Confederate States of America">Confederate States of America</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ronald_Dupree" title="Ronald Dupree">Ronald Dupree</a>, a professional <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Basketball" title="Basketball">basketball</a> player.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Damion_Fletcher" title="Damion Fletcher">Damion Fletcher</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/University_of_Southern_Mississippi" title="University of Southern Mississippi">University of Southern Mississippi</a> Conference USA award winning <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Running_back" title="Running back">running back</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Francis_Grevemberg" title="Francis Grevemberg">Francis Grevemberg</a>, former superintendent of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Louisiana" title="Louisiana">Louisiana</a> <a href="/web/20120111123446/http://en.wikipedia.org/wiki/State_police" title="State police">state police</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Fred_Haise" title="Fred Haise">Fred Haise</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Apollo_13" title="Apollo 13">Apollo 13</a>/<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Space_Shuttle_Enterprise" title="Space Shuttle Enterprise">Space Shuttle Enterprise</a> astronaut</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ted_Hawkins" title="Ted Hawkins">Ted Hawkins</a>, singer/songwriter</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Chris_LeDoux" title="Chris LeDoux">Chris LeDoux</a>, country singer</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/James_Millhollin" title="James Millhollin">James Millhollin</a>, character actor, died in Biloxi in 1993</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jack_Nelson_(journalist)" title="Jack Nelson (journalist)">Jack Nelson</a>, Pulitzer-Prize-winning journalist who began his career at the Biloxi <i>Daily Herald</i></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/George_E._Ohr" title="George E. Ohr">George E. Ohr</a>, artist who broke new ground in the late 1890s with his experimental modern clay forms</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Eric_Roberts" title="Eric Roberts">Eric Roberts</a>, actor</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Robin_Roberts_(newscaster)" title="Robin Roberts (newscaster)">Robin Roberts</a>, TV/Radio/Media personality for ABC and ESPN</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wes_Shivers" title="Wes Shivers">Wes Shivers</a>, Ex NFL player with the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tennessee_Titans" title="Tennessee Titans">Tennessee Titans</a> &amp; current pro <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mixed_martial_artist" title="Mixed martial artist" class="mw-redirect">mixed martial artist</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Michelle_Anne_Sinclair" title="Michelle Anne Sinclair" class="mw-redirect">Michelle Anne Sinclair</a>, actress</li>
+</ul>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=14" title="Edit section: In the Arts">edit</a>]</span> <span class="mw-headline" id="In_the_Arts">In the Arts</span></h2>
+<ul>
+<li>2010 saw the grand opening of the new Frank Gehry designed <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ohr-O%27Keefe_Museum_Of_Art" title="Ohr-O'Keefe Museum Of Art">Ohr-O'Keefe Museum Of Art</a>.<sup id="cite_ref-28" class="reference"><a href="#cite_note-28"><span>[</span>29<span>]</span></a></sup>
+<div class="thumb tright">
+<div class="thumbinner" style="width:302px;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:OhrOkeefe_3.jpg" class="image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/OhrOkeefe_3.jpg/300px-OhrOkeefe_3.jpg" width="300" height="186" class="thumbimage"/></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:OhrOkeefe_3.jpg" class="internal" title="Enlarge"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/magnify-clip.png" width="15" height="11" alt=""/></a></div>
+<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ohr-O%27Keefe_Museum_Of_Art" title="Ohr-O'Keefe Museum Of Art">Ohr-O'Keefe Museum Of Art</a> campus in Biloxi</div>
+</div>
+</div>
+</li>
+<li>Biloxi is the setting of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Neil_Simon" title="Neil Simon">Neil Simon</a>'s play and film <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi_Blues" title="Biloxi Blues">Biloxi Blues</a>, which starred Mathew Broderick. <i>Biloxi Blues</i> is the story of army recruits training at Keesler Field, the former name of the present day Keesler Air Force Base during World War II.</li>
+<li>Biloxi is the setting of several <a href="/web/20120111123446/http://en.wikipedia.org/wiki/John_Grisham" title="John Grisham">John Grisham</a> novels, including <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/The_Runaway_Jury" title="The Runaway Jury">The Runaway Jury</a></i>, <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/The_Summons" title="The Summons">The Summons</a></i>, <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/The_Partner" title="The Partner">The Partner</a></i>, and <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/The_Last_Juror" title="The Last Juror">The Last Juror</a></i>.</li>
+<li>A substantial portion of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Larry_Brown_(author)" title="Larry Brown (author)">Larry Brown</a>'s novel <i><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Fay_(novel)&amp;action=edit&amp;redlink=1" class="new" title="Fay (novel) (page does not exist)">Fay</a></i> is set in Biloxi.</li>
+<li>The <a href="/web/20120111123446/http://en.wikipedia.org/wiki/G.I._Joe" title="G.I. Joe">G.I. Joe</a> character Marvin F. Hinton ("<a href="/web/20120111123446/http://en.wikipedia.org/wiki/Roadblock_(G.I._Joe)" title="Roadblock (G.I. Joe)">Roadblock</a>") was born in Biloxi.</li>
+<li>The film <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Private_Benjamin" title="Private Benjamin">Private Benjamin</a></i> starring <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Goldie_Hawn" title="Goldie Hawn">Goldie Hawn</a> is partially set in Biloxi and at a fictitious base called Fort Biloxi.</li>
+<li>In the show <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Family_Matters" title="Family Matters">Family Matters</a></i>, Steve Urkel's cousin <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Myrtle_Urkel" title="Myrtle Urkel" class="mw-redirect">Myrtle Urkel</a>, who frequently chases Eddie Winslow when she visits Chicago, is from Biloxi.</li>
+<li>American singer/songwriter <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jesse_Winchester" title="Jesse Winchester">Jesse Winchester</a> once wrote and recorded a song called "Biloxi", for which he was inspired by a few images he saw of the city.</li>
+<li>On his largest-selling regular album, <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Changes_in_Latitudes,_Changes_in_Attitudes" title="Changes in Latitudes, Changes in Attitudes">Changes in Latitudes, Changes in Attitudes</a></i> (1977), <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jimmy_Buffett" title="Jimmy Buffett">Jimmy Buffett</a> included a <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Cover_song" title="Cover song" class="mw-redirect">cover</a> of "Biloxi" (see above); also, a compilation album of his digitally-remastered greatest hits was released in 1995 called <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi_(album)" title="Biloxi (album)" class="mw-redirect">Biloxi</a></i>.</li>
+<li><a class="external mw-magiclink-rfc" href="//web.archive.org/web/20120111123446/http://tools.ietf.org/html/rfc3261">RFC 3261</a> <i>SIP: Session Initiation Protocol</i>, the authors use Biloxi in an example to explain how a call is made through two SIP proxies.</li>
+<li>In the television show the Venture Bros. character Brock Sampson is mentioned as having trained in Biloxi.</li>
+<li>The song Louisiana, by <a href="/web/20120111123446/http://en.wikipedia.org/wiki/The_Loved_Ones" title="The Loved Ones">The Loved Ones</a>, is about the rebuilding of the hurricane ravaged areas in the gulf area. Louisiana, Biloxi, and Alabama are specifically used by name.</li>
+<li>The fictional character <a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_Twilight_characters#Alice_Cullen" title="List of Twilight characters">Alice Cullen</a> from <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Stephenie_Meyer" title="Stephenie Meyer">Stephenie Meyer</a>'s <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Twilight_Saga" title="Twilight Saga" class="mw-redirect">Twilight Saga</a> used to live in Biloxi, Mississippi, when she was a human.</li>
+<li>American Soldier <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Walter_S._Gordon" title="Walter S. Gordon" class="mw-redirect">Walter Gordon</a> fought with the Band of brothers earned him 4 Purple Hearts</li>
+<li>Biloxi is referenced in <a href="/web/20120111123446/http://en.wikipedia.org/wiki/The_Great_Gatsby" title="The Great Gatsby">The Great Gatsby</a>.</li>
+<li>Biloxi is referenced in a line of the title song of the musical <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Guys_and_Dolls" title="Guys and Dolls">Guys and Dolls</a>.</li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Style_Network" title="Style Network">Style Network</a>'s <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ruby" title="Ruby">Ruby</a></i> was filmed in Biloxi during the episode "Mississippi Memories".</li>
+<li>On 28 February 2011 American rock band The Gaslight Anthem played a new song in Sydney entitled 'Biloxi Parish'.</li>
+<li>American author <a href="/web/20120111123446/http://en.wikipedia.org/wiki/John_Kennedy_Toole" title="John Kennedy Toole">John Kennedy Toole</a>, who wrote 'A Confederacy of Dunces' committed suicide in Biloxi in 1969.</li>
+</ul>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=15" title="Edit section: Notes">edit</a>]</span> <span class="mw-headline" id="Notes">Notes</span></h2>
+<div class="reflist references-column-count references-column-count-2" style="-moz-column-count: 2; -webkit-column-count: 2; column-count: 2; list-style-type: decimal;">
+<ol class="references">
+<li id="cite_note-GR1-0"><b><a href="#cite_ref-GR1_0-0">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.census.gov/geo/www/gazetteer/gazette.html">"US Gazetteer files: 2010, 2000, and 1990"</a>. <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States_Census_Bureau" title="United States Census Bureau">United States Census Bureau</a>. 2011-02-12<span class="printonly">. <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://www.census.gov/geo/www/gazetteer/gazette.html">http://www.census.gov/geo/www/gazetteer/gazette.html</a></span><span class="reference-accessdate">. Retrieved 2011-04-23</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=US+Gazetteer+files%3A+2010%2C+2000%2C+and+1990&amp;rft.atitle=&amp;rft.date=2011-02-12&amp;rft.pub=%5B%5BUnited+States+Census+Bureau%5D%5D&amp;rft_id=http%3A%2F%2Fwww.census.gov%2Fgeo%2Fwww%2Fgazetteer%2Fgazette.html&amp;rfr_id=info:sid/en.wikipedia.org:Biloxi,_Mississippi"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-GR3-1"><b><a href="#cite_ref-GR3_1-0">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://geonames.usgs.gov/">"US Board on Geographic Names"</a>. <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States_Geological_Survey" title="United States Geological Survey">United States Geological Survey</a>. 2007-10-25<span class="printonly">. <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://geonames.usgs.gov/">http://geonames.usgs.gov</a></span><span class="reference-accessdate">. Retrieved 2008-01-31</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=US+Board+on+Geographic+Names&amp;rft.atitle=&amp;rft.date=2007-10-25&amp;rft.pub=%5B%5BUnited+States+Geological+Survey%5D%5D&amp;rft_id=http%3A%2F%2Fgeonames.usgs.gov&amp;rfr_id=info:sid/en.wikipedia.org:Biloxi,_Mississippi"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-2"><b><a href="#cite_ref-2">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.weather.com/outlook/travel/businesstraveler/wxclimatology/monthly/USMS0033">"Average Weather for Biloxi, MS - Temperature and Precipitation"</a>. Weather.com<span class="printonly">. <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://www.weather.com/outlook/travel/businesstraveler/wxclimatology/monthly/USMS0033">http://www.weather.com/outlook/travel/businesstraveler/wxclimatology/monthly/USMS0033</a></span><span class="reference-accessdate">. Retrieved July 4, 2009</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Average+Weather+for+Biloxi%2C+MS+-+Temperature+and+Precipitation&amp;rft.atitle=&amp;rft.pub=Weather.com&amp;rft_id=http%3A%2F%2Fwww.weather.com%2Foutlook%2Ftravel%2Fbusinesstraveler%2Fwxclimatology%2Fmonthly%2FUSMS0033&amp;rfr_id=info:sid/en.wikipedia.org:Biloxi,_Mississippi"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-enquete-3">^ <a href="#cite_ref-enquete_3-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-enquete_3-1"><sup><i><b>b</b></i></sup></a> "La Louisiane française" (in French), by Virginie Tanlay, from book <i>Histoire de la Louisiane</i>, <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://flfa.free.fr/enquete7.htm">flfa-enquete7</a>: states that <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pierre_Le_Moyne_d%27Iberville" title="Pierre Le Moyne d'Iberville">Iberville</a> chose "le site de Bilocci" (or Biloxi)</li>
+<li id="cite_note-rmaps1-4"><b><a href="#cite_ref-rmaps1_4-0">^</a></b> "Pas-Kaart Van de Golff van Mexico" (map from Amsterdam/1710), Edge of the Map Incorporated, 2007, webpage: <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.raremaps.com/cgi-bin/gallery.pl/archivedetail/3176">Raremaps-Archive-3176</a>.</li>
+<li id="cite_note-rmaps2-5"><b><a href="#cite_ref-rmaps2_5-0">^</a></b> "A New Map of as much of North &amp; South America" (London/1725), Edge of the Map Incorporated, 2007, webpage: <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.raremaps.com/cgi-bin/gallery.pl/archivedetail/7278">Raremaps-Archive-7278</a>.</li>
+<li id="cite_note-hco-6">^ <a href="#cite_ref-hco_6-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-hco_6-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-hco_6-2"><sup><i><b>c</b></i></sup></a> <a href="#cite_ref-hco_6-3"><sup><i><b>d</b></i></sup></a> <a href="#cite_ref-hco_6-4"><sup><i><b>e</b></i></sup></a> "Biloxi: A Historic &amp; Cultural Overview". City of Biloxi historical pamphlet, 2003.</li>
+<li id="cite_note-blh-7">^ <a href="#cite_ref-blh_7-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-blh_7-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-blh_7-2"><sup><i><b>c</b></i></sup></a> <a href="#cite_ref-blh_7-3"><sup><i><b>d</b></i></sup></a> "Biloxi Lighthouse". City of Biloxi historical datasheet, 2003.</li>
+<li id="cite_note-isjl-8">^ <a href="#cite_ref-isjl_8-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-isjl_8-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-isjl_8-2"><sup><i><b>c</b></i></sup></a> <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.isjl.org/history/archive/ms/biloxi.htm">"Biloxi/Gulfport, Mississippi"</a>, <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Institute_of_Southern_Jewish_Life" title="Institute of Southern Jewish Life" class="mw-redirect">Institute of Southern Jewish Life</a></li>
+<li id="cite_note-sh-landmark-9"><b><a href="#cite_ref-sh-landmark_9-0">^</a></b> <span class="citation news">Wilemon, Tom (2005-06-30). <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.hotel-online.com/News/PR2005_3rd/Aug05_Broadwater.html">"The Landmark Broadwater Hotel, Once Biloxi's Premier Resort, Shutting Down"</a>. <a href="/web/20120111123446/http://en.wikipedia.org/wiki/The_Sun_Herald" title="The Sun Herald" class="mw-redirect">The Sun Herald</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://www.hotel-online.com/News/PR2005_3rd/Aug05_Broadwater.html">http://www.hotel-online.com/News/PR2005_3rd/Aug05_Broadwater.html</a></span><span class="reference-accessdate">. Retrieved 2008-09-15</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=The+Landmark+Broadwater+Hotel%2C+Once+Biloxi%27s+Premier+Resort%2C+Shutting+Down&amp;rft.atitle=&amp;rft.aulast=Wilemon%2C+Tom&amp;rft.au=Wilemon%2C+Tom&amp;rft.date=2005-06-30&amp;rft.pub=%5B%5BThe+Sun+Herald%5D%5D&amp;rft_id=http%3A%2F%2Fwww.hotel-online.com%2FNews%2FPR2005_3rd%2FAug05_Broadwater.html&amp;rfr_id=info:sid/en.wikipedia.org:Biloxi,_Mississippi"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-sh-before-10"><b><a href="#cite_ref-sh-before_10-0">^</a></b> <span class="citation web">Bergeron, Kat. <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.sunherald.com/images/beforeafter/broadwater.html">"Before-After: Broadwater"</a>. <a href="/web/20120111123446/http://en.wikipedia.org/wiki/The_Sun_Herald" title="The Sun Herald" class="mw-redirect">The Sun Herald</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://www.sunherald.com/images/beforeafter/broadwater.html">http://www.sunherald.com/images/beforeafter/broadwater.html</a></span><span class="reference-accessdate">. Retrieved 2008-09-15</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Before-After%3A+Broadwater&amp;rft.atitle=&amp;rft.aulast=Bergeron%2C+Kat&amp;rft.au=Bergeron%2C+Kat&amp;rft.pub=%5B%5BThe+Sun+Herald%5D%5D&amp;rft_id=http%3A%2F%2Fwww.sunherald.com%2Fimages%2Fbeforeafter%2Fbroadwater.html&amp;rfr_id=info:sid/en.wikipedia.org:Biloxi,_Mississippi"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-nyt-1963-11">^ <a href="#cite_ref-nyt-1963_11-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-nyt-1963_11-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-nyt-1963_11-2"><sup><i><b>c</b></i></sup></a> <a href="#cite_ref-nyt-1963_11-3"><sup><i><b>d</b></i></sup></a> <span class="citation news">Janson, Donald (1963-12-15). <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://select.nytimes.com/mem/archive/pdf?res=FA0C16FC3E5B1A7B93C7A81789D95F478685F9">"Mississippi Gulf Coast Woos Vacationists"</a>. The New York Times<span class="printonly">. <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://select.nytimes.com/mem/archive/pdf?res=FA0C16FC3E5B1A7B93C7A81789D95F478685F9">http://select.nytimes.com/mem/archive/pdf?res=FA0C16FC3E5B1A7B93C7A81789D95F478685F9</a></span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=Mississippi+Gulf+Coast+Woos+Vacationists&amp;rft.atitle=&amp;rft.aulast=Janson%2C+Donald&amp;rft.au=Janson%2C+Donald&amp;rft.date=1963-12-15&amp;rft.pub=The+New+York+Times&amp;rft_id=http%3A%2F%2Fselect.nytimes.com%2Fmem%2Farchive%2Fpdf%3Fres%3DFA0C16FC3E5B1A7B93C7A81789D95F478685F9&amp;rfr_id=info:sid/en.wikipedia.org:Biloxi,_Mississippi"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-12"><b><a href="#cite_ref-12">^</a></b> Debbie Stringer. 2010. Biloxi's Guiding Light. Today in Mississippi (Ridgeland, MS), Volume 63, Number 5, May 2010.</li>
+<li id="cite_note-13"><b><a href="#cite_ref-13">^</a></b> "2005 NOAA Tide Predictions: Biloxi (Cadet Point), Biloxi Bay" (2005), tide on 29-Aug-2005, <i>NOAA</i>, web: <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://tidesandcurrents.noaa.gov/get_predictions.shtml?year=2005&amp;stn=0551+South+Pass&amp;secstn=Biloxi+(Cadet+Point),+Biloxi+Bay&amp;thh=%2b2&amp;thm=4&amp;tlh=%2b1&amp;tlm=30&amp;hh=*1.38&amp;hl=*1.38">NOAA-tide-tables</a>.</li>
+<li id="cite_note-14"><b><a href="#cite_ref-14">^</a></b> <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://www.sunherald.com/mld/sunherald/news/special_packages/hurricane_katrina/12514756.htm">http://www.sunherald.com/mld/sunherald/news/special_packages/hurricane_katrina/12514756.htm</a></li>
+<li id="cite_note-15"><b><a href="#cite_ref-15">^</a></b> "Hurricane Katrina Related Damages to Public Libraries in Mississippi" (September 2005), Mississippi Library Commission, web:<a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.ala.org/ala/cro/katrina/MSPL_Katrina_Damage.pdf">ALA-Katrina</a>.</li>
+<li id="cite_note-16"><b><a href="#cite_ref-16">^</a></b> <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://www.gulf-coast.com/Attractions/KatrinaMemorialBiloxi.html">http://www.gulf-coast.com/Attractions/KatrinaMemorialBiloxi.html</a></li>
+<li id="cite_note-BixCasinos-17">^ <a href="#cite_ref-BixCasinos_17-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-BixCasinos_17-1"><sup><i><b>b</b></i></sup></a> "Tentative re-opening plans for Biloxi casino resorts" (2006), City of Biloxi, www.Biloxi.ms.us, webpage:<a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.biloxi.ms.us/Casinos/">Biloxi-Casinos</a>.</li>
+<li id="cite_note-18"><b><a href="#cite_ref-18">^</a></b> <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://ap.google.com/article/ALeqM5ib5MyH-XXFnw4D_gLfXvd4hmx4SQD8S64ME80">Gov't May Buy Thousands of Miss. Homes</a> AP via Google News. Retrieved October 17, 2007.</li>
+<li id="cite_note-19"><b><a href="#cite_ref-19">^</a></b> <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.wlox.com/Global/story.asp?S=7222173&amp;nav=6DJI">Beachfront Development On Biloxi's Front Burner</a> <a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.wlox.com/">WLOX News</a>. Retrieved on October 17, 2007.</li>
+<li id="cite_note-GR2-20"><b><a href="#cite_ref-GR2_20-0">^</a></b> <span class="citation web"><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://factfinder.census.gov/">"American FactFinder"</a>. <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States_Census_Bureau" title="United States Census Bureau">United States Census Bureau</a><span class="printonly">. <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://factfinder.census.gov/">http://factfinder.census.gov</a></span><span class="reference-accessdate">. Retrieved 2008-01-31</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=American+FactFinder&amp;rft.atitle=&amp;rft.pub=%5B%5BUnited+States+Census+Bureau%5D%5D&amp;rft_id=http%3A%2F%2Ffactfinder.census.gov&amp;rfr_id=info:sid/en.wikipedia.org:Biloxi,_Mississippi"><span style="display: none;">&#160;</span></span></li>
+<li id="cite_note-21"><b><a href="#cite_ref-21">^</a></b> Thomas, Danielle. "<a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.wlox.com/Global/story.asp?S=10336767">Biloxi Vietnamese say poor economy equals local population rise</a>." <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/WLOX" title="WLOX">WLOX</a></i>. May 10, 2009. Updated on May 11, 2009. Retrieved on August 14, 2010.</li>
+<li id="cite_note-22"><b><a href="#cite_ref-22">^</a></b> <a rel="nofollow" class="external autonumber" href="http://web.archive.org/web/20120111123446/http://education.biloxidiocese.org/index.cfm?section=contact.cfm">[1]</a></li>
+<li id="cite_note-23"><b><a href="#cite_ref-23">^</a></b> "<a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.dmr.state.ms.us/DMR/contact_us.htm">Contact Us</a>." <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Department_of_Marine_Resources" title="Mississippi Department of Marine Resources">Mississippi Department of Marine Resources</a>. Retrieved on November 9, 2010. "Included are the phone numbers of each department within the agency. A map and directions to the Bolton Building can be found here: directions. 1141 Bayview Avenue Biloxi MS 39530."</li>
+<li id="cite_note-24"><b><a href="#cite_ref-24">^</a></b> "<a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.dmr.state.ms.us/DMR/Directions.htm">Directions</a>." <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Department_of_Marine_Resources" title="Mississippi Department of Marine Resources">Mississippi Department of Marine Resources</a>. Retrieved on November 9, 2010.</li>
+<li id="cite_note-25"><b><a href="#cite_ref-25">^</a></b> "<a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.deq.state.ms.us/mdeq.nsf/page/FS_Southregionaloffice">South Regional Office</a>." <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Department_of_Environmental_Quality" title="Mississippi Department of Environmental Quality">Mississippi Department of Environmental Quality</a>. Retrieved on September 21, 2010.</li>
+<li id="cite_note-26"><b><a href="#cite_ref-26">^</a></b> "<a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://usps.whitepages.com/service/post_office/biloxi-135-main-st-biloxi-ms-1354972">Post Office™ Location - BILOXI</a>." <a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States_Postal_Service" title="United States Postal Service">United States Postal Service</a>. Retrieved on September 22, 2010.</li>
+<li id="cite_note-27"><b><a href="#cite_ref-27">^</a></b> Shapiro, Dean M. "<a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.trutv.com/library/crime/notorious_murders/classics/dd_biloxi_confidential/18.html">The Angola Connection</a>." <i><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Crime_Library" title="Crime Library">Crime Library</a></i>. Retrieved on July 24, 2010.</li>
+<li id="cite_note-28"><b><a href="#cite_ref-28">^</a></b> <a rel="nofollow" class="external free" href="http://web.archive.org/web/20120111123446/http://www.georgeohr.org/index.html">http://www.georgeohr.org/index.html</a></li>
+</ol>
+</div>
+<h2><span class="editsection">[<a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit&amp;section=16" title="Edit section: External links">edit</a>]</span> <span class="mw-headline" id="External_links">External links</span></h2>
+<div class="noprint tright portal" style="border:solid #aaa 1px;margin:0.5em 0 0.5em 0.5em;">
+<table style="background:#f9f9f9; font-size:85%; line-height:110%; max-width:175px;">
+<tr>
+<td><a href="/web/20120111123446/http://en.wikipedia.org/wiki/File:Flag_of_Mississippi.svg" class="image"><img alt="Flag of Mississippi.svg" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Flag_of_Mississippi.svg/47px-Flag_of_Mississippi.svg.png" width="47" height="28" class="thumbborder"/></a></td>
+<td style="padding:0 0.2em;"><i><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Portal:Mississippi" title="Portal:Mississippi">Mississippi portal</a></b></i></td>
+</tr>
+</table>
+</div>
+<table class="metadata mbox-small plainlinks" style="border:1px solid #aaa; background-color:#f9f9f9;">
+<tr>
+<td class="mbox-image"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/en/thumb/4/4a/Commons-logo.svg/30px-Commons-logo.svg.png" width="30" height="40"/></td>
+<td class="mbox-text" style="">Wikimedia Commons has media related to: <i><b><a class="external text" href="//web.archive.org/web/20120111123446/http://commons.wikimedia.org/wiki/Category:Biloxi,_Mississippi">Biloxi, Mississippi</a></b></i></td>
+</tr>
+</table>
+<ul>
+<li><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.biloxi.ms.us/">Official web page</a></li>
+<li><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.davidmetraux.com/news/2006/hurricane_katrina_gulf_coast.html">Photographs of Hurricane Katrina's destruction on Mississippi's Gulf Coast</a> from davidmetraux.com</li>
+<li><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.photosfromkatrina.com/listview-biloxi.htm">Photographs and Video of Hurricane Katrina's Aftermath</a> from photosfromkatrina.com</li>
+<li><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.isjl.org/history/archive/ms/biloxi.htm">History of Biloxi's Jewish community</a> (from the <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Institute_of_Southern_Jewish_Life" title="Institute of Southern Jewish Life" class="mw-redirect">Institute of Southern Jewish Life</a>)</li>
+<li><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.sunherald.com/"><i>The Sun-Herald</i></a></li>
+<li><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.georgeohr.org/index.html"><i>Ohr-O'Keefe Museum of Art</i></a></li>
+<li><a rel="nofollow" class="external text" href="http://web.archive.org/web/20120111123446/http://www.mscoastmoms.com/">Directory for Families in Biloxi of Things-to-Do</a></li>
+</ul>
+<table class="navbox" cellspacing="0" style=";">
+<tr>
+<td style="padding:2px;">
+<table cellspacing="0" class="nowraplinks collapsible autocollapse" style="width:100%;background:transparent;color:inherit;;">
+<tr>
+<th scope="col" style=";" class="navbox-title" colspan="3">
+<div class="noprint plainlinks hlist navbar" style="">
+<ul>
+<li class="nv-view"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Template:Harrison_County,_Mississippi" title="Template:Harrison County, Mississippi"><span style=";;background:none transparent;border:none;" title="View this template">v</span></a></li>
+<li class="nv-talk"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Template_talk:Harrison_County,_Mississippi" title="Template talk:Harrison County, Mississippi"><span style=";;background:none transparent;border:none;" title="Discuss this template">d</span></a></li>
+<li class="nv-edit"><a class="external text" href="//web.archive.org/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Template:Harrison_County,_Mississippi&amp;action=edit"><span style=";;background:none transparent;border:none;" title="Edit this template">e</span></a></li>
+</ul>
+</div>
+<div class="adr" style="font-size:110%;">Municipalities and communities of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Harrison_County,_Mississippi" title="Harrison County, Mississippi"><span class="region">Harrison County, Mississippi</span></a>, <span class="country-name">USA</span></div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td class="navbox-abovebelow" style=";" colspan="3">
+<div><a href="/web/20120111123446/http://en.wikipedia.org/wiki/County_seat" title="County seat"><span>County seats</span></a>: <b><strong class="selflink"><span>Biloxi</span></strong></b> and <b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport,_Mississippi" title="Gulfport, Mississippi"><span>Gulfport</span></a></b></div>
+</td>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/City" title="City">Cities</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd hlist">
+<div style="padding:0em 0.25em">
+<div>
+<ul>
+<li><strong class="selflink">Biloxi</strong></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/D%27Iberville,_Mississippi" title="D'Iberville, Mississippi">D'Iberville</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport,_Mississippi" title="Gulfport, Mississippi">Gulfport</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Long_Beach,_Mississippi" title="Long Beach, Mississippi">Long Beach</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pass_Christian,_Mississippi" title="Pass Christian, Mississippi">Pass Christian</a></li>
+</ul>
+</div>
+</div>
+</td>
+<td class="navbox-image" style="width:0%;padding:0px 0px 0px 2px;" rowspan="5">
+<div>
+<div class="center">
+<div class="floatnone"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Map_of_Mississippi_highlighting_Harrison_County.svg/62px-Map_of_Mississippi_highlighting_Harrison_County.svg.png" width="62" height="100"/></div>
+</div>
+</div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Census-designated_place" title="Census-designated place">CDPs</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even hlist">
+<div style="padding:0em 0.25em">
+<div>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lyman,_Mississippi" title="Lyman, Mississippi">Lyman</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Saucier,_Mississippi" title="Saucier, Mississippi">Saucier</a></li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Unincorporated_area" title="Unincorporated area">Unincorporated<br/>
+communities</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd hlist">
+<div style="padding:0em 0.25em">
+<div>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Cuevas,_Mississippi&amp;action=edit&amp;redlink=1" class="new" title="Cuevas, Mississippi (page does not exist)">Cuevas</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=De_Lisle,_Mississippi&amp;action=edit&amp;redlink=1" class="new" title="De Lisle, Mississippi (page does not exist)">De Lisle</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Howison,_Mississippi&amp;action=edit&amp;redlink=1" class="new" title="Howison, Mississippi (page does not exist)">Howison</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lizana,_Mississippi" title="Lizana, Mississippi">Lizana</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Woolmarket,_Mississippi&amp;action=edit&amp;redlink=1" class="new" title="Woolmarket, Mississippi (page does not exist)">Woolmarket</a></li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table class="navbox" cellspacing="0" style=";">
+<tr>
+<td style="padding:2px;">
+<table cellspacing="0" class="nowraplinks collapsible autocollapse" style="width:100%;background:transparent;color:inherit;;">
+<tr>
+<th scope="col" style=";" class="navbox-title" colspan="2">
+<div class="noprint plainlinks hlist navbar" style="">
+<ul>
+<li class="nv-view"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Template:Mississippi" title="Template:Mississippi"><span style=";;background:none transparent;border:none;" title="View this template">v</span></a></li>
+<li class="nv-talk"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Template_talk:Mississippi" title="Template talk:Mississippi"><span style=";;background:none transparent;border:none;" title="Discuss this template">d</span></a></li>
+<li class="nv-edit"><a class="external text" href="//web.archive.org/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Template:Mississippi&amp;action=edit"><span style=";;background:none transparent;border:none;" title="Edit this template">e</span></a></li>
+</ul>
+</div>
+<div class="" style="font-size:110%;"><img alt="" src="//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Flag_of_Mississippi.svg/23px-Flag_of_Mississippi.svg.png" width="23" height="14" class="thumbborder"/>&#160;<a href="/web/20120111123446/http://en.wikipedia.org/wiki/U.S._state" title="U.S. state">State</a> of <a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi" title="Mississippi">Mississippi</a></div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<td class="navbox-abovebelow" style=";" colspan="2">
+<div><b><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jackson,_Mississippi" title="Jackson, Mississippi">Jackson</a></b> (<a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_capitals_in_the_United_States" title="List of capitals in the United States"><span style="color:inherit;">capital</span></a>)</div>
+</td>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Mississippi" title="Category:Mississippi">Topics</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd hlist">
+<div style="padding:0em 0.25em">
+<div>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_people_from_Mississippi" title="List of people from Mississippi">Mississippians</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/United_States_congressional_delegations_from_Mississippi" title="United States congressional delegations from Mississippi">Delegations</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_Governors_of_Mississippi" title="List of Governors of Mississippi">Governors</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_Lieutenant_Governors_of_Mississippi" title="List of Lieutenant Governors of Mississippi" class="mw-redirect">Lieutenant Governors</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Legislature" title="Mississippi Legislature">Legislature</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_Mississippi_state_parks" title="List of Mississippi state parks">State Parks</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_Mississippi_Landmarks" title="List of Mississippi Landmarks">State Landmarks</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Music_of_Mississippi" title="Music of Mississippi">Music</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/History_of_Mississippi" title="History of Mississippi">History</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi#Geography" title="Mississippi">Geography</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Education_in_Mississippi" title="Education in Mississippi">Education</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Visitor_attractions_in_Mississippi" title="Category:Visitor attractions in Mississippi">Visitor Attractions</a></li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_regions_of_the_United_States#Mississippi" title="List of regions of the United States">Regions</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even hlist">
+<div style="padding:0em 0.25em">
+<div>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Delta" title="Mississippi Delta">The Delta</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Golden_Triangle_(Mississippi)" title="Golden Triangle (Mississippi)">Golden Triangle</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Gulf_Coast" title="Mississippi Gulf Coast">Gulf Coast</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi_Alluvial_Plain" title="Mississippi Alluvial Plain">Mississippi Plain</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Natchez_District" title="Natchez District">Natchez District</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pine_Belt_(Mississippi)" title="Pine Belt (Mississippi)">Pine Belt</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tennessee_Valley" title="Tennessee Valley">Tennessee Valley</a></li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_metropolitan_areas_in_Mississippi" title="List of metropolitan areas in Mississippi">Metros</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd hlist">
+<div style="padding:0em 0.25em">
+<div>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport%E2%80%93Biloxi_metropolitan_area" title="Gulfport–Biloxi metropolitan area">Gulfport-Biloxi</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hattiesburg_metropolitan_area" title="Hattiesburg metropolitan area">Hattiesburg</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jackson_metropolitan_area" title="Jackson metropolitan area">Jackson</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Memphis_metropolitan_area" title="Memphis metropolitan area">Memphis (TN)</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pascagoula_metropolitan_area" title="Pascagoula metropolitan area">Pascagoula</a></li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Mississippi#Major_cities_and_towns" title="Mississippi">Larger cities</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even hlist">
+<div style="padding:0em 0.25em">
+<div>
+<ul>
+<li><strong class="selflink">Biloxi</strong></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Clarksdale,_Mississippi" title="Clarksdale, Mississippi">Clarksdale</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Clinton,_Mississippi" title="Clinton, Mississippi">Clinton</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Columbus,_Mississippi" title="Columbus, Mississippi">Columbus</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Greenville,_Mississippi" title="Greenville, Mississippi">Greenville</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gulfport,_Mississippi" title="Gulfport, Mississippi">Gulfport</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hattiesburg,_Mississippi" title="Hattiesburg, Mississippi">Hattiesburg</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jackson,_Mississippi" title="Jackson, Mississippi">Jackson</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Meridian,_Mississippi" title="Meridian, Mississippi">Meridian</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Olive_Branch,_Mississippi" title="Olive Branch, Mississippi">Olive Branch</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pascagoula,_Mississippi" title="Pascagoula, Mississippi">Pascagoula</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pearl,_Mississippi" title="Pearl, Mississippi">Pearl</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ridgeland,_Mississippi" title="Ridgeland, Mississippi">Ridgeland</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Southaven,_Mississippi" title="Southaven, Mississippi">Southaven</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Starkville,_Mississippi" title="Starkville, Mississippi">Starkville</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tupelo,_Mississippi" title="Tupelo, Mississippi">Tupelo</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Vicksburg,_Mississippi" title="Vicksburg, Mississippi">Vicksburg</a></li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_smaller_cities_in_Mississippi" title="List of smaller cities in Mississippi">Smaller cities</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd hlist">
+<div style="padding:0em 0.25em">
+<div>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Bay_St._Louis,_Mississippi" title="Bay St. Louis, Mississippi">Bay St. Louis</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Brandon,_Mississippi" title="Brandon, Mississippi">Brandon</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Brookhaven,_Mississippi" title="Brookhaven, Mississippi">Brookhaven</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Canton,_Mississippi" title="Canton, Mississippi">Canton</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Cleveland,_Mississippi" title="Cleveland, Mississippi">Cleveland</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Corinth,_Mississippi" title="Corinth, Mississippi">Corinth</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Gautier,_Mississippi" title="Gautier, Mississippi">Gautier</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Greenwood,_Mississippi" title="Greenwood, Mississippi">Greenwood</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Grenada,_Mississippi" title="Grenada, Mississippi">Grenada</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Horn_Lake,_Mississippi" title="Horn Lake, Mississippi">Horn Lake</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Indianola,_Mississippi" title="Indianola, Mississippi">Indianola</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Itta_Bena,_Mississippi" title="Itta Bena, Mississippi">Itta Bena</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Laurel,_Mississippi" title="Laurel, Mississippi">Laurel</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Long_Beach,_Mississippi" title="Long Beach, Mississippi">Long Beach</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Madison,_Mississippi" title="Madison, Mississippi">Madison</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/McComb,_Mississippi" title="McComb, Mississippi">McComb</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Moss_Point,_Mississippi" title="Moss Point, Mississippi">Moss Point</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Natchez,_Mississippi" title="Natchez, Mississippi">Natchez</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Ocean_Springs,_Mississippi" title="Ocean Springs, Mississippi">Ocean Springs</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Oxford,_Mississippi" title="Oxford, Mississippi">Oxford</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pass_Christian,_Mississippi" title="Pass Christian, Mississippi">Pass Christian</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Picayune,_Mississippi" title="Picayune, Mississippi">Picayune</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tunica,_Mississippi" title="Tunica, Mississippi">Tunica</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Waveland,_Mississippi" title="Waveland, Mississippi">Waveland</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/West_Hattiesburg,_Mississippi" title="West Hattiesburg, Mississippi">West Hattiesburg (Oak Grove)</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/West_Point,_Mississippi" title="West Point, Mississippi">West Point</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Yazoo_City,_Mississippi" title="Yazoo City, Mississippi">Yazoo City</a></li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/List_of_counties_in_Mississippi" title="List of counties in Mississippi">Counties</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even hlist">
+<div style="padding:0em 0.25em">
+<div>
+<ul>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Adams_County,_Mississippi" title="Adams County, Mississippi">Adams</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Alcorn_County,_Mississippi" title="Alcorn County, Mississippi">Alcorn</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Amite_County,_Mississippi" title="Amite County, Mississippi">Amite</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Attala_County,_Mississippi" title="Attala County, Mississippi">Attala</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Benton_County,_Mississippi" title="Benton County, Mississippi">Benton</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Bolivar_County,_Mississippi" title="Bolivar County, Mississippi">Bolivar</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Calhoun_County,_Mississippi" title="Calhoun County, Mississippi">Calhoun</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Carroll_County,_Mississippi" title="Carroll County, Mississippi">Carroll</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Chickasaw_County,_Mississippi" title="Chickasaw County, Mississippi">Chickasaw</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Choctaw_County,_Mississippi" title="Choctaw County, Mississippi">Choctaw</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Claiborne_County,_Mississippi" title="Claiborne County, Mississippi">Claiborne</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Clarke_County,_Mississippi" title="Clarke County, Mississippi">Clarke</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Clay_County,_Mississippi" title="Clay County, Mississippi">Clay</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Coahoma_County,_Mississippi" title="Coahoma County, Mississippi">Coahoma</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Copiah_County,_Mississippi" title="Copiah County, Mississippi">Copiah</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Covington_County,_Mississippi" title="Covington County, Mississippi">Covington</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/DeSoto_County,_Mississippi" title="DeSoto County, Mississippi">DeSoto</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Forrest_County,_Mississippi" title="Forrest County, Mississippi">Forrest</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Franklin_County,_Mississippi" title="Franklin County, Mississippi">Franklin</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/George_County,_Mississippi" title="George County, Mississippi">George</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Greene_County,_Mississippi" title="Greene County, Mississippi">Greene</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Grenada_County,_Mississippi" title="Grenada County, Mississippi">Grenada</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hancock_County,_Mississippi" title="Hancock County, Mississippi">Hancock</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Harrison_County,_Mississippi" title="Harrison County, Mississippi">Harrison</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Hinds_County,_Mississippi" title="Hinds County, Mississippi">Hinds</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Holmes_County,_Mississippi" title="Holmes County, Mississippi">Holmes</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Humphreys_County,_Mississippi" title="Humphreys County, Mississippi">Humphreys</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Issaquena_County,_Mississippi" title="Issaquena County, Mississippi">Issaquena</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Itawamba_County,_Mississippi" title="Itawamba County, Mississippi">Itawamba</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jackson_County,_Mississippi" title="Jackson County, Mississippi">Jackson</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jasper_County,_Mississippi" title="Jasper County, Mississippi">Jasper</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jefferson_County,_Mississippi" title="Jefferson County, Mississippi">Jefferson</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jefferson_Davis_County,_Mississippi" title="Jefferson Davis County, Mississippi">Jefferson Davis</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Jones_County,_Mississippi" title="Jones County, Mississippi">Jones</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Kemper_County,_Mississippi" title="Kemper County, Mississippi">Kemper</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lafayette_County,_Mississippi" title="Lafayette County, Mississippi">Lafayette</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lamar_County,_Mississippi" title="Lamar County, Mississippi">Lamar</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lauderdale_County,_Mississippi" title="Lauderdale County, Mississippi">Lauderdale</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lawrence_County,_Mississippi" title="Lawrence County, Mississippi">Lawrence</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Leake_County,_Mississippi" title="Leake County, Mississippi">Leake</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lee_County,_Mississippi" title="Lee County, Mississippi">Lee</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Leflore_County,_Mississippi" title="Leflore County, Mississippi">Leflore</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lincoln_County,_Mississippi" title="Lincoln County, Mississippi">Lincoln</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Lowndes_County,_Mississippi" title="Lowndes County, Mississippi">Lowndes</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Madison_County,_Mississippi" title="Madison County, Mississippi">Madison</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Marion_County,_Mississippi" title="Marion County, Mississippi">Marion</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Marshall_County,_Mississippi" title="Marshall County, Mississippi">Marshall</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Monroe_County,_Mississippi" title="Monroe County, Mississippi">Monroe</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Montgomery_County,_Mississippi" title="Montgomery County, Mississippi">Montgomery</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Neshoba_County,_Mississippi" title="Neshoba County, Mississippi">Neshoba</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Newton_County,_Mississippi" title="Newton County, Mississippi">Newton</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Noxubee_County,_Mississippi" title="Noxubee County, Mississippi">Noxubee</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Oktibbeha_County,_Mississippi" title="Oktibbeha County, Mississippi">Oktibbeha</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Panola_County,_Mississippi" title="Panola County, Mississippi">Panola</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pearl_River_County,_Mississippi" title="Pearl River County, Mississippi">Pearl River</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Perry_County,_Mississippi" title="Perry County, Mississippi">Perry</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pike_County,_Mississippi" title="Pike County, Mississippi">Pike</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Pontotoc_County,_Mississippi" title="Pontotoc County, Mississippi">Pontotoc</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Prentiss_County,_Mississippi" title="Prentiss County, Mississippi">Prentiss</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Quitman_County,_Mississippi" title="Quitman County, Mississippi">Quitman</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Rankin_County,_Mississippi" title="Rankin County, Mississippi">Rankin</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Scott_County,_Mississippi" title="Scott County, Mississippi">Scott</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Sharkey_County,_Mississippi" title="Sharkey County, Mississippi">Sharkey</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Simpson_County,_Mississippi" title="Simpson County, Mississippi">Simpson</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Smith_County,_Mississippi" title="Smith County, Mississippi">Smith</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Stone_County,_Mississippi" title="Stone County, Mississippi">Stone</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Sunflower_County,_Mississippi" title="Sunflower County, Mississippi">Sunflower</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tallahatchie_County,_Mississippi" title="Tallahatchie County, Mississippi">Tallahatchie</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tate_County,_Mississippi" title="Tate County, Mississippi">Tate</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tippah_County,_Mississippi" title="Tippah County, Mississippi">Tippah</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tishomingo_County,_Mississippi" title="Tishomingo County, Mississippi">Tishomingo</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Tunica_County,_Mississippi" title="Tunica County, Mississippi">Tunica</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Union_County,_Mississippi" title="Union County, Mississippi">Union</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Walthall_County,_Mississippi" title="Walthall County, Mississippi">Walthall</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Warren_County,_Mississippi" title="Warren County, Mississippi">Warren</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Washington_County,_Mississippi" title="Washington County, Mississippi">Washington</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wayne_County,_Mississippi" title="Wayne County, Mississippi">Wayne</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Webster_County,_Mississippi" title="Webster County, Mississippi">Webster</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wilkinson_County,_Mississippi" title="Wilkinson County, Mississippi">Wilkinson</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Winston_County,_Mississippi" title="Winston County, Mississippi">Winston</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Yalobusha_County,_Mississippi" title="Yalobusha County, Mississippi">Yalobusha</a></li>
+<li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Yazoo_County,_Mississippi" title="Yazoo County, Mississippi">Yazoo</a></li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 42715/1000000
+Post-expand include size: 231319/2048000 bytes
+Template argument size: 94700/2048000 bytes
+Expensive parser function count: 2/500
+-->
+
+<!-- Saved in parser cache with key enwiki:pcache:idhash:122281-0!*!0!!en!4!* and timestamp 20120108220025 generated by mw53 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://web.archive.org/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;oldid=468852769">http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;oldid=468852769</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Populated_places_established_in_1699" title="Category:Populated places established in 1699">Populated places established in 1699</a></li><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Cities_in_Mississippi" title="Category:Cities in Mississippi">Cities in Mississippi</a></li><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Biloxi,_Mississippi" title="Category:Biloxi, Mississippi">Biloxi, Mississippi</a></li><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Populated_places_in_Harrison_County,_Mississippi" title="Category:Populated places in Harrison County, Mississippi">Populated places in Harrison County, Mississippi</a></li><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Gambling_in_the_United_States" title="Category:Gambling in the United States">Gambling in the United States</a></li><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Places_affected_by_Hurricane_Katrina" title="Category:Places affected by Hurricane Katrina">Places affected by Hurricane Katrina</a></li><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:United_States_colonial_and_territorial_capitals" title="Category:United States colonial and territorial capitals">United States colonial and territorial capitals</a></li><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:County_seats_in_Mississippi" title="Category:County seats in Mississippi">County seats in Mississippi</a></li><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Gulfport%E2%80%93Biloxi_metropolitan_area" title="Category:Gulfport–Biloxi metropolitan area">Gulfport–Biloxi metropolitan area</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Category:Infobox_Settlement_US_maintenance" title="Category:Infobox Settlement US maintenance">Infobox Settlement US maintenance</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Special:UserLogin&amp;returnto=Biloxi%2C+Mississippi" title="You are encouraged to log in; however, it is not mandatory. [o]" accesskey="o">Log in / create account</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li id="ca-nstab-main" class="selected"><span><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi,_Mississippi" title="View the content page [c]" accesskey="c">Article</a></span></li>
+					<li id="ca-talk"><span><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Talk:Biloxi,_Mississippi" title="Discussion about the content page [t]" accesskey="t">Talk</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Biloxi,_Mississippi">Read</a></span></li>
+					<li id="ca-edit"><span><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=edit" title="You can edit this page. 
+Please use the preview button before saving. [e]" accesskey="e">Edit</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;action=history" title="Past versions of this page [h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/web/20120111123446/http://en.wikipedia.org/w/index.php" id="searchform">
+		<input type="hidden" name="title" value="Special:Search"/>
+				<div id="simpleSearch">
+						<input type="text" name="search" value="" title="Search Wikipedia [f]" accesskey="f" id="searchInput"/>						<button type="submit" name="button" title="Search Wikipedia for this text" id="searchButton"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/vector/images/search-ltr.png?303-4" alt="Search"/></button>					</div>
+			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(//web.archive.org/web/20120111123446im_/http://upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png);" href="/web/20120111123446/http://en.wikipedia.org/wiki/Main_Page" title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id="p-navigation">
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage-description"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li>
+			<li id="n-contents"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li>
+			<li id="n-featuredcontent"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li>
+			<li id="n-currentevents"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li>
+			<li id="n-randompage"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Special:Random" title="Load a random article [x]" accesskey="x">Random article</a></li>
+			<li id="n-sitesupport"><a href="//web.archive.org/web/20120111123446/http://wikimediafoundation.org/wiki/Special:Landingcheck?landing_page=WMFJA085&amp;language=en&amp;utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=20101204SB002" title="Support us">Donate to Wikipedia</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- interaction -->
+<div class="portal" id="p-interaction">
+	<h5>Interaction</h5>
+	<div class="body">
+		<ul>
+			<li id="n-help"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li>
+			<li id="n-aboutsite"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li>
+			<li id="n-portal"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+			<li id="n-recentchanges"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li>
+			<li id="n-contact"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact Wikipedia</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /interaction -->
+
+<!-- TOOLBOX -->
+<div class="portal" id="p-tb">
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Special:WhatLinksHere/Biloxi,_Mississippi" title="List of all English Wikipedia pages containing links to this page [j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Special:RecentChangesLinked/Biloxi,_Mississippi" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li>
+			<li id="t-upload"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:Upload" title="Upload files [u]" accesskey="u">Upload file</a></li>
+			<li id="t-specialpages"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li>
+			<li id="t-permalink"><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;oldid=468852769" title="Permanent link to this revision of the page">Permanent link</a></li>
+<li id="t-cite"><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Special:Cite&amp;page=Biloxi,_Mississippi&amp;id=468852769" title="Information on how to cite this page">Cite this page</a></li>		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- coll-print_export -->
+<div class="portal" id="p-coll-print_export">
+	<h5>Print/export</h5>
+	<div class="body">
+		<ul id="collectionPortletList"><li id="coll-create_a_book"><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=Biloxi%2C+Mississippi" title="Create a book or page collection" rel="nofollow">Create a book</a></li><li id="coll-download-as-rl"><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Special:Book&amp;bookcmd=render_article&amp;arttitle=Biloxi%2C+Mississippi&amp;oldid=468852769&amp;writer=rl" title="Download a PDF version of this wiki page" rel="nofollow">Download as PDF</a></li><li id="t-print"><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;printable=yes" title="Printable version of this page [p]" accesskey="p">Printable version</a></li></ul>	</div>
+</div>
+
+<!-- /coll-print_export -->
+
+<!-- LANGUAGES -->
+<div class="portal" id="p-lang">
+	<h5>Languages</h5>
+	<div class="body">
+		<ul>
+			<li class="interwiki-zh-min-nan"><a href="//web.archive.org/web/20120111123446/http://zh-min-nan.wikipedia.org/wiki/Biloxi">Bân-lâm-gú</a></li>
+			<li class="interwiki-da"><a href="//web.archive.org/web/20120111123446/http://da.wikipedia.org/wiki/Biloxi">Dansk</a></li>
+			<li class="interwiki-de"><a href="//web.archive.org/web/20120111123446/http://de.wikipedia.org/wiki/Biloxi_(Mississippi)">Deutsch</a></li>
+			<li class="interwiki-es"><a href="//web.archive.org/web/20120111123446/http://es.wikipedia.org/wiki/Biloxi_(Misisipi)">Español</a></li>
+			<li class="interwiki-eo"><a href="//web.archive.org/web/20120111123446/http://eo.wikipedia.org/wiki/Biloxi">Esperanto</a></li>
+			<li class="interwiki-fr"><a href="//web.archive.org/web/20120111123446/http://fr.wikipedia.org/wiki/Biloxi_(Mississippi)">Français</a></li>
+			<li class="interwiki-io"><a href="//web.archive.org/web/20120111123446/http://io.wikipedia.org/wiki/Biloxi,_Mississippi">Ido</a></li>
+			<li class="interwiki-id"><a href="//web.archive.org/web/20120111123446/http://id.wikipedia.org/wiki/Biloxi,_Mississippi">Bahasa Indonesia</a></li>
+			<li class="interwiki-it"><a href="//web.archive.org/web/20120111123446/http://it.wikipedia.org/wiki/Biloxi">Italiano</a></li>
+			<li class="interwiki-sw"><a href="//web.archive.org/web/20120111123446/http://sw.wikipedia.org/wiki/Biloxi,_Mississippi">Kiswahili</a></li>
+			<li class="interwiki-ht"><a href="//web.archive.org/web/20120111123446/http://ht.wikipedia.org/wiki/Biloxi,_Mississippi">Kreyòl ayisyen</a></li>
+			<li class="interwiki-nl"><a href="//web.archive.org/web/20120111123446/http://nl.wikipedia.org/wiki/Biloxi">Nederlands</a></li>
+			<li class="interwiki-ja"><a href="//web.archive.org/web/20120111123446/http://ja.wikipedia.org/wiki/%E3%83%93%E3%83%AD%E3%82%AF%E3%82%B7_(%E3%83%9F%E3%82%B7%E3%82%B7%E3%83%83%E3%83%94%E5%B7%9E)">日本語</a></li>
+			<li class="interwiki-no"><a href="//web.archive.org/web/20120111123446/http://no.wikipedia.org/wiki/Biloxi">‪Norsk (bokmål)‬</a></li>
+			<li class="interwiki-pl"><a href="//web.archive.org/web/20120111123446/http://pl.wikipedia.org/wiki/Biloxi">Polski</a></li>
+			<li class="interwiki-pt"><a href="//web.archive.org/web/20120111123446/http://pt.wikipedia.org/wiki/Biloxi_(Mississippi)">Português</a></li>
+			<li class="interwiki-ru"><a href="//web.archive.org/web/20120111123446/http://ru.wikipedia.org/wiki/%D0%91%D0%B8%D0%BB%D0%BE%D0%BA%D1%81%D0%B8_(%D0%9C%D0%B8%D1%81%D1%81%D0%B8%D1%81%D0%B8%D0%BF%D0%B8)">Русский</a></li>
+			<li class="interwiki-simple"><a href="//web.archive.org/web/20120111123446/http://simple.wikipedia.org/wiki/Biloxi,_Mississippi">Simple English</a></li>
+			<li class="interwiki-fi"><a href="//web.archive.org/web/20120111123446/http://fi.wikipedia.org/wiki/Biloxi">Suomi</a></li>
+			<li class="interwiki-sv"><a href="//web.archive.org/web/20120111123446/http://sv.wikipedia.org/wiki/Biloxi_(stad)">Svenska</a></li>
+			<li class="interwiki-vi"><a href="//web.archive.org/web/20120111123446/http://vi.wikipedia.org/wiki/Biloxi,_Mississippi">Tiếng Việt</a></li>
+			<li class="interwiki-vo"><a href="//web.archive.org/web/20120111123446/http://vo.wikipedia.org/wiki/Biloxi">Volapük</a></li>
+			<li class="interwiki-war"><a href="//web.archive.org/web/20120111123446/http://war.wikipedia.org/wiki/Biloxi,_Mississippi">Winaray</a></li>
+			<li class="interwiki-zh"><a href="//web.archive.org/web/20120111123446/http://zh.wikipedia.org/wiki/%E6%AF%94%E6%B4%9B%E5%85%8B%E8%A5%BF_(%E5%AF%86%E8%A5%BF%E8%A5%BF%E6%AF%94%E5%B7%9E)">中文</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 1 January 2012 at 00:20.<br/></li>
+											<li id="footer-info-copyright">Text is available under the <a rel="license" href="//web.archive.org/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="//web.archive.org/web/20120111123446/http://creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.
+See <a href="//web.archive.org/web/20120111123446/http://wikimediafoundation.org/wiki/Terms_of_use">Terms of use</a> for details.<br/>
+Wikipedia&reg; is a registered trademark of the <a href="//web.archive.org/web/20120111123446/http://www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.<br/></li><li class="noprint"><a class="internal" href="//web.archive.org/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact us</a></li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="//web.archive.org/web/20120111123446/http://wikimediafoundation.org/wiki/Privacy_policy" title="wikimedia:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+											<li id="footer-places-disclaimer"><a href="/web/20120111123446/http://en.wikipedia.org/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+											<li id="footer-places-mobileview"><a href="/web/20120111123446/http://en.wikipedia.org/w/index.php?title=Biloxi,_Mississippi&amp;useformat=mobile" class="noprint">Mobile view</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-copyrightico">
+						<a href="//web.archive.org/web/20120111123446/http://wikimediafoundation.org/"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/images/wikimedia-button.png" width="88" height="31" alt="Wikimedia Foundation"/></a>
+					</li>
+					<li id="footer-poweredbyico">
+						<a href="//web.archive.org/web/20120111123446/http://www.mediawiki.org/"><img src="//web.archive.org/web/20120111123446im_/http://bits.wikimedia.org/skins-1.18/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"/></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="//web.archive.org/web/20120111123446js_/http://bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=skins.vector&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax", "mediawiki.legacy.mwsuggest", "ext.gadget.wmfFR2011Style", "ext.vector.collapsibleNav", "ext.vector.collapsibleTabs", "ext.vector.editWarning", "ext.vector.simpleSearch", "ext.UserBuckets", "ext.articleFeedback.startup", "ext.articleFeedbackv5.startup", "ext.markAsHelpful"]);
+}
+</script>
+<script src="/web/20120111123446js_/http://en.wikipedia.org/w/index.php?title=Special:BannerController&amp;cache=/cn.js&amp;303-4" type="text/javascript"></script>
+<script src="//web.archive.org/web/20120111123446js_/http://bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":false,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":4,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":1,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"flaggedrevssimpleui":1,"flaggedrevsstable":0,"flaggedrevseditdiffs":true,"flaggedrevsviewdiffs":false,"vector-simplesearch":1,"useeditwarning":1,"vector-collapsiblenav":1,"usebetatoolbar":1,"usebetatoolbar-cgd":1,"wikilove-enabled":1,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"searchNs100":false,"searchNs101":false,"searchNs108":false,"searchNs109":false,"gadget-wmfFR2011Style":1});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: enwiki:resourceloader:filter:minify-js:4:b41a86ec4e0fe8329bc3ce917e792339 */
+}
+</script><script src="//web.archive.org/web/20120111123446js_/http://geoiplookup.wikimedia.org/" type="text/javascript"></script><!-- Served by mw27 in 0.051 secs. -->
+	</body>
+</html>
+<!--
+     FILE ARCHIVED ON 12:34:46 Jan 11, 2012 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 14:38:40 Oct 07, 2020.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--

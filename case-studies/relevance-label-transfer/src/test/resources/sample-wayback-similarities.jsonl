@@ -1,0 +1,5 @@
+{"firstId":"clueweb09-en0017-65-24962","secondId":"<urn:uuid:03315c82-0ca2-48e9-a745-61346560636e>","s3Score":0.1808,"cosineSimilarityOneGramms":0.6425,"cosineSimilarityEightGramms":0.1808,"cosineSimilarityThreeAndFiveGramms":0.2162}
+{"firstId":"clueweb09-en0005-60-37250","secondId":"<urn:uuid:f7166af4-b9e6-4997-ac1c-8580580290c4>","s3Score":0.9282,"cosineSimilarityOneGramms":0.9984,"cosineSimilarityEightGramms":0.9282,"cosineSimilarityThreeAndFiveGramms":0.9703}
+{"firstId":"clueweb09-en0091-55-44230","secondId":"<urn:uuid:cd85afcd-62be-4bd3-b364-a560f059ce0b>","s3Score":0.7961,"cosineSimilarityOneGramms":0.9519,"cosineSimilarityEightGramms":0.6363,"cosineSimilarityThreeAndFiveGramms":0.8371}
+{"firstId":"clueweb09-en0000-18-18566","secondId":"<urn:uuid:912118e5-493c-47a6-8cf2-7059098966ff>","s3Score":0.0000,"cosineSimilarityOneGramms":0.7129,"cosineSimilarityEightGramms":0.0000,"cosineSimilarityThreeAndFiveGramms":0.0237}
+{"firstId":"clueweb09-en0000-08-20420","secondId":"<urn:uuid:d0d33715-b123-4f36-8896-b3480088a2da>","s3Score":1.0000,"cosineSimilarityOneGramms":1.0000,"cosineSimilarityEightGramms":1.0000,"cosineSimilarityThreeAndFiveGramms":1.0000}

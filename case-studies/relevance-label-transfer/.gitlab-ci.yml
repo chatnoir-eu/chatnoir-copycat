@@ -1,0 +1,6 @@
+image: openjdk:8
+build:
+  script:
+    - ./mvnw -T8 dependency:resolve > /dev/null
+    - ./mvnw -T8 clean install 2> /dev/null
+

@@ -1,0 +1,7 @@
+0,200,2,run-file-03,clueweb09-en0003-27-15776
+1,200,27,run-file-01,clueweb09-en0004-01-08017
+2,200,3,run-file-03,clueweb09-en0008-15-06816
+3,151,10,run-file-01,clueweb09-en0010-79-01642
+4,151,1,run-file-03,clueweb09-enwp00-04-05850
+5,151,1,run-file-01,clueweb09-enwp00-09-05733
+6,151,2,run-file-03,clueweb09-enwp00-15-05861
