@@ -6,7 +6,7 @@ import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.TextExtractor;
 
-public class JerichoMainContentDocumentPreprocessing implements DocumentPreprocessing {
+public class JerichoDocumentPreprocessing implements DocumentPreprocessing {
 
 	@Override
 	public String preprocessRawDocument(String html) {
@@ -21,5 +21,4 @@ public class JerichoMainContentDocumentPreprocessing implements DocumentPreproce
 
         return extractor.toString();
 	}
-
 }

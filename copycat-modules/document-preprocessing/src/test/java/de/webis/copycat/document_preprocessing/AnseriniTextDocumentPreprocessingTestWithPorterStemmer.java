@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class AnseriniTextDocumentPreprocessingTestWithPorterStemmer extends DocumentPreprocessingTest {
 	public AnseriniTextDocumentPreprocessingTestWithPorterStemmer() {
-		super(new AnseriniDocumentTransformation("JsoupStringTransform"));
+		super("--keepStopwords", "True", "--contentExtraction", "Anserini", "--stemmer", "porter");
 	}
 
 	@Test

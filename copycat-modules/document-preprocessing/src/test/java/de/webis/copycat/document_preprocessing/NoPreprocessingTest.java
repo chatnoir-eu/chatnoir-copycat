@@ -6,7 +6,7 @@ import org.junit.Test;
 public class NoPreprocessingTest extends DocumentPreprocessingTest {
 	
 	public NoPreprocessingTest() {
-		super(new NoDocumentPreprocessing());
+		super("--keepStopwords", "True", "--contentExtraction", "No", "--stemmer", "null");
 	}
 
 	@Test

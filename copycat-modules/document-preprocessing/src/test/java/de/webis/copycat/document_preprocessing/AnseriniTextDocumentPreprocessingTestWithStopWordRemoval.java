@@ -6,7 +6,7 @@ import org.junit.Test;
 public class AnseriniTextDocumentPreprocessingTestWithStopWordRemoval extends DocumentPreprocessingTest {
 
 	public AnseriniTextDocumentPreprocessingTestWithStopWordRemoval() {
-		super(new AnseriniDocumentTransformation("JsoupStringTransform"));
+		super("--keepStopwords", "False", "--contentExtraction", "Anserini", "--stemmer", "null");
 	}
 
 	@Test

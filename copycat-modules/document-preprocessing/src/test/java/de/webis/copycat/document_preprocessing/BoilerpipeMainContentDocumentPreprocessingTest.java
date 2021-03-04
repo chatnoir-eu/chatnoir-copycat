@@ -6,7 +6,7 @@ import org.junit.Test;
 public class BoilerpipeMainContentDocumentPreprocessingTest extends DocumentPreprocessingTest {
 
 	public BoilerpipeMainContentDocumentPreprocessingTest() {
-		super(new BoilerpipeDocumentPreprocessing());
+		super("--keepStopwords", "True", "--contentExtraction", "Boilerpipe", "--stemmer", "null");
 	}
 
 	@Test

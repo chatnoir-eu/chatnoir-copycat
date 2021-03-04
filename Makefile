@@ -410,7 +410,7 @@ repartition-url-candidates-cw09-cw12-cc15: install
 		--input s3a://corpus-copycat/document-representations/{cw09,cw12,cc-2015-11}/*.bz2 \
 		--output sigir21/docs-in-cw09-cw12-cc15-repartitioned-by-url
 
-url-deduplication-candidates: install:
+url-deduplication-candidates: install
 	./src/main/bash/create-candidates-for-url-candidates.sh \
 		--input sigir21/docs-in-cw09-cw12-cc15-repartitioned-by-url/*0.bz2 \
 		--output sigir21/url-deduplication-cw09-cw12-cc15/part0 \
@@ -429,6 +429,12 @@ repartition-url-candidates-cc17: install
 create-source-docs: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments
 
+build-docker-image:
+	docker build -f Dockerfile -t webis/chatnoir-copycat:1.0-jupyter .
+
+publish-docker:
+	docker push webis/chatnoir-copycat:1.0-jupyter
+
 repartition-source-docs-cc15: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.util.SparkRepartitionCommonCrawl2015SourceDocuments
 
@@ -437,6 +443,7 @@ repartition-source-docs-cc17: install
 
 install:
 	./mvnw clean install -f copycat-modules/interfaces/pom.xml 2> /dev/null && \
+	./mvnw clean install -f copycat-modules/document-preprocessing/pom.xml 2> /dev/null && \
 	./mvnw clean install -f copycat-modules/anserini-integration/pom.xml 2> /dev/null && \
 	./mvnw clean install 2> /dev/null && \
 	./mvnw clean install -f copycat-cli/pom.xml

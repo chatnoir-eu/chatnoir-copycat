@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class JerichoMainContentDocumentPreprocessingTest extends DocumentPreprocessingTest  {
 	public JerichoMainContentDocumentPreprocessingTest() {
-		super(new JerichoMainContentDocumentPreprocessing());
+		super("--keepStopwords", "True", "--contentExtraction", "Jericho", "--stemmer", "null");
 	}
 
 	@Test

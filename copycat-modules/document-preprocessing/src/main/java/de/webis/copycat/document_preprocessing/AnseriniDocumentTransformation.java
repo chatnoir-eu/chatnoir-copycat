@@ -12,7 +12,7 @@ import lombok.SneakyThrows;
  * @author Maik Fröbe
  *
  */
-class AnseriniDocumentTransformation implements DocumentPreprocessing {
+public class AnseriniDocumentTransformation implements DocumentPreprocessing {
 	private StringTransform anseriniTransformer;
 
 	AnseriniDocumentTransformation(String transformerName) {

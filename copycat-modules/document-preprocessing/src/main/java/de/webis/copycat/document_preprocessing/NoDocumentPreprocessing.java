@@ -10,7 +10,6 @@ import de.webis.copycat.DocumentPreprocessing;
  *
  */
 class NoDocumentPreprocessing implements DocumentPreprocessing {
-
 	@Override
 	public String preprocessRawDocument(String text) {
 		return text;

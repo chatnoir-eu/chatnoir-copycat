@@ -3,6 +3,7 @@ package de.webis.copycat_cli;
 import de.webis.cikm20_duplicates.app.ArgumentParsingUtil;
 import de.webis.cikm20_duplicates.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
 import de.webis.copycat.DocumentResolver;
+import de.webis.copycat.document_preprocessing.PreprocessingArgs;
 import de.webis.copycat_cli.doc_resolver.AnseriniDocumentResolver;
 import de.webis.copycat_cli.doc_resolver.ChatNoirDocumentResolver;
 import net.sourceforge.argparse4j.ArgumentParsers;
@@ -19,6 +20,7 @@ public interface CliArguments {
 	public static final String ARG_STRING_TRANSFORMATION = "stringTransformation";
 	public static final String ARG_ANSERINI_INDEX = "anseriniIndex";
 	public static final String ARG_RUN_FILE = "runFile";
+	public static final String ARG_RETRIEVE_DOC = "retrieveDocId";
 	
 	static Namespace parseArgs(String[] args) {
 		ArgumentParser parser = argParser();
@@ -48,11 +50,6 @@ public interface CliArguments {
 			.help("Calculate all passed similarities.")
 			.nargs("+");
 		
-		//FIXME: the documents are already transformed when they come from the index. But this is a very important point in the paper that we should bring: We support all and use the default string transformation.
-		ret.addArgument("--" + ARG_STRING_TRANSFORMATION)
-			.help("The anserini StringTransform that is used to transform the raw document into text. The default is JsoupStringTransform, which uses Jsoup to extract plain text out of HTML documents.")
-			.setDefault("StringTransform");
-		
 		ret.addArgument("--" + ARG_DOC_RESOLVER)
 			.choices("ChatNoirMapfiles", "AnseriniIndex")
 			.help("Use the passed DocumentResolver to load the documents. E.g. AnseriniIndex loads documents by accessing a local anserini-index.")
@@ -63,16 +60,21 @@ public interface CliArguments {
 			.setDefault(".")
 			.required(false);
 	
+		ret.addArgument("--" + ARG_RETRIEVE_DOC)
+			.help("Retrieve a single document from and print it to the console. This is useful to check the preprocessing on a few example documents.")
+			.setDefault((String) null)
+			.required(false);
+		
 		ret.addArgument("--" + ARG_RANKS)
 			.help("Include documents up to the specified rank in the deduplication.")
 			.type(Integer.class)
-			.setDefault(1000)
+			.setDefault(100)
 			.required(false);
 		
 		ret.addArgument("--" + ARG_S3_THRESHOLD)
 			.type(Double.class)
 			.help("Report only near-duplicate pairs with s3 scores on word 8-grams above the specified threshold.")
-			.setDefault(0.6);
+			.setDefault(0.82);
 		
 		ret.addArgument("--" + ARG_THREADS)
 			.type(Integer.class)
@@ -82,6 +84,8 @@ public interface CliArguments {
 			.type(Boolean.class)
 			.setDefault(true)
 			.help("Is the specified a run file (pass true), or a qrels file (pass false)");
+		
+		PreprocessingArgs.addArgs(ret);
 		
 		return ret;
 	}

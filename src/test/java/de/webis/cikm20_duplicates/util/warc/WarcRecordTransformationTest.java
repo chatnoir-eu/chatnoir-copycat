@@ -175,6 +175,13 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 	
 	@Test
 	@SneakyThrows
+	public void approveDocumentWithInvalidEncoding() {
+		CollectionDocument doc = HdfsMapFileDocumentResolver.smartDocumentResolver().loadCollectionDocument("clueweb12-1610wb-71-00602");
+		Assert.assertNull(doc);
+	}
+	
+	@Test
+	@SneakyThrows
 	public void approveTransformationOfNonExistinClueWebDocumentClueWebDocumentFromHDFS() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("WARC-Record-ID", "my-id-2");

@@ -1,7 +1,6 @@
 package de.webis.copycat.document_preprocessing;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,10 +9,7 @@ import java.util.stream.Collectors;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-
-import com.google.common.collect.ImmutableList;
 
 import de.webis.copycat.DocumentPreprocessing;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
@@ -47,12 +43,10 @@ class StemmingAndStopWordRemovalDocumentPreprocessing  implements DocumentPrepro
 		this.stopWords = Collections.emptyList();
 	}
 	
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	StemmingAndStopWordRemovalDocumentPreprocessing(DocumentPreprocessing internalPreprocessing, String stemmer, boolean deleteMe) {
+	StemmingAndStopWordRemovalDocumentPreprocessing(DocumentPreprocessing internalPreprocessing, List<String> stopWords, String stemmer) {
 		this.internalPreprocessing = internalPreprocessing;
 		this.stemmer = stemmer;
-		this.stopWords = (List) ImmutableList.copyOf(EnglishAnalyzer.ENGLISH_STOP_WORDS_SET.iterator());
+		this.stopWords = stopWords;
 	}
 	
 	@SneakyThrows
