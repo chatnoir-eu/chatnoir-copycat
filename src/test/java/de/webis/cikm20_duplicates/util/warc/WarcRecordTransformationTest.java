@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 import org.approvaltests.Approvals;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -121,6 +122,7 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 	}
 	
 	@Test
+	@Ignore
 	@SneakyThrows
 	public void approveTransformationOfExistinClueWebDocumentWithMainContentFromChatNoir() {
 		Map<String, String> headers = new HashMap<>();
@@ -136,6 +138,7 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 	}
 	
 	@Test
+	@Ignore
 	@SneakyThrows
 	public void approveTransformationOfNonExistinClueWebDocumentWithMainContentFromChatNoir() {
 		Map<String, String> headers = new HashMap<>();
@@ -148,6 +151,7 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 	}
 
 	@Test
+	@Ignore
 	@SneakyThrows
 	public void approveTransformationOfExistinClueWebDocumentFromHDFS() {
 		Map<String, String> headers = new HashMap<>();
@@ -163,6 +167,7 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 	}
 	
 	@Test
+	@Ignore
 	@SneakyThrows
 	public void approveTransformationOfExistinClueWebDocumentFromHDFSWithCanonicalUrl() {
 		CollectionDocument doc = HdfsMapFileDocumentResolver.smartDocumentResolver().loadCollectionDocument("<urn:uuid:da8b10cf-af5d-43c8-8cf1-ae2f1fba994e>");
@@ -174,6 +179,7 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 	}
 	
 	@Test
+	@Ignore
 	@SneakyThrows
 	public void approveDocumentWithInvalidEncoding() {
 		CollectionDocument doc = HdfsMapFileDocumentResolver.smartDocumentResolver().loadCollectionDocument("clueweb12-1610wb-71-00602");
@@ -181,6 +187,7 @@ public class WarcRecordTransformationTest extends SparkIntegrationTestBase {
 	}
 	
 	@Test
+	@Ignore
 	@SneakyThrows
 	public void approveTransformationOfNonExistinClueWebDocumentClueWebDocumentFromHDFS() {
 		Map<String, String> headers = new HashMap<>();

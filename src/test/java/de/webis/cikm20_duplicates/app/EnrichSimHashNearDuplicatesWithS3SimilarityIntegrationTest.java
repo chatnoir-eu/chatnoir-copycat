@@ -9,6 +9,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.webis.cikm20_duplicates.app.EnrichSimHashNearDuplicatesWithS3Similarity.DocumentResolverFactory;
@@ -27,6 +28,7 @@ public class EnrichSimHashNearDuplicatesWithS3SimilarityIntegrationTest extends 
 	}
 	
 	@Test
+	@Ignore
 	public void approveEmptyNearDuplicateInput() {
 		JavaRDD<String> simHashNearDuplicates = simHashNearDuplicates();
 		List<String> expected = Arrays.asList();
@@ -36,6 +38,7 @@ public class EnrichSimHashNearDuplicatesWithS3SimilarityIntegrationTest extends 
 	}
 	
 	@Test
+	@Ignore
 	public void approveSmallSampleInputWithOnlyIllegalDocumentIds() {
 		JavaRDD<String> simHashNearDuplicates = simHashNearDuplicates(
 			"{\"firstId\":\"clueweb09-en0058-20-30937\",\"secondId\":\"clueweb09-en0060-58-25055\",\"hemmingDistance\":-1}",
@@ -53,6 +56,7 @@ public class EnrichSimHashNearDuplicatesWithS3SimilarityIntegrationTest extends 
 	}
 	
 	@Test
+	@Ignore
 	public void approveSmallSampleWithIdsFromDifferentCorpora() {
 		JavaRDD<String> simHashNearDuplicates = simHashNearDuplicates(
 				"{\"firstId\":\"<urn:uuid:0eab5a9c-5573-434f-9ac1-df211d86b1bb>\",\"secondId\":\"<urn:uuid:11b6169b-38b5-4f3a-814c-63d84b3d8ade>\",\"hemmingDistance\":3}",
@@ -73,6 +77,7 @@ public class EnrichSimHashNearDuplicatesWithS3SimilarityIntegrationTest extends 
 	}
 	
 	@Test
+	@Ignore
 	public void approveSmallSampleWithIdsFromDifferentCorporaAndCsvFormat() {
 		JavaRDD<String> simHashNearDuplicates = simHashNearDuplicates(
 				"<urn:uuid:0eab5a9c-5573-434f-9ac1-df211d86b1bb>,<urn:uuid:11b6169b-38b5-4f3a-814c-63d84b3d8ade>",
@@ -93,6 +98,7 @@ public class EnrichSimHashNearDuplicatesWithS3SimilarityIntegrationTest extends 
 	}
 	
 	@Test
+	@Ignore
 	public void approveSmallSampleInputWithMultipleIds() {
 		JavaRDD<String> simHashNearDuplicates = simHashNearDuplicates(
 			"{\"firstId\":\"non-existing-id-1\",\"secondId\":\"non-existing-id-2\",\"hemmingDistance\":-1}",

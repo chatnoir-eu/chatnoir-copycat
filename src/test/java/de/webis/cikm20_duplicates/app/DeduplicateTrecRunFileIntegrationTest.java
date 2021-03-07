@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.webis.cikm20_duplicates.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
@@ -22,6 +23,7 @@ public class DeduplicateTrecRunFileIntegrationTest {
 	}
 
 	@Test
+	@Ignore
 	public void testOnRunFileWithSingleDuplicatesWithinSingleTopic() {
 		String runFileContent = "1 Q0 clueweb09-en0060-58-25055 2 0.0 tag\n"
 				+ "1 Q0 clueweb09-en0058-20-30937 2 0.0 tag\n";
@@ -35,6 +37,7 @@ public class DeduplicateTrecRunFileIntegrationTest {
 	}
 
 	@Test
+	@Ignore
 	public void testOnRunFileWithMultipleDuplicatesWithinSingleTopic() {
 		String runFileContent = "1 Q0 clueweb09-en0060-58-25055 2 0.0 tag\n"
 				+ "1 Q0 clueweb09-en0058-20-30937 2 0.0 tag\n"
@@ -48,6 +51,7 @@ public class DeduplicateTrecRunFileIntegrationTest {
 	}
 
 	@Test
+	@Ignore
 	public void testOnRunFileWithMultipleTopics() {
 		String runFileContent = "1 Q0 clueweb09-en0060-58-25055 2 0.0 tag\n"
 				+ "2 Q0 clueweb09-en0019-66-11581 2 0.0 tag\n" + "1 Q0 clueweb09-en0058-20-30937 2 0.0 tag\n";

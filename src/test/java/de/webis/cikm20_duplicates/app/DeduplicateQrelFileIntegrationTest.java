@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.webis.cikm20_duplicates.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
@@ -22,6 +23,7 @@ public class DeduplicateQrelFileIntegrationTest {
 	}
 
 	@Test
+	@Ignore
 	public void testOnQrelFileWithSingleDuplicatesWithinSingleTopic() {
 		String qrelFileContent = "1 0 clueweb09-en0060-58-25055 2\n"
 				+ "1 0 clueweb09-en0058-20-30937 2\n";
@@ -35,6 +37,7 @@ public class DeduplicateQrelFileIntegrationTest {
 	}
 
 	@Test
+	@Ignore
 	public void testOnQrelFileWithMultipleDuplicatesWithinSingleTopic() {
 		String qrelFileContent = "1 0 clueweb09-en0060-58-25055 2\n"
 				+ "1 0 clueweb09-en0058-20-30937 2\n"
@@ -48,6 +51,7 @@ public class DeduplicateQrelFileIntegrationTest {
 	}
 
 	@Test
+	@Ignore
 	public void testOnQrelFileWithMultipleTopics() {
 		String runFileContent = "1 0 clueweb09-en0060-58-25055 2\n"
 				+ "2 0 clueweb09-en0019-66-11581 2\n" + "1 0 clueweb09-en0058-20-30937 2\n";
@@ -61,6 +65,7 @@ public class DeduplicateQrelFileIntegrationTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testOnPrelFileWithMultipleTopics() {
 		String runFileContent = "1 clueweb09-en0060-58-25055 1 1 1\n"
 				+ "2 clueweb09-en0019-66-11581 2 1 1\n" + "1 clueweb09-en0058-20-30937 0 0 1\n";
