@@ -40,6 +40,10 @@
 					<groupId>com.google.guava</groupId>
 					<artifactId>guava</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>edu.umass.ciir</groupId>
+					<artifactId>RankLib</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
