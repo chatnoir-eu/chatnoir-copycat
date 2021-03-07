@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 PARALLELISM=500
-export HADOOP_CONF_DIR=/home/kibi9872/web-search-cikm2020-resource-paper-code/hadoop-conf
+export HADOOP_CONF_DIR=/hadoop-conf
 
 spark-submit \
         --conf "spark.speculation=true" \
@@ -14,4 +14,4 @@ spark-submit \
         --conf spark.default.parallelism=${PARALLELISM}\
         --num-executors ${PARALLELISM}\
         --driver-memory 15G\
-        target/cikm20-duplicates-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}
+        target/copycat-spark-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}

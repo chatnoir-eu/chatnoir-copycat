@@ -6,12 +6,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.webis</groupId>
-	<artifactId>cikm20-duplicates</artifactId>
+	<artifactId>copycat-spark</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>cikm20-duplicates</name>
-	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+	<name>copycat-spark</name>
+	<url>https://github.com/chatnoir-eu/copycat</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -129,6 +128,11 @@
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>transport</artifactId>
 			<version>6.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.webis</groupId>
+			<artifactId>copycat-document-preprocessing</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.webis.chatnoir2</groupId>

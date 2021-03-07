@@ -6,10 +6,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.webis</groupId>
-	<artifactId>cikm20-duplicates</artifactId>
+	<artifactId>copycat-spark</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>cikm20-duplicates</name>
+	<name>copycat-spark</name>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 
