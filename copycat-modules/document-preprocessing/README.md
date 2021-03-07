@@ -12,5 +12,3 @@ All preprocessing strategies are covered by [Approval tests](https://approvaltes
 - Main content extraction using:
   - Boilerpipe
   - Chatnoirs main extraction based on Jericho
-
-- 
