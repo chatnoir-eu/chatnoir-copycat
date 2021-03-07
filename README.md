@@ -87,7 +87,7 @@ As a general introduction, see the [Getting Started](#getting-started) section.
 
 ## Development Environment:
 
-Please install:
+Please install the following requirements:
 
 - Java 8 (our hadoop cluster runs hadoop 2.8, hence we need to compile to be compatible with java 8)
 - Maven
@@ -95,6 +95,10 @@ Please install:
 - [https://approvaltests.com/](https://approvaltests.com/) (especially the diff-tools, this is used in unit-tests)
 - Docker
 
+After the installation of the requirements, you can run the following command to compile CopyCat and run all unit-tests:
+```
+make install
+```
 
 ## Deduplication of Large Crawls with Spark
 
