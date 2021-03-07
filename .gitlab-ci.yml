@@ -1,7 +1,16 @@
 image: openjdk:8
 build:
   script:
+    - ./mvnw -T8 -f copycat-modules/interfaces/pom.xml dependency:resolve > /dev/null
+    - ./mvnw -T8 -f copycat-modules/document-preprocessing/pom.xml dependency:resolve > /dev/null
+    - ./mvnw -T8 -f copycat-modules/anserini-integration/pom.xml dependency:resolve > /dev/null
+    - ./mvnw -T8 -f copycat-modules/interfaces/pom.xml dependency:resolve > /dev/null
     - ./mvnw -T8 dependency:resolve > /dev/null
+    - ./mvnw -T8 -f copycat-cli/pom.xml dependency:resolve > /dev/null
     - echo "Dependencies are resolved..."
+    - ./mvnw clean install -f copycat-modules/interfaces/pom.xml 2> /dev/null
+    - ./mvnw clean install -f copycat-modules/document-preprocessing/pom.xml 2> /dev/null
+    - ./mvnw clean install -f copycat-modules/anserini-integration/pom.xml 2> /dev/null
+    - ./mvnw clean install -f copycat-modules/interfaces/pom.xml 2> /dev/null
     - ./mvnw clean install 2> /dev/null
 
