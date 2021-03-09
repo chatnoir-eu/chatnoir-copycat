@@ -13,5 +13,6 @@ docker run --rm -ti \
 	-e HADOOP_USER_NAME=${USER} \
 	-e HADOOP_CONF_DIR=/etc/hadoop \
 	-e SPARK_CONF_DIR=/etc/spark \
+	-e JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/ \
 	webis/sparknotebook ${@}
 

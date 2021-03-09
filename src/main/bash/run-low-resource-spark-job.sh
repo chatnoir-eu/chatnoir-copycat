@@ -11,4 +11,4 @@ spark-submit \
 	--executor-memory 2G\
 	--driver-memory 15G\
 	--driver-cores 3\
-	target/cikm20-duplicates-1.0-SNAPSHOT-jar-with-dependencies.jar
+	target/copycat-spark-1.0-SNAPSHOT-jar-with-dependencies.jar

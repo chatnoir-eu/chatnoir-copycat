@@ -15,5 +15,5 @@ PARALLELISM=500
         --num-executors ${PARALLELISM}\
         --driver-memory 45G\
         --executor-memory 15G\
-        /target/cikm20-duplicates-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}
+        /target/copycat-spark-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}
 

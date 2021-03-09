@@ -12,5 +12,5 @@ PARALLELISM=100
 	--conf spark.default.parallelism=${PARALLELISM}\
 	--num-executors ${PARALLELISM}\
 	--driver-memory 40G\
-	/target/cikm20-duplicates-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}
+	/target/copycat-spark-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}
 
