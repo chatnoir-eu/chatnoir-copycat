@@ -441,6 +441,16 @@ repartition-source-docs-cc15: install
 repartition-source-docs-cc17: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.util.SparkRepartitionCommonCrawl2017SourceDocuments
 
+create-ids-to-include: install
+	./src/main/bash/ids-to-include.sh \
+		--allIds s3a://corpus-copycat/third-party/ids-in-clueweb09b \
+		--exclusionIds s3a://corpus-copycat/documents-to-remove/cw09b-ids-to-remove-bzip2/ \
+		--output sigir21/ids-to-include/cw09b-ids-to-include-bzip2 && \
+	./src/main/bash/ids-to-include.sh \
+		--allIds s3a://corpus-copycat/third-party/ids-in-clueweb12b13 \
+		--exclusionIds s3a://corpus-copycat/documents-to-remove/cw12b13-ids-to-remove-bzip2/ \
+		--output sigir21/ids-to-include/cw12b13-ids-to-include-bzip2
+
 install:
 	./mvnw clean install -f copycat-modules/interfaces/pom.xml 2> /dev/null && \
 	./mvnw clean install -f copycat-modules/document-preprocessing/pom.xml 2> /dev/null && \
