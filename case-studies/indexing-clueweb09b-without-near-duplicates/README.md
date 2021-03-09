@@ -16,7 +16,7 @@ mvn clean package appassembler:assemble
 
 Please download the inclusion list of CopyCat for ClueWeb09 Category B:
 ```
-curl 'https://corpus-copycat.s3.data.webis.de/inclusion-lists/cw09b.bz2' |bzip2 -d > cw09b-inclusion-list
+curl 'https://corpus-copycat.s3.data.webis.de/near-duplicate-free-inclusion-lists/cw09b/part-00000.bz2' |bzip2 -d > cw09b-inclusion-list
 ```
 
 Create the Anserini-Index with Anserini (where `/path/to/ClueWeb09b` is the root directory of the ClueWeb09 (Category B), i.e. ls /path/to/ClueWeb09b returns en0000 to enwp03, du -hs /path/to/ClueWeb09b should list ~230GB):

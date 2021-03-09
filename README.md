@@ -11,6 +11,7 @@ CopyCat is an open-source resource to make deduplication in TREC-style experimen
 - [Documentation on Document-Preprocessing](copycat-modules/document-preprocessing/README.md) (Used in all parts of the software)
 - [Showcases](#showcases)
 - [Tutorial: ClueWeb09 (Category B) Index without Near-Duplicates](case-studies/indexing-clueweb09b-without-near-duplicates/README.md)
+- [Tutorial: ClueWeb12 (Category B13) Index without Near-Duplicates](case-studies/indexing-clueweb12b13-without-near-duplicates/README.md)
 - [Development Environment](#development-environment)
 
 ## Getting Started
