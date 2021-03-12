@@ -1,6 +1,9 @@
-/target/
-.classpath
-.project
-.settings/
-conf/hadoop/core-site.xml
-src/main/jupyter/.ipynb_checkpoints/
+**/target/
+**/.classpath
+**/.project
+**/.settings/
+**/conf/hadoop/core-site.xml
+**/.ipynb_checkpoints/
+**/.bash_history
+**/.local/
+**/dependency-reduced-pom.xml

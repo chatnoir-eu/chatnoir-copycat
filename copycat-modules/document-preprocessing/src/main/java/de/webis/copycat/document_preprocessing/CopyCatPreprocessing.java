@@ -2,13 +2,10 @@ package de.webis.copycat.document_preprocessing;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
-
-import com.google.common.collect.ImmutableList;
 
 import de.webis.copycat.DocumentPreprocessing;
 import lombok.SneakyThrows;
@@ -41,9 +38,15 @@ public class CopyCatPreprocessing {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static List<String> defaultEnglishStopwords() {
-		return (List) ImmutableList.copyOf(EnglishAnalyzer.ENGLISH_STOP_WORDS_SET.iterator());
+		// Copied from EnglishAnalyzer.ENGLISH_STOP_WORDS_SET
+		return Arrays.asList(
+			"a", "an", "and", "are", "as", "at", "be", "but", "by",
+			"for", "if", "in", "into", "is", "it",
+			"no", "not", "of", "on", "or", "such",
+			"that", "the", "their", "then", "there", "these",
+			"they", "this", "to", "was", "will", "with"
+		);
 	}
 	
 	@SneakyThrows
@@ -57,7 +60,4 @@ public class CopyCatPreprocessing {
 	private static DocumentPreprocessing contentExtraction(String clazz) {
 		return (DocumentPreprocessing) Class.forName("de.webis.copycat.document_preprocessing." + clazz + "DocumentPreprocessing").newInstance();
 	}
-//	
-//	lese hier aus argumenten/Namespace die komplette konfiguration aus, die dann auch verwendet über args-array in unit-tests.
-//	füge in notebooks tests ein, die das preprocessing austesten, und dann auf die doku verweisen
 }
