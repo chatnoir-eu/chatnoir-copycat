@@ -7,3 +7,6 @@
 **/.bash_history
 **/.local/
 **/dependency-reduced-pom.xml
+**/.jupyter/
+**/.wget-hsts
+**/wget-log
