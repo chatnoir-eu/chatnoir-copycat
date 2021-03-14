@@ -1,0 +1,9 @@
+[
+  "(CLUEWEB12::SESSION_2013::52,{\"id\":\"id-a b c d e f g h i j i\",\"content\":\"content of a b c d e f g h i j i\",\"fullyCanonicalizedContent\":\"a b c d e f g h i j i\",\"crawlingTimestamp\":null,\"url\":null,\"canonicalUrl\":null})",
+  "(CLUEWEB12::SESSION_2013::52,{\"id\":\"id-a b c d e f g h i j k\",\"content\":\"content of a b c d e f g h i j k\",\"fullyCanonicalizedContent\":\"a b c d e f g h i j k\",\"crawlingTimestamp\":null,\"url\":null,\"canonicalUrl\":null})",
+  "(CLUEWEB12::SESSION_2013::53,{\"id\":\"id-a a a a a a a a a a a\",\"content\":\"content of a a a a a a a a a a a\",\"fullyCanonicalizedContent\":\"a a a a a a a a a a a\",\"crawlingTimestamp\":null,\"url\":null,\"canonicalUrl\":null})",
+  "(CLUEWEB12::SESSION_2013::53,{\"id\":\"id-a b c d e f g h i j i\",\"content\":\"content of a b c d e f g h i j i\",\"fullyCanonicalizedContent\":\"a b c d e f g h i j i\",\"crawlingTimestamp\":null,\"url\":null,\"canonicalUrl\":null})",
+  "(CLUEWEB12::SESSION_2013::53,{\"id\":\"id-a b c d e f g h i j k\",\"content\":\"content of a b c d e f g h i j k\",\"fullyCanonicalizedContent\":\"a b c d e f g h i j k\",\"crawlingTimestamp\":null,\"url\":null,\"canonicalUrl\":null})",
+  "(CLUEWEB12::SESSION_2013::54,{\"id\":\"id-a b c d e f g h i j i\",\"content\":\"content of a b c d e f g h i j i\",\"fullyCanonicalizedContent\":\"a b c d e f g h i j i\",\"crawlingTimestamp\":null,\"url\":null,\"canonicalUrl\":null})",
+  "(CLUEWEB12::SESSION_2013::54,{\"id\":\"id-a b c d e f g h i j k\",\"content\":\"content of a b c d e f g h i j k\",\"fullyCanonicalizedContent\":\"a b c d e f g h i j k\",\"crawlingTimestamp\":null,\"url\":null,\"canonicalUrl\":null})"
+]

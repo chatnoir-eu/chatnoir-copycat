@@ -1,7 +1,0 @@
-[
-  "{\"featureName\":\"S3\",\"firstId\":\"1\",\"secondId\":\"2\"}",
-  "{\"featureName\":\"S3\",\"firstId\":\"1\",\"secondId\":\"2\"}",
-  "{\"featureName\":\"S3\",\"firstId\":\"1\",\"secondId\":\"2\"}",
-  "{\"featureName\":\"S3-negative\",\"firstId\":\"1\",\"secondId\":\"3\"}",
-  "{\"featureName\":\"S3-negative\",\"firstId\":\"4\",\"secondId\":\"5\"}"
-]

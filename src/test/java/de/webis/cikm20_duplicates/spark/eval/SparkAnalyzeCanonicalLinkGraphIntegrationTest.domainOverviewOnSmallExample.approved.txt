@@ -1,1 +1,0 @@
-[{"domain":"google.de","groups":1,"documents":2}, {"domain":"youtube.de","groups":2,"documents":5}]

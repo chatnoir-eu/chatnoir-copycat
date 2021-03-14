@@ -1,8 +1,0 @@
-{
-  "id": "my-id-2",
-  "content": "Titel Test 1 2 3",
-  "fullyCanonicalizedContent": "titel test 1 2 3",
-  "crawlingTimestamp": "01.01.1970",
-  "url": "http://example.com",
-  "canonicalUrl": "https://example.com/test-123/"
-}

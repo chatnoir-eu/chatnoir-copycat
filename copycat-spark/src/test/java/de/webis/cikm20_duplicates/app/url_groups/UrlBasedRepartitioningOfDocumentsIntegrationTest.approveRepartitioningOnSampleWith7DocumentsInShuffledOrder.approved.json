@@ -1,0 +1,12 @@
+[
+  "[\"{\\\"simHash64BitK3OneGramms\\\":[0,0,0,0],\\\"docId\\\":\\\"id-1\\\",\\\"canonicalURL\\\":\\\"http://group-1.com\\\"}\",\"{\\\"simHash64BitK3OneGramms\\\":[1,1,1,1],\\\"docId\\\":\\\"id-2\\\",\\\"canonicalURL\\\":\\\"http://group-1.com\\\"}\"]",
+  "[\"{\\\"simHash64BitK3OneGramms\\\":[2,2,2,2],\\\"docId\\\":\\\"id-3\\\",\\\"canonicalURL\\\":\\\"http://group-2.com\\\"}\",\"{\\\"simHash64BitK3OneGramms\\\":[3,3,3,3],\\\"docId\\\":\\\"id-4\\\",\\\"canonicalURL\\\":\\\"http://group-2.com\\\"}\"]",
+  "[\"{\\\"simHash64BitK3OneGramms\\\":[4,4,4,4],\\\"docId\\\":\\\"id-5\\\",\\\"canonicalURL\\\":\\\"http://group-3.com\\\"}\"]",
+  "[\"{\\\"simHash64BitK3OneGramms\\\":[5,5,5,5],\\\"docId\\\":\\\"id-6\\\",\\\"canonicalURL\\\":\\\"http://group-4.com\\\"}\",\"{\\\"simHash64BitK3OneGramms\\\":[6,6,6,6],\\\"docId\\\":\\\"id-7\\\",\\\"canonicalURL\\\":\\\"http://group-4.com\\\"}\"]",
+  "[]",
+  "[]",
+  "[]",
+  "[]",
+  "[]",
+  "[]"
+]

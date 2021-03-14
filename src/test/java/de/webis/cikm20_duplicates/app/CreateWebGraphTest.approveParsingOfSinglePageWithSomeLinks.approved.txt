@@ -1,1 +1,0 @@
-{"sourceURL":"http://www.my-example.com","crawlingTimestamp":"my-date-2","anchors":[{"targetURL":"http://google.de/bla","anchorText":"test-1"},{"targetURL":"http://www.my-example.com/bla","anchorText":"test-2"}]}
