@@ -7,7 +7,7 @@ CopyCat is an open-source resource to make deduplication in TREC-style experimen
 - [Getting Started](#getting-started)
 - [Inclusion and Exclusion lists of near-duplicates for the ClueWebs and two Common Crawl snapshots](https://webis.de/data/chatnoir-copycat-21)
 - [Deduplication of Run and Qrel files](#deduplication-of-run-and-qrel-files)
-- [Deduplication of Large Webcrawls with the CopyCat Spark Pipeline](deduplication-of-large-crawls-with-spark)
+- [Deduplication of Large Webcrawls with the CopyCat Spark Pipeline](#deduplication-of-large-crawls-with-spark)
 - [Documentation on Document-Preprocessing](copycat-modules/document-preprocessing/README.md) (Used in all parts of the software)
 - [Showcases](#showcases)
 - [Tutorial: ClueWeb09 (Category B) Index without Near-Duplicates](case-studies/indexing-clueweb09b-without-near-duplicates/README.md)
