@@ -75,15 +75,15 @@ Now you can point your browser to [localhost:8888](localhost:8888) to access the
 CopyCat provides an docker image to support various deduplication experiments on standard IR run and qrel files for various test collections.
 The following List provides some examples on how to use the docker image to deduplicate run/qrel files:
 
-- [Robust04](src/main/jupyter/copycat-on-robust04.ipynb)
-- [Touche 2020](src/main/jupyter/copycat-on-argsme.ipynb)
+- [Robust04](copycat-spark/src/main/jupyter/copycat-on-robust04.ipynb)
+- [Touche 2020](copycat-spark/src/main/jupyter/copycat-on-argsme.ipynb)
 
 ## Showcases
 
 This repository contains the two showcases from the paper.
 As a general introduction, see the [Getting Started](#getting-started) section.
 
-- Deduplication of run/qrel files with the copycat-cli ([copycat-on-cluweb.ipynb](src/main/jupyter/copycat-on-cluweb-runs.ipynb))
+- Deduplication of run/qrel files with the copycat-cli ([copycat-on-cluweb.ipynb](copycat-spark/src/main/jupyter/copycat-on-cluweb-runs.ipynb))
 - [Transfer of relevance labels](case-studies/relevance-label-transfer/README.md)
 
 ## Development Environment:
@@ -106,7 +106,7 @@ make install
 To detect near-duplicates in large web crawls, copycat runs a pipeline of four steps: (1) calculation of the SimHash fingerprint for each document, (2) selection of one representative document, if multiple documents have identical fingerprints, (3) partition of the remaining fingerprints, (4) calculation of the Hamming distances between all fingerprints of a partition.
 
 1. Create Document representations
-   - Run `./src/main/bash/new-document-representation-spark.sh` to produce document representations
+   - Run `./copycat-spark/src/main/bash/new-document-representation-spark.sh` to produce document representations
    - The  [Makefile](Makefile) contains specific examples. E.g., execute `make common-crawl-small-sample-document-representations` to create document representations for a small sample of the common crawl to test your environment.
    - The following commands produce the document-representations used in the paper:
      - `make clueweb09-document-representations`
@@ -116,13 +116,13 @@ To detect near-duplicates in large web crawls, copycat runs a pipeline of four s
 
 2. Create SimHash Deduplication Jobs
    - This covers the selection of one representative document (if multipledocuments have identical fingerprint), and the partition of the remaining fingerprints into deduplication jobs.
-   - After the creation of the document representations, run `./src/main/bash/create-deduplication-candidates.sh` to produce: (1) a list of removed-documents (e.g. too short documents, regarding your configuration); (2) exact-duplicates; and (3) near-duplicate-tasks.
+   - After the creation of the document representations, run `./copycat-spark/src/main/bash/create-deduplication-candidates.sh` to produce: (1) a list of removed-documents (e.g. too short documents, regarding your configuration); (2) exact-duplicates; and (3) near-duplicate-tasks.
    - The `near-duplicate-tasks` are the blocks that will be fully all-pairs deduplicated in step 3 of the pipeline (Run Deduplication Jobs).
    - The following commands produce the deduplication jobs used in the paper:
      - `make create-deduplication-candidates-cw09`
    
 3. Run Deduplication Jobs
-   - After the creation of the deduplication jobs, run `./src/main/bash/deduplicate.sh` to produce the pairs of near-duplicates.
+   - After the creation of the deduplication jobs, run `./copycat-spark/src/main/bash/deduplicate.sh` to produce the pairs of near-duplicates.
    - The following commands produce the document-representations used in the paper:
      - `make deduplicate-cw09`
      - `make deduplicate-cw09-cw12-cc15`
