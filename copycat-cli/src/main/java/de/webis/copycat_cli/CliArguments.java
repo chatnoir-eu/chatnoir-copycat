@@ -1,11 +1,11 @@
 package de.webis.copycat_cli;
 
-import de.webis.cikm20_duplicates.app.ArgumentParsingUtil;
-import de.webis.cikm20_duplicates.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
 import de.webis.copycat.DocumentResolver;
 import de.webis.copycat.document_preprocessing.PreprocessingArgs;
 import de.webis.copycat_cli.doc_resolver.AnseriniDocumentResolver;
 import de.webis.copycat_cli.doc_resolver.ChatNoirDocumentResolver;
+import de.webis.copycat_spark.app.ArgumentParsingUtil;
+import de.webis.copycat_spark.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;

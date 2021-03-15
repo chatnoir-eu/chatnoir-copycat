@@ -344,7 +344,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>de.webis.cikm20_duplicates.spark.App</mainClass>
+							<mainClass>de.webis.copycat_spark.spark.App</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

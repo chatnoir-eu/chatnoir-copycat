@@ -8,13 +8,13 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import de.webis.cikm20_duplicates.app.ArgumentParsingUtil;
-import de.webis.cikm20_duplicates.app.DeduplicateTrecRunFile;
-import de.webis.cikm20_duplicates.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
 import de.webis.copycat.DocumentPreprocessing;
 import de.webis.copycat.DocumentResolver;
 import de.webis.copycat.Similarities;
 import de.webis.copycat.document_preprocessing.CopyCatPreprocessing;
+import de.webis.copycat_spark.app.ArgumentParsingUtil;
+import de.webis.copycat_spark.app.DeduplicateTrecRunFile;
+import de.webis.copycat_spark.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
 import de.webis.trec_ndd.spark.RunLine;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import lombok.Data;

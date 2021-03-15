@@ -10,7 +10,7 @@ PARALLELISM=500
 	--conf "spark.yarn.maxAppAttempts=1" \
         --conf "spark.dynamicAllocation.maxExecutors=1000" \
         --deploy-mode cluster \
-        --class de.webis.cikm20_duplicates.app.CreateIdsToRemove \
+        --class de.webis.copycat_spark.app.CreateIdsToRemove \
         --conf spark.default.parallelism=${PARALLELISM}\
         --num-executors ${PARALLELISM}\
         --driver-memory 45G\

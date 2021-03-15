@@ -8,7 +8,7 @@
         --conf "spark.dynamicAllocation.maxExecutors=450" \
         --conf "spark.yarn.maxAppAttempts=1" \
         --deploy-mode cluster \
-        --class de.webis.cikm20_duplicates.app.EnrichSimHashNearDuplicatesWithS3Similarity \
+        --class de.webis.copycat_spark.app.EnrichSimHashNearDuplicatesWithS3Similarity \
         --conf spark.default.parallelism=50000\
         --executor-cores 1\
         --num-executors 300\

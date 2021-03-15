@@ -8,7 +8,7 @@ spark-submit \
 	--conf "spark.speculation.multiplier=5" \
 	--conf "spark.speculation.quantile=0.90" \
 	--deploy-mode cluster \
-	--class de.webis.cikm20_duplicates.app.CreateDeduplicationCandidates \
+	--class de.webis.copycat_spark.app.CreateDeduplicationCandidates \
 	--conf spark.default.parallelism=${PARALLELISM}\
 	--num-executors ${PARALLELISM}\
 	--executor-cores 5 \

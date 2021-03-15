@@ -9,7 +9,7 @@ PARALLELISM=500
         --conf "spark.speculation.quantile=0.90" \
         --conf "spark.dynamicAllocation.maxExecutors=1500" \
         --deploy-mode cluster \
-        --class de.webis.cikm20_duplicates.app.url_groups.CreateUrlDeduplicationCandidates \
+        --class de.webis.copycat_spark.app.url_groups.CreateUrlDeduplicationCandidates \
         --conf spark.default.parallelism=${PARALLELISM}\
         --num-executors ${PARALLELISM}\
         --driver-memory 15G\

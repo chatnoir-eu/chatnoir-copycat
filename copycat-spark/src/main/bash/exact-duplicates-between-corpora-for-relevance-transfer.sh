@@ -11,7 +11,7 @@ spark-submit \
         --conf "spark.speculation.quantile=0.90" \
         --conf "spark.dynamicAllocation.maxExecutors=1500" \
         --deploy-mode cluster \
-        --class de.webis.cikm20_duplicates.app.FilterExactDuplicatesBetweenCorpora \
+        --class de.webis.copycat_spark.app.FilterExactDuplicatesBetweenCorpora \
         --conf spark.default.parallelism=${PARALLELISM}\
         --num-executors ${PARALLELISM}\
         --driver-memory 30G\

@@ -1,5 +1,5 @@
 create-documents-for-daniel: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.app.InjectRawDocuments
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.app.InjectRawDocuments
 
 common-crawl-small-sample-document-representations: install
 	hdfs dfs -rm -r -f corpus-copycat/document-representations/small-sample && \
@@ -88,25 +88,25 @@ label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
 
 repartition-parts: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.util.SparkRepartitionParts
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.util.SparkRepartitionParts
 
 report-feature-sets: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkEvaluateSimHashFeatures
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.eval.SparkEvaluateSimHashFeatures
 
 prepare-precision-experiments: install
-	./src/main/bash/run-spark-job-low-resources-akbnq.sh de.webis.cikm20_duplicates.spark.eval.SparkCalculatePrecisionInCanonicalLinkGraph
+	./src/main/bash/run-spark-job-low-resources-akbnq.sh de.webis.copycat_spark.spark.eval.SparkCalculatePrecisionInCanonicalLinkGraph
 
 report-precision-experiments: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkCalculatePrecisionInCanonicalLinkGraph
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.eval.SparkCalculatePrecisionInCanonicalLinkGraph
 
 sample-canonical-link-graph-edges: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkSampleS3EdgesPerBin
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.eval.SparkSampleS3EdgesPerBin
 
 corpus-analysis: install
-	./src/main/bash/run-spark-job-low-resources-akbnq-new.sh de.webis.cikm20_duplicates.spark.eval.SparkCorpusAnalysis
+	./src/main/bash/run-spark-job-low-resources-akbnq-new.sh de.webis.copycat_spark.spark.eval.SparkCorpusAnalysis
 
 distinct-deduplication-pairs: install
-	./src/main/bash/run-spark-job-low-resources-akbnq-new.sh de.webis.cikm20_duplicates.spark.SparkMakeDeduplicatedPairsUnique
+	./src/main/bash/run-spark-job-low-resources-akbnq-new.sh de.webis.copycat_spark.spark.SparkMakeDeduplicatedPairsUnique
 
 distinct-deduplication-pairs-onegramms: install 
 	./src/main/bash/distinct-near-duplicate-pairs.sh \
@@ -120,22 +120,22 @@ deduplication-pairs-between-corpora-onegramms: install
 		-o ecir2021/cw09-cw12-cc15-onegram-deduplication/min-length-10-/64BitK3SimHashOneGramms/distinct-near-duplicates-between-corpora
 
 create-ids-to-remove: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateIdsToRemove
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.SparkCreateIdsToRemove
 
 report-short-documents: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeShortDocuments
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.eval.SparkAnalyzeShortDocuments
 
 analize-tmp: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeCanonicalLinkGraph
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.eval.SparkAnalyzeCanonicalLinkGraph
 
 report-document-lengths: install
-	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeDocumentLength
+	./src/main/bash/run-low-resource-spark-job.sh de.webis.copycat_spark.spark.eval.SparkAnalyzeDocumentLength
 	
 s3-score-per-hamming: install
-	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeAverageS3ScorePerHammingDistance
+	./src/main/bash/run-low-resource-spark-job.sh de.webis.copycat_spark.spark.eval.SparkAnalyzeAverageS3ScorePerHammingDistance
 
 create-canonical-link-graph-edges: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCalculateCanonicalLinkGraphEdgeLabels
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.SparkCalculateCanonicalLinkGraphEdgeLabels
 
 analyze-canonical-link-graph: install
 	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cw12-duplicate-group-counts && \
@@ -144,35 +144,35 @@ analyze-canonical-link-graph: install
 	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cw09-duplicate-group-counts-per-domain && \
 	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cc-2015-11-duplicate-group-counts && \
 	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cc-2015-11-duplicate-group-counts-per-domain && \
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeCanonicalLinkGraph
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.eval.SparkAnalyzeCanonicalLinkGraph
 
 create-canonical-link-graph: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCanonicalLinkGraphExtraction
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.SparkCanonicalLinkGraphExtraction
 
 relevance-transfer: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAggregateKnowledgeTransferBetweenCrawls
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.eval.SparkAggregateKnowledgeTransferBetweenCrawls
 
 relevance-transfer-ids: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkCreateTargetDocumentsForRelevanceTransfer
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.eval.SparkCreateTargetDocumentsForRelevanceTransfer
 
 crawl-containment: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkIdentifyDocumentsInTargetCrawl
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.eval.SparkIdentifyDocumentsInTargetCrawl
 
 enrich-relevance-transfer-dataset: install
 	hdfs dfs -rm -r -f cikm2020/enriched-relevance-transfer-pairs.jsonl && \
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkEnrichRelevanceTransferPairs
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.SparkEnrichRelevanceTransferPairs
 
 create-relevance-transfer-dataset: install
 	hdfs dfs -rm -r -f cikm2020/relevance-transfer-pairs.jsonl && \
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkRelevanceTransferDataConstruction
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.SparkRelevanceTransferDataConstruction
 
 count-edges: install
 	hdfs dfs -rm -r -f cikm2020/near-duplicate-graph/edge-count-cw09-cw12 && \
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCountEdgeLabels
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.SparkCountEdgeLabels
 
 combine-intermediate-results: install
 	hdfs dfs -rm -r -f cikm2020/results/test-01 && \
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCombineIntermediateResults
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.SparkCombineIntermediateResults
 
 deduplicate-cw09: install
 	src/main/bash/deduplicate.sh \
@@ -319,7 +319,7 @@ sample-near-duplicates-cc15: install
 		--uuidPrefix commoncrawl
 
 deduplication-task-sizes: install
-	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeDeduplicationTaskSizes
+	./src/main/bash/run-low-resource-spark-job.sh de.webis.copycat_spark.spark.eval.SparkAnalyzeDeduplicationTaskSizes
 
 create-deduplication-candidates-cw09: install
 	src/main/bash/create-deduplication-candidates.sh \
@@ -353,7 +353,7 @@ create-deduplication-candidates-cc17: install
 		--minimumDocumentLength 10
 
 create-url-candidates: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateCanonicalLinkDeduplicationTasks
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.SparkCreateCanonicalLinkDeduplicationTasks
 
 repartition-url-candidates-cw09-cw12-cc15: install
 	./src/main/bash/repartition-url-candidates.sh \
@@ -377,7 +377,7 @@ repartition-url-candidates-cc17: install
 		--output sigir21/docs-in-cc17-repartitioned-by-url
 
 create-source-docs: install
-	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCreateSourceDocuments
+	./src/main/bash/run-low-resource-spark-job.sh de.webis.copycat_spark.spark.SparkCreateSourceDocuments
 
 build-docker-image:
 	docker build -f Dockerfile -t webis/chatnoir-copycat:1.0-jupyter .
@@ -386,10 +386,10 @@ publish-docker:
 	docker push webis/chatnoir-copycat:1.0-jupyter
 
 repartition-source-docs-cc15: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.util.SparkRepartitionCommonCrawl2015SourceDocuments
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.util.SparkRepartitionCommonCrawl2015SourceDocuments
 
 repartition-source-docs-cc17: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.util.SparkRepartitionCommonCrawl2017SourceDocuments
+	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.util.SparkRepartitionCommonCrawl2017SourceDocuments
 
 create-ids-to-include: install
 	./src/main/bash/ids-to-include.sh \
