@@ -1,6 +1,3 @@
-ecir2021-enrich-documents-with-s3-score: install
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.app.EnrichPairsOfDocumentsWithS3SCore
-
 create-documents-for-daniel: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.app.InjectRawDocuments
 
@@ -10,13 +7,6 @@ common-crawl-small-sample-document-representations: install
 		--inputFormat COMMON_CRAWL \
 		--input s3a://corpus-commoncrawl-main-2020-16/crawl-data/CC-MAIN-2020-16/segments/1585371896913.98/warc/CC-MAIN-20200410110538-20200410141038-005{1,2,3,4,5}*.warc.gz \
 		--output corpus-copycat/document-representations/small-sample
-
-cc2020-16-test-web-graph: install
-	hdfs dfs -rm -r -f web-archive-analysis/cc2020-16-test
-	./src/main/bash/run-web-graph-spark-job.sh \
-		--inputFormat COMMON_CRAWL \
-		--input s3a://corpus-commoncrawl-main-2020-16/crawl-data/CC-MAIN-2020-16/segments/1585371896913.98/warc/CC-MAIN-20200410110538-20200410141038-00559.warc.gz \
-		--output web-archive-analysis/cc2020-16-test
 
 clueweb09-document-representations: install
 	hdfs dfs -rm -r -f ecir2021/cw09 && \
@@ -94,40 +84,6 @@ common-crawl17-document-representations: install
 		--output ecir2021/cc-2017-04-repartitioned \
 		--partitions 10000
 
-report-mime-types: install
-	hdfs dfs -rm -r -f ecir2021/mime-types/cw09 && \
-	./src/main/bash/report-mime-types.sh \
-		--inputFormat CLUEWEB09 \
-		--input s3a://corpus-clueweb09/parts/*/*/*.warc.gz \
-		--output ecir2021/mime-types/cw09 && \
-	hdfs dfs -rm -r -f ecir2021/mime-types/cw12 && \
-	./src/main/bash/report-mime-types.sh \
-		--inputFormat CLUEWEB12 \
-		--input s3a://corpus-clueweb12/parts/*/*/*/*.warc.gz \
-		--output ecir2021/mime-types/cw12 && \
-	hdfs dfs -rm -r -f ecir2021/mime-types/cc-2015-11 && \
-	./src/main/bash/report-mime-types.sh \
-		--inputFormat COMMON_CRAWL \
-		--input s3a://corpus-commoncrawl-main-2015-11/*/*/*.warc.gz \
-		--output ecir2021/mime-types/cc-2015-11 && \
-	hdfs dfs -rm -r -f ecir2021/mime-types/cc-2017-04 && \
-	./src/main/bash/report-mime-types.sh \
-		--inputFormat COMMON_CRAWL \
-		--input s3a://corpus-commoncrawl-main-2017-04/*/*/*.warc.gz  \
-		--output ecir2021/mime-types/cc-2017-04
-
-arc-url-extraction: install
-	./src/main/bash/part-arc-url-extraction.sh 0 && \
-	./src/main/bash/part-arc-url-extraction.sh 1 && \
-	./src/main/bash/part-arc-url-extraction.sh 2 && \
-	./src/main/bash/part-arc-url-extraction.sh 3 && \
-	./src/main/bash/part-arc-url-extraction.sh 4 && \
-	./src/main/bash/part-arc-url-extraction.sh 5 && \
-	./src/main/bash/part-arc-url-extraction.sh 6 && \
-	./src/main/bash/part-arc-url-extraction.sh 7 && \
-	./src/main/bash/part-arc-url-extraction.sh 8 && \
-	./src/main/bash/part-arc-url-extraction.sh 9
-
 label-data-daniel:
 	./src/main/bash/label-data-canonical-edges-daniel.sh
 
@@ -177,12 +133,6 @@ report-document-lengths: install
 	
 s3-score-per-hamming: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeAverageS3ScorePerHammingDistance
-
-analyze-bla: install
-	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cw12-s3-edge-aggregations && \
-	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cw09-s3-edge-aggregations && \
-	hdfs dfs -rm -R -f cikm2020/canonical-link-graph/cc-2015-11-s3-edge-aggregations && \
-	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.eval.SparkAnalyzeCanonicalLinkGraph
 
 create-canonical-link-graph-edges: install
 	./src/main/bash/run-spark-job.sh de.webis.cikm20_duplicates.spark.SparkCalculateCanonicalLinkGraphEdgeLabels
