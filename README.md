@@ -16,7 +16,7 @@ CopyCat is an open-source resource to make deduplication in TREC-style experimen
 
 ## Getting Started
 
-CopyCat provides an docker image with support for jupyter notebooks (+ [common data science libraries](https://hub.docker.com/r/jupyter/datascience-notebook/)).
+The CopyCat software comes with a [cli for the deduplication of run and qrel-files](copycat-cli/README.md) and a [spark library for the deduplication of complete web crawls](copycat-spark/README.md) and provides a docker image with support for jupyter notebooks (+ [common data science libraries](https://hub.docker.com/r/jupyter/datascience-notebook/)).
 
 To start a bash shell with CopyCat installed and your local directory mounted, run 
 ```
@@ -103,7 +103,7 @@ make install
 
 ## Deduplication of Large Crawls with Spark
 
-To detect near-duplicates in large web crawls, copycat runs a pipeline of four steps: (1) calculation of the SimHash fingerprint for each document, (2) selection of one representative document, if multipledocuments have identical fingerprints, (3) partition of the remaining fingerprints, (4) calculation of the Hamming distances between allfingerprints of a partition.
+To detect near-duplicates in large web crawls, copycat runs a pipeline of four steps: (1) calculation of the SimHash fingerprint for each document, (2) selection of one representative document, if multiple documents have identical fingerprints, (3) partition of the remaining fingerprints, (4) calculation of the Hamming distances between all fingerprints of a partition.
 
 1. Create Document representations
    - Run `./src/main/bash/new-document-representation-spark.sh` to produce document representations
