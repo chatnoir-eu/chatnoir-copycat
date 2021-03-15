@@ -16,7 +16,7 @@ CopyCat is an open-source resource to make deduplication in TREC-style experimen
 
 ## Getting Started
 
-The CopyCat software comes with a [cli for the deduplication of run and qrel-files](copycat-cli/README.md) and a [spark library for the deduplication of complete web crawls](copycat-spark/README.md) and provides a docker image with support for jupyter notebooks (+ [common data science libraries](https://hub.docker.com/r/jupyter/datascience-notebook/)).
+The CopyCat software comes with a [cli for the deduplication of run and qrel-files](copycat-cli) and a [spark library for the deduplication of complete web crawls](copycat-spark) and provides a docker image with support for jupyter notebooks (+ [common data science libraries](https://hub.docker.com/r/jupyter/datascience-notebook/)).
 
 To start a bash shell with CopyCat installed and your local directory mounted, run 
 ```
