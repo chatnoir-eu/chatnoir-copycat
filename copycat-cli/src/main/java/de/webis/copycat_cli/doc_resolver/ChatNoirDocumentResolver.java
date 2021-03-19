@@ -7,7 +7,7 @@ import de.webis.trec_ndd.trec_collections.CollectionDocument;
 
 public class ChatNoirDocumentResolver implements DocumentResolver {
 	
-	private final DocumentResolver internalResolver = HdfsMapFileDocumentResolver.smartDocumentResolver();
+	private DocumentResolver internalResolver;
 
 	@Override
 	public CollectionDocument loadCollectionDocument(String id) {
@@ -15,6 +15,6 @@ public class ChatNoirDocumentResolver implements DocumentResolver {
 	}
 	
 	public void configure(DocumentPreprocessing config) {
-		// this is already handled in the internalResolver
+		internalResolver = HdfsMapFileDocumentResolver.smartDocumentResolver(config);
 	}
 }

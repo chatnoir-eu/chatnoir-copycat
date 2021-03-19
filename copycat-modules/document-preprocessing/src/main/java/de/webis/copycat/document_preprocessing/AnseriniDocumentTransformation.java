@@ -1,5 +1,7 @@
 package de.webis.copycat.document_preprocessing;
 
+import java.io.Serializable;
+
 import de.webis.copycat.DocumentPreprocessing;
 import io.anserini.index.transform.StringTransform;
 import lombok.SneakyThrows;
@@ -12,16 +14,16 @@ import lombok.SneakyThrows;
  * @author Maik Fröbe
  *
  */
+@SuppressWarnings("serial")
 public class AnseriniDocumentTransformation implements DocumentPreprocessing {
-	private StringTransform anseriniTransformer;
+	private final SerializableStringTransform anseriniTransformer;
 
 	AnseriniDocumentTransformation(String transformerName) {
 		this(stringTransformClass(transformerName));
 	}
 	
-	@SneakyThrows
 	public AnseriniDocumentTransformation(Class<? extends StringTransform> clazz) {
-		anseriniTransformer = clazz.newInstance();
+		anseriniTransformer = serializableInstance(clazz);
 	}
 	
 	@Override
@@ -34,4 +36,18 @@ public class AnseriniDocumentTransformation implements DocumentPreprocessing {
 	private static Class<? extends StringTransform> stringTransformClass(String transformerName) {
 		return (Class<? extends StringTransform>) Class.forName(StringTransform.class.getPackage().getName() + "." + transformerName);
 	}
+	
+	@SneakyThrows
+	private static SerializableStringTransform serializableInstance(Class<? extends StringTransform> clazz) {
+		StringTransform anseriniTransformer = clazz.newInstance();
+		
+		return new SerializableStringTransform() {
+			@Override
+			public String apply(String t) {
+				return anseriniTransformer.apply(t);
+			}
+		};
+	}
+	
+	static abstract class SerializableStringTransform extends StringTransform implements Serializable {}
 }

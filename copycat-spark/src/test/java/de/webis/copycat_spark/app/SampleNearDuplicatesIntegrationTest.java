@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.webis.copycat_spark.app.SampleNearDuplicates;
+import de.webis.copycat_spark.util.CollectionDocumentUtil;
 import net.sourceforge.argparse4j.inf.Namespace;
 import scala.Tuple3;
 
@@ -19,7 +19,7 @@ public class SampleNearDuplicatesIntegrationTest {
 		
 		Tuple3<String, String, Integer> nearDuplicate = new Tuple3<>(firstId, secondId, hemmingDistance);
 		
-		String actual = SampleNearDuplicates.samplePairToString(nearDuplicate, args().getString("uuidPrefix"), args().getString("uuidIndex"));
+		String actual = SampleNearDuplicates.samplePairToString(nearDuplicate, args().getString("uuidPrefix"), args().getString("uuidIndex"), CollectionDocumentUtil.defaultPreprocessing());
 		
 		Approvals.verify(actual);
 	}

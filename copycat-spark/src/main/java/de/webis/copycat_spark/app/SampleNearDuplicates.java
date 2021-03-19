@@ -12,6 +12,9 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 import de.aitools.ir.fingerprinting.representation.HashVector;
 import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
+import de.webis.copycat.DocumentPreprocessing;
+import de.webis.copycat.document_preprocessing.CopyCatPreprocessing;
+import de.webis.copycat.document_preprocessing.PreprocessingArgs;
 import de.webis.copycat_spark.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.copycat_spark.spark.eval.SparkEvaluateSimHashFeatures;
 import de.webis.copycat_spark.util.CollectionDocumentUtil;
@@ -34,8 +37,9 @@ public class SampleNearDuplicates {
 		if (parsedArgs == null) {
 			return;
 		}
-
+		
 		try (JavaSparkContext context = context()) {
+			DocumentPreprocessing documentPreprocessing = CopyCatPreprocessing.documentPreprocessing(parsedArgs);
 			String uuidPrefix = parsedArgs.getString(ArgumentParsingUtil.UUID_PREFIX);
 			String uuidIndex = parsedArgs.getString(ArgumentParsingUtil.UUID_INDEX);
 			List<String> ret = new ArrayList<>();
@@ -44,7 +48,7 @@ public class SampleNearDuplicates {
 				JavaRDD<Tuple3<String, String, Integer>> nearDuplicatesAtDistanceK = nearDuplicatePairsForK(parsedArgs, context, k);
 				List<Tuple3<String, String, Integer>> iter = nearDuplicatesAtDistanceK.takeSample(false, 3* parsedArgs.getInt(ArgumentParsingUtil.ARG_NUM));
 				List<Tuple3<String, String, Integer>> currentSample = TakeRandom.takeRandomElements(parsedArgs.getInt(ArgumentParsingUtil.ARG_NUM), iter);
-				List<String> currentSampleMapped = context.parallelize(currentSample, currentSample.size()).map(i -> samplePairToString(i, uuidPrefix, uuidIndex)).collect();
+				List<String> currentSampleMapped = context.parallelize(currentSample, currentSample.size()).map(i -> samplePairToString(i, uuidPrefix, uuidIndex, documentPreprocessing)).collect();
 				
 				ret.addAll(currentSampleMapped);
 			}
@@ -55,7 +59,7 @@ public class SampleNearDuplicates {
 	}
 
 	@SneakyThrows
-	static String samplePairToString(Tuple3<String, String, Integer> i, String uuidPrefix, String uuidIndex) {
+	static String samplePairToString(Tuple3<String, String, Integer> i, String uuidPrefix, String uuidIndex, DocumentPreprocessing documentPreprocessing) {
 		java.util.Map<String, Object> ret = new LinkedHashMap<>();
 		ret.put("firstId", i._1());
 		ret.put("secondId", i._2());
@@ -68,8 +72,8 @@ public class SampleNearDuplicates {
 		ret.put("secondURL", secondURL);
 		
 		try {
-			CollectionDocument firstDocument = new HdfsMapFileDocumentResolver(uuidIndex, uuidPrefix).loadCollectionDocument(i._1());
-			CollectionDocument secondDocument = new HdfsMapFileDocumentResolver(uuidIndex, uuidPrefix).loadCollectionDocument(i._2());
+			CollectionDocument firstDocument = new HdfsMapFileDocumentResolver(uuidIndex, uuidPrefix, documentPreprocessing).loadCollectionDocument(i._1());
+			CollectionDocument secondDocument = new HdfsMapFileDocumentResolver(uuidIndex, uuidPrefix, documentPreprocessing).loadCollectionDocument(i._2());
 	
 			ret.put("firstDocument", firstDocument);
 			ret.put("secondDocument", secondDocument);
@@ -211,6 +215,8 @@ public class SampleNearDuplicates {
 				.type(String.class)
 				.help("The uuid index that is used to calculate the chatnoir id of a document");
 
+		PreprocessingArgs.addArgs(ret);
+		
 		return ret;
 	}
 }

@@ -60,7 +60,7 @@ public class EnrichGroupsOfDocumentsWithS3Score {
 		}
 		
 		Tuple2<String, Iterable<String>> groupForFirstId = new Tuple2<>(i.get(0), allPairs);
-		EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3 = false;
+		EnrichSimHashNearDuplicatesWithS3Similarity.CALCULATE_ONLY_S3 = false;
 		return EnrichSimHashNearDuplicatesWithS3Similarity.enrichS3Score(groupForFirstId, EnrichSimHashNearDuplicatesWithS3Similarity.docResolver(null), EnrichSimHashNearDuplicatesWithS3Similarity.Format.CSV_FORMAT);
 	}
 

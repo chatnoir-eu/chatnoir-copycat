@@ -9,6 +9,7 @@ import de.webis.copycat.DocumentPreprocessing;
  * @author Maik Fröbe
  *
  */
+@SuppressWarnings("serial")
 class NoDocumentPreprocessing implements DocumentPreprocessing {
 	@Override
 	public String preprocessRawDocument(String text) {

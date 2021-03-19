@@ -9,7 +9,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import de.webis.copycat.DocumentResolver;
-import de.webis.copycat_spark.app.DeduplicateTrecRunFile;
 import de.webis.copycat_spark.app.DeduplicateTrecRunFile.DefaultSimilarityCalculation;
 
 public class DeduplicateQrelFileIntegrationTest {

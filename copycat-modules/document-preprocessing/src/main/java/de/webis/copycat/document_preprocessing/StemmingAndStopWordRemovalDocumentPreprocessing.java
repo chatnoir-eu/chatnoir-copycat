@@ -1,6 +1,7 @@
 package de.webis.copycat.document_preprocessing;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,13 +26,14 @@ import lombok.SneakyThrows;
  * @author Maik Fröbe
  *
  */
+@SuppressWarnings("serial")
 class StemmingAndStopWordRemovalDocumentPreprocessing  implements DocumentPreprocessing {
 
 	private final DocumentPreprocessing internalPreprocessing;
 	
 	private final String stemmer;
 	
-	private final List<String> stopWords;
+	private final ArrayList<String> stopWords;
 	
 	StemmingAndStopWordRemovalDocumentPreprocessing(DocumentPreprocessing internalPreprocessing) {
 		this(internalPreprocessing, "");
@@ -40,13 +42,13 @@ class StemmingAndStopWordRemovalDocumentPreprocessing  implements DocumentPrepro
 	StemmingAndStopWordRemovalDocumentPreprocessing(DocumentPreprocessing internalPreprocessing, String stemmer) {
 		this.internalPreprocessing = internalPreprocessing;
 		this.stemmer = stemmer;
-		this.stopWords = Collections.emptyList();
+		this.stopWords = new ArrayList<>(Collections.emptyList());
 	}
 	
 	StemmingAndStopWordRemovalDocumentPreprocessing(DocumentPreprocessing internalPreprocessing, List<String> stopWords, String stemmer) {
 		this.internalPreprocessing = internalPreprocessing;
 		this.stemmer = stemmer;
-		this.stopWords = stopWords;
+		this.stopWords = new ArrayList<>(stopWords);
 	}
 	
 	@SneakyThrows

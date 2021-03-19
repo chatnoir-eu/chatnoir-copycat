@@ -6,6 +6,7 @@ import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.TextExtractor;
 
+@SuppressWarnings("serial")
 public class JerichoDocumentPreprocessing implements DocumentPreprocessing {
 
 	@Override

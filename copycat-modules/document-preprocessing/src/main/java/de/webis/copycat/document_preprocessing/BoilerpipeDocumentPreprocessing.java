@@ -4,6 +4,7 @@ import de.webis.copycat.DocumentPreprocessing;
 import lombok.SneakyThrows;
 import de.l3s.boilerpipe.extractors.ArticleExtractor;
 
+@SuppressWarnings("serial")
 public class BoilerpipeDocumentPreprocessing implements DocumentPreprocessing {
 	@Override
 	@SneakyThrows

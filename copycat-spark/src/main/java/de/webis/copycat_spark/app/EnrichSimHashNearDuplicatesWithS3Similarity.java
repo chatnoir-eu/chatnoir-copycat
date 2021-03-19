@@ -18,7 +18,10 @@ import com.google.common.collect.Iterators;
 
 import de.aitools.ir.fingerprinting.representation.HashVector;
 import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
+import de.webis.copycat.DocumentPreprocessing;
 import de.webis.copycat.DocumentResolver;
+import de.webis.copycat.document_preprocessing.CopyCatPreprocessing;
+import de.webis.copycat.document_preprocessing.PreprocessingArgs;
 import de.webis.copycat_spark.app.SampleNearDuplicates.NearDuplicate;
 import de.webis.copycat_spark.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.copycat_spark.spark.eval.SparkEvaluateSimHashFeatures;
@@ -34,6 +37,8 @@ import net.sourceforge.argparse4j.inf.Namespace;
 import scala.Tuple2;
 
 public class EnrichSimHashNearDuplicatesWithS3Similarity {
+	
+	static boolean CALCULATE_ONLY_S3 = true;
 	
 	public static void main(String[] args) {
 		Namespace parsedArgs = validArgumentsOrNull(args);
@@ -75,7 +80,7 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 		
 		List<String> groups = TakeRandom.takeRandomElements(100000, groupForFirstId._2());
 		
-		if(EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3) {
+		if(CALCULATE_ONLY_S3) {
 			if(firstId.startsWith("clueweb09")) {
 				groups = groups.stream().filter(i -> i.startsWith("clueweb09")).collect(Collectors.toList());
 			} else if(firstId.startsWith("clueweb12")) {
@@ -85,7 +90,7 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 			}
 		}
 		
-		if(EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3) {
+		if(CALCULATE_ONLY_S3) {
 			return Iterators.transform(
 					groups.iterator(),
 					i -> addS3ScoreToCsvLine(firstHash, firstWord8Gramms, i, docResolver, f)
@@ -156,7 +161,8 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 	}
 	
 	static DocumentResolverFactory docResolver(Namespace args) {
-		return () -> CollectionDocumentUtil.HdfsMapFileDocumentResolver.smartDocumentResolver();
+		DocumentPreprocessing documentPreprocessing = CopyCatPreprocessing.documentPreprocessing(args);
+		return () -> CollectionDocumentUtil.HdfsMapFileDocumentResolver.smartDocumentResolver(documentPreprocessing);
 	}
 	
 	public static interface DocumentResolverFactory extends Supplier<DocumentResolver>, Serializable {};
@@ -193,6 +199,9 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 			.required(Boolean.FALSE)
 			.setDefault("json")
 			.choices("json", "csv");
+		
+		PreprocessingArgs.addArgs(ret);
+		
 		return ret;
 	}
 	

@@ -10,7 +10,9 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
-import de.webis.copycat_spark.app.CreateDocumentRepresentations.DocumentToTextTransformation;
+import de.webis.copycat.DocumentPreprocessing;
+import de.webis.copycat.document_preprocessing.CopyCatPreprocessing;
+import de.webis.copycat.document_preprocessing.PreprocessingArgs;
 import de.webis.copycat_spark.util.warc.WARCParsingUtil;
 import de.webis.trec_ndd.spark.DocumentHash;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
@@ -27,10 +29,12 @@ public class CreateDocumentHashes {
 		if (parsedArgs == null) {
 			return;
 		}
-
+		DocumentPreprocessing documentPreprocessing = CopyCatPreprocessing.documentPreprocessing(parsedArgs);
+		
 		try (JavaSparkContext context = context()) {
+			
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
-			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2(), DocumentToTextTransformation.DEFAULT))
+			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2(), documentPreprocessing))
 					.filter(i -> i != null);
 			
 			if (parsedDocuments.getNumPartitions() < 100) {
@@ -57,6 +61,8 @@ public class CreateDocumentHashes {
 		ret.addArgument("-f", "--" + ArgumentParsingUtil.ARG_FORMAT).required(Boolean.TRUE)
 				.choices(ArgumentParsingUtil.ALL_INPUT_FORMATS);
 
+		PreprocessingArgs.addArgs(ret);
+		
 		return ret;
 	}
 	

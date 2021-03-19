@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.webis.copycat_spark.app.EnrichPairsOfDocumentsWithS3SCore;
-import de.webis.copycat_spark.app.EnrichSimHashNearDuplicatesWithS3Similarity;
 import de.webis.copycat_spark.app.EnrichSimHashNearDuplicatesWithS3Similarity.DocumentResolverFactory;
 import de.webis.copycat_spark.spark.SparkIntegrationTestBase;
 import net.sourceforge.argparse4j.inf.Namespace;
@@ -21,12 +19,12 @@ import net.sourceforge.argparse4j.inf.Namespace;
 public class EnrichSimHashNearDuplicatesWithS3SimilarityIntegrationTest extends SparkIntegrationTestBase {
 	@Before
 	public void setup() {
-		EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3 = false;
+		EnrichSimHashNearDuplicatesWithS3Similarity.CALCULATE_ONLY_S3 = false;
 	}
 	
 	@After
 	public void tearDown() {
-		EnrichPairsOfDocumentsWithS3SCore.CALCULATE_ONLY_S3 = true;
+		EnrichSimHashNearDuplicatesWithS3Similarity.CALCULATE_ONLY_S3 = true;
 	}
 	
 	@Test
@@ -128,9 +126,7 @@ public class EnrichSimHashNearDuplicatesWithS3SimilarityIntegrationTest extends 
 	static DocumentResolverFactory cw09Resolver() {
 		Namespace args = EnrichSimHashNearDuplicatesWithS3Similarity.validArgumentsOrNull(new String[] {
 			"-i", "foo",
-			"-o", "bar",
-			"--uuidPrefix", "clueweb09",
-			"--uuidIndex", "cw09",
+			"-o", "bar"
 		});
 		
 		return EnrichSimHashNearDuplicatesWithS3Similarity.docResolver(args);

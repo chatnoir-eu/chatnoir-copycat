@@ -1,6 +1,5 @@
 package de.webis.copycat_spark.app;
 
-import java.io.Serializable;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +12,11 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
-import de.webis.chatnoir2.indexer.util.ContentExtractor;
-import de.webis.chatnoir2.indexer.util.LangDetector;
 import de.webis.chatnoir2.mapfile_generator.warc.WarcRecord;
+import de.webis.copycat.DocumentPreprocessing;
+import de.webis.copycat.document_preprocessing.CopyCatPreprocessing;
+import de.webis.copycat.document_preprocessing.PreprocessingArgs;
 import de.webis.copycat_spark.spark.SparkCanonicalLinkGraphExtraction;
 import de.webis.copycat_spark.spark.SparkCreateSourceDocuments;
 import de.webis.copycat_spark.util.SourceDocuments.DocumentWithFingerprint;
@@ -39,9 +38,9 @@ public class CreateDocumentRepresentations {
 		}
 
 		try (JavaSparkContext context = context()) {
-			DocumentToTextTransformation transformation = transformation(parsedArgs);
+			DocumentPreprocessing documentPreprocessing = CopyCatPreprocessing.documentPreprocessing(parsedArgs);
 			JavaPairRDD<LongWritable, WarcRecord> records = WARCParsingUtil.records(context, parsedArgs);
-			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2(), transformation)).filter(i -> i != null);
+			JavaRDD<CollectionDocument> parsedDocuments = records.map(i -> transformToCollectionDocument(i._2(), documentPreprocessing)).filter(i -> i != null);
 			
 			if (parsedDocuments.getNumPartitions() < 100) {
 				parsedDocuments = parsedDocuments.repartition(parsedDocuments.getNumPartitions()*100);
@@ -54,24 +53,15 @@ public class CreateDocumentRepresentations {
 					.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 		}
 	}
-	
-	static DocumentToTextTransformation transformation(Namespace parsedArgs) {
-		if(parsedArgs == null) {
-			throw new RuntimeException("Can not handle null");
-		}
-		
-		if(Boolean.TRUE.equals(parsedArgs.getBoolean("mainContentExtraction"))) {
-			System.out.println("I use main-content-extraction.");
-			return DocumentToTextTransformation.MAIN_CONTENT_EXTRACTION;
-		}
-		
-		return null;
-	}
 
 	@SneakyThrows
-	public static CollectionDocument transformToCollectionDocument(WarcRecord record, DocumentToTextTransformation transformation) {
+	public static CollectionDocument transformToCollectionDocument(WarcRecord record, DocumentPreprocessing transformation) {
 		if (record == null) {
 			return null;
+		}
+		
+		if(transformation == null) {
+			throw new RuntimeException("Please provide a DocumentTransformation. Got " + transformation);
 		}
 
 		Map<String, String> header = lowercasedHeaders(record);
@@ -81,13 +71,9 @@ public class CreateDocumentRepresentations {
 			// ignore large files and non-responses
 			return null;
 		}
-
-		if(transformation == null) {
-			transformation = DocumentToTextTransformation.DEFAULT;
-		}
 		
 		try {
-			return transformToCollectionDocument(header, Jsoup.parse(contentBody), transformation);
+			return transformToCollectionDocument(header, contentBody, transformation);
 		} catch (Exception e) {
 			return null;
 		}
@@ -97,54 +83,16 @@ public class CreateDocumentRepresentations {
 		return record != null && record.getRecordType() != null && "response".equalsIgnoreCase(record.getRecordType().trim());
 	}
 
-	@SuppressWarnings("serial")
-	public static interface DocumentToTextTransformation extends Serializable {
-		public String transform(Document doc);
-		
-		public static final DocumentToTextTransformation DEFAULT = new DocumentToTextTransformation() {
-			@Override
-			public String transform(Document doc) {
-				return doc.text();
-			}
-		};
-		
-		public static final DocumentToTextTransformation MAIN_CONTENT_EXTRACTION = new MainContentDocumentToTextTransformation();
-	}
-	
-	@SuppressWarnings("serial")
-	static class MainContentDocumentToTextTransformation implements DocumentToTextTransformation {
-		private static final LangDetector LANG_DETECTOR = langDetector();
-		
-		@SneakyThrows
-		static LangDetector langDetector() {
-			return new LangDetector();
-		}
-		
-		@Override
-		@SneakyThrows
-		public String transform(Document doc) {
-			String html = doc.toString();
-			String lang = LANG_DETECTOR.detect(html);
-
-            if (lang != null && lang.equalsIgnoreCase("en")) {
-                return ContentExtractor.extract(html, "en");
-            } else {
-                return ContentExtractor.extract(html, lang, "en");
-            }
-
-		}
-	}
-
 	@SneakyThrows
-	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, Document doc, DocumentToTextTransformation transformation) {
+	private static CollectionDocument transformToCollectionDocument(Map<String, String> header, String doc, DocumentPreprocessing transformation) {
 		String id = header.get("warc-trec-id");
 		if (id == null || id.isEmpty()) {
 			id = header.get("warc-record-id");
 		}
 
 		String targetUri = header.get("warc-target-uri");
-
-		CollectionDocument ret = CollectionDocument.collectionDocument(transformation.transform(doc), id);
+		CollectionDocument ret = new CollectionDocument(id, Jsoup.parse(doc).text(), transformation.preprocessRawDocument(doc), null, null, null);
+		
 		try {
 			ret.setUrl(new URL(targetUri));
 		} catch (Exception e) {}
@@ -195,11 +143,14 @@ public class CreateDocumentRepresentations {
 		ret.addArgument("-f", "--" + ArgumentParsingUtil.ARG_FORMAT).required(Boolean.TRUE)
 				.choices(ArgumentParsingUtil.ALL_INPUT_FORMATS);
 		
-		ret.addArgument("--mainContentExtraction").required(Boolean.FALSE)
-				.type(Boolean.class)
-				.setDefault(false)
-				.help("Use main-content-extraction?");
-
+		ret.addArgument("--" + ArgumentParsingUtil.ARG_DRY_RUN)
+			.required(false)
+			.setDefault(false)
+			.type(Boolean.class)
+			.help("Check if the passed arguments are valid.");
+		
+		PreprocessingArgs.addArgs(ret);
+		
 		return ret;
 	}
 }

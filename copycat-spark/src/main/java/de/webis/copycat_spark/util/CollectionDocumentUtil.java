@@ -21,7 +21,10 @@ import de.aitools.ir.fingerprinting.representation.HashVectorSha3;
 import de.webis.WebisUUID;
 import de.webis.chatnoir2.webclient.search.DocumentRetriever;
 import de.webis.chatnoir2.webclient.search.DocumentRetriever.Document;
+import de.webis.copycat.DocumentPreprocessing;
 import de.webis.copycat.DocumentResolver;
+import de.webis.copycat.document_preprocessing.CopyCatPreprocessing;
+import de.webis.copycat.document_preprocessing.PreprocessingArgs;
 import de.webis.copycat_spark.app.ArgumentParsingUtil;
 import de.webis.copycat_spark.spark.SparkCanonicalLinkGraphExtraction;
 import de.webis.copycat_spark.spark.SparkCreateSourceDocuments;
@@ -34,6 +37,8 @@ import lombok.Data;
 import lombok.SneakyThrows;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.Namespace;
 
 public class CollectionDocumentUtil {
@@ -47,9 +52,9 @@ public class CollectionDocumentUtil {
 
 		System.out.println(firstId + " --> " + chatNoirURL(prefix, firstId, index));
 		System.out.println(secondId + " --> " + chatNoirURL(prefix, secondId, index));
-		CollectionDocument a = new HdfsMapFileDocumentResolver(index, prefix).loadCollectionDocument(firstId);
+		CollectionDocument a = new HdfsMapFileDocumentResolver(index, prefix, defaultPreprocessing()).loadCollectionDocument(firstId);
 //		System.out.println(chatNoirURL(prefix, secondId, index));
-		CollectionDocument b = new HdfsMapFileDocumentResolver(index, prefix).loadCollectionDocument(secondId);
+		CollectionDocument b = new HdfsMapFileDocumentResolver(index, prefix, defaultPreprocessing()).loadCollectionDocument(secondId);
 
 		System.out.println(SparkEnrichRelevanceTransferPairs.s3Score(a, b));
 
@@ -85,14 +90,17 @@ public class CollectionDocumentUtil {
 
 		private final String prefix;
 
+		private final DocumentPreprocessing preprocessing;
+		
 		public static HdfsMapFileDocumentResolver fromArgs(Namespace args) {
-			return fromArgs(args.getAttrs());
+			return fromArgs(args.getAttrs(), CopyCatPreprocessing.documentPreprocessing(args));
 		}
 		
-		public static HdfsMapFileDocumentResolver fromArgs(Map<String, Object> args) {
+		public static HdfsMapFileDocumentResolver fromArgs(Map<String, Object> args, DocumentPreprocessing preprocessing) {
 			return new HdfsMapFileDocumentResolver(
 				(String) args.get(ArgumentParsingUtil.UUID_INDEX),
-				(String) args.get(ArgumentParsingUtil.UUID_PREFIX)
+				(String) args.get(ArgumentParsingUtil.UUID_PREFIX),
+				preprocessing
 			);
 		}
 
@@ -112,10 +120,9 @@ public class CollectionDocumentUtil {
 				return null;
 			}
 
-			JsoupStringTransform stringTransform = new JsoupStringTransform();
 			CollectionDocument ret = null;
 			try {
-				ret = CollectionDocument.collectionDocument(stringTransform.apply(raw), id);
+				ret = new CollectionDocument(id, raw, preprocessing.preprocessRawDocument(raw), null, null, null);
 			} catch(Exception e) {
 				System.out.println("Retrieving " + id + " took: " + (System.currentTimeMillis() - start));
 				return null;
@@ -141,13 +148,13 @@ public class CollectionDocumentUtil {
 			return documentRetriever.getByUUID(indexName, docUUID);
 		}
 
-		public static DocumentResolver smartDocumentResolver() {
-			return new DocumentResolver() {
+		public static DocumentResolver smartDocumentResolver(DocumentPreprocessing preprocessing) {
+			return new DocumentResolver() {				
 				@Override
 				public CollectionDocument loadCollectionDocument(String id) {
 					Map<String, Object> config = config(id);
 					
-					return HdfsMapFileDocumentResolver.fromArgs(config).loadCollectionDocument(id);
+					return HdfsMapFileDocumentResolver.fromArgs(config, preprocessing).loadCollectionDocument(id);
 				}
 				
 				private Map<String, Object> config(String id) {
@@ -305,5 +312,21 @@ public class CollectionDocumentUtil {
 
 	public static String chatNoirURL(String prefix, String documentId, String index) {
 		return "https://chatnoir.eu/cache?uuid=" + webisUUID(prefix, documentId) + "&index=" + index + "&raw";
+	}
+	
+	public static DocumentPreprocessing defaultPreprocessing() {
+		return preprocessing();
+	}
+	
+	public static DocumentPreprocessing mainContentExtractionPreprocessing() {
+		return preprocessing("--contentExtraction", "Boilerpipe");
+	}
+	
+	@SneakyThrows
+	private static DocumentPreprocessing preprocessing(String...args) {
+		ArgumentParser pseudoArgParser = ArgumentParsers.newFor("pseudoArgParser").build();
+		PreprocessingArgs.addArgs(pseudoArgParser);
+		
+		return CopyCatPreprocessing.documentPreprocessing(pseudoArgParser.parseArgs(args));
 	}
 }
