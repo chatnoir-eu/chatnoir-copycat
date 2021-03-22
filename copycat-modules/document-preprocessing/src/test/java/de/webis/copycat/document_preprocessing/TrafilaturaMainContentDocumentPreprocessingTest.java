@@ -3,6 +3,10 @@ package de.webis.copycat.document_preprocessing;
 import org.approvaltests.Approvals;
 import org.junit.Test;
 
+/**
+ * See: https://github.com/adbar/trafilatura
+ * 
+ */
 public class TrafilaturaMainContentDocumentPreprocessingTest extends DocumentPreprocessingTest {
 
 	public TrafilaturaMainContentDocumentPreprocessingTest() {
