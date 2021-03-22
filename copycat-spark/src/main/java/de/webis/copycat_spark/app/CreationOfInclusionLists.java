@@ -5,6 +5,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
+import de.webis.copycat_spark.util.SourceDocuments.DocumentWithFingerprint;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -23,13 +24,31 @@ public class CreationOfInclusionLists {
 			JavaRDD<String> allIds = context.textFile(parsedArgs.getString(ARG_ALL_IDS));
 			JavaRDD<String> idsToExclude = context.textFile(parsedArgs.getString(ARG_EXCLUSION_IDS));
 			
-			createInclusionList(allIds, idsToExclude, parsedArgs.getInt(ArgumentParsingUtil.ARG_PARTITIONS))
-				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
+			JavaRDD<String> inclusionList;
+			
+			if(parsedArgs.getBoolean(ARG_USE_DOCUMENT_REPRESENTATIONS)) {
+				inclusionList = createInclusionListForDocumentRepresentations(allIds, idsToExclude, parsedArgs.getInt(ArgumentParsingUtil.ARG_PARTITIONS));
+			} else {
+				inclusionList = createInclusionList(allIds, idsToExclude, parsedArgs.getInt(ArgumentParsingUtil.ARG_PARTITIONS));
+			}
+			
+			inclusionList.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 		}
 	}
 	
 	private static final String ARG_ALL_IDS = "allIds",
-								ARG_EXCLUSION_IDS = "exclusionIds";
+								ARG_EXCLUSION_IDS = "exclusionIds",
+								ARG_USE_DOCUMENT_REPRESENTATIONS = "docRepresentations";
+	
+	public static JavaRDD<String> createInclusionListForDocumentRepresentations(JavaRDD<String> documentRepresentations, JavaRDD<String> idsToExclude, int partitions) {
+		JavaRDD<String> allIds = documentRepresentations.filter(i -> i != null)
+				.map(i -> DocumentWithFingerprint.fromString(i))
+				.filter(i -> i != null)
+				.map(i -> i.getDocId())
+				.filter(i -> i != null);
+		
+		return createInclusionList(allIds, idsToExclude, partitions); 
+	}
 	
 	public static JavaRDD<String> createInclusionList(JavaRDD<String> allIds, JavaRDD<String> idsToExclude, int partitions) {
 		return allIds.subtract(idsToExclude).repartition(partitions);
@@ -57,6 +76,12 @@ public class CreationOfInclusionLists {
 
 		ret.addArgument("--" + ArgumentParsingUtil.ARG_PARTITIONS).required(Boolean.FALSE)
 				.setDefault(1);
+		
+		ret.addArgument("--" + ARG_USE_DOCUMENT_REPRESENTATIONS)
+			.required(Boolean.FALSE)
+			.type(Boolean.class)
+			.setDefault(false)
+			.help("The ids of this dataset are passed as one id per file (when this argument is false), or as document representations (when this argument is true).");
 
 		return ret;
 	}
