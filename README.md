@@ -83,7 +83,7 @@ The following List provides some examples on how to use the docker image to dedu
 This repository contains the two showcases from the paper.
 As a general introduction, see the [Getting Started](#getting-started) section.
 
-- Deduplication of run/qrel files with the copycat-cli ([copycat-on-cluweb.ipynb](copycat-spark/src/main/jupyter/copycat-on-cluweb-runs.ipynb))
+- Deduplication of run/qrel files with the copycat-cli ([copycat-on-clueweb.ipynb](copycat-spark/src/main/jupyter/copycat-on-clueweb.ipynb))
 - [Transfer of relevance labels](case-studies/relevance-label-transfer/README.md)
 
 ## Development Environment:
