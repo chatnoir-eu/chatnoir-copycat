@@ -3,10 +3,10 @@ package de.webis.copycat.document_preprocessing;
 import org.approvaltests.Approvals;
 import org.junit.Test;
 
-public class BoilerpipeMainContentDocumentPreprocessingTest extends DocumentPreprocessingTest {
+public class TrafilaturaMainContentDocumentPreprocessingTest extends DocumentPreprocessingTest {
 
-	public BoilerpipeMainContentDocumentPreprocessingTest() {
-		super("--keepStopwords", "True", "--contentExtraction", "Boilerpipe", "--stemmer", "null");
+	public TrafilaturaMainContentDocumentPreprocessingTest() {
+		super("--keepStopwords", "True", "--contentExtraction", "Trafilatura", "--stemmer", "null");
 	}
 
 	@Test
