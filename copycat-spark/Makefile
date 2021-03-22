@@ -394,25 +394,25 @@ repartition-source-docs-cc17: install
 create-ids-to-include: install
 	./src/main/bash/ids-to-include.sh \
 		--allIds s3a://corpus-copycat/document-representations/cw09/ \
-		--docRepresentations \
+		--docRepresentations True \
 		--exclusionIds sigir21/docs-to-remove/cw09 \
 		--partitions 100 \
 		--output sigir21/ids-to-include/cw09-bzip2 && \
 	./src/main/bash/ids-to-include.sh \
 		--allIds s3a://corpus-copycat/document-representations/cw12/ \
-		--docRepresentations \
+		--docRepresentations True \
 		--exclusionIds sigir21/docs-to-remove/cw12 \
 		--partitions 100 \
 		--output sigir21/ids-to-include/cw12-bzip2 && \
 	./src/main/bash/ids-to-include.sh \
 		--allIds s3a://corpus-copycat/document-representations/cc-2015-11/ \
-		--docRepresentations \
+		--docRepresentations True \
 		--exclusionIds sigir21/docs-to-remove/cc15 \
 		--partitions 100 \
 		--output sigir21/ids-to-include/cc15-bzip2 && \
 	./src/main/bash/ids-to-include.sh \
 		--allIds s3a://corpus-copycat/document-representations/cc-2017-04/ \
-		--docRepresentations \
+		--docRepresentations True \
 		--exclusionIds sigir21/docs-to-remove/cc17 \
 		--partitions 100 \
 		--output sigir21/ids-to-include/cc17-bzip2 && \

@@ -24,15 +24,8 @@ public class CreationOfInclusionLists {
 			JavaRDD<String> allIds = context.textFile(parsedArgs.getString(ARG_ALL_IDS));
 			JavaRDD<String> idsToExclude = context.textFile(parsedArgs.getString(ARG_EXCLUSION_IDS));
 			
-			JavaRDD<String> inclusionList;
-			
-			if(parsedArgs.getBoolean(ARG_USE_DOCUMENT_REPRESENTATIONS)) {
-				inclusionList = createInclusionListForDocumentRepresentations(allIds, idsToExclude, parsedArgs.getInt(ArgumentParsingUtil.ARG_PARTITIONS));
-			} else {
-				inclusionList = createInclusionList(allIds, idsToExclude, parsedArgs.getInt(ArgumentParsingUtil.ARG_PARTITIONS));
-			}
-			
-			inclusionList.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
+			createInclusionList(allIds, idsToExclude, parsedArgs)
+				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 		}
 	}
 	
@@ -40,17 +33,23 @@ public class CreationOfInclusionLists {
 								ARG_EXCLUSION_IDS = "exclusionIds",
 								ARG_USE_DOCUMENT_REPRESENTATIONS = "docRepresentations";
 	
-	public static JavaRDD<String> createInclusionListForDocumentRepresentations(JavaRDD<String> documentRepresentations, JavaRDD<String> idsToExclude, int partitions) {
-		JavaRDD<String> allIds = documentRepresentations.filter(i -> i != null)
+	public static JavaRDD<String> createInclusionList(JavaRDD<String> allIds, JavaRDD<String> idsToExclude, Namespace parsedArgs) {
+		if(parsedArgs.getBoolean(ARG_USE_DOCUMENT_REPRESENTATIONS)) {
+			allIds = documentRepresentationsToDocumentIds(allIds, idsToExclude, parsedArgs.getInt(ArgumentParsingUtil.ARG_PARTITIONS));
+		} 
+
+		return createInclusionList(allIds, idsToExclude, parsedArgs.getInt(ArgumentParsingUtil.ARG_PARTITIONS));
+	}
+	
+	private static JavaRDD<String> documentRepresentationsToDocumentIds(JavaRDD<String> documentRepresentations, JavaRDD<String> idsToExclude, int partitions) {
+		return documentRepresentations.filter(i -> i != null)
 				.map(i -> DocumentWithFingerprint.fromString(i))
 				.filter(i -> i != null)
 				.map(i -> i.getDocId())
 				.filter(i -> i != null);
-		
-		return createInclusionList(allIds, idsToExclude, partitions); 
 	}
 	
-	public static JavaRDD<String> createInclusionList(JavaRDD<String> allIds, JavaRDD<String> idsToExclude, int partitions) {
+	private static JavaRDD<String> createInclusionList(JavaRDD<String> allIds, JavaRDD<String> idsToExclude, int partitions) {
 		return allIds.subtract(idsToExclude).repartition(partitions);
 	}
 	
@@ -74,8 +73,10 @@ public class CreationOfInclusionLists {
 		ret.addArgument("-o", "--" + ArgumentParsingUtil.ARG_OUTPUT).required(Boolean.TRUE)
 				.help("The resulting inclusion list is stored at this position.");
 
-		ret.addArgument("--" + ArgumentParsingUtil.ARG_PARTITIONS).required(Boolean.FALSE)
-				.setDefault(1);
+		ret.addArgument("--" + ArgumentParsingUtil.ARG_PARTITIONS)
+			.type(Integer.class)
+			.required(Boolean.FALSE)
+			.setDefault(1);
 		
 		ret.addArgument("--" + ARG_USE_DOCUMENT_REPRESENTATIONS)
 			.required(Boolean.FALSE)
