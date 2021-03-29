@@ -77,6 +77,7 @@ The following List provides some examples on how to use the docker image to dedu
 
 - [Robust04](copycat-spark/src/main/jupyter/copycat-on-robust04.ipynb) ([open in nbviewer](https://nbviewer.jupyter.org/github/chatnoir-eu/copycat/tree/master/copycat-spark/src/main/jupyter/copycat-on-robust04.ipynb))
 - [Touche 2020](copycat-spark/src/main/jupyter/copycat-on-argsme.ipynb) ([open in nbviewer](https://nbviewer.jupyter.org/github/chatnoir-eu/copycat/tree/master/copycat-spark/src/main/jupyter/copycat-on-argsme.ipynb))
+- [Terabyte](copycat-spark/src/main/jupyter/copycat-on-gov2.ipynb) ([open in nbviewer](https://nbviewer.jupyter.org/github/chatnoir-eu/copycat/blob/master/copycat-spark/src/main/jupyter/copycat-on-gov2.ipynb))
 
 ## Showcases
 
