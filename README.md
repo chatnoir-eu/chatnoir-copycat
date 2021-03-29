@@ -75,15 +75,16 @@ Now you can point your browser to [localhost:8888](localhost:8888) to access the
 CopyCat provides an docker image to support various deduplication experiments on standard IR run and qrel files for various test collections.
 The following List provides some examples on how to use the docker image to deduplicate run/qrel files:
 
-- [Robust04](copycat-spark/src/main/jupyter/copycat-on-robust04.ipynb)
-- [Touche 2020](copycat-spark/src/main/jupyter/copycat-on-argsme.ipynb)
+- [Robust04](copycat-spark/src/main/jupyter/copycat-on-robust04.ipynb) ([open in nbviewer](https://nbviewer.jupyter.org/github/chatnoir-eu/copycat/tree/master/copycat-spark/src/main/jupyter/copycat-on-robust04.ipynb))
+- [Touche 2020](copycat-spark/src/main/jupyter/copycat-on-argsme.ipynb) ([open in nbviewer](https://nbviewer.jupyter.org/github/chatnoir-eu/copycat/tree/master/copycat-spark/src/main/jupyter/copycat-on-argsme.ipynb))
+- [Terabyte](copycat-spark/src/main/jupyter/copycat-on-gov2.ipynb) ([open in nbviewer](https://nbviewer.jupyter.org/github/chatnoir-eu/copycat/blob/master/copycat-spark/src/main/jupyter/copycat-on-gov2.ipynb))
 
 ## Showcases
 
 This repository contains the two showcases from the paper.
 As a general introduction, see the [Getting Started](#getting-started) section.
 
-- Deduplication of run/qrel files with the copycat-cli ([copycat-on-clueweb.ipynb](copycat-spark/src/main/jupyter/copycat-on-clueweb.ipynb))
+- Deduplication of run/qrel files with the copycat-cli ([copycat-on-clueweb.ipynb](copycat-spark/src/main/jupyter/copycat-on-clueweb.ipynb), [open in nbviewer](https://nbviewer.jupyter.org/github/chatnoir-eu/copycat/tree/master/copycat-spark/src/main/jupyter/copycat-on-clueweb.ipynb))
 - [Transfer of relevance labels](case-studies/relevance-label-transfer/README.md)
 
 ## Development Environment:
