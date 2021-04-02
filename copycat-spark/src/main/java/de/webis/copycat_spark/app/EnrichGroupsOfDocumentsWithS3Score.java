@@ -11,6 +11,9 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import de.webis.copycat.DocumentPreprocessing;
+import de.webis.copycat.document_preprocessing.CopyCatPreprocessing;
+import de.webis.copycat.document_preprocessing.PreprocessingArgs;
 import de.webis.copycat_spark.util.TakeRandom;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -35,18 +38,24 @@ public class EnrichGroupsOfDocumentsWithS3Score {
 		if (parsedArgs == null) {
 			return;
 		}
+		
+		DocumentPreprocessing documentPreprocessing = CopyCatPreprocessing.documentPreprocessing(parsedArgs);
+		
+		if(documentPreprocessing == null) {
+			return;
+		}
 
 		try (JavaSparkContext context = context()) {
 			JavaRDD<String> input = context.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
 			
 			JavaRDD<ArrayList<String>> sampledDocumentGroups = input.map(i -> sampleFromGroup(i));
 			
-			sampledDocumentGroups.flatMap(i -> calculate_all_pairs_similarity(i))
+			sampledDocumentGroups.flatMap(i -> calculate_all_pairs_similarity(i, documentPreprocessing))
 				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
 		}
 	}
 	
-	private static Iterator<String> calculate_all_pairs_similarity(ArrayList<String> i) {
+	private static Iterator<String> calculate_all_pairs_similarity(ArrayList<String> i, DocumentPreprocessing documentPreprocessing) {
 		if(i == null || i.size() < 2) {
 			return Collections.emptyIterator();
 		}
@@ -61,7 +70,7 @@ public class EnrichGroupsOfDocumentsWithS3Score {
 		
 		Tuple2<String, Iterable<String>> groupForFirstId = new Tuple2<>(i.get(0), allPairs);
 		EnrichSimHashNearDuplicatesWithS3Similarity.CALCULATE_ONLY_S3 = false;
-		return EnrichSimHashNearDuplicatesWithS3Similarity.enrichS3Score(groupForFirstId, EnrichSimHashNearDuplicatesWithS3Similarity.docResolver(null), EnrichSimHashNearDuplicatesWithS3Similarity.Format.CSV_FORMAT);
+		return EnrichSimHashNearDuplicatesWithS3Similarity.enrichS3Score(groupForFirstId, EnrichSimHashNearDuplicatesWithS3Similarity.docResolver(documentPreprocessing), EnrichSimHashNearDuplicatesWithS3Similarity.Format.CSV_FORMAT);
 	}
 
 	private static JavaSparkContext context() {
@@ -91,6 +100,8 @@ public class EnrichGroupsOfDocumentsWithS3Score {
 
 		ret.addArgument("-o", "--" + ArgumentParsingUtil.ARG_OUTPUT).required(Boolean.TRUE)
 			.help("The resulting jsonl enriched with similarity scores.");
+		
+		PreprocessingArgs.addArgs(ret);
 		
 		return ret;
 	}

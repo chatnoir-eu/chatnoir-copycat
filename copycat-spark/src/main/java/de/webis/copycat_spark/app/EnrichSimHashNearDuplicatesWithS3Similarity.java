@@ -166,7 +166,10 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 	}
 	
 	static DocumentResolverFactory docResolver(Namespace args) {
-		DocumentPreprocessing documentPreprocessing = CopyCatPreprocessing.documentPreprocessing(args);
+		return docResolver(CopyCatPreprocessing.documentPreprocessing(args));
+	}
+	
+	static DocumentResolverFactory docResolver(DocumentPreprocessing documentPreprocessing) {
 		return () -> CollectionDocumentUtil.HdfsMapFileDocumentResolver.smartDocumentResolver(documentPreprocessing);
 	}
 	
