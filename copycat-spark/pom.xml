@@ -25,11 +25,6 @@
 			<version>0.8.1</version>
 		</dependency>
 		<dependency>
-			<groupId>de.webis</groupId>
-			<artifactId>copycat-document-preprocessing</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>de.webis.chatnoir2</groupId>
 			<artifactId>chatnoir2-mapfile-generator</artifactId>
 			<version>1.0-SNAPSHOT</version>
