@@ -3,7 +3,9 @@ package de.webis.copycat_spark.app;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -13,6 +15,7 @@ import org.apache.hadoop.io.compress.BZip2Codec;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import com.google.common.collect.Iterators;
 
@@ -30,6 +33,7 @@ import de.webis.copycat_spark.util.TakeRandom;
 import de.webis.trec_ndd.spark.DocumentHash;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.util.NGramms.Word8Gramm;
+import lombok.SneakyThrows;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -117,6 +121,7 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 			s3Score + "}";
 	}
 	
+	@SneakyThrows
 	static String addS3ScoreToCsvLine(CollectionDocument firstDoc, String csvLine, DocumentResolver docResolver, Format f) {
 		String secondId = f.secondId(csvLine);
 		String firstId = f.firstId(csvLine);
@@ -146,18 +151,18 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 			cosineSimilarityOneGramms = String.format("%.4f", aVec.getCosSimilarity(bVec));
 		}
 		
-		return "{\"firstId\":\"" + firstId + "\",\"secondId\":\"" + secondId + "\",\"s3Score\":" +
-			s3Score + ",\"cosineSimilarityOneGramms\":" + cosineSimilarityOneGramms + ",\"cosineSimilarityEightGramms\":"
-			+ cosineSimilarityEightGramms +",\"cosineSimilarityThreeAndFiveGramms\":" + cosineSimilarityThreeAndFiveGramms + "}";
-	}
-	
-	private static void sleepSometimesToPreventNetworkProblems(int i) {
-		//sounds silly, but is true: 
-		if(i % 100 == 0) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {}
-		}
+		Map<String, Object> ret = new LinkedHashMap<>();
+		ret.put("firstId", firstId);
+		ret.put("secondId", secondId);
+		ret.put("s3Score", s3Score);
+		ret.put("cosineSimilarityOneGramms", cosineSimilarityOneGramms);
+		ret.put("cosineSimilarityEightGramms", cosineSimilarityEightGramms);
+		ret.put("cosineSimilarityThreeAndFiveGramms", cosineSimilarityThreeAndFiveGramms);
+		ret.put("s3Score", s3Score);
+		ret.put("firstDoc", firstDoc);
+		ret.put("secondDoc", secondDoc);
+		
+		return new ObjectMapper().writeValueAsString(ret);
 	}
 	
 	static DocumentResolverFactory docResolver(Namespace args) {

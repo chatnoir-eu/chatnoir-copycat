@@ -11,7 +11,7 @@
         --class de.webis.copycat_spark.app.EnrichGroupsOfDocumentsWithS3Score \
         --conf spark.default.parallelism=5000\
         --executor-cores 1\
-        --num-executors 50\
+        --num-executors 40\
         --driver-memory 15G\
         --executor-memory 10G\
         /target/copycat-spark-1.0-SNAPSHOT-jar-with-dependencies.jar ${@}

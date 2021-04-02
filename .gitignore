@@ -10,3 +10,6 @@
 **/.jupyter/
 **/.wget-hsts
 **/wget-log
+**/.Rhistory
+**/.capreolus/
+**/.keras/
