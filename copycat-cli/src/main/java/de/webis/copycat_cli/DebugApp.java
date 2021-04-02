@@ -6,9 +6,15 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.fs.FileSystem;
 
+import de.webis.copycat.DocumentPreprocessing;
+import de.webis.copycat.document_preprocessing.CopyCatPreprocessing;
+import de.webis.copycat.document_preprocessing.PreprocessingArgs;
 import de.webis.copycat_cli.doc_resolver.AnseriniDocumentResolver;
 import de.webis.copycat_cli.doc_resolver.ChatNoirDocumentResolver;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
+import lombok.SneakyThrows;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
 
 public class DebugApp {
 	public static void main(String[] args) {
@@ -47,12 +53,22 @@ public class DebugApp {
 		try {
 			String id = "clueweb09-en0002-17-16080";
 			System.out.println("Retrieve " + id);
-			CollectionDocument doc = new ChatNoirDocumentResolver().loadCollectionDocument(id);
+			ChatNoirDocumentResolver docResolver = new ChatNoirDocumentResolver();
+			docResolver.configure(preprocessing());
+			CollectionDocument doc = docResolver.loadCollectionDocument(id);
 		
 			System.out.println(doc.getContent());
 			System.out.println(doc.getCrawlingTimestamp());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@SneakyThrows
+	private static DocumentPreprocessing preprocessing() {
+		ArgumentParser pseudoArgParser = ArgumentParsers.newFor("pseudoArgParser").build();
+		PreprocessingArgs.addArgs(pseudoArgParser);
+		
+		return CopyCatPreprocessing.documentPreprocessing(pseudoArgParser.parseArgs(new String[] {}));
 	}
 }

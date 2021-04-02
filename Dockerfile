@@ -7,6 +7,6 @@ RUN apt-get update && \
 	mkdir /copycat
 
 COPY copycat-cli/target/copycat-cli-1.0-SNAPSHOT-jar-with-dependencies.jar /copycat/
-COPY src/main/bash/copy-cat-in-docker.sh /usr/bin/copy-cat
+COPY copycat-cli/src/main/bash/copy-cat-in-docker.sh /usr/bin/copy-cat
 
 USER jovyan

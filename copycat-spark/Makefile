@@ -379,12 +379,6 @@ repartition-url-candidates-cc17: install
 create-source-docs: install
 	./src/main/bash/run-low-resource-spark-job.sh de.webis.copycat_spark.spark.SparkCreateSourceDocuments
 
-build-docker-image:
-	docker build -f Dockerfile -t webis/chatnoir-copycat:1.0-jupyter .
-
-publish-docker:
-	docker push webis/chatnoir-copycat:1.0-jupyter
-
 repartition-source-docs-cc15: install
 	./src/main/bash/run-spark-job.sh de.webis.copycat_spark.spark.util.SparkRepartitionCommonCrawl2015SourceDocuments
 

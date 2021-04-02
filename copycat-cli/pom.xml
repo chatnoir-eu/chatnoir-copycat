@@ -34,6 +34,12 @@
 			<groupId>de.webis.chatnoir2</groupId>
 			<artifactId>chatnoir2-webclient</artifactId>
 			<version>2.0.0-SNAPSHOT-MAIK</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.elasticsearch.client</groupId>
+					<artifactId>transport</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.webis</groupId>
