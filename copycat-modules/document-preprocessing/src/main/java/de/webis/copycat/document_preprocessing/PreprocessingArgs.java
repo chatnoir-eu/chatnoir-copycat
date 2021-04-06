@@ -64,7 +64,7 @@ public class PreprocessingArgs {
 			.addArgument("--" + PreprocessingArgs.ARG_CONTENT_EXTRACTION)
 			.required(false)
 			.setDefault("Anserini")
-			.choices("Anserini", "Boilerpipe", "Jericho", "Trafilatura", "No")
+			.choices("Anserini", "Boilerpipe", "Jericho", "Trafilatura", "TrafilaturaVenv", "No")
 			.help("The name of the content extraction. (Use 'Anserini' for Anserini's default HTML to plain text transformation, or 'No' in case documents are already transformed (e.g., because they come from an anserini index)")
 			.required(false);
 		
