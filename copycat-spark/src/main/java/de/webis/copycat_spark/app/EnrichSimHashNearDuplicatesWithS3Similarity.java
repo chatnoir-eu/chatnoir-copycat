@@ -2,6 +2,7 @@ package de.webis.copycat_spark.app;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -82,7 +83,8 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 		DocumentHash firstHash = firstDoc == null ? null : new DocumentHash(firstDoc);
 		Set<Word8Gramm> firstWord8Gramms = firstDoc == null ? null : SparkEnrichRelevanceTransferPairs.word8Gramms(firstDoc);
 		
-		List<String> groups = TakeRandom.takeRandomElements(100000, groupForFirstId._2());
+		List<String> groups = new ArrayList<>(TakeRandom.takeRandomElements(100000, groupForFirstId._2()));
+		Collections.sort(groups);
 		
 		if(CALCULATE_ONLY_S3) {
 			if(firstId.startsWith("clueweb09")) {

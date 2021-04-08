@@ -84,8 +84,10 @@ public class EnrichGroupsOfDocumentsWithS3Score {
 	private static ArrayList<String> sampleFromGroup(String i) {
 		try {
 			ArrayList<String> ret = new ObjectMapper().readValue(i, ArrayList.class);
+			ret = new ArrayList<>(TakeRandom.takeRandomElements(50, ret));
+			Collections.sort(ret);
 			
-			return new ArrayList<>(TakeRandom.takeRandomElements(50, ret));
+			return ret;
 		} catch(Exception e) {
 			return new ArrayList<>();
 		}
