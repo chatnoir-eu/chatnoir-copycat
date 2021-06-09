@@ -1,0 +1,2 @@
+{"topic":"1","similarities":[{"firstId":"doc-1","secondId":"doc-2","similarities":{"s3":0.9952229}},{"firstId":"doc-3","secondId":"doc-4","similarities":{"s3":0.9952229}},{"firstId":"doc-5","secondId":"doc-6","similarities":{"s3":0.9952229}}]}
+{"topic":"1","similarities":[{"firstId":"doc-1","secondId":"doc-2","similarities":{"s3":0.9952229}},{"firstId":"doc-4","secondId":"doc-5","similarities":{"s3":0.9952229}}]}

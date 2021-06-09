@@ -69,6 +69,11 @@
 			<version>2.8.5</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-core</artifactId>
+			<version>1.4.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

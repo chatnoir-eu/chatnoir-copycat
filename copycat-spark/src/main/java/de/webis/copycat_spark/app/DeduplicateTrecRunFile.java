@@ -105,7 +105,7 @@ public class DeduplicateTrecRunFile {
 	}
 	
 	private String processTopic(String topic, List<String> docs) {
-		System.out.println("Process topic " + topic);
+		System.out.println("Process topic " + topic + " (" + docs.size() + " docs)");
 		AllPairsSimilarities sim = deduplicateDocIds(docs);
 		sim.setTopic(topic);
 		
@@ -118,7 +118,7 @@ public class DeduplicateTrecRunFile {
 		return deduplicateCollectionDocs(collectionDocs);
 	}
 	
-	private Map<String, CollectionDocument> docs(List<String> docs) {
+	public Map<String, CollectionDocument> docs(List<String> docs) {
 		List<CollectionDocument> collectionDocs = parallel(() -> docs.parallelStream().map(id -> docResolver.loadCollectionDocument(id)).collect(Collectors.toList()));
 		Map<String, CollectionDocument> ret = new LinkedHashMap<>();
 		
@@ -284,6 +284,7 @@ public class DeduplicateTrecRunFile {
 	}
 	
 	@Data
+	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class AllPairsSimilarities {
 		private String topic;

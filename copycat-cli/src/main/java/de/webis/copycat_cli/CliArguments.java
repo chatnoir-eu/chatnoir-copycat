@@ -21,6 +21,8 @@ public interface CliArguments {
 	public static final String ARG_ANSERINI_INDEX = "anseriniIndex";
 	public static final String ARG_RUN_FILE = "runFile";
 	public static final String ARG_RETRIEVE_DOC = "retrieveDocId";
+	public static final String ARG_PERSIST_EXAMPLES = "persistExamples";
+	public static final String ARG_DOC_CLASSES_FILE = "documentEquivalenceClassFile";
 	
 	static Namespace parseArgs(String[] args) {
 		ArgumentParser parser = argParser();
@@ -84,6 +86,18 @@ public interface CliArguments {
 			.type(Boolean.class)
 			.setDefault(true)
 			.help("Is the specified a run file (pass true), or a qrels file (pass false)");
+		
+		ret.addArgument("--" + ARG_PERSIST_EXAMPLES)
+			.type(String.class)
+			.setDefault((String) null)
+			.required(false)
+			.help("If this is specified, the identified near-duplicates are persisted to the filesystem to the specified directory.");
+		
+		ret.addArgument("--" + ARG_DOC_CLASSES_FILE)
+			.type(String.class)
+			.setDefault((String) null)
+			.required(false)
+			.help("Specifies the file to which equivalence classes of documents are persisted as jsonl. If not present, no equivalence classes will be written.");
 		
 		PreprocessingArgs.addArgs(ret);
 		
