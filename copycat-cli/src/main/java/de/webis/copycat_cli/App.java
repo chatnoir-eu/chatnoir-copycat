@@ -115,6 +115,7 @@ public class App implements CliArguments {
 		for(String jsonlInput: in) {
 			List<String> tmp = extractGroupsOfEquivalentDocuments(jsonlInput);
 			ret += "\n" + tmp.stream().collect(Collectors.joining("\n"));
+			ret = ret.trim();
 		}
 		
 		Files.write(ret.getBytes(), out.toFile());
