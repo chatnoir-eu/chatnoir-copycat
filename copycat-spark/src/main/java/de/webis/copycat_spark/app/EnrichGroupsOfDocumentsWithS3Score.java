@@ -49,6 +49,7 @@ public class EnrichGroupsOfDocumentsWithS3Score {
 			JavaRDD<String> input = context.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT));
 			
 			JavaRDD<ArrayList<String>> sampledDocumentGroups = input.map(i -> sampleFromGroup(i));
+			sampledDocumentGroups = sampledDocumentGroups.repartition(2500);
 			
 			sampledDocumentGroups.flatMap(i -> calculate_all_pairs_similarity(i, documentPreprocessing))
 				.saveAsTextFile(parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT), BZip2Codec.class);
