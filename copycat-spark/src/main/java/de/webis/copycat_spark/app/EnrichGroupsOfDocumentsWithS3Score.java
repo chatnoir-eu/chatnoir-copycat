@@ -70,7 +70,7 @@ public class EnrichGroupsOfDocumentsWithS3Score {
 		
 		Tuple2<String, Iterable<String>> groupForFirstId = new Tuple2<>(i.get(0), allPairs);
 		EnrichSimHashNearDuplicatesWithS3Similarity.CALCULATE_ONLY_S3 = false;
-		return EnrichSimHashNearDuplicatesWithS3Similarity.enrichS3Score(groupForFirstId, EnrichSimHashNearDuplicatesWithS3Similarity.docResolver(documentPreprocessing), EnrichSimHashNearDuplicatesWithS3Similarity.Format.CSV_FORMAT);
+		return EnrichSimHashNearDuplicatesWithS3Similarity.enrichS3ScoreFailSave(groupForFirstId, EnrichSimHashNearDuplicatesWithS3Similarity.docResolver(documentPreprocessing), EnrichSimHashNearDuplicatesWithS3Similarity.Format.CSV_FORMAT);
 	}
 
 	private static JavaSparkContext context() {

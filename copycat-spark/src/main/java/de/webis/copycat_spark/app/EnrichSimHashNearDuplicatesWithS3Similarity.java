@@ -68,7 +68,7 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 				.flatMap(i -> enrichS3ScoreFailSave(i, docResolverFactory, f));
 	}
 	
-	private static Iterator<String> enrichS3ScoreFailSave(Tuple2<String, Iterable<String>> groupForFirstId, DocumentResolverFactory docResolverFactory, Format f) {
+	static Iterator<String> enrichS3ScoreFailSave(Tuple2<String, Iterable<String>> groupForFirstId, DocumentResolverFactory docResolverFactory, Format f) {
 		try {
 			return enrichS3Score(groupForFirstId, docResolverFactory, f);
 		} catch (Error e) {
