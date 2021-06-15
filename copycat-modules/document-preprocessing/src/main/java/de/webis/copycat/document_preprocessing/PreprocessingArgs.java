@@ -34,7 +34,7 @@ public class PreprocessingArgs {
     public String stemmer = "porter";
     
     /**
-     * The name of the content extraction: "Anserini", "Boilerpipe", "Jericho", or "No"
+     * The name of the content extraction: "Anserini", "Boilerpipe", "Jericho", "JustextVenv", or "No"
      */
     public String contentExtraction = "Anserini";
 
@@ -64,7 +64,7 @@ public class PreprocessingArgs {
 			.addArgument("--" + PreprocessingArgs.ARG_CONTENT_EXTRACTION)
 			.required(false)
 			.setDefault("Anserini")
-			.choices("Anserini", "Boilerpipe", "Jericho", "Trafilatura", "TrafilaturaVenv", "No")
+			.choices("Anserini", "Boilerpipe", "Jericho", "Trafilatura", "TrafilaturaVenv", "JustextVenv", "No")
 			.help("The name of the content extraction. (Use 'Anserini' for Anserini's default HTML to plain text transformation, or 'No' in case documents are already transformed (e.g., because they come from an anserini index)")
 			.required(false);
 		

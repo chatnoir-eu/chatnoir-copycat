@@ -1,7 +1,6 @@
 package de.webis.copycat.document_preprocessing;
 
 import org.approvaltests.Approvals;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -15,19 +14,16 @@ public class JustextVenvMainContentDocumentPreprocessingTest extends DocumentPre
 	}
 
 	@Test
-	@Ignore
 	public void approveWebisHtmlPage() {
 		Approvals.verify(preprocessedHtml("webis-de"));
 	}
 	
 	@Test
-	@Ignore
 	public void approveToucheHtmlPage() {
 		Approvals.verify(preprocessedHtml("touche-webis-de"));
 	}
 	
 	@Test
-	@Ignore
 	public void approveSigirHtmlPage() {
 		Approvals.verify(preprocessedHtml("sigir-org-2021-resource"));		
 	}
