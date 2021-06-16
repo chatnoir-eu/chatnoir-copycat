@@ -7,6 +7,7 @@ then
 fi
 
 docker run --rm -ti \
+	--net=host \
 	-v ${PWD}/target:/target \
 	-v ${PWD}/conf/hadoop:/etc/hadoop \
 	-v ${PWD}/conf/spark:/etc/spark \
@@ -14,5 +15,6 @@ docker run --rm -ti \
 	-e HADOOP_CONF_DIR=/etc/hadoop \
 	-e SPARK_CONF_DIR=/etc/spark \
 	-e JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/ \
+	-e PYSPARK_PYTHON=python3.7 \
 	webis/sparknotebook ${@}
 
