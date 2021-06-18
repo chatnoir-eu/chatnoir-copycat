@@ -1,10 +1,8 @@
 package de.webis.copycat.document_preprocessing;
 
-import java.io.Serializable;
+import org.jsoup.Jsoup;
 
 import de.webis.copycat.DocumentPreprocessing;
-import io.anserini.index.transform.StringTransform;
-import lombok.SneakyThrows;
 
 /**
  * All of Anserini's String transformations (and classes that implement this interface)
@@ -16,38 +14,14 @@ import lombok.SneakyThrows;
  */
 @SuppressWarnings("serial")
 public class AnseriniDocumentTransformation implements DocumentPreprocessing {
-	private final SerializableStringTransform anseriniTransformer;
-
 	AnseriniDocumentTransformation(String transformerName) {
-		this(stringTransformClass(transformerName));
-	}
-	
-	public AnseriniDocumentTransformation(Class<? extends StringTransform> clazz) {
-		anseriniTransformer = serializableInstance(clazz);
+		if(!"JsoupStringTransform".equals(transformerName)) {
+			throw new RuntimeException("FIXME: JsoupStringTransform is the only supported AnseriniDocumentTransformation at the moment. Got: " + transformerName);
+		}
 	}
 	
 	@Override
 	public String preprocessRawDocument(String text) {
-		return anseriniTransformer.apply(text);
+		return Jsoup.parse(text).text();
 	}
-	
-	@SneakyThrows
-	@SuppressWarnings("unchecked")
-	private static Class<? extends StringTransform> stringTransformClass(String transformerName) {
-		return (Class<? extends StringTransform>) Class.forName(StringTransform.class.getPackage().getName() + "." + transformerName);
-	}
-	
-	@SneakyThrows
-	private static SerializableStringTransform serializableInstance(Class<? extends StringTransform> clazz) {
-		StringTransform anseriniTransformer = clazz.newInstance();
-		
-		return new SerializableStringTransform() {
-			@Override
-			public String apply(String t) {
-				return anseriniTransformer.apply(t);
-			}
-		};
-	}
-	
-	static abstract class SerializableStringTransform extends StringTransform implements Serializable {}
 }
