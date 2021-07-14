@@ -1,0 +1,17 @@
+[
+  {
+    "id": "doc1",
+    "content": "{\"contents\": \"here is some text here is some more text. city.\"}",
+    "fullyCanonicalizedContent": "content here some text here some more text citi"
+  },
+  {
+    "id": "doc2",
+    "content": "{\"contents\": \"more texts\"}",
+    "fullyCanonicalizedContent": "content more text"
+  },
+  {
+    "id": "doc3",
+    "content": "{\"contents\": \"here is a test\"}",
+    "fullyCanonicalizedContent": "content here test"
+  }
+]

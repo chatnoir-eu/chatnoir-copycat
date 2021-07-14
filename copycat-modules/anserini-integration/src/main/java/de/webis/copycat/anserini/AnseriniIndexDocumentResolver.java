@@ -1,6 +1,9 @@
 package de.webis.copycat.anserini;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.lucene.codecs.Codec;
 import org.apache.lucene.document.Document;
@@ -13,6 +16,8 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
+
+import lombok.SneakyThrows;
 
 public class AnseriniIndexDocumentResolver {
 	
@@ -40,6 +45,20 @@ public class AnseriniIndexDocumentResolver {
 		}
 	}
 	
+	@SneakyThrows
+	public Stream<Document> allDocumentsInIndex() {
+		List<Integer> ret = new ArrayList<>();
+
+		IndexReader reader = searcher.getIndexReader();
+		for (int i=0; i<reader.maxDoc(); i++) {
+		    ret.add(i);
+		}
+		
+		return ret.stream().map(i -> {try {
+			return reader.document(i);
+		} catch(Exception e) {throw new RuntimeException(e);}});
+	}
+	
 	public String loadDocumentContent(String id) {
 		try {
 			BooleanQuery queryForDoc = new BooleanQuery.Builder()
@@ -55,9 +74,8 @@ public class AnseriniIndexDocumentResolver {
 			throw new RuntimeException(e);
 		}
 	}
-	
 
-	private String doc(Document document) {
+	public String doc(Document document) {
 		String content = document.get("raw");
 		if(content == null || content.trim().isEmpty()) {
 			content = document.get("contents");
@@ -68,6 +86,10 @@ public class AnseriniIndexDocumentResolver {
 		}
 		
 		return content;
+	}
+	
+	public String id(Document document) {
+		return document.get("id");
 	}
 
 	private static Query idIs(String documentId) {
