@@ -43,12 +43,21 @@ public class FullS3Deduplication {
 		
 		try(JavaSparkContext jsc = context()) {
 			JavaRDD<CollectionDocument> docsRdd = jsc.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT))
-					.map(line -> CollectionDocument.fromString(line));
+					.map(i -> parse(i))
+					.filter(i -> i != null);
 			String index = parsedArgs.getString("eightGramIndex");
 			String s3Scores = parsedArgs.getString("s3Scores");
 			
 			build8GrammIndex(docsRdd, jsc, index);
 			calculateS3Scores(jsc, index, s3Scores, docsRdd);
+		}
+	}
+	
+	private static CollectionDocument parse(String json) {
+		try {
+			return CollectionDocument.fromString(json);
+		} catch (Exception e) {
+			return null;
 		}
 	}
 	
