@@ -1,9 +1,6 @@
 package de.webis.copycat_spark.app;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +21,6 @@ import de.webis.trec_ndd.trec_collections.CollectionDocument;
 import de.webis.trec_ndd.util.NGramms;
 import de.webis.trec_ndd.util.SymmetricPairUtil;
 import de.webis.trec_ndd.util.NGramms.Word8Gramm;
-import lombok.SneakyThrows;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -45,19 +41,9 @@ public class FullS3Deduplication {
 			return;
 		}
 		
-		List<CollectionDocument> docs = new ArrayList<>();
-		for(Object jsonl: parsedArgs.getList(ArgumentParsingUtil.ARG_INPUT)) {
-			System.out.println("Process " + jsonl);
-			List<CollectionDocument> tmp = docs((String) jsonl);
-			System.out.println("Read " + tmp.size() + " documents from " + (String) jsonl);
-			
-			docs.addAll(tmp);
-		}
-		
-		System.out.println("Start deduplication with " + docs.size() + " documents.");
-		
 		try(JavaSparkContext jsc = context()) {
-			JavaRDD<CollectionDocument> docsRdd = jsc.parallelize(docs);
+			JavaRDD<CollectionDocument> docsRdd = jsc.textFile(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT))
+					.map(line -> CollectionDocument.fromString(line));
 			String index = parsedArgs.getString("eightGramIndex");
 			String s3Scores = parsedArgs.getString("s3Scores");
 			
@@ -89,7 +75,6 @@ public class FullS3Deduplication {
 				.build();
 		
 		ret.addArgument("--" + ArgumentParsingUtil.ARG_INPUT)
-			.nargs("+")
 			.help("Jsonl files that contain documents.")
 			.required(true);
 		
@@ -208,16 +193,5 @@ public class FullS3Deduplication {
 		} catch (IOException e) {
 			return false;
 		}
-	}
-
-	@SneakyThrows
-	public static List<CollectionDocument> docs(String jsonlFile) {
-		List<CollectionDocument> ret = new ArrayList<>();
-		
-		for(String line: Files.readAllLines(Paths.get(jsonlFile))) {
-			ret.add(CollectionDocument.fromString(line));
-		}
-		
-		return ret;
 	}
 }
