@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.spark.HashPartitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -150,18 +151,20 @@ public class FullS3Deduplication {
 	}
 	
 	private static JavaRDD<S3ScoreIntermediateResult> sumCoocurrencesOfAllIndexEntries(JavaRDD<Word8GrammIndexEntry> allIndexEntries) {
-		return allIndexEntries
+		JavaPairRDD<Pair<String, String>, Integer> tmp = allIndexEntries
 				.flatMap(indexEntry -> SymmetricPairUtil.extractCoocurrencePairs(indexEntry).iterator())
-				.groupBy(Pair::getLeft)
-				.map(FullS3Deduplication::sum);
+				.mapToPair(i -> new Tuple2<>(i.getLeft(), i.getRight()));
+		
+		return tmp.repartitionAndSortWithinPartitions(new HashPartitioner(1000))
+			.groupByKey().map(FullS3Deduplication::sum);
 	}
 	
-	private static S3ScoreIntermediateResult sum(Tuple2<Pair<String, String>, Iterable<Pair<Pair<String, String>, Integer>>> v) {
+	private static S3ScoreIntermediateResult sum(Tuple2<Pair<String, String>, Iterable<Integer>> v) {
 		int sum = 0;
-		Iterator<Pair<Pair<String, String>, Integer>> iter = v._2().iterator();
+		Iterator<Integer> iter = v._2().iterator();
 		
 		while(iter.hasNext()) {
-			sum += iter.next().getRight();
+			sum += iter.next();
 		}
 		
 		return new S3ScoreIntermediateResult()
