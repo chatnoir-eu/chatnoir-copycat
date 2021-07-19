@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.spark.HashPartitioner;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -152,24 +152,19 @@ public class FullS3Deduplication {
 	
 	private static JavaRDD<S3ScoreIntermediateResult> sumCoocurrencesOfAllIndexEntries(JavaRDD<Word8GrammIndexEntry> allIndexEntries) {
 		JavaPairRDD<Pair<String, String>, Integer> tmp = allIndexEntries
-				.flatMap(indexEntry -> SymmetricPairUtil.extractCoocurrencePairs(indexEntry).iterator())
-				.mapToPair(i -> new Tuple2<>(i.getLeft(), i.getRight()));
+			.flatMapToPair(indexEntry -> extractCoocurrencePairs(indexEntry).iterator());
 		
-		return tmp.repartitionAndSortWithinPartitions(new HashPartitioner(1000))
-			.groupByKey().map(FullS3Deduplication::sum);
+		tmp = tmp.reduceByKey((a,b ) -> a+b);
+		
+		return tmp.map(i -> new S3ScoreIntermediateResult()
+				.setCommonNGramms(i._2())
+				.setIdPair(i._1()));
 	}
 	
-	private static S3ScoreIntermediateResult sum(Tuple2<Pair<String, String>, Iterable<Integer>> v) {
-		int sum = 0;
-		Iterator<Integer> iter = v._2().iterator();
-		
-		while(iter.hasNext()) {
-			sum += iter.next();
-		}
-		
-		return new S3ScoreIntermediateResult()
-				.setCommonNGramms(sum)
-				.setIdPair(v._1());
+	private static List<Tuple2<Pair<String, String>, Integer>> extractCoocurrencePairs(Word8GrammIndexEntry input) {
+		return SymmetricPairUtil.extractCoocurrencePairs(input).stream()
+			.map(i -> new Tuple2<>(i.getLeft(), i.getRight()))
+			.collect(Collectors.toList());
 	}
 	
 	private static void build8GrammIndex(JavaRDD<CollectionDocument> docs, JavaSparkContext context, String outputDir) {
