@@ -29,9 +29,9 @@ public class SpexConfiguration {
 			.input(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT))
 			.indexDirectory(out + "/index")
 			.intermediateScoreDirectory(out + "/intermediate-scores")
-			.documentMetadataDirectory("/document-metadata")
+			.documentMetadataDirectory(out +"/document-metadata")
 			.residualIndexDirectory(out + "/residual-index")
-			.finalScoreDirectory("/final-results")
+			.finalScoreDirectory(out +"/final-results")
 			.metadataPartitionCount(10)
 			.postlistThresholdForAllPairsCalculation(1000)
 			.build();
