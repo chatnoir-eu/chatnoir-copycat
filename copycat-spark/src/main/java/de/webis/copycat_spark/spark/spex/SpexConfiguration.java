@@ -1,5 +1,7 @@
 package de.webis.copycat_spark.spark.spex;
 
+import java.io.Serializable;
+
 import de.webis.copycat_spark.app.ArgumentParsingUtil;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +12,8 @@ import net.sourceforge.argparse4j.inf.Namespace;
 
 @Data
 @Builder
-public class SpexConfiguration {
+@SuppressWarnings("serial")
+public class SpexConfiguration implements Serializable {
 	private final String input, indexDirectory,
 		intermediateScoreDirectory, documentMetadataDirectory,
 		residualIndexDirectory, finalScoreDirectory;

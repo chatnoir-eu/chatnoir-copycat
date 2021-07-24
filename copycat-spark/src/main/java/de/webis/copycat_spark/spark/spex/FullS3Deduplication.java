@@ -41,7 +41,6 @@ import scala.Tuple2;
 @Data
 public class FullS3Deduplication {
 	
-	private final JavaSparkContext jsc;
 	private final SpexConfiguration config;
 	
 	public static void main(String[] args) {
@@ -51,30 +50,30 @@ public class FullS3Deduplication {
 		}
 		
 		try(JavaSparkContext jsc = context()) {
-			new FullS3Deduplication(jsc, config).runSpexDeduplication();
+			new FullS3Deduplication(config).runSpexDeduplication(jsc);
 		}
 	}
 	
-	public void runSpexDeduplication() {
-		JavaRDD<CollectionDocument> documents = collectionDocuments();
-		JavaPairRDD<String, DocumentHash> documentMetadata = documentMetadata(documents);
+	public void runSpexDeduplication(JavaSparkContext jsc) {
+		JavaRDD<CollectionDocument> documents = collectionDocuments(jsc);
+		JavaPairRDD<String, DocumentHash> documentMetadata = documentMetadata(documents, jsc);
 		
-		buildIndex(documents);
-		buildResidualIndex();
-		calculateIntermediateScores(documentMetadata);
+		buildIndex(documents, jsc);
+		buildResidualIndex(jsc);
+		calculateIntermediateScores(documentMetadata, jsc);
 		
-		JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry = residualIndexEntry();
-		finalizeScores(docToResidualIndexEntry);
+		JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry = residualIndexEntry(jsc);
+		finalizeScores(docToResidualIndexEntry, jsc);
 	}
 	
-	private JavaPairRDD<String, ResidualIndexEntry> residualIndexEntry() {
+	private JavaPairRDD<String, ResidualIndexEntry> residualIndexEntry(JavaSparkContext jsc) {
 		return jsc.textFile(config.getResidualIndexDirectory())
 			.map(i -> ResidualIndexEntry.fromString(i))
 			.mapToPair(i -> new Tuple2<>(i.getDocumentId(), i));
 	}
 
-	private void buildResidualIndex() {
-		if(fileExists(config.getResidualIndexDirectory() +"/_SUCCESS")) {
+	private void buildResidualIndex(JavaSparkContext jsc) {
+		if(fileExists(config.getResidualIndexDirectory() +"/_SUCCESS", jsc)) {
 			return;
 		}
 		
@@ -88,7 +87,7 @@ public class FullS3Deduplication {
 			.saveAsTextFile(config.getResidualIndexDirectory());
 	}
 	
-	private JavaRDD<CollectionDocument> collectionDocuments() {
+	private JavaRDD<CollectionDocument> collectionDocuments(JavaSparkContext jsc) {
 		return jsc.textFile(config.getInput())
 			.map(i -> parse(i))
 			.filter(i -> i != null);
@@ -109,8 +108,8 @@ public class FullS3Deduplication {
 		return new JavaSparkContext(conf);
 	}
 	
-	private void finalizeScores(JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry) {
-		if(fileExists(config.getFinalScoreDirectory() +"/_SUCCESS")) {
+	private void finalizeScores(JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry, JavaSparkContext jsc) {
+		if(fileExists(config.getFinalScoreDirectory() +"/_SUCCESS", jsc)) {
 			return;
 		}
 		
@@ -135,8 +134,8 @@ public class FullS3Deduplication {
 		return new ObjectMapper().writeValueAsString(ret);
 	}
 	
-	private void calculateIntermediateScores(JavaPairRDD<String, DocumentHash> metadata) {
-		if(fileExists(config.getIntermediateScoreDirectory() +"/_SUCCESS")) {
+	private void calculateIntermediateScores(JavaPairRDD<String, DocumentHash> metadata, JavaSparkContext jsc) {
+		if(fileExists(config.getIntermediateScoreDirectory() +"/_SUCCESS", jsc)) {
 			return;
 		}
 		
@@ -178,8 +177,8 @@ public class FullS3Deduplication {
 		});
 	}
 	
-	private JavaPairRDD<String, DocumentHash> documentMetadata(JavaRDD<CollectionDocument> docs) {
-		if(!fileExists(config.getDocumentMetadataDirectory() +"/_SUCCESS")) {
+	private JavaPairRDD<String, DocumentHash> documentMetadata(JavaRDD<CollectionDocument> docs, JavaSparkContext jsc) {
+		if(!fileExists(config.getDocumentMetadataDirectory() +"/_SUCCESS", jsc)) {
 			docs.map(i -> new DocumentHash(i).toString())
 				.repartition(config.getMetadataPartitionCount())
 				.saveAsTextFile(config.getDocumentMetadataDirectory());
@@ -220,8 +219,8 @@ public class FullS3Deduplication {
 		return indexEntry.getDocumentIds().size() > config.getPostlistThresholdForAllPairsCalculation();
 	}
 	
-	private void buildIndex(JavaRDD<CollectionDocument> docs) {
-		if(fileExists(config.getIndexDirectory() +"/_SUCCESS")) {
+	private void buildIndex(JavaRDD<CollectionDocument> docs, JavaSparkContext jsc) {
+		if(fileExists(config.getIndexDirectory() +"/_SUCCESS", jsc)) {
 			return;
 		}
 
@@ -245,7 +244,7 @@ public class FullS3Deduplication {
 		return ret.iterator();
 	}
 	
-	private boolean fileExists(String file) {
+	private boolean fileExists(String file, JavaSparkContext jsc) {
 		try {
 			FileSystem fs = FileSystem.get(jsc.hadoopConfiguration());
 		
