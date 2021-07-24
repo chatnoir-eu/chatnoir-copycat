@@ -1,6 +1,7 @@
 package de.webis.copycat_spark.spark.spex;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -39,7 +40,8 @@ import scala.Tuple2;
  * This calculates S3 similarities for all documents in a corpus with SPARK
  */
 @Data
-public class FullS3Deduplication {
+@SuppressWarnings("serial")
+public class FullS3Deduplication implements Serializable {
 	
 	private final SpexConfiguration config;
 	
