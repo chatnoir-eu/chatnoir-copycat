@@ -2,14 +2,14 @@ package de.webis.copycat_spark.app;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.io.compress.BZip2Codec;
@@ -31,9 +31,7 @@ import de.webis.copycat_spark.spark.SparkEnrichRelevanceTransferPairs;
 import de.webis.copycat_spark.spark.eval.SparkEvaluateSimHashFeatures;
 import de.webis.copycat_spark.util.CollectionDocumentUtil;
 import de.webis.copycat_spark.util.TakeRandom;
-import de.webis.trec_ndd.spark.DocumentHash;
 import de.webis.trec_ndd.trec_collections.CollectionDocument;
-import de.webis.trec_ndd.util.NGramms.Word8Gramm;
 import lombok.SneakyThrows;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -78,45 +76,47 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 	
 	static Iterator<String> enrichS3Score(Tuple2<String, Iterable<String>> groupForFirstId, DocumentResolverFactory docResolverFactory, Format f) {
 		DocumentResolver docResolver = docResolverFactory.get();
-		String firstId = groupForFirstId._1();
-		CollectionDocument firstDoc = docResolver.loadCollectionDocument(firstId);
-		DocumentHash firstHash = firstDoc == null ? null : new DocumentHash(firstDoc);
-		Set<Word8Gramm> firstWord8Gramms = firstDoc == null ? null : SparkEnrichRelevanceTransferPairs.word8Gramms(firstDoc);
-		
 		List<String> groups = new ArrayList<>(TakeRandom.takeRandomElements(100000, groupForFirstId._2()));
 		Collections.sort(groups);
-		
-		if(CALCULATE_ONLY_S3) {
-			if(firstId.startsWith("clueweb09")) {
-				groups = groups.stream().filter(i -> i.startsWith("clueweb09")).collect(Collectors.toList());
-			} else if(firstId.startsWith("clueweb12")) {
-				groups = groups.stream().filter(i -> i.startsWith("clueweb12")).collect(Collectors.toList());
-			} else {
-				groups = new ArrayList<>();
-			}
-		}
+		Map<String, CollectionDocument> docs = docs(groups, docResolver, f);
 		
 		if(CALCULATE_ONLY_S3) {
 			return Iterators.transform(
 					groups.iterator(),
-					i -> addS3ScoreToCsvLine(firstHash, firstWord8Gramms, i, docResolver, f)
+					i -> addS3ScoreToCsvLine2(docs, i, f)
 				);
 		} else {
 			return Iterators.transform(
 				groups.iterator(),
-				i -> addS3ScoreToCsvLine(firstDoc, i, docResolver, f)
+				i -> addS3ScoreToCsvLine(docs, i, f)
 			);
 		}
 	}
 	
-	private static String addS3ScoreToCsvLine(DocumentHash firstHash, Set<Word8Gramm> firstWord8Gramms, String csvLine, DocumentResolver docResolver, Format f) {
+	private static Map<String, CollectionDocument> docs(List<String> groups, DocumentResolver docResolver, Format f) {
+		Map<String, CollectionDocument> docs = new HashMap<>();
+		for(String group: groups) {
+			List<String> ids = Arrays.asList(f.firstId(group), f.secondId(group));
+			for(String id: ids) {
+				if(!docs.containsKey(id)) {
+					docs.put(id, docResolver.loadCollectionDocument(id));
+				}
+			}
+		}
+		
+		return docs;
+	}
+	
+	private static String addS3ScoreToCsvLine2(Map<String, CollectionDocument> docs, String csvLine, Format f) {
+		String firstId = f.firstId(csvLine);
 		String secondId = f.secondId(csvLine);
-		CollectionDocument secondDoc = docResolver.loadCollectionDocument(secondId); 
+		CollectionDocument firstDoc = docs.get(firstId);
+		CollectionDocument secondDoc = docs.get(secondId); 
 		String  s3Score = "-1";
 		
 		
-		if(firstHash != null && secondDoc != null) {
-			s3Score = String.format("%.4f", SparkEnrichRelevanceTransferPairs.s3Score(firstHash, firstWord8Gramms, secondDoc));
+		if(firstDoc != null && secondDoc != null) {
+			s3Score = String.format("%.4f", SparkEnrichRelevanceTransferPairs.s3Score(firstDoc, secondDoc));
 		}
 		
 		return "{\"firstId\":\"" + f.firstId(csvLine) + "\",\"secondId\":\"" + secondId + "\",\"s3Score\":" +
@@ -124,10 +124,12 @@ public class EnrichSimHashNearDuplicatesWithS3Similarity {
 	}
 	
 	@SneakyThrows
-	static String addS3ScoreToCsvLine(CollectionDocument firstDoc, String csvLine, DocumentResolver docResolver, Format f) {
+	static String addS3ScoreToCsvLine(Map<String, CollectionDocument> docs, String csvLine, Format f) {
 		String secondId = f.secondId(csvLine);
 		String firstId = f.firstId(csvLine);
-		CollectionDocument secondDoc = docResolver.loadCollectionDocument(secondId); 
+		CollectionDocument firstDoc = docs.get(firstId);
+		CollectionDocument secondDoc = docs.get(secondId); 
+		
 		String  s3Score = "-1",
 				cosineSimilarityOneGramms = "-1",
 				cosineSimilarityEightGramms = "-1",
