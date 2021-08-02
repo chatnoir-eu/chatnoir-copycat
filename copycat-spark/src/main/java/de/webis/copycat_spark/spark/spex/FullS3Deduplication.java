@@ -69,11 +69,15 @@ public class FullS3Deduplication implements Serializable {
 	}
 	
 	private JavaPairRDD<String, ResidualIndexEntry> residualIndexEntry(JavaSparkContext jsc) {
-		return jsc.textFile(config.getResidualIndexDirectory())
+		return residualIndexEntry(jsc.textFile(config.getResidualIndexDirectory()));
+	}
+
+	public static JavaPairRDD<String, ResidualIndexEntry> residualIndexEntry(JavaRDD<String> indexEntries) {
+		return indexEntries
 			.map(i -> ResidualIndexEntry.fromString(i))
 			.mapToPair(i -> new Tuple2<>(i.getDocumentId(), i));
 	}
-
+	
 	private void buildResidualIndex(JavaSparkContext jsc) {
 		if(fileExists(config.getResidualIndexDirectory() +"/_SUCCESS", jsc)) {
 			return;
@@ -186,8 +190,11 @@ public class FullS3Deduplication implements Serializable {
 				.saveAsTextFile(config.getDocumentMetadataDirectory());
 		}
 		
-		return jsc.textFile(config.getDocumentMetadataDirectory())
-				.map(i -> DocumentHash.fromString(i))
+		return documentMetadata(jsc.textFile(config.getDocumentMetadataDirectory()));	
+	}
+	
+	public static JavaPairRDD<String, DocumentHash> documentMetadata(JavaRDD<String> documentHashes) {
+		return documentHashes.map(i -> DocumentHash.fromString(i))
 				.filter(i -> i != null)
 				.mapToPair(d -> new Tuple2<>(d.getId(), d));
 	}
