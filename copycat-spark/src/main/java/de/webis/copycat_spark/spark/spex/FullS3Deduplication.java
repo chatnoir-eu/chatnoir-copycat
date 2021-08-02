@@ -20,6 +20,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import de.webis.copycat_spark.app.ArgumentParsingUtil;
 import de.webis.copycat_spark.spark.spex.ResidualIndex.ResidualIndexEntry;
+import de.webis.copycat_spark.spark.spex.ResidualIndexHeuristics.ResidualIndexHeuristic;
 import de.webis.trec_ndd.spark.DocumentHash;
 import de.webis.trec_ndd.spark.S3ScoreOnWord8GrammIndex.S3Score;
 import de.webis.trec_ndd.spark.S3ScoreOnWord8GrammIndex.S3ScoreIntermediateResult;
@@ -66,8 +67,19 @@ public class FullS3Deduplication implements Serializable {
 		
 		JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry = residualIndexEntry(jsc);
 		finalizeScores(docToResidualIndexEntry, jsc);
+		documentPairsInResidualIndexAboveThreshold(docToResidualIndexEntry, documentMetadata, jsc);
 	}
 	
+	private void documentPairsInResidualIndexAboveThreshold(JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry, JavaPairRDD<String, DocumentHash> documentMetadata, JavaSparkContext jsc) {
+		if(fileExists(config.getPairsToRecalculateInResidualIndexDirectory() +"/_SUCCESS", jsc)) {
+			return;
+		}
+		
+		List<ResidualIndexHeuristic> heuristics = ResidualIndexHeuristics.sortedHeuristics(documentMetadata, docToResidualIndexEntry, config.getThreshold());
+		JavaRDD<String> ret = ResidualIndexHeuristics.extractCandidates(jsc, heuristics, config.getThreshold());
+		ret.saveAsTextFile(config.getPairsToRecalculateInResidualIndexDirectory());
+	}
+
 	private JavaPairRDD<String, ResidualIndexEntry> residualIndexEntry(JavaSparkContext jsc) {
 		return residualIndexEntry(jsc.textFile(config.getResidualIndexDirectory()));
 	}

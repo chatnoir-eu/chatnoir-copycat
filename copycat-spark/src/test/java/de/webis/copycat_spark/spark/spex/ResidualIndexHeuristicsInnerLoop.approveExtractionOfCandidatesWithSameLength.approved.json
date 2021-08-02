@@ -1,0 +1,8 @@
+[
+  "{\"position\":0,\"threshold\":0.5,\"consideredPairs\":1,\"pairsToCalculate\":[]}",
+  "{\"position\":1,\"threshold\":0.5,\"consideredPairs\":1,\"pairsToCalculate\":[]}",
+  "{\"position\":2,\"threshold\":0.5,\"consideredPairs\":3,\"pairsToCalculate\":[{\"left\":\"id-3\",\"right\":\"id-4\",\"value\":\"id-4\",\"key\":\"id-3\"},{\"left\":\"id-3\",\"right\":\"id-5\",\"value\":\"id-5\",\"key\":\"id-3\"},{\"left\":\"id-3\",\"right\":\"id-6\",\"value\":\"id-6\",\"key\":\"id-3\"}]}",
+  "{\"position\":3,\"threshold\":0.5,\"consideredPairs\":2,\"pairsToCalculate\":[{\"left\":\"id-4\",\"right\":\"id-5\",\"value\":\"id-5\",\"key\":\"id-4\"},{\"left\":\"id-4\",\"right\":\"id-6\",\"value\":\"id-6\",\"key\":\"id-4\"}]}",
+  "{\"position\":4,\"threshold\":0.5,\"consideredPairs\":1,\"pairsToCalculate\":[{\"left\":\"id-5\",\"right\":\"id-6\",\"value\":\"id-6\",\"key\":\"id-5\"}]}",
+  "{\"position\":5,\"threshold\":0.5,\"consideredPairs\":0,\"pairsToCalculate\":[]}"
+]

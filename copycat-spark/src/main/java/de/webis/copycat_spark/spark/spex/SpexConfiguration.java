@@ -16,9 +16,10 @@ import net.sourceforge.argparse4j.inf.Namespace;
 public class SpexConfiguration implements Serializable {
 	private final String input, indexDirectory,
 		intermediateScoreDirectory, documentMetadataDirectory,
-		residualIndexDirectory, finalScoreDirectory;
+		residualIndexDirectory, finalScoreDirectory, pairsToRecalculateInResidualIndexDirectory;
 	
 	private final int metadataPartitionCount, postlistThresholdForAllPairsCalculation;
+	private final double threshold = 0.5;
 	
 	public static SpexConfiguration parseSpexConfiguration(String[] args) {
 		Namespace parsedArgs = parseArgs(args);
@@ -35,6 +36,7 @@ public class SpexConfiguration implements Serializable {
 			.documentMetadataDirectory(out +"/document-metadata")
 			.residualIndexDirectory(out + "/residual-index")
 			.finalScoreDirectory(out +"/final-results")
+			.pairsToRecalculateInResidualIndexDirectory(out + "/pairs-to-recalculate-in-residual-index-directory")
 			.metadataPartitionCount(10)
 			.postlistThresholdForAllPairsCalculation(1000)
 			.build();

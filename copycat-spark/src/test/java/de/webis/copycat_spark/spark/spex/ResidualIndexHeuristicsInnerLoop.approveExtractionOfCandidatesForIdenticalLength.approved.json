@@ -1,0 +1,4 @@
+[
+  "{\"position\":0,\"threshold\":0.5,\"consideredPairs\":1,\"pairsToCalculate\":[{\"left\":\"id-1\",\"right\":\"id-2\",\"value\":\"id-2\",\"key\":\"id-1\"}]}",
+  "{\"position\":1,\"threshold\":0.5,\"consideredPairs\":0,\"pairsToCalculate\":[]}"
+]
