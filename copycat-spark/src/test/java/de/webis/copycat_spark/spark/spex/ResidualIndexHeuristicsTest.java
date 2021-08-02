@@ -18,7 +18,7 @@ import de.webis.copycat_spark.spark.spex.ResidualIndexHeuristics.ResidualIndexHe
 import de.webis.trec_ndd.spark.DocumentHash;
 import lombok.SneakyThrows;
 
-public class ResidualIndexHeuristicsTest  extends SparkIntegrationTestBase {
+public class ResidualIndexHeuristicsTest extends SparkIntegrationTestBase {
 	
 	@Test
 	public void testResidualHeuristicsSortedAboveOne() {
@@ -122,6 +122,66 @@ public class ResidualIndexHeuristicsTest  extends SparkIntegrationTestBase {
 		Assert.assertEquals(expected, actual);
 		Assert.assertEquals(expectedS3Bound, actual.getUpperS3Bound(), 0.0001);
 		Assert.assertEquals(expectedOtherDocRange, actual.getOtherDocRange(threshold));
+	}
+	
+	@Test
+	public void testS3EstimationForPair1() {
+		ResidualIndexHeuristic a = new ResidualIndexHeuristic("id-11", 36, 1611);
+		ResidualIndexHeuristic b = new ResidualIndexHeuristic("id-11", 36, 1611);
+		boolean expected = false;
+		boolean actual = ResidualIndexHeuristics.canBeAboveThreshold(a, b, .5);
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testS3EstimationForPair2() {
+		ResidualIndexHeuristic a = new ResidualIndexHeuristic("id-11", 36, 1611);
+		ResidualIndexHeuristic b = new ResidualIndexHeuristic("id-11", 36, 1611);
+		boolean expected = false;
+		boolean actual = ResidualIndexHeuristics.canBeAboveThreshold(a, b, .25);
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testS3EstimationForPair3() {
+		ResidualIndexHeuristic a = new ResidualIndexHeuristic("id-11", 36, 1611);
+		ResidualIndexHeuristic b = new ResidualIndexHeuristic("id-11", 36, 1611);
+		boolean expected = true;
+		boolean actual = ResidualIndexHeuristics.canBeAboveThreshold(a, b, .02);
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testS3EstimationForPair4() {
+		ResidualIndexHeuristic a = new ResidualIndexHeuristic("id-11", 100, 100);
+		ResidualIndexHeuristic b = new ResidualIndexHeuristic("id-11", 50, 50);
+		boolean expected = true;
+		boolean actual = ResidualIndexHeuristics.canBeAboveThreshold(a, b, .5);
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testS3EstimationForPair5() {
+		ResidualIndexHeuristic a = new ResidualIndexHeuristic("id-11", 100, 100);
+		ResidualIndexHeuristic b = new ResidualIndexHeuristic("id-11", 40, 50);
+		boolean expected = true;
+		boolean actual = ResidualIndexHeuristics.canBeAboveThreshold(a, b, .5);
+		
+		Assert.assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testS3EstimationForPair6() {
+		ResidualIndexHeuristic a = new ResidualIndexHeuristic("id-11", 100, 100);
+		ResidualIndexHeuristic b = new ResidualIndexHeuristic("id-11", 35, 50);
+		boolean expected = false;
+		boolean actual = ResidualIndexHeuristics.canBeAboveThreshold(a, b, .5);
+		
+		Assert.assertEquals(expected, actual);
 	}
 	
 	private JavaPairRDD<String, DocumentHash> documentMetadata(String...documentHashes) {
