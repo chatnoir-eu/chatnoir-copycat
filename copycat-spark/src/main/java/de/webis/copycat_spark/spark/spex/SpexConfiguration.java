@@ -19,7 +19,7 @@ public class SpexConfiguration implements Serializable {
 		residualIndexDirectory, finalScoreDirectory, pairsToRecalculateInResidualIndexDirectory;
 	
 	private final int metadataPartitionCount, postlistThresholdForAllPairsCalculation;
-	private final double threshold = 0.5;
+	private final double threshold;
 	
 	public static SpexConfiguration parseSpexConfiguration(String[] args) {
 		Namespace parsedArgs = parseArgs(args);
@@ -28,6 +28,7 @@ public class SpexConfiguration implements Serializable {
 		}
 		
 		String out = parsedArgs.getString(ArgumentParsingUtil.ARG_OUTPUT);
+		String threshold = parsedArgs.getString("threshold");
 		
 		return SpexConfiguration.builder()
 			.input(parsedArgs.getString(ArgumentParsingUtil.ARG_INPUT))
@@ -36,7 +37,8 @@ public class SpexConfiguration implements Serializable {
 			.documentMetadataDirectory(out +"/document-metadata")
 			.residualIndexDirectory(out + "/residual-index")
 			.finalScoreDirectory(out +"/final-results")
-			.pairsToRecalculateInResidualIndexDirectory(out + "/pairs-to-recalculate-in-residual-index-directory")
+			.threshold(Double.parseDouble(threshold))
+			.pairsToRecalculateInResidualIndexDirectory(out + "/pairs-to-recalculate-in-residual-index-directory-threshold-" + threshold)
 			.metadataPartitionCount(10)
 			.postlistThresholdForAllPairsCalculation(1000)
 			.build();
@@ -63,6 +65,10 @@ public class SpexConfiguration implements Serializable {
 		
 		ret.addArgument("--" + ArgumentParsingUtil.ARG_OUTPUT)
 			.help("The output structure is here.")
+			.required(true);
+		
+		ret.addArgument("--threshold")
+			.help("The threshold to apply.")
 			.required(true);
 		
 		return ret;
