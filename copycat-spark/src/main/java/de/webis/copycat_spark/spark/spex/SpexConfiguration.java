@@ -16,7 +16,7 @@ import net.sourceforge.argparse4j.inf.Namespace;
 public class SpexConfiguration implements Serializable {
 	private final String input, indexDirectory,
 		intermediateScoreDirectory, documentMetadataDirectory,
-		residualIndexDirectory, finalScoreDirectory, pairsToRecalculateInResidualIndexDirectory;
+		residualIndexDirectory, residualIndexDirectory2, residualIndexDirectory3, intermediateScoreDirectory2, finalScoreDirectory, pairsToRecalculateInResidualIndexDirectory;
 	
 	private final int metadataPartitionCount, postlistThresholdForAllPairsCalculation;
 	private final double threshold;
@@ -36,6 +36,9 @@ public class SpexConfiguration implements Serializable {
 			.intermediateScoreDirectory(out + "/intermediate-scores")
 			.documentMetadataDirectory(out +"/document-metadata")
 			.residualIndexDirectory(out + "/residual-index")
+			.residualIndexDirectory2(out + "/residual-index2-threshold-" + threshold)
+			.residualIndexDirectory3(out + "/residual-index3-threshold-" + threshold)
+			.intermediateScoreDirectory2(out + "/intermediate-scores-2-threshold-" + threshold)
 			.finalScoreDirectory(out +"/final-results")
 			.threshold(Double.parseDouble(threshold))
 			.pairsToRecalculateInResidualIndexDirectory(out + "/pairs-to-recalculate-in-residual-index-directory-threshold-" + threshold)

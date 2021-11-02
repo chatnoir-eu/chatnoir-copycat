@@ -2,12 +2,16 @@ package de.webis.copycat_spark.spark.spex;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -21,6 +25,7 @@ import de.webis.copycat_spark.spark.spex.ResidualIndex.ResidualIndexEntry;
 import de.webis.trec_ndd.spark.DocumentHash;
 import de.webis.trec_ndd.spark.S3ScoreOnWord8GrammIndex.S3Score;
 import de.webis.trec_ndd.spark.S3ScoreOnWord8GrammIndex.S3ScoreIntermediateResult;
+import de.webis.trec_ndd.spark.SparkBuild8GrammIndex.Word8GrammIndexEntry;
 import de.webis.trec_ndd.util.SymmetricPairUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,8 +54,13 @@ public class ResidualIndexHeuristics {
 	}
 	
 	private static DocumentHash pseudoHash(ResidualIndexHeuristic a) {
+		return pseudoHash(a.getDocLength());
+	}
+	
+	
+	private static DocumentHash pseudoHash(int docLength) {
 		DocumentHash ret = new DocumentHash();
-		ret.setFullyCanonicalizedWord8GrammSetSize(a.getDocLength());
+		ret.setFullyCanonicalizedWord8GrammSetSize(docLength);
 		
 		return ret;
 	}
@@ -148,5 +158,66 @@ public class ResidualIndexHeuristics {
 				throw new RuntimeException("Can not handle: " + current + " and " + previous);
 			}
 		}
+	}
+	
+	public static List<Pair<Pair<String, String>, Integer>> extractCoocurrencePairs(Word8GrammIndexEntry input, Map<String, ResidualIndexHeuristic> heuristics, float threshold) {
+		if (input == null || input.getDocumentIds() == null) {
+			return Collections.emptyList();
+		}
+		
+		List<Pair<Pair<String, String>, Integer>> ret = new LinkedList<>();
+		Set<Pair<String, String>> pairsSeen = new HashSet<>();
+		
+		for(int i=1; i< input.getDocumentIds().size(); i++) {
+			for(int j=i;j< input.getDocumentIds().size(); j++) {
+				Pair<String, String> pair = SymmetricPairUtil.of(input.getDocumentIds().get(i-1), input.getDocumentIds().get(j));
+				
+				ResidualIndexHeuristic left = heuristics.get(pair.getLeft());
+				ResidualIndexHeuristic right = heuristics.get(pair.getRight());
+				
+				if(canBeAboveThreshold(left, right, threshold) && !pairsSeen.contains(pair) && !StringUtils.equals(pair.getLeft(), pair.getRight())) {
+					ret.add(Pair.of(pair, 1));
+					pairsSeen.add(pair);
+				}
+			}
+		}
+		
+		return ret;
+	}
+
+	public static Set<String> documentsToRecalculate(JavaRDD<String> input, double threshold) {
+		return new HashSet<>(input
+				.map(i -> toPairIfRecalculationIsNeccessary(i, threshold))
+				.filter(i -> i != null)
+				.flatMap(i -> Arrays.asList(i.getKey(), i.getValue()).iterator())
+				.distinct()
+				.collect());
+	}
+
+	@SneakyThrows
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static Pair<String, String> toPairIfRecalculationIsNeccessary(String i, double threshold) {
+		Map<String, Object> parsed = new ObjectMapper().readValue(i, Map.class);
+		int toAdd = Math.min((int) parsed.get("chunksInAInResidualIndex"), (int) parsed.get("chunksInBInResidualIndex"));
+		
+		if (toAdd <= 0) {
+			return null;
+		}
+		
+		parsed = (Map) parsed.get("s3");
+		
+		S3ScoreIntermediateResult ret = new S3ScoreIntermediateResult();
+		ret.setCommonNGramms(toAdd + (int) parsed.get("commonNGramms"));
+		
+		ret.setLeftMetadata(pseudoHash((int) (double) parsed.get("chunksInA")));
+		ret.setRightMetadata(pseudoHash((int) (double) parsed.get("chunksInB")));
+		
+		if(new S3Score(ret).getS3Score() < threshold) {
+			return null;
+		}
+
+		parsed = (Map) parsed.get("idPair");
+		
+		return Pair.of((String) parsed.get("left"), (String) parsed.get("right"));
 	}
 }

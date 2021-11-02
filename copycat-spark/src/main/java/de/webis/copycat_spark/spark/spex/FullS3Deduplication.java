@@ -2,12 +2,15 @@ package de.webis.copycat_spark.spark.spex;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -68,6 +71,10 @@ public class FullS3Deduplication implements Serializable {
 		JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry = residualIndexEntry(jsc);
 		finalizeScores(docToResidualIndexEntry, jsc);
 		documentPairsInResidualIndexAboveThreshold(docToResidualIndexEntry, documentMetadata, jsc);
+		buildResidualIndex2(docToResidualIndexEntry, documentMetadata, jsc);
+
+		calculateIntermediateScores2(documentMetadata, docToResidualIndexEntry, jsc);
+		buildResidualIndex3(docToResidualIndexEntry, documentMetadata, jsc);
 	}
 	
 	private void documentPairsInResidualIndexAboveThreshold(JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry, JavaPairRDD<String, DocumentHash> documentMetadata, JavaSparkContext jsc) {
@@ -78,6 +85,54 @@ public class FullS3Deduplication implements Serializable {
 		List<ResidualIndexHeuristic> heuristics = ResidualIndexHeuristics.sortedHeuristics(documentMetadata, docToResidualIndexEntry, config.getThreshold());
 		JavaRDD<String> ret = ResidualIndexHeuristics.extractCandidates(jsc, heuristics, config.getThreshold());
 		ret.saveAsTextFile(config.getPairsToRecalculateInResidualIndexDirectory());
+	}
+	
+	private void buildResidualIndex2(JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry, JavaPairRDD<String, DocumentHash> documentMetadata, JavaSparkContext jsc) {
+		if(fileExists(config.getResidualIndexDirectory2() +"/_SUCCESS", jsc)) {
+			return;
+		}
+		
+		Map<String, ResidualIndexHeuristic> heuristics = new LinkedHashMap<>(ResidualIndexHeuristics.sortedHeuristics(documentMetadata, docToResidualIndexEntry, config.getThreshold()).stream()
+				.collect(Collectors.toMap(i -> i.documentId, i -> i)));
+		
+		JavaRDD<Word8GrammIndexEntry> tooLargeIndexEntries = jsc.textFile(config.getIndexDirectory())
+			.map(Word8GrammIndexEntry::fromString)
+			.filter(i -> isValid(i) && isTooLarge(i))
+			.map(i -> removeUninterestingEntries(i, heuristics.keySet()))
+			.filter(i -> isValid(i));
+		
+		tooLargeIndexEntries.map(i -> i.toString())
+			.repartition(config.getMetadataPartitionCount())
+			.saveAsTextFile(config.getResidualIndexDirectory2());
+	}
+	
+	private void buildResidualIndex3(JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry, JavaPairRDD<String, DocumentHash> documentMetadata, JavaSparkContext jsc) {
+		if(fileExists(config.getResidualIndexDirectory3() +"/_SUCCESS", jsc)) {
+			return;
+		}
+		
+		Set<String> documentsToRecalculate = new HashSet<>(ResidualIndexHeuristics.documentsToRecalculate(jsc.textFile(config.getFinalScoreDirectory()), config.getThreshold()));
+		
+		JavaRDD<Word8GrammIndexEntry> tooLargeIndexEntries = jsc.textFile(config.getIndexDirectory())
+			.map(Word8GrammIndexEntry::fromString)
+			.filter(i -> isValid(i) && isTooLarge(i))
+			.map(i -> removeUninterestingEntries(i, documentsToRecalculate))
+			.filter(i -> isValid(i));
+		
+		tooLargeIndexEntries.map(i -> i.toString())
+			.repartition(config.getMetadataPartitionCount())
+			.saveAsTextFile(config.getResidualIndexDirectory3());
+	}
+	
+	private static Word8GrammIndexEntry removeUninterestingEntries(Word8GrammIndexEntry i, Set<String> docsToRetain) {
+		List<String> docs = new ArrayList<>();
+		for(String docId: i.getDocumentIds()) {
+			if(docsToRetain.contains(docId)) {
+				docs.add(docId);
+			}
+		}
+		
+		return new Word8GrammIndexEntry(i.getWord8Gramm(), docs);
 	}
 
 	private JavaPairRDD<String, ResidualIndexEntry> residualIndexEntry(JavaSparkContext jsc) {
@@ -169,6 +224,26 @@ public class FullS3Deduplication implements Serializable {
 			.saveAsTextFile(config.getIntermediateScoreDirectory());
 	}
 	
+	private void calculateIntermediateScores2(JavaPairRDD<String, DocumentHash> metadata, JavaPairRDD<String, ResidualIndexEntry> docToResidualIndexEntry, JavaSparkContext jsc) {
+		if(fileExists(config.getIntermediateScoreDirectory2() +"/_SUCCESS", jsc)) {
+			return;
+		}
+		
+		Map<String, ResidualIndexHeuristic> heuristics = new LinkedHashMap<>(ResidualIndexHeuristics.sortedHeuristics(metadata, docToResidualIndexEntry, config.getThreshold()).stream()
+				.collect(Collectors.toMap(i -> i.documentId, i -> i)));
+		
+		JavaRDD<Word8GrammIndexEntry> allIndexEntries = jsc.textFile(config.getResidualIndexDirectory2())
+					.map(Word8GrammIndexEntry::fromString);
+		
+		JavaRDD<S3ScoreIntermediateResult> intermediateS3 = sumCoocurrencesOfAllIndexEntries(allIndexEntries, heuristics, config.getThreshold());
+		
+		intermediateS3 = joinMetadataOfLeftDocument(intermediateS3, metadata);
+		intermediateS3 = joinMetadataOfRightDocument(intermediateS3, metadata);
+		
+		intermediateS3.map(i -> new S3Score(i))
+			.saveAsTextFile(config.getIntermediateScoreDirectory2());
+	}
+	
 	private static JavaRDD<S3ScoreIntermediateResult> joinMetadataOfLeftDocument(JavaRDD<S3ScoreIntermediateResult> intermediateS3, JavaPairRDD<String, DocumentHash> metadata) {
 		JavaPairRDD<String, Tuple2<S3ScoreIntermediateResult, DocumentHash>> joined = intermediateS3
 				.mapToPair(i -> new Tuple2<String, S3ScoreIntermediateResult>(i.getIdPair().getLeft(), i))
@@ -222,6 +297,17 @@ public class FullS3Deduplication implements Serializable {
 				.setIdPair(i._1()));
 	}
 	
+	private JavaRDD<S3ScoreIntermediateResult> sumCoocurrencesOfAllIndexEntries(JavaRDD<Word8GrammIndexEntry> allIndexEntries, Map<String, ResidualIndexHeuristic> heuristics, double threshold) {
+		JavaPairRDD<Pair<String, String>, Integer> tmp = allIndexEntries
+			.flatMapToPair(indexEntry -> extractCoocurrencePairs(indexEntry, heuristics, (float) threshold).iterator());
+		
+		tmp = tmp.reduceByKey((a,b ) -> a+b);
+		
+		return tmp.map(i -> new S3ScoreIntermediateResult()
+				.setCommonNGramms(i._2())
+				.setIdPair(i._1()));
+	}
+	
 	private List<Tuple2<Pair<String, String>, Integer>> extractCoocurrencePairs(Word8GrammIndexEntry input) {
 		if(!isValid(input) || isTooLarge(input)) {
 			return Collections.emptyList();
@@ -232,8 +318,19 @@ public class FullS3Deduplication implements Serializable {
 			.collect(Collectors.toList());
 	}
 	
+	
+	private List<Tuple2<Pair<String, String>, Integer>> extractCoocurrencePairs(Word8GrammIndexEntry input, Map<String, ResidualIndexHeuristic> heuristics, float threshold) {
+		if(!isValid(input) || isTooLarge(input)) {
+			return Collections.emptyList();
+		}
+		
+		return ResidualIndexHeuristics.extractCoocurrencePairs(input, heuristics, threshold).stream()
+			.map(i -> new Tuple2<>(i.getLeft(), i.getRight()))
+			.collect(Collectors.toList());
+	}
+	
 	private boolean isValid(Word8GrammIndexEntry indexEntry) {
-		return indexEntry != null && indexEntry.getDocumentIds() != null;
+		return indexEntry != null && indexEntry.getDocumentIds() != null && indexEntry.getDocumentIds().size() > 1;
 	}
 	
 	private boolean isTooLarge(Word8GrammIndexEntry indexEntry) {
