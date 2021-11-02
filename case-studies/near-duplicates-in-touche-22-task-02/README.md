@@ -10,7 +10,7 @@ DATA_DIR=/mnt/ceph/storage/data-in-progress/data-research/arguana/touche-shared-
 ### Step 2: Run CopyCat
 
 ```
-run-s3-deduplication.sh 2020-task2-passages-of-top100-docs
-run-s3-deduplication.sh 2021-task2-passages-of-top100-docs
+./run-s3-deduplication.sh 2020-task2-passages-of-top100-docs
+./run-s3-deduplication.sh 2021-task2-passages-of-top100-docs
 ```
 
